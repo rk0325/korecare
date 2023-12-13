@@ -92,8 +92,8 @@
 |カテゴリ|技術|
 |:-------------|:------------|
 |開発環境|Docker|
-|フロントエンド|Next.js|
-|バックエンド|Ruby on Rails 7系|
+|フロントエンド|React / Next.js|
+|バックエンド|Ruby / Ruby on Rails 7系（API モード）|
 |データベース|PostgreSQL|
 |インフラ|Vercel / Render|
 |Web API|楽天市場商品検索API / LINE Messaging API / OpenWeatherMap API / InstagramグラフAPI|
