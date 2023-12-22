@@ -6,23 +6,23 @@
 erDiagram
 Users ||--|| Profiles : has
 Users ||--o{ FavoriteCosmetics : favorites
-Users ||--|| UserPreferences : has
+Users ||--|| Preferences : has
 Users ||--o{ Cosmetics : has
 FavoriteCosmetics ||--o{ Cosmetics : has
 Users ||--o{ NotFavoriteCosmetics : has
 Cosmetics ||--o{ NotFavoriteCosmetics : has
-Users ||--o{ ReviewPosts : creates
-Cosmetics ||--o{ ReviewPosts : has
-ReviewPosts ||--o{ Comments : has
+Users ||--o{ Reviews : creates
+Cosmetics ||--o{ Reviews : has
+Reviews ||--o{ Comments : has
 Users ||--o{ Comments : posts
-ReviewPosts ||--o{ Bookmarks : has
+Reviews ||--o{ Bookmarks : has
 Users ||--o{ Bookmarks : bookmarks
-ReviewPosts ||--o{ ReviewPostTags : has
-Tags ||--o{ ReviewPostTags : has
+Reviews ||--o{ ReviewTags : has
+Tags ||--o{ ReviewTags : has
 Users ||--o{ CosmeticUsage : has
 Cosmetics ||--o{ CosmeticUsage : has
 Users ||--o{ NotificationSettings : has
-Users ||--|| UserAddresses : has
+Users ||--|| Addresses : has
 
 Users {
   integer id PK
@@ -56,7 +56,7 @@ FavoriteCosmetics {
   datetime updated_at
 }
 
-UserPreferences {
+Preferences {
   integer preference_id PK
   integer user_id FK
   string skin_trouble
@@ -68,10 +68,10 @@ UserPreferences {
 
 Cosmetics {
   integer cosmetic_id PK
-  string cosmetic_name
-  string cosmetic_brand
-  string cosmetic_type
-  string cosmetic_price
+  string name
+  string brand
+  string product_type
+  string price
   text description
   string product_url
   string image_url
@@ -89,8 +89,8 @@ NotFavoriteCosmetics {
   datetime updated_at
 }
 
-ReviewPosts {
-  integer review_post_id PK
+Reviews {
+  integer review_id PK
   integer user_id FK
   integer cosmetic_id FK
   string rating
@@ -105,7 +105,7 @@ ReviewPosts {
 Comments {
   integer comment_id PK
   integer user_id FK
-  integer review_post_id FK
+  integer review_id FK
   text body
   datetime created_at
   datetime updated_at
@@ -114,7 +114,7 @@ Comments {
 Bookmarks {
   integer bookmark_id PK
   integer user_id FK
-  integer review_post_id FK
+  integer review_id FK
   datetime created_at
   datetime updated_at
 }
@@ -124,8 +124,8 @@ Tags {
   string tag_name
 }
 
-ReviewPostTags {
-  integer review_post_id FK
+ReviewTags {
+  integer review_id FK
   integer tag_id FK
 }
 
@@ -147,7 +147,7 @@ NotificationSettings {
   integer notify_before_days
 }
 
-UserAddresses {
+Addresses {
   integer address_id PK
   integer user_id FK
   text address
