@@ -1,4 +1,158 @@
+## ■画面遷移図
 [画面遷移図](https://www.figma.com/file/re0Sf3bUsSQ52A4nPHaFA0/%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?type=design&node-id=0%3A1&mode=design&t=jpVBer32Q4ftPUD8-1)
+
+## ■ER図
+```mermaid
+erDiagram
+Users ||--|| Profiles : has
+Users ||--o{ FavoriteCosmetics : favorites
+Users ||--|| Preferences : has
+Users ||--o{ Cosmetics : has
+FavoriteCosmetics ||--o{ Cosmetics : has
+Users ||--o{ NotFavoriteCosmetics : has
+Cosmetics ||--o{ NotFavoriteCosmetics : has
+Users ||--o{ Reviews : creates
+Cosmetics ||--o{ Reviews : has
+Reviews ||--o{ Comments : has
+Users ||--o{ Comments : posts
+Reviews ||--o{ Bookmarks : has
+Users ||--o{ Bookmarks : bookmarks
+Reviews ||--o{ ReviewTags : has
+Tags ||--o{ ReviewTags : has
+Users ||--o{ CosmeticUsage : has
+Cosmetics ||--o{ CosmeticUsage : has
+Users ||--o{ NotificationSettings : has
+Users ||--|| Addresses : has
+
+Users {
+  integer id PK
+  string name
+  string email "UNIQUE"
+  string provider
+  string uid
+  string crypted_password
+  string salt
+  string avatar_url
+  datetime created_at
+  datetime updated_at
+}
+
+Profiles {
+  integer id PK
+  integer user_id FK
+  string name
+  string skin_trouble
+  string skin_type
+  integer age_group
+  datetime created_at
+  datetime updated_at
+}
+
+FavoriteCosmetics {
+  integer favorite_id PK
+  integer user_id FK
+  integer cosmetic_id FK
+  datetime created_at
+  datetime updated_at
+}
+
+Preferences {
+  integer preference_id PK
+  integer user_id FK
+  string skin_trouble
+  string skin_type
+  integer age_group
+  datetime created_at
+  datetime updated_at
+}
+
+Cosmetics {
+  integer cosmetic_id PK
+  string name
+  string brand
+  string product_type
+  string price
+  text description
+  string product_url
+  string image_url
+  datetime created_at
+  datetime updated_at
+}
+
+NotFavoriteCosmetics {
+  integer not_favorite_cosmetic_id PK
+  integer user_id FK
+  integer cosmetic_id FK
+  text comment
+  datetime date
+  datetime created_at
+  datetime updated_at
+}
+
+Reviews {
+  integer review_id PK
+  integer user_id FK
+  integer cosmetic_id FK
+  string rating
+  string title
+  text body
+  string product_url
+  string visibility
+  datetime created_at
+  datetime updated_at
+}
+
+Comments {
+  integer comment_id PK
+  integer user_id FK
+  integer review_id FK
+  text body
+  datetime created_at
+  datetime updated_at
+}
+
+Bookmarks {
+  integer bookmark_id PK
+  integer user_id FK
+  integer review_id FK
+  datetime created_at
+  datetime updated_at
+}
+
+Tags {
+  integer tag_id PK
+  string tag_name
+}
+
+ReviewTags {
+  integer review_id FK
+  integer tag_id FK
+}
+
+CosmeticUsage {
+  integer usage_id PK
+  integer user_id FK
+  integer cosmetic_id FK
+  datetime start_date
+  datetime duration
+  datetime open_date
+  datetime expiry_date
+  integer notify_before_days
+}
+
+NotificationSettings {
+  integer setting_id PK
+  integer user_id FK
+  string notification_type
+  integer notify_before_days
+}
+
+Addresses {
+  integer address_id PK
+  integer user_id FK
+  text address
+}
+```
 
 ## ■サービス概要
 韓国コスメに特化した、ユーザーのスキンケアをサポートするサービスです。
