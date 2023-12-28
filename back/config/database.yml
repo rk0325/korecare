@@ -84,6 +84,7 @@ test:
 #
 production:
   <<: *default
-  database: app_production
-  username: app
+  database: graduation_exam_app_db
+  username: graduation_exam_app_db_user
   password: <%= ENV["APP_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
