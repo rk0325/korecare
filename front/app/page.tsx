@@ -10,13 +10,12 @@ export default function Home() {
 		<div>
 			{status === 'authenticated' ? (
 				<div>
-					<p>セッションの期限：{session.expires}</p>
 					<p>ようこそ、{session.user?.name}さん</p>
 					<Image
             src={session.user?.image ?? ''}
             alt=""
-            width={150}
-            height={150}
+            width={100}
+            height={100}
             style={{ borderRadius: '80px' }}
           />
 					<div>
