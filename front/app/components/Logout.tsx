@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSession, signOut } from 'next-auth/react';
+import { Button } from "@/components/ui/button";
 
 export default function Logout() {
 	const { data: session, status } = useSession();
@@ -7,7 +8,7 @@ export default function Logout() {
 	if (status === 'authenticated') {
 		return (
 			<div>
-				<button onClick={() => signOut()}>ログアウト</button>
+				<Button onClick={() => signOut()}>Logout</Button>
 			</div>
 		);
 	}
