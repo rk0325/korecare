@@ -15,6 +15,9 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      fontFamily: {
+        genjyuu: ['GenJyuuGothicL', 'sans-serif'],
+      },
       colors: {
         'button-color': '#506D7D', // ボタンの色
         'text-color': '#48352F',   // テキストの色
