@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import NextAuthProvider from './providers/NextAuth';
+import Header from './components/top/Header';
+import Footer from './components/top/Footer';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,9 +19,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <NextAuthProvider>{children}</NextAuthProvider>
-      </body>
+        <NextAuthProvider>
+          <Header />
+          <div className='font-genjyuu pt-20 min-h-screen'>{children}</div>
+          <Footer />
+        </NextAuthProvider>
     </html>
   )
 }

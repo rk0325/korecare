@@ -4,14 +4,6 @@
 
 @layer base {
   :root {
-  /* Input 要素のスタイル */
-  input {
-    @apply border border-[#E0DBD2]; /* 線の色を設定 */
-  }
-  /* プレースホルダーのスタイル */
-  input::placeholder {
-    color: #dfdddb; /* プレースホルダーの文字色 */
-  }
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -102,4 +94,11 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@font-face {
+  font-family: 'GenJyuuGothicL';
+  src: url('/fonts/GenJyuuGothicL-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
