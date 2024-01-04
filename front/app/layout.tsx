@@ -8,22 +8,24 @@ import Footer from './components/top/Footer';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Create Next App',
+  title: 'k skin ally',
   description: '韓国コスメに特化した、ユーザーのスキンケアをサポートするサービスです。',
 }
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+    children: React.ReactNode;
 }) {
   return (
     <html lang="en">
+      <body>
         <NextAuthProvider>
           <Header />
           <div className='font-genjyuu pt-20 min-h-screen'>{children}</div>
           <Footer />
         </NextAuthProvider>
+      </body>
     </html>
   )
 }
