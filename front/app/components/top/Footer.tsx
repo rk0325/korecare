@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 const Footer = () => {
   return (
-    <div className="bg-background-color h-20 w-full border-2 border-line-color flex items-center justify-center p-2">
+    <div className="bg-background-color h-20 w-full border-t-2 border-line-color flex items-center justify-center p-2">
       <footer className="bg-background-color text-text-color font-genjyuu">
         <ul className="flex justify-center">
           <li className="p-2 cursor-pointer">
