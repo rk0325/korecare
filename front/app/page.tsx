@@ -15,7 +15,7 @@ export default function Home() {
 				<p className="text-xl font-bold text-center justify-between pb-5">
 			あなたに合った韓国コスメを探そう！</p>
 			<div className="flex justify-center">
-			<CustomButton colorClass="btn-506D7D">Start</CustomButton></div>
+			<CustomButton colorClass="btn-506D7D">診断 Start</CustomButton></div>
 			<p className="text-2xl font-bold text-center justify-between pt-10 pb-10">
 			『アプリ名』でできること
 			</p>
