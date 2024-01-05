@@ -1,6 +1,7 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSession, signIn } from 'next-auth/react';
+import axios from 'axios';
 import { Icons } from "@/components/ui/icons"
 import {
   Card,
@@ -15,6 +16,23 @@ import CustomButton from '@/components/ui/custom-button';
 
 export default function Login() {
 	const { data: session, status } = useSession();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+
+	// ログイン処理の関数を追加
+  const handleCustomLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:3000//api/v1/auth/sign_in', {
+        email,
+        password
+      });
+      // レスポンスに基づく処理
+      console.log(response.data);
+    } catch (error) {
+      console.error('カスタムログインエラー', error);
+    }
+	};
 
 	if (status === 'loading') {
 		return (
@@ -48,15 +66,29 @@ export default function Login() {
 									Or continue with
 								</span>
 							</div>
-						</div>
+							</div>
+						<form onSubmit={handleCustomLogin}>
 						<div className="grid gap-2">
 							<Label htmlFor="email">Email</Label>
-							<Input id="email" type="email" placeholder="mail@example.com" className="placeholder-muted" />
-						</div>
+								<Input
+									id="email"
+									type="email"
+									placeholder="mail@example.com"
+									className="placeholder-muted"
+									value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+								/>
+								</div>
 						<div className="grid gap-2">
 							<Label htmlFor="password">Password</Label>
-							<Input id="password" type="password" />
-						</div>
+								<Input
+									id="password"
+									type="password"
+									value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+								/>
+								</div>
+							</form>
 						<div className="relative">
 							<div className="absolute inset-0 flex items-center">
 								<span className="w-full" />
@@ -69,7 +101,12 @@ export default function Login() {
 						</div>
 					</CardContent>
 					<CardFooter>
-					<CustomButton colorClass="btn-506D7D w-full">Login</CustomButton>
+							<CustomButton
+								type="submit"
+								colorClass="btn-506D7D w-full"
+							>
+								Login
+							</CustomButton>
 					</CardFooter>
 						<div className="relative mb-6">
 							<div className="absolute inset-0 flex items-center">
