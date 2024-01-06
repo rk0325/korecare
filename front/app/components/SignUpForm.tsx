@@ -1,35 +1,22 @@
 'use client';
-import React, { useCallback, useMemo, useState } from "react";
-import axios from 'axios';
+import React, { useState } from "react";
+import Link from 'next/link'
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import CustomButton from '@/components/ui/custom-button';
-import { useAuthContext } from "../contexts/useAuthContext";
 import { signUp } from "../services/authService";
-import { useRouter } from "next/navigation";
 
 export  const SignUpForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [errors, setErrors] = useState<string[]>([]);
-
-  const router = useRouter();
-
-  const setErrorsWithTimeout = (newErrors: React.SetStateAction<string[]>) => {
-    setErrors(newErrors);
-    setTimeout(() => {
-      setErrors([]);
-    }, 5000);
-  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -39,19 +26,8 @@ export  const SignUpForm = () => {
       password,
       password_confirmation: passwordConfirmation
     };
-    console.log(signUpData); // ここで送信データを確認
     await signUp(signUpData);
     }
-
-  const validateEmail = useCallback(
-    (email: string) => email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i),
-    []
-  );
-
-  const validatePassword = useCallback(
-    (password: string) => /^[a-zA-Z\d]{6,}$/.test(password),
-    []
-  );
 
 return (
   <div className='bg-background-color'>
@@ -63,7 +39,7 @@ return (
         <CardContent className="grid gap-4">
           <div className="grid gap-2">
             <form onSubmit={handleSubmit}>
-              <div className="grid gap-2">
+              <div className="grid gap-2 pb-2">
                 <Label htmlFor="name">Name</Label>
                 <Input
                   value={name}
@@ -71,7 +47,7 @@ return (
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 pb-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   value={email}
@@ -81,7 +57,7 @@ return (
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 pb-2">
                 <Label htmlFor="password">Password</Label>
                 <Input
                   value={password}
@@ -89,7 +65,7 @@ return (
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <div className="grid gap-2">
+              <div className="grid gap-2 pb-2">
                 <Label htmlFor="password_confirmation">Password Confirmation</Label>
                 <Input
                   value={passwordConfirmation}
@@ -98,13 +74,22 @@ return (
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
                 />
               </div>
-              <CardFooter>
+              <div className="grid gap-2 pb-6">
+              <Label htmlFor="avatar">Avatar</Label>
+              <Input type="file" id="avatar" />
+              </div>
+              <div className="w-full">
                 <CustomButton
                   colorClass="btn-506D7D w-full"
                 >
                   Sign up
                 </CustomButton>
-              </CardFooter>
+              </div>
+              <div className="text-center pt-6">
+              <Link href="/login">
+                <div className="text-text-color hover:text-blue-900">Already have an account? Log in</div>
+              </Link>
+            </div>
             </form>
           </div>
         </CardContent>

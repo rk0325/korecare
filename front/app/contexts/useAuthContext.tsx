@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const AuthContext = createContext<{
   isLoggedIn: boolean | undefined;
@@ -17,6 +18,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | undefined>(undefined);
+  const router = useRouter();
 
   useEffect(() => {
     const validateToken = async () => {
@@ -24,7 +26,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const client = Cookies.get("client");
       const uid = Cookies.get("uid");
 
-      const baseURL = process.env.NEXT_PUBLIC_API_URL;
+      const baseURL = process.env.NEXT_PUBLIC_API_URL_DEVISE;
 
       if (accessToken && uid && client) {
         try {
@@ -39,8 +41,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
             }
           );
           setIsLoggedIn(true);
+          router.push('/home');
         } catch (error) {
-          console.log(error);
           setIsLoggedIn(false);
         }
       } else {
@@ -48,7 +50,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     };
     validateToken();
-  }, []);
+  }, [router]);
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
