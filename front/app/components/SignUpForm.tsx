@@ -10,7 +10,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import CustomButton from '@/components/ui/custom-button';
-import { signUp } from "../services/authService";
+import { SignUp } from "../services/authService";
 
 export  const SignUpForm = () => {
   const [name, setName] = useState("");
@@ -26,7 +26,7 @@ export  const SignUpForm = () => {
       password,
       password_confirmation: passwordConfirmation
     };
-    await signUp(signUpData);
+    await SignUp(signUpData);
     }
 
 return (
@@ -74,11 +74,7 @@ return (
                   onChange={(e) => setPasswordConfirmation(e.target.value)}
                 />
               </div>
-              <div className="grid gap-2 pb-6">
-              <Label htmlFor="avatar">Avatar</Label>
-              <Input type="file" id="avatar" />
-              </div>
-              <div className="w-full">
+              <div className="w-ful pt-4">
                 <CustomButton
                   colorClass="btn-506D7D w-full"
                 >

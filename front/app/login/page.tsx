@@ -6,7 +6,6 @@ import { Icons } from "@/components/ui/icons"
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -56,7 +55,7 @@ export default function Login() {
 									<span className="w-full" />
 								</div>
 								<div className="relative flex justify-center text-s">
-									<span className="text-text-color px-2 text-muted-foreground">
+									<span className="text-text-color px-2 text-muted-foreground hover:text-blue-900">
 									<Link href='/signup'>
 											Sign up
 									</Link>
