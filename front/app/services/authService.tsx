@@ -13,7 +13,7 @@ export type signInData = {
   password: string;
 };
 
-export const signUp = async (data: signUpData) => {
+export const SignUp = async (data: signUpData) => {
   const response = await axiosInstance.post("/api/v1/auth", {
     name: data.name,
     email: data.email,

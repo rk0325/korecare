@@ -53,7 +53,7 @@ export const LoginForm = () => {
           <span className="w-full" />
         </div>
         <div className="relative flex justify-center text-s">
-          <span className="text-text-color bg-background-color px-2 text-muted-foreground">
+          <span className="text-text-color bg-background-color px-2 text-muted-foreground hover:text-blue-900">
             Forgot your password?
           </span>
         </div>

@@ -3,6 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { Icons } from "@/components/ui/icons"
 
 const Header = () => {
   const { data: session } = useSession();
@@ -28,10 +29,9 @@ const Header = () => {
         ) : (
           <ul className='flex'>
             <li className='p-2 cursor-pointer'>
-              <Link href='/login'>Login</Link>
-            </li>
-            <li className='p-2 cursor-pointer'>
-              <Link href='/signup'>Sign up</Link>
+                <Link href='/login'>
+                  Login
+                </Link>
             </li>
           </ul>
         )}

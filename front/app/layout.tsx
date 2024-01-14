@@ -8,7 +8,7 @@ import Footer from './components/top/Footer';
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'k skin ally',
+  title: 'k skin app',
   description: '韓国コスメに特化した、ユーザーのスキンケアをサポートするサービスです。',
 }
 
