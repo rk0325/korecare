@@ -4,6 +4,7 @@ import './globals.css'
 import NextAuthProvider from './providers/NextAuth';
 import Header from './components/top/Header';
 import Footer from './components/top/Footer';
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,10 +23,11 @@ export default function RootLayout({
       <body>
         <NextAuthProvider>
           <Header />
-          <div className='font-genjyuu pt-20 min-h-screen'>{children}</div>
-          <Footer />
+          <Toaster position="top-right" reverseOrder={true} />
+          <div className='font-genjyuu min-h-screen'>{children}</div>
         </NextAuthProvider>
+        <Footer />
       </body>
     </html>
-  )
+  );
 }
