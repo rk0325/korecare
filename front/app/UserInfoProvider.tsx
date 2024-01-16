@@ -9,7 +9,7 @@ function App() {
 
   return (
     <UserInfoContext.Provider value={{ skinType, setSkinType, age, setAge, skinTrouble, setSkinTrouble }}>
-      {/* 他のコンポーネント */}
+      {}
     </UserInfoContext.Provider>
   );
 };

@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import { createContext } from 'react'
 
 type UserInfoContextType = {
   skinType: string;
@@ -10,7 +10,7 @@ type UserInfoContextType = {
   setSkinTrouble: (value: string) => void;
 };
 
-const UserInfoContext = React.createContext<UserInfoContextType>({
+export const UserInfoContext = createContext<UserInfoContextType>({
   skinType: "",
   setSkinType: () => {},
   age: "",
