@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import UserInfoContext from '../../../contexts/UserInfoContext';
 import Link from 'next/link'
 
 const DemonstrationResult = () => {
+	const { skinType, age, skinTrouble } = useContext(UserInfoContext);
+
 	return (
 		<div className='bg-background-color min-h-screen text-text-color text-center'>
 			<p className="text-2xl font-bold text-center justify-between p-20">
