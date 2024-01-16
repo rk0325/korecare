@@ -1,18 +1,14 @@
-import React, { useState, ReactNode } from 'react';
-import UserInfoContext from '../.././contexts/UserInfoContext';
+import React, { useState } from 'react';
+import UserInfoContext from '../contexts/UserInfoContext';
 
-type UserInfoProviderProps = {
-  children: ReactNode;
-};
-
-const UserInfoProvider = ({ children }: UserInfoProviderProps) => {
+function UserInfoProvider() {
   const [skinType, setSkinType] = useState("");
   const [age, setAge] = useState("");
   const [skinTrouble, setSkinTrouble] = useState("");
 
   return (
     <UserInfoContext.Provider value={{ skinType, setSkinType, age, setAge, skinTrouble, setSkinTrouble }}>
-      {children}
+      {/* 他のコンポーネント */}
     </UserInfoContext.Provider>
   );
 };
