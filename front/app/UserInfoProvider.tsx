@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import UserInfoContext from '../contexts/UserInfoContext';
 
-function UserInfoProvider() {
+function App() {
   const [skinType, setSkinType] = useState("");
   const [age, setAge] = useState("");
   const [skinTrouble, setSkinTrouble] = useState("");
@@ -13,4 +13,4 @@ function UserInfoProvider() {
   );
 };
 
-export default UserInfoProvider;
+export default App;
