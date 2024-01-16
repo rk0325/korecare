@@ -32,7 +32,7 @@ Users {
   string uid
   string crypted_password
   string salt
-  string avatar_url
+  string avatar
   datetime created_at
   datetime updated_at
 }
@@ -68,6 +68,7 @@ Preferences {
 
 Cosmetics {
   integer cosmetic_id PK
+  integer user_id FK
   string name
   string brand
   string product_type
