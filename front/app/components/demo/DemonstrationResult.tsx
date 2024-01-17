@@ -1,6 +1,8 @@
+'use client'
 import React, { useContext } from 'react';
-import UserInfoContext from '../../../contexts/UserInfoContext';
+import UserInfoContext from '../../contexts/UserInfoContext';
 import Link from 'next/link'
+import CustomButton from '@/components/ui/custom-button';
 
 const DemonstrationResult = () => {
 	const { skinType, age, skinTrouble } = useContext(UserInfoContext);
@@ -10,10 +12,11 @@ const DemonstrationResult = () => {
 			<p className="text-2xl font-bold text-center justify-between p-20">
 				あなたに合う韓国コスメはこちら！
       </p>
+			<br />
       <Link href='/first_demonstration'>
-			<p className="text-center justify-between">
-				もう一度診断する
-      </p>
+        <div className="flex justify-center">
+          <CustomButton colorClass="btn-506D7D">もう一度診断する</CustomButton>
+        </div>
       </Link>
 		</div>
 	);

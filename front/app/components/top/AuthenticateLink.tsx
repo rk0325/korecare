@@ -21,7 +21,7 @@ export default function AuthenticateLink() {
           <p className='p-2 cursor-pointer' onClick={handleLogin}>Login</p>
         </TooltipTrigger>
         <TooltipContent >
-          <p>ログインする</p>
+          <p>Googleでログインする</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
