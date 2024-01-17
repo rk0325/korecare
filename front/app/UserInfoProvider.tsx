@@ -1,12 +1,17 @@
-'use client';
-import React, { useState } from 'react';
-import UserInfoContext from './contexts/UserInfoContext';
+'use client'
+
+import React, { useState } from 'react'
+import UserInfoContext from '../app/contexts/UserInfoContext'
 import FirstDemonstration from './components/demo/FirstDemonstration';
 import SecondDemonstration from './components/demo/SecondDemonstration';
 import ThirdDemonstration from './components/demo/ThirdDemonstration';
 import DemonstrationResult from './components/demo/DemonstrationResult';
 
-function App() {
+export default function UserInfoProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [skinType, setSkinType] = useState("");
   const [age, setAge] = useState("");
   const [skinTrouble, setSkinTrouble] = useState("");
@@ -20,5 +25,3 @@ function App() {
     </UserInfoContext.Provider>
   );
 }
-
-export default App;

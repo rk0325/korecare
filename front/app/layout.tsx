@@ -19,9 +19,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <NextAuthProvider>
-          <Header />
-          <Toaster position="top-right" reverseOrder={true} />
-          <div className='font-genjyuu min-h-screen'>{children}</div>
+
+            <Header />
+            <Toaster position="top-right" reverseOrder={true} />
+            <div className='font-genjyuu min-h-screen'>{children}</div>
+
         </NextAuthProvider>
         <Footer />
       </body>

@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import CustomButton from '@/components/ui/custom-button';
 
-const Home = () => {
+const About = () => {
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center'>
       <p className="text-2xl font-bold text-center justify-between pt-20">
@@ -12,9 +12,9 @@ const Home = () => {
         『アプリ名』は韓国コスメに特化した、ユーザーのスキンケアをサポートするサービスです。<br />
       </p>
       <p className="text-xl font-bold text-center justify-between pt-10">
-        ＼ たった1分 ／</p>
+        3つの質問に答えて</p>
       <p className="text-xl font-bold text-center justify-between pb-5">
-        あなたに合った韓国コスメを探そう！</p>
+      ＼ あなたに合った韓国コスメを探そう！ ／</p>
       <Link href='/first_demonstration'>
         <div className="flex justify-center">
           <CustomButton colorClass="btn-506D7D">診断してみる</CustomButton>
@@ -40,4 +40,4 @@ const Home = () => {
   );
 }
 
-export default Home;
+export default About;

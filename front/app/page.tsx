@@ -1,11 +1,11 @@
 import React from 'react'
-import Home from './components/top/Home';
+import About from './components/top/About';
 
 
 export default function Top() {
 	return (
 		<div>
-			<Home />
+			<About />
 		</div>
 	);
 };
