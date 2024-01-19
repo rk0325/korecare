@@ -9,12 +9,12 @@ const About = () => {
         何かロゴ入れたい
       </p>
       <p className="text-center justify-between p-10">
-        『アプリ名』は韓国コスメに特化した、ユーザーのスキンケアをサポートするサービスです。<br />
+        『アプリ名』は韓国コスメに特化した、毎日のスキンケアをサポートするサービスです。<br />
       </p>
       <p className="text-xl font-bold text-center justify-between pt-10">
         2つの質問に答えて</p>
       <p className="text-xl font-bold text-center justify-between pb-5">
-      ＼ あなたに合った韓国コスメを探そう ／</p>
+      あなたに合った韓国コスメを探そう</p>
       <Link href='/first_demonstration'>
         <div className="flex justify-center pb-5">
           <CustomButton colorClass="btn-506D7D">診断してみる</CustomButton>
@@ -24,7 +24,7 @@ const About = () => {
         『アプリ名』でできること
       </p>
       <ul className="text-center p-10">
-        <li>韓国コスメを使用したことがないけれど興味がある方に向けて、お悩みや肌質別に韓国コスメを提案します。</li>
+        <li>お悩みや肌質別に韓国コスメをレコメンドします。</li>
         <li>スキンケアコスメの買い忘れ・使用期限切れを防ぐサポートをします。</li>
         <li>お肌の大敵である紫外線や乾燥から、ユーザーのお肌を守るサポートをします。</li>
       </ul>

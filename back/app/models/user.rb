@@ -1,3 +1,3 @@
 class User < ApplicationRecord
-  has_one :preference
+  has_one :skin_information
 end

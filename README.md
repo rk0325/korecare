@@ -6,7 +6,7 @@
 erDiagram
 Users ||--|| Profiles : has
 Users ||--o{ FavoriteCosmetics : favorites
-Users ||--|| Preferences : has
+Users ||--|| SkinInformation : has
 Users ||--o{ Cosmetics : has
 FavoriteCosmetics ||--o{ Cosmetics : has
 Users ||--o{ NotFavoriteCosmetics : has
@@ -30,8 +30,6 @@ Users {
   string email "UNIQUE"
   string provider
   string uid
-  string crypted_password
-  string salt
   string avatar
   datetime created_at
   datetime updated_at
@@ -43,68 +41,64 @@ Profiles {
   string name
   string skin_trouble
   string skin_type
-  integer age_group
+  integer age
   datetime created_at
   datetime updated_at
 }
 
 FavoriteCosmetics {
-  integer favorite_id PK
+  integer id PK
   integer user_id FK
   integer cosmetic_id FK
   datetime created_at
   datetime updated_at
 }
 
-Preferences {
-  integer preference_id PK
+SkinInformation {
+  integer id PK
   integer user_id FK
   string skin_trouble
   string skin_type
-  integer age_group
   datetime created_at
   datetime updated_at
 }
 
 Cosmetics {
-  integer cosmetic_id PK
+  integer id PK
   integer user_id FK
   string name
   string brand
-  string product_type
   string price
-  text description
-  string product_url
+  string item_url
   string image_url
   datetime created_at
   datetime updated_at
 }
 
 NotFavoriteCosmetics {
-  integer not_favorite_cosmetic_id PK
+  integer id PK
   integer user_id FK
   integer cosmetic_id FK
   text comment
-  datetime date
   datetime created_at
   datetime updated_at
 }
 
 Reviews {
-  integer review_id PK
+  integer id PK
   integer user_id FK
   integer cosmetic_id FK
   string rating
   string title
   text body
-  string product_url
+  string item_url
   string visibility
   datetime created_at
   datetime updated_at
 }
 
 Comments {
-  integer comment_id PK
+  integer id PK
   integer user_id FK
   integer review_id FK
   text body
@@ -113,7 +107,7 @@ Comments {
 }
 
 Bookmarks {
-  integer bookmark_id PK
+  integer id PK
   integer user_id FK
   integer review_id FK
   datetime created_at
@@ -121,37 +115,45 @@ Bookmarks {
 }
 
 Tags {
-  integer tag_id PK
+  integer id PK
   string tag_name
+  datetime created_at
+  datetime updated_at
 }
 
 ReviewTags {
-  integer review_id FK
+  integer id FK
   integer tag_id FK
+  datetime created_at
+  datetime updated_at
 }
 
 CosmeticUsage {
-  integer usage_id PK
+  integer id PK
   integer user_id FK
   integer cosmetic_id FK
   datetime start_date
-  datetime duration
+  datetime duration_date
   datetime open_date
   datetime expiry_date
-  integer notify_before_days
+  datetime created_at
+  datetime updated_at
 }
 
 NotificationSettings {
-  integer setting_id PK
+  integer id PK
   integer user_id FK
-  string notification_type
-  integer notify_before_days
+  integer notification_type
+  datetime created_at
+  datetime updated_at
 }
 
 Addresses {
-  integer address_id PK
+  integer id PK
   integer user_id FK
   text address
+  datetime created_at
+  datetime updated_at
 }
 ```
 
@@ -159,7 +161,7 @@ Addresses {
 韓国コスメに特化した、ユーザーのスキンケアをサポートするサービスです。
 
 具体的には、
-- 韓国コスメを使用したことがないけれど興味がある方に向けて、お悩みや肌質別に韓国コスメを提案します。
+- 韓国コスメを使用したことがないけれど興味がある方に向けて、肌質やお悩み別に韓国コスメを提案します。
 - スキンケアコスメの買い忘れ・使用期限切れを防ぐサポートをします。
 - お肌の大敵である紫外線や乾燥から、ユーザーのお肌を守るサポートをします。
 
@@ -192,16 +194,15 @@ Addresses {
 ## ■MVPリリース時に実装を予定している機能
 ## 未ログインユーザー
 ### デモ診断
-  - トップページにて、悩み・肌質・年代を選択していくと、それぞれに合った韓国コスメを提案
+  - トップページにて、肌質・お悩みを選択すると、それぞれに合った韓国コスメを提案
   - ログインせずにレコメンド機能をお試しいただき、ユーザー登録への導線をつくる
   - トップページ内に、韓国コスメを使用するメリットや人気の理由を記載
 
 ## ログインユーザー
 ### レコメンド
-- 悩み・肌質・年代などを選択したら、それぞれに合った韓国コスメを提案
+- 肌質・お悩みを選択したら、それぞれに合った韓国コスメを提案
   - 悩み…乾燥、美白、ニキビ、毛穴など
   - 肌質…脂性肌、乾燥肌、混合肌、敏感肌など
-  - 年代…10代〜60代くらいを予定
   - カテゴリごとにチェックボックスを用意して、ユーザーが選択→検索ボタンを押すと商品一覧が表示される想定
 
 - 金額を入力したら、その価格帯の韓国コスメを提案
@@ -219,12 +220,10 @@ Addresses {
   - 紫外線に注意（日傘をさしたり、日焼け止めを塗りましょう）、乾燥に注意しましょうなど
 
 ### その他
-- ユーザー登録
-- ログイン / ログアウト
-- パスワードリセット
+- Googleログイン
 - マイページ
   - プロフィール登録 / 編集 / 削除
-  - 悩み・肌質・年代の登録 / 編集 / 削除
+  - 肌質・お悩み・年代の登録 / 編集 / 削除
 
 ## ■本リリース時に実装を予定している機能
 ### レビュー投稿 / 編集 / 削除 / 一覧
@@ -239,7 +238,7 @@ Addresses {
   - ユーザーは他のユーザーの投稿にコメントできる
 
 ### タグ付け / 検索
-- 投稿に悩み・肌質・年代でタグを付けられ、ユーザーはタグで投稿を検索できる
+- 投稿に肌質・お悩み・年代でタグを付けられ、ユーザーはタグで投稿を検索できる
 
 ### お気に入りコスメ登録 / 編集 / 削除 / 一覧（マイページ内）
 - レコメンド機能でレコメンドされた韓国コスメのお気に入りと、他のユーザーのレビュー投稿のブックマークを合わせた一覧
@@ -249,10 +248,10 @@ Addresses {
 - アプリ内でレコメンドされたスキンケアコスメ以外でも記録できる
 
 ### ランキング
-- カテゴリ（悩み・肌質・年代）別にレビューの評価が高い順でランキング
+- カテゴリ（肌質・お悩み・年代）別にレビューの評価が高い順でランキング
 
 ### その他
-- レビュー投稿のX（旧Twitter）シェア
+- レコメンドされたスキンケアコスメ及びレビュー投稿のX（旧Twitter）シェア
 - テスト（RSpec）
 
 ## ■現在検討している追加サービス案
