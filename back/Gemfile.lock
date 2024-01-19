@@ -110,6 +110,7 @@ GEM
     irb (1.11.0)
       rdoc
       reline (>= 0.3.8)
+    json (2.7.1)
     jsonapi-renderer (0.2.2)
     launchy (2.5.2)
       addressable (~> 2.8)
@@ -187,6 +188,8 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.1.0)
+    rakuten_web_service (1.13.2)
+      json (~> 2.3)
     rdoc (6.6.2)
       psych (>= 4.0.0)
     reline (0.4.1)
@@ -218,11 +221,13 @@ DEPENDENCIES
   devise-i18n
   devise_token_auth
   dotenv-rails
+  json
   letter_opener_web
   pg (~> 1.1)
   puma (~> 5.0)
   rack-cors
   rails (~> 7.0.8)
+  rakuten_web_service
   tzinfo-data
 
 RUBY VERSION

@@ -4,6 +4,7 @@ import NextAuthProvider from './providers/NextAuth';
 import Header from './components/top/Header';
 import Footer from './components/top/Footer';
 import { Toaster } from 'react-hot-toast';
+import UserInfoProvider from './UserInfoProvider';
 
 export const metadata: Metadata = {
   title: 'k skin app',
@@ -19,11 +20,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <NextAuthProvider>
-
-            <Header />
-            <Toaster position="top-right" reverseOrder={true} />
-            <div className='font-genjyuu min-h-screen'>{children}</div>
-
+          <Header />
+          <Toaster position="top-right" reverseOrder={true} />
+          <div className='font-genjyuu min-h-screen'>
+            <UserInfoProvider>{children}</UserInfoProvider>
+          </div>
         </NextAuthProvider>
         <Footer />
       </body>
