@@ -35,14 +35,14 @@ const DemonstrationResult = () => {
 
 	return (
 		<div className='bg-background-color min-h-screen text-text-color text-center'>
-			<p className="text-2xl font-bold text-center justify-between p-10">
+			<p className="text-2xl font-bold text-center justify-between pt-10">
 				あなたにおすすめの<br />
 				韓国コスメはこちら！
 			</p>
-			<div className='flex flex-col space-y-6 md:flex-row md:space-x-4 p-10 justify-center'>
+			<div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center'>
 				{cosmetics.map((cosmetic, index) => (
-					<div key={index} className='flex flex-col items-center'>
-						<h2>{cosmetic.itemName.length > 30 ? cosmetic.itemName.substring(0, 30) + '...' : cosmetic.itemName}</h2>
+					<div key={index} className='flex flex-col items-center p-4'>
+						<h2 className='pb-2'>{cosmetic.itemName.length > 30 ? cosmetic.itemName.substring(0, 30) + '...' : cosmetic.itemName}</h2>
 						<Image
 							src={cosmetic.mediumImageUrl}
 							alt={cosmetic.itemName}

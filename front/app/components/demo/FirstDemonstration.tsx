@@ -20,7 +20,6 @@ const FirstDemonstration = () => {
 	};
 
 	const handleSubmit = () => {
-		console.log('puts first')
 		console.log(skinType)
 	};
 

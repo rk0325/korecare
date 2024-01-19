@@ -15,7 +15,6 @@ const SecondDemonstration = () => {
 	};
 
   const handleSubmit = () => {
-		console.log('puts second')
 		console.log(skinTrouble)
 	}
 
