@@ -1,9 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
   images: {
-    domains: ['lh3.googleusercontent.com'],
+    domains: ['lh3.googleusercontent.com'], // 複数のドメインを追加
   },
-  // その他の設定があればここに追加...
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'thumbnail.image.rakuten.co.jp',
+      },
+    ],
+  },
 }
-
-module.exports = nextConfig
