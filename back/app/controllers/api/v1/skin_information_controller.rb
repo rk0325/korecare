@@ -1,6 +1,6 @@
 module Api
   module V1
-    class PreferencesController < ApplicationController
+    class SkinInformationController < ApplicationController
       SKIN_TYPE_TAGS = {
         '乾燥肌' => '1001296',
         '敏感肌' => '1001297',
