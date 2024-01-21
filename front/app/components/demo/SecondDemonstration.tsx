@@ -21,7 +21,7 @@ const SecondDemonstration = () => {
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center'>
       <p className="text-xl font-bold text-center justify-between p-10">
-        あなたの肌悩み・スキンケアに求めるものを一つあげるなら？
+        あなたのお悩み・スキンケアに求めるものを一つあげるなら？
       </p>
       <ul className="text-center flex justify-center">
         <RadioGroup defaultValue="comfortable" onValueChange={handleSkinTroubleChange}>

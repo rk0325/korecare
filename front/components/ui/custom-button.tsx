@@ -11,9 +11,10 @@ const CustomButton: React.FC<CustomButtonProps> = ({ colorClass, children, onCli
   const additionalClasses = variant === 'outline' ? 'border border-[#E0DBD2]' : '';
   const roundedClass = 'rounded-md';
   const flexClass = 'flex items-center justify-center'; // Flexboxを適用
+  const shadowClass = 'shadow-md'; // 影を追加
 
   return (
-    <button className={`py-2 px-4 ${roundedClass} ${colorClass} ${additionalClasses} ${flexClass} transition duration-300 ease-in-out`} onClick={onClick}>
+    <button className={`py-2 px-4 ${roundedClass} ${colorClass} ${additionalClasses} ${flexClass} ${shadowClass} transition duration-300 ease-in-out`} onClick={onClick}>
       {children}
     </button>
   );

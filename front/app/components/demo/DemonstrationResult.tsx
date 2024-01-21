@@ -9,7 +9,6 @@ import Image from 'next/image';
 type Cosmetic = {
   itemName: string;
   itemPrice: number;
-  itemUrl: string;
   mediumImageUrl: string;
 };
 
@@ -42,7 +41,7 @@ const DemonstrationResult = () => {
 			<div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center'>
 				{cosmetics.map((cosmetic, index) => (
 					<div key={index} className='flex flex-col items-center p-4'>
-						<h2 className='pb-2'>{cosmetic.itemName.length > 30 ? cosmetic.itemName.substring(0, 30) + '...' : cosmetic.itemName}</h2>
+						<h2 className='pb-2'>{cosmetic.itemName.length > 40 ? cosmetic.itemName.substring(0, 40) + '...' : cosmetic.itemName}</h2>
 						<Image
 							src={cosmetic.mediumImageUrl}
 							alt={cosmetic.itemName}
@@ -51,7 +50,6 @@ const DemonstrationResult = () => {
 							style={{ objectFit: "contain", width: "auto" }}
 						/>
 						<p>{cosmetic.itemPrice}円</p>
-						<a href={cosmetic.itemUrl}>商品ページへ</a>
 					</div>
 				))}
 			</div>

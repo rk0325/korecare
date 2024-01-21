@@ -10,8 +10,14 @@ import {
 
 export default function AuthenticateLink() {
   const handleLogin = async () => {
-		signIn('google', { callbackUrl: '/home' }),
-			toast.loading('ログインしています...');
+    toast.loading('ログインしています...');
+    signIn('google', { callbackUrl: '/home' })
+      .then(() => {
+        toast.success('ログインに成功しました');
+      })
+      .catch(() => {
+        toast.error('ログインに失敗しました');
+      });
   };
 
   return (

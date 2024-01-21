@@ -55,7 +55,7 @@ export default function Dropdown() {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="text-text-color">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel>{session.user?.name}さん</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <User className="mr-2 h-4 w-4" />
