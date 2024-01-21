@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link'
 import FirstDemonstration from '../components/demo/FirstDemonstration';
 
 export default function Demonstration() {

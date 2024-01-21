@@ -7,7 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import UserInfoProvider from './UserInfoProvider';
 
 export const metadata: Metadata = {
-  title: 'k skin app',
+  title: 'korean cosmetics app',
   description: '韓国コスメに特化した、ユーザーのスキンケアをサポートするサービスです。',
 }
 
