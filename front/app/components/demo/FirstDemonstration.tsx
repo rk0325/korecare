@@ -10,6 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import CustomButton from '@/components/ui/custom-button';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 const FirstDemonstration = () => {
 	const { skinType, setSkinType } = useContext(UserInfoContext);
@@ -66,7 +67,7 @@ const FirstDemonstration = () => {
 				<div className="text-l flex items-center space-x-2 justify-center p-4">
 					<Popover>
 						<PopoverTrigger>
-							<li>わからない</li>
+							<li><HelpOutlineIcon /> わからない</li>
 						</PopoverTrigger>
 						<PopoverContent className="text-text-color">
 							Q. あなたの洗顔後の肌の様子に一番近いものは？<br />
