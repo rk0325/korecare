@@ -1,6 +1,8 @@
 module Api
   module V1
     class SkinInformationController < ApplicationController
+      SCOMMON_NG_KEYWORDS = 'ミスト マスク パッド セット 洗顔料 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛美容 ボディクリーム アイクリーム スポット リップクリーム シャンプー'.freeze
+
       SKIN_TYPE_TAGS = {
         '乾燥肌' => '1001296',
         '敏感肌' => '1001297',
@@ -10,11 +12,11 @@ module Api
       }.freeze
 
       SKIN_TROUBLE_NG_KEYWORDS = {
-        '保湿' => 'ニキビ 毛穴 トーンアップ 美白 バーム シミ しわ ハリ シワ 弾力 エイジングケア ミスト マスク パッド セット 洗顔料 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛美容 ボディクリーム アイクリーム スポット リップクリーム シャンプー',
-        'ニキビ' => '毛穴 角質 トーンアップ 美白 バーム シミ しわ ハリ シワ 弾力 エイジングケア ミスト マスク パッド セット 洗顔料 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛美容 ボディクリーム アイクリーム スポット リップクリーム シャンプー',
-        '毛穴・黒ずみ' => 'ニキビ トーンアップ 美白 バーム シミ しわ ハリ シワ 弾力 エイジングケア ミスト マスク パッド セット 洗顔料 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛美容 ボディクリーム アイクリーム スポット リップクリーム シャンプー',
-        '美白' => 'ニキビ 毛穴 角質 バーム しわ ハリ シワ 弾力 エイジングケア ミスト マスク パッド セット 洗顔料 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛美容 ボディクリーム アイクリーム スポット リップクリーム シャンプー',
-        '肌のハリ・弾力' => 'ニキビ 毛穴 トーンアップ 美白 バーム シミ ミスト マスク パッド セット 洗顔料 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛美容 ボディクリーム アイクリーム スポット リップクリーム シャンプー'
+        '保湿' => 'ニキビ 毛穴 トーンアップ 美白 バーム シミ しわ ハリ シワ 弾力 エイジングケア ' + COMMON_NG_KEYWORDS,
+        'ニキビ' => '毛穴 角質 トーンアップ 美白 バーム シミ しわ ハリ シワ 弾力 エイジングケア ' + COMMON_NG_KEYWORDS,
+        '毛穴・黒ずみ' => 'ニキビ トーンアップ 美白 バーム シミ しわ ハリ シワ 弾力 エイジングケア ' + COMMON_NG_KEYWORDS,
+        '美白' => 'ニキビ 毛穴 角質 バーム しわ ハリ シワ 弾力 エイジングケア ' + COMMON_NG_KEYWORDS,
+        '肌のハリ・弾力' => 'ニキビ 毛穴 トーンアップ 美白 バーム シミ ' + COMMON_NG_KEYWORDS
       }.freeze
 
       def search_cosmetics
@@ -22,7 +24,7 @@ module Api
         skin_trouble = cosmetic_params[:skin_trouble]
 
         # 楽天市場検索APIを呼び出す
-        genre_id = "562084"
+        genre_id = "562084" # 「韓国コスメ」のジャンルID
         tag_id = SKIN_TYPE_TAGS[skin_type]
         ng_keywords = SKIN_TROUBLE_NG_KEYWORDS[skin_trouble]
         elements = "itemName,itemPrice,itemUrl,imageUrl,shopName"
@@ -50,7 +52,6 @@ module Api
               itemUrl: item['itemUrl'],
               mediumImageUrl: item['mediumImageUrls'].first,
               shopName: item['shopName'],
-              smallImageUrl: item['smallImageUrls'].first
             }
           end
 

@@ -102,3 +102,10 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@media (max-width: 600px) {
+  .responsive-image {
+    width: 600px !important;
+    height: 600px !important;
+  }
+}

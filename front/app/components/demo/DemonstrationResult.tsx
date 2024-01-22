@@ -35,18 +35,19 @@ const DemonstrationResult = () => {
 	return (
 		<div className='bg-background-color min-h-screen text-text-color text-center'>
 			<p className="text-2xl font-bold text-center justify-between pt-10">
-				あなたにおすすめの<br />
-				韓国コスメはこちら！
+				あなたにおすすめの韓国コスメはこちら！
 			</p>
 			<div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center'>
 				{cosmetics.map((cosmetic, index) => (
 					<div key={index} className='flex flex-col items-center p-4'>
-						<h2 className='pb-2'>{cosmetic.itemName.length > 40 ? cosmetic.itemName.substring(0, 40) + '...' : cosmetic.itemName}</h2>
+						<p className="text-lg">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
+						<p className="pb-2">{cosmetic.itemName.length > 40 ? cosmetic.itemName.substring(0, 40) + '...' : cosmetic.itemName}</p>
 						<Image
 							src={cosmetic.mediumImageUrl}
 							alt={cosmetic.itemName}
 							width={500}
 							height={500}
+							className="responsive-image"
 							style={{ objectFit: "contain", width: "auto" }}
 						/>
 						<p>{cosmetic.itemPrice}円</p>
