@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_19_203547) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_23_122324) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "profiles", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name"
+    t.string "skin_trouble"
+    t.string "skin_type"
+    t.integer "age"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "avatar"
+    t.index ["user_id"], name: "index_profiles_on_user_id"
+  end
 
   create_table "skin_information", force: :cascade do |t|
     t.bigint "user_id"
@@ -35,5 +47,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_19_203547) do
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
   end
 
+  add_foreign_key "profiles", "users"
   add_foreign_key "skin_information", "users"
 end

@@ -10,7 +10,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import CustomButton from '@/components/ui/custom-button';
-import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
+import {
+	AlertTriangle,
+	Diamond,
+	SearchCheck,
+	HelpCircle,
+} from "lucide-react"
 
 const FirstDemonstration = () => {
 	const { skinType, setSkinType } = useContext(UserInfoContext);
@@ -63,33 +68,43 @@ const FirstDemonstration = () => {
 					</div>
 				</RadioGroup>
 			</ul>
-			<ul>
-				<div className="text-l flex items-center space-x-2 justify-center p-4">
-					<Popover>
-						<PopoverTrigger>
-							<li><HelpOutlineIcon /> わからない</li>
-						</PopoverTrigger>
-						<PopoverContent className="text-text-color">
-							Q. あなたの洗顔後の肌の様子に一番近いものは？<br />
-							・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる<br />
-							→乾燥肌<br />
-							・額やTゾーンはベタつきがあり、目元・口元・頬は乾燥を感じる<br />
-							→混合肌<br />
-							・全体的にベタつきがあり、乾燥は感じない<br />
-							→脂性肌<br />
-							・ベタつきも乾燥もほとんど感じない<br />
-							→普通肌<br />
-							<br />
-							◆敏感肌の方の特徴<br />
-							・いつも使っている化粧品がしみたり、かゆくなったりすることがある<br />
-							・化粧品でかぶれたり、つけるもので刺激を感じることがある<br />
-							・化粧品を選ぶ時は、低刺激性であることを重視している<br />
-							<br />
-							※こちらの質問は、肌質を断定するものではございません。
-						</PopoverContent>
-					</Popover>
-				</div>
-			</ul>
+			<div className="text-l flex items-center space-x-2 justify-center p-4">
+				<Popover>
+					<PopoverTrigger>
+						<div className="flex items-center">
+							<p>わからない</p>
+							<HelpCircle className="mr-2 h-5 w-5" />
+						</div>
+					</PopoverTrigger>
+					<PopoverContent className="text-text-color">
+						<div className="flex items-center">
+							<SearchCheck className="mr-2 h-4 w-4" />
+							<p>あなたの洗顔後の肌の様子に一番近いものを選んでください。</p>
+						</div>
+						・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる<br />
+						→乾燥肌<br />
+						・額やTゾーンはベタつきがあり、目元・口元・頬は乾燥を感じる<br />
+						→混合肌<br />
+						・全体的にベタつきがあり、乾燥は感じない<br />
+						→脂性肌<br />
+						・ベタつきも乾燥もほとんど感じない<br />
+						→普通肌<br />
+						<br />
+						<div className="flex items-center">
+							<Diamond className="mr-2 h-4 w-4" />
+							<p>敏感肌の方の特徴</p>
+						</div>
+						・いつも使っている化粧品がしみたり、かゆくなったりすることがある<br />
+						・化粧品でかぶれたり、つけるもので刺激を感じることがある<br />
+						・化粧品を選ぶ時は、低刺激性であることを重視している<br />
+						<br />
+						<div className="flex items-center">
+							<AlertTriangle className="mr-2 h-4 w-4" />
+							<p>こちらの質問は、肌質を断定するものではございません。</p>
+						</div>
+					</PopoverContent>
+				</Popover>
+			</div>
 			<Link href='/second_demonstration'>
 				<div className="flex justify-center">
 					<CustomButton colorClass="btn-506D7D" onClick={handleSubmit}>次の質問へ</CustomButton>

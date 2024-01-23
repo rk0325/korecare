@@ -1,5 +1,6 @@
 'use client';
 import React from 'react'
+import Link from 'next/link'
 import toast from 'react-hot-toast';
 import { signOut } from 'next-auth/react';
 import Image from 'next/image';
@@ -15,6 +16,7 @@ import {
 import {
   LogOut,
   User,
+  Search,
 } from "lucide-react"
 import {
   Tooltip,
@@ -59,7 +61,15 @@ export default function Dropdown() {
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <User className="mr-2 h-4 w-4" />
-            <span>My Page</span>
+            <Link href='/my_page'>
+              <span>My Page</span>
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <Search className="mr-2 h-4 w-4" />
+            <Link href='/home'>
+              <span>Cosmetics search</span>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <LogOut className="mr-2 h-4 w-4" />
