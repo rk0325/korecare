@@ -2,9 +2,10 @@ module Api
   module V1
     class UsersController < ApplicationController
       def create
-        user = User.find_or_initialize_by(provider: params[:provider], uid: params[:uid])
+        user = User.find_or_create_by(provider: params[:provider], uid: params[:uid])
         user.name = params[:name]
         user.email = params[:email]
+        user.avatar = params[:avatar]
         if user.save
           head :ok
         else

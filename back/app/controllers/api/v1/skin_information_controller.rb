@@ -1,7 +1,7 @@
 module Api
   module V1
     class SkinInformationController < ApplicationController
-      SCOMMON_NG_KEYWORDS = 'ミスト マスク パッド セット 洗顔料 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛美容 ボディクリーム アイクリーム スポット リップクリーム シャンプー'.freeze
+      COMMON_NG_KEYWORDS = 'ミスト マスク パッド セット 洗顔料 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛美容 ボディクリーム アイクリーム スポット リップクリーム シャンプー'.freeze
 
       SKIN_TYPE_TAGS = {
         '乾燥肌' => '1001296',
