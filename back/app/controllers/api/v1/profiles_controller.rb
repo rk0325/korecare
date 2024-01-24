@@ -12,7 +12,7 @@ module Api
         end
 
         if profile.update(profile_params)
-          render json: { status: 'success', message: 'Profile updated successfully', data: profile }, status: :ok
+          render json: profile, status: :ok
         else
           render json: { status: 'failure', message: profile.errors.full_messages.to_sentence, data: {} }, status: :unprocessable_entity
         end
@@ -24,7 +24,7 @@ module Api
         if profile.nil?
           render json: { status: 'failure', message: 'Profile not found', data: {} }, status: :not_found
         else
-          render json: { status: 'success', data: profile }, status: :ok
+          render json: profile, status: :ok
         end
       end
 

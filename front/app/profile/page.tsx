@@ -1,8 +1,10 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import { useSession, getSession } from 'next-auth/react'
+import ProfileContext from '.././contexts/ProfileContext';
+import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -18,12 +20,13 @@ import {
 export default function EditProfile() {
   const router = useRouter()
   const { data: session } = useSession();
+  const profile = useContext(ProfileContext);
 
-  const [name, setName] = useState(session?.user?.name || "");
-  const [age, setAge] = useState("");
-  const [skinType, setSkinType] = useState("");
-  const [skinTrouble, setSkinTrouble] = useState("");
-  const [avatar, setAvatar] = useState(session?.user?.image || '/default-avatar.png');
+  const [name, setName] = useState(profile?.name || session?.user?.name || "");
+  const [age, setAge] = useState(profile?.age || "");
+  const [skinType, setSkinType] = useState(profile?.skinType || "");
+  const [skinTrouble, setSkinTrouble] = useState(profile?.skinTrouble || "");
+  const [avatar, setAvatar] = useState(profile?.avatar || session?.user?.image || '/default-avatar.png');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -34,12 +37,10 @@ export default function EditProfile() {
     const profileData = {
       name: name,
       age: age,
-      skin_type: skinType,
-      skin_trouble: skinTrouble,
+      skinType: skinType,
+      skinTrouble: skinTrouble,
       avatar: avatar,
     };
-
-    console.log(profileData);
 
     try {
       await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profiles/update`, profileData, {
@@ -47,7 +48,11 @@ export default function EditProfile() {
         withCredentials: true
       });
 
-      router.push('/my_page');  // APIリクエストが成功した後にリダイレクト
+      // プロフィール更新後にコンテキストを更新
+      profile.setProfile(profileData);
+
+      // APIリクエストが成功した後にリダイレクト
+      router.push('/my_page');
 
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -66,8 +71,8 @@ export default function EditProfile() {
   return (
     session ? (
       <div className='bg-background-color flex justify-center h-screen p-10'>
-        <div className="grid w-full max-w-sm text-left">
-          <div>
+        <div className="w-full max-w-sm text-left">
+        <div className="mb-6">
             <Label htmlFor="name">お名前</Label>
             <Input
               value={name}
@@ -75,9 +80,11 @@ export default function EditProfile() {
               onChange={(e) => setName(e.target.value)}
             />
           </div>
+          <div className="mb-6">
+          <Label htmlFor="age">年代</Label>
           <Select onValueChange={value => setAge(value)}>
             <SelectTrigger>
-              <SelectValue className="text-text-color" placeholder="年代" />
+              <SelectValue className="text-text-color" placeholder={age || "年代"} />
             </SelectTrigger>
             <SelectContent className="text-text-color">
               <SelectItem value="10代">10代</SelectItem>
@@ -87,10 +94,13 @@ export default function EditProfile() {
               <SelectItem value="50代">50代</SelectItem>
               <SelectItem value="60代以上">60代以上</SelectItem>
             </SelectContent>
-          </Select>
+            </Select>
+          </div>
+          <div className="mb-6">
+          <Label htmlFor="skinType">肌質</Label>
           <Select onValueChange={setSkinType}>
             <SelectTrigger>
-              <SelectValue className="text-text-color" placeholder="肌質" />
+              <SelectValue className="text-text-color" placeholder={skinType || "肌質"} />
             </SelectTrigger>
             <SelectContent className="text-text-color">
               <SelectItem value="乾燥肌">乾燥肌</SelectItem>
@@ -99,10 +109,13 @@ export default function EditProfile() {
               <SelectItem value="普通肌">普通肌</SelectItem>
               <SelectItem value="敏感肌">敏感肌</SelectItem>
             </SelectContent>
-          </Select>
+            </Select>
+          </div>
+          <div className="mb-6">
+          <Label htmlFor="skinTrouble">肌悩み</Label>
           <Select onValueChange={setSkinTrouble}>
             <SelectTrigger>
-              <SelectValue className="text-text-color" placeholder="肌悩み" />
+              <SelectValue className="text-text-color" placeholder={skinTrouble || "肌悩み"} />
             </SelectTrigger>
             <SelectContent className="text-text-color">
               <SelectItem value="保湿">保湿</SelectItem>
@@ -111,10 +124,18 @@ export default function EditProfile() {
               <SelectItem value="美白">美白</SelectItem>
               <SelectItem value="肌のハリ・弾力">肌のハリ・弾力</SelectItem>
             </SelectContent>
-          </Select>
-          <div>
+            </Select>
+            </div>
+            <div className="mb-6">
             <Label htmlFor="avatar">アバター画像</Label>
-            <Input
+            <Image
+              src={avatar || session.user?.image || '/default-avatar.png'}
+              alt="User Avatar"
+              width={100}
+              height={100}
+              style={{ borderRadius: '50%' }}
+            />
+            <Input className="mt-6"
               type="file"
               id="avatar"
               onChange={(e) => {
@@ -131,7 +152,7 @@ export default function EditProfile() {
               }}
             />
           </div>
-          <div className="w-full" onClick={handleSubmit}>
+          <div className="w-full pt-6" onClick={handleSubmit}>
             <CustomButton
               colorClass="btn-506D7D w-full"
             >

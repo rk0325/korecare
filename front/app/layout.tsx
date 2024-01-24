@@ -4,7 +4,9 @@ import NextAuthProvider from './providers/NextAuth';
 import Header from './components/top/Header';
 import Footer from './components/top/Footer';
 import { Toaster } from 'react-hot-toast';
-import UserInfoProvider from './UserInfoProvider';
+import UserInfoProvider from './providers/UserInfoProvider';
+import ProfileProvider from './providers/ProfileProvider';
+import CosmeticsContextProvider from './providers/CosmeticsContextProvider';
 
 export const metadata: Metadata = {
   title: 'korean cosmetics app',
@@ -20,11 +22,17 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <NextAuthProvider>
-          <Header />
-          <Toaster position="top-right" reverseOrder={true} />
-          <div className='font-genjyuu min-h-screen'>
-            <UserInfoProvider>{children}</UserInfoProvider>
-          </div>
+          <ProfileProvider>
+            <UserInfoProvider>
+              <Header />
+              <CosmeticsContextProvider>
+                <Toaster position="top-right" reverseOrder={true} />
+                <div className='font-genjyuu min-h-screen'>
+                  {children}
+                </div>
+              </CosmeticsContextProvider>
+            </UserInfoProvider>
+          </ProfileProvider>
         </NextAuthProvider>
         <Footer />
       </body>

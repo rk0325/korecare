@@ -1,9 +1,6 @@
 'use client'
 import React, { useState } from 'react'
-import UserInfoContext from '../app/contexts/UserInfoContext'
-import FirstDemonstration from './components/demo/FirstDemonstration';
-import SecondDemonstration from './components/demo/SecondDemonstration';
-import DemonstrationResult from './components/demo/DemonstrationResult';
+import UserInfoContext from '../../app/contexts/UserInfoContext'
 
 export default function UserInfoProvider({
   children,
@@ -18,4 +15,4 @@ export default function UserInfoProvider({
       {children}
     </UserInfoContext.Provider>
   );
-}
+};
