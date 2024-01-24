@@ -1,10 +1,10 @@
 'use client';
-import React from 'react'
-import Link from 'next/link'
+import React, { useContext } from 'react'
+import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { useSession } from 'next-auth/react';
+import ProfileContext from '../../contexts/ProfileContext';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,23 +26,32 @@ import {
 } from "@/components/ui/tooltip"
 
 export default function Dropdown() {
+  const router = useRouter();
   const handleLogout = async () => {
     signOut({ callbackUrl: '/' }),
       toast.loading('ログアウトしています...');
   };
 
   const { data: session } = useSession();
+  const { name, avatar } = useContext(ProfileContext);
+
+  const handleNavigation = async (url: string) => {
+    await router.push(url);
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  };
 
   return (
     session ? (
       <DropdownMenu>
         <DropdownMenuTrigger>
-          <div className='flex items-center justify-center p-2' style={{ zIndex: 1000, position: 'relative' }}>
+          <div className='flex items-center justify-center p-2'>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Image
-                    src={session.user?.image ?? '/default-avatar.png'}
+                    src={avatar || session.user?.image || '/default-avatar.png'}
                     alt="User Avatar"
                     width={40}
                     height={40}
@@ -57,23 +66,19 @@ export default function Dropdown() {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="text-text-color">
-          <DropdownMenuLabel>{session.user?.name}さん</DropdownMenuLabel>
+          <DropdownMenuLabel>{name || session.user?.name}さん</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('/my_page')}>
             <User className="mr-2 h-4 w-4" />
-            <Link href='/my_page'>
-              <span>My Page</span>
-            </Link>
+            My Page
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('/home')}>
             <Search className="mr-2 h-4 w-4" />
-            <Link href='/home'>
-              <span>Cosmetics search</span>
-            </Link>
+            Cosmetics search
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
-            <span onClick={handleLogout}>Logout</span>
+            Logout
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

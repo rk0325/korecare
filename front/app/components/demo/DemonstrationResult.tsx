@@ -19,7 +19,7 @@ const DemonstrationResult = () => {
   useEffect(() => {
     const fetchCosmetics = async () => {
       try {
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/skin_information/search_cosmetics`, {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cosmetics_recommendation/search_cosmetics_for_guests`, {
 					skin_type: skinType,
 					skin_trouble: skinTrouble
 				});

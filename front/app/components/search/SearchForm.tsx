@@ -1,5 +1,9 @@
-import React from 'react'
+'use client';
+import React, { useState, useContext } from 'react';
+import axios from 'axios';
+import { getSession } from 'next-auth/react'
 import Link from 'next/link'
+import { CosmeticsContext } from '../../contexts/CosmeticsContext';
 import CustomButton from '@/components/ui/custom-button';
 import {
   Select,
@@ -13,10 +17,42 @@ import {
 } from "lucide-react"
 
 const SearchForm = () => {
+  const [skinType, setSkinType] = useState("");
+  const [skinTrouble, setSkinTrouble] = useState("");
+  const [priceRange, setPriceRange] = useState("");
+  const [productType, setProductType] = useState("");
+  const { setCosmetics } = useContext(CosmeticsContext);
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const session = await getSession();
+    const token = session?.accessToken;
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+    const UserData = {
+      skin_type: skinType,
+      skin_trouble: skinTrouble,
+      price_range: priceRange,
+      product_type: productType,
+    };
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cosmetics_recommendation/search_cosmetics_for_logged_in_users`, UserData, {
+        headers: headers,
+        withCredentials: true
+      });
+      setCosmetics(response.data);
+      console.log(response.data);
+      console.log(UserData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center flex justify-center pt-10'>
       <div className='flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0'>
-        <Select>
+        <Select onValueChange={value => setSkinType(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue className="text-text-color" placeholder="肌質" />
           </SelectTrigger>
@@ -28,7 +64,7 @@ const SearchForm = () => {
             <SelectItem value="敏感肌">敏感肌</SelectItem>
           </SelectContent>
         </Select>
-        <Select>
+        <Select onValueChange={value => setSkinTrouble(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue className="text-text-color" placeholder="肌悩み" />
           </SelectTrigger>
@@ -40,7 +76,7 @@ const SearchForm = () => {
             <SelectItem value="肌のハリ・弾力">肌のハリ・弾力</SelectItem>
           </SelectContent>
         </Select>
-        <Select>
+        <Select onValueChange={value => setPriceRange(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue className="text-text-color" placeholder="金額" />
           </SelectTrigger>
@@ -51,7 +87,7 @@ const SearchForm = () => {
             <SelectItem value="1万円以上">1万円以上</SelectItem>
           </SelectContent>
         </Select>
-        <Select>
+        <Select onValueChange={value => setProductType(value)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue className="text-text-color" placeholder="形態" />
           </SelectTrigger>
@@ -62,11 +98,14 @@ const SearchForm = () => {
             <SelectItem value="化粧水・美容液・クリームセット">化粧水・美容液・クリームセット</SelectItem>
           </SelectContent>
         </Select>
-        <Link href='/search_result'>
-          <div className="flex justify-center">
-            <CustomButton colorClass="btn-506D7D"><Search size={18} className="mr-2" />検索</CustomButton>
-          </div>
-        </Link>
+        <div className="flex justify-center" onClick={handleSubmit}>
+          <Link href='/search_result'>
+            <CustomButton colorClass="btn-506D7D">
+              <Search size={18} className="mr-2" />
+              検索
+            </CustomButton>
+          </Link>
+        </div>
       </div>
     </div>
   );

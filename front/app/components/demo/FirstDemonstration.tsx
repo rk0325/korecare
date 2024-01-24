@@ -73,12 +73,12 @@ const FirstDemonstration = () => {
 					<PopoverTrigger>
 						<div className="flex items-center">
 							<p>わからない</p>
-							<HelpCircle className="mr-2 h-5 w-5" />
+							<HelpCircle className="mr-1 h-6 w-5" />
 						</div>
 					</PopoverTrigger>
 					<PopoverContent className="text-text-color">
 						<div className="flex items-center">
-							<SearchCheck className="mr-2 h-4 w-4" />
+							<SearchCheck className="mr-1 h-6 w-5" />
 							<p>あなたの洗顔後の肌の様子に一番近いものを選んでください。</p>
 						</div>
 						・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる<br />
@@ -91,7 +91,7 @@ const FirstDemonstration = () => {
 						→普通肌<br />
 						<br />
 						<div className="flex items-center">
-							<Diamond className="mr-2 h-4 w-4" />
+							<Diamond className="mr-1 h-6 w-5" />
 							<p>敏感肌の方の特徴</p>
 						</div>
 						・いつも使っている化粧品がしみたり、かゆくなったりすることがある<br />
@@ -99,7 +99,7 @@ const FirstDemonstration = () => {
 						・化粧品を選ぶ時は、低刺激性であることを重視している<br />
 						<br />
 						<div className="flex items-center">
-							<AlertTriangle className="mr-2 h-4 w-4" />
+							<AlertTriangle className="mr-1 h-6 w-5" />
 							<p>こちらの質問は、肌質を断定するものではございません。</p>
 						</div>
 					</PopoverContent>
