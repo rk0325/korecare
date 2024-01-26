@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       post 'cosmetics_recommendation/search_cosmetics_for_logged_in_users', to: 'cosmetics_recommendation#search_cosmetics_for_logged_in_users'
       resources :profiles, only: [:update]
       get '/profiles', to: 'profiles#show'
+      resources :favorite_cosmetics, only: [:index, :create, :destroy]
     end
   end
 end

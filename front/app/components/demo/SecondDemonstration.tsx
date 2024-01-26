@@ -11,7 +11,6 @@ const SecondDemonstration = () => {
 
   const handleSkinTroubleChange = (value: string) => {
 		setSkinTrouble(value);
-		console.log(value);
 	};
 
   const handleSubmit = () => {
@@ -54,7 +53,7 @@ const SecondDemonstration = () => {
       </ul>
       <br />
       <Link href='/demonstration_result'>
-        <div className="flex justify-center">
+        <div className="flex justify-center pt-2">
           <CustomButton colorClass="btn-506D7D" onClick={handleSubmit}>結果を見る</CustomButton>
         </div>
       </Link>

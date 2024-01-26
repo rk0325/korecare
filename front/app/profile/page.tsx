@@ -152,11 +152,11 @@ export default function EditProfile() {
               }}
             />
           </div>
-          <div className="w-full pt-6" onClick={handleSubmit}>
+          <div className="w-full pt-4" onClick={handleSubmit}>
             <CustomButton
               colorClass="btn-506D7D w-full"
             >
-              登録する
+              更新する
             </CustomButton>
           </div>
         </div>

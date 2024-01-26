@@ -17,6 +17,7 @@ import {
   LogOut,
   User,
   Search,
+  Heart
 } from "lucide-react"
 import {
   Tooltip,
@@ -75,6 +76,10 @@ export default function Dropdown() {
           <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('/home')}>
             <Search className="mr-2 h-4 w-4" />
             Cosmetics search
+          </DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('/favorite_cosmetics')}>
+            <Heart className="mr-2 h-4 w-4" />
+            Favorite Cosmetics
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
