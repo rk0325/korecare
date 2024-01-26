@@ -6,7 +6,7 @@ const About = () => {
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center'>
       <p className="text-2xl font-bold text-center justify-between pt-20">
-        何かロゴ入れたい
+        ロゴ
       </p>
       <p className="text-center justify-between p-10">
         『アプリ名』は韓国コスメに特化した、毎日のスキンケアをサポートするサービスです。<br />
@@ -32,9 +32,9 @@ const About = () => {
         なんで韓国コスメは人気なの？
       </p>
       <ul className="text-center p-10">
-        <li>人気の理由書く</li>
-        <li>人気の理由書く</li>
-        <li>人気の理由書く</li>
+        <li>人気の理由</li>
+        <li>人気の理由</li>
+        <li>人気の理由</li>
       </ul>
     </div>
   );

@@ -6,13 +6,9 @@
 erDiagram
 Users ||--|| Profiles : has
 Users ||--o{ FavoriteCosmetics : favorites
-Users ||--|| SkinInformation : has
-Users ||--o{ Cosmetics : has
-FavoriteCosmetics ||--o{ Cosmetics : has
 Users ||--o{ NotFavoriteCosmetics : has
-Cosmetics ||--o{ NotFavoriteCosmetics : has
 Users ||--o{ Reviews : creates
-Cosmetics ||--o{ Reviews : has
+FavoriteCosmetics ||--|| Reviews : has
 Reviews ||--o{ Comments : has
 Users ||--o{ Comments : posts
 Reviews ||--o{ Bookmarks : has
@@ -20,7 +16,6 @@ Users ||--o{ Bookmarks : bookmarks
 Reviews ||--o{ ReviewTags : has
 Tags ||--o{ ReviewTags : has
 Users ||--o{ CosmeticUsage : has
-Cosmetics ||--o{ CosmeticUsage : has
 Users ||--o{ NotificationSettings : has
 Users ||--|| Addresses : has
 
@@ -49,28 +44,12 @@ Profiles {
 FavoriteCosmetics {
   integer id PK
   integer user_id FK
-  integer cosmetic_id FK
-  datetime created_at
-  datetime updated_at
-}
-
-SkinInformation {
-  integer id PK
-  integer user_id FK
-  string skin_trouble
-  string skin_type
-  datetime created_at
-  datetime updated_at
-}
-
-Cosmetics {
-  integer id PK
-  integer user_id FK
   string name
   string brand
   string price
   string item_url
   string image_url
+  string item_code
   datetime created_at
   datetime updated_at
 }
@@ -78,7 +57,11 @@ Cosmetics {
 NotFavoriteCosmetics {
   integer id PK
   integer user_id FK
-  integer cosmetic_id FK
+  string name
+  string brand
+  string price
+  string item_url
+  string image_url
   text comment
   datetime created_at
   datetime updated_at
@@ -87,7 +70,7 @@ NotFavoriteCosmetics {
 Reviews {
   integer id PK
   integer user_id FK
-  integer cosmetic_id FK
+  integer favorite_cosmetic_id FK
   string rating
   string title
   text body
@@ -131,7 +114,7 @@ ReviewTags {
 CosmeticUsage {
   integer id PK
   integer user_id FK
-  integer cosmetic_id FK
+  integer item_type
   datetime start_date
   datetime duration_date
   datetime open_date
@@ -203,7 +186,7 @@ Addresses {
 - 肌質・お悩みを選択したら、それぞれに合った韓国コスメを提案
   - 悩み…乾燥、美白、ニキビ、毛穴など
   - 肌質…脂性肌、乾燥肌、混合肌、敏感肌など
-  - カテゴリごとにチェックボックスを用意して、ユーザーが選択→検索ボタンを押すと商品一覧が表示される想定
+  - カテゴリごとにユーザーが選択→検索ボタンを押すと商品一覧が表示される想定
 
 - 金額を入力したら、その価格帯の韓国コスメを提案
   - 単品もしくはセットかを選択できる
@@ -251,7 +234,8 @@ Addresses {
 - カテゴリ（肌質・お悩み・年代）別にレビューの評価が高い順でランキング
 
 ### その他
-- レコメンドされたスキンケアコスメ及びレビュー投稿のX（旧Twitter）シェア
+- LINEログイン
+- お気に入りコスメ及びレビュー投稿のX（旧Twitter）シェア
 - テスト（RSpec）
 
 ## ■現在検討している追加サービス案

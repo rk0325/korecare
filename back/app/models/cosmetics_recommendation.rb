@@ -30,7 +30,7 @@ class CosmeticsRecommendation
     genre_id = "562084" # 「韓国コスメ」のジャンルID
     tag_id = SKIN_TYPE_TAGS[skin_type]
     ng_keywords = SKIN_TROUBLE_NG_KEYWORDS[skin_trouble]
-    elements = "itemName,itemPrice,imageUrl"
+    elements = "itemCode,itemName,itemPrice,imageUrl"
     results = []
     ["化粧水", "セラム", "クリーム"].each do |item|
       keyword = "公式 #{item}" # "公式"とitemをキーワードとして使用
@@ -50,6 +50,7 @@ class CosmeticsRecommendation
 
       results.map! do |item|
         {
+          id: item['itemCode'], # 楽天市場の商品コードをidとして使用
           itemName: item['itemName'],
           itemPrice: item['itemPrice'],
           mediumImageUrl: item['mediumImageUrls'].first,
@@ -63,7 +64,7 @@ class CosmeticsRecommendation
     genre_id = "562084" # 「韓国コスメ」のジャンルID
     tag_id = SKIN_TYPE_TAGS[skin_type]
     ng_keywords = SKIN_TROUBLE_NG_KEYWORDS[skin_trouble]
-    elements = "itemName,itemPrice,itemUrl,imageUrl,shopName"
+    elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl,shopName"
     results = []
     min_price, max_price = price_range.split('〜').map { |price| price.gsub('円以内', '').gsub(',', '').to_i }
     if product_type == '3点セット'
@@ -90,6 +91,7 @@ class CosmeticsRecommendation
 
     results.map! do |item|
       {
+        id: item['itemCode'], # 楽天市場の商品コードをidとして使用
         itemName: item['itemName'],
         itemPrice: item['itemPrice'],
         itemUrl: item['itemUrl'],

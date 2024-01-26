@@ -5,6 +5,10 @@ require 'json'
 class ApplicationController < ActionController::API
   include ActionController::Cookies
 
+  def current_user
+    @current_user
+  end
+
   private
 
   def set_current_user

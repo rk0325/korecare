@@ -42,8 +42,6 @@ const SearchForm = () => {
         withCredentials: true
       });
       setCosmetics(response.data);
-      console.log(response.data);
-      console.log(UserData);
     } catch (error) {
       console.error(error);
     }

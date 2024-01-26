@@ -1,14 +1,75 @@
 'use client';
-import React, { useContext } from 'react'
-import Link from 'next/link'
-import { CosmeticsContext } from '../contexts/CosmeticsContext';
+import React, { useContext, useState, useCallback, useMemo } from 'react';
+import Link from 'next/link';
+import { CosmeticsContext, Cosmetic } from '../contexts/CosmeticsContext';
 import CustomButton from '@/components/ui/custom-button';
 import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
+import { FavoriteIconAnim } from '../components/FavoriteIconAnim';
 
 export default function SearchResult() {
 	const { cosmetics } = useContext(CosmeticsContext);
-
+	const { data: session } = useSession();
+	const token = session?.accessToken;
+	const headers = useMemo(() => {
+		return token ? { Authorization: `Bearer ${token}` } : {};
+	}, [token]); // tokenの値が変わるとheadersも更新される
 	const categories = ['化粧水', '美容液', 'クリーム'];
+
+	// お気に入り状態を更新するためのローカルステート
+	const [favoriteStatus, setFavoriteStatus] = useState(new Map());
+
+	// お気に入りに追加する関数
+	const addToFavorites = useCallback(async (cosmetic: Cosmetic) => {
+		console.log('cosmeticオブジェクトの中身', cosmetic);
+		const favoriteCosmetic = {
+			favorite_cosmetic: {
+				user_id: session?.user?.id,
+				item_code: cosmetic.id,
+				name: cosmetic.itemName,
+				brand: cosmetic.shopName,
+				price: cosmetic.itemPrice,
+				item_url: cosmetic.itemUrl,
+				image_url: cosmetic.mediumImageUrl,
+			}
+		};
+
+		try {
+			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, favoriteCosmetic, {
+				headers: headers,
+				withCredentials: true
+			});
+			console.log(response.data);
+		} catch (error) {
+			console.error(error);
+		}
+	}, [headers, session?.user?.id]);
+
+	// お気に入りから削除する関数
+	const removeFromFavorites = useCallback(async (cosmeticId: string) => {
+		try {
+			const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics/${cosmeticId}`, {
+				headers: headers,
+				withCredentials: true
+			});
+			console.log(response.data);
+		} catch (error) {
+			console.error(error);
+		}
+	}, [headers]);
+
+// お気に入りの状態をトグルする関数
+const toggleFavorite = useCallback(async (cosmetic: Cosmetic) => {
+  const currentStatus = favoriteStatus.get(cosmetic.id) || cosmetic.isFavorite;
+  if (currentStatus) {
+    await removeFromFavorites(cosmetic.id);
+    setFavoriteStatus(prevStatus => new Map(prevStatus).set(cosmetic.id, false));
+  } else {
+    await addToFavorites(cosmetic);
+    setFavoriteStatus(prevStatus => new Map(prevStatus).set(cosmetic.id, true));
+  }
+}, [favoriteStatus, setFavoriteStatus, addToFavorites, removeFromFavorites]);
 
 	return (
 		<div className='bg-background-color min-h-screen text-text-color text-center'>
@@ -32,13 +93,13 @@ export default function SearchResult() {
 										alt={cosmetic.itemName}
 										width={500}
 										height={500}
-										className="responsive-image"
 										style={{ objectFit: "contain", width: "auto" }}
 									/>
+									<button onClick={() => toggleFavorite(cosmetic)}>
+										<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) || cosmetic.isFavorite} />
+									</button>
+									<p>{cosmetic.shopName}</p>
 									<p>{cosmetic.itemPrice}円</p>
-									<Link href={`/cosmetic_details/${index}`}>
-										<p className="text-blue-500">商品詳細へ</p>
-									</Link>
 								</div>
 							))}
 						</div>
