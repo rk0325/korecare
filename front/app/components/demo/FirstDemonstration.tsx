@@ -64,7 +64,7 @@ const FirstDemonstration = () => {
 				</RadioGroup>
 			</ul>
 			<div className="text-l flex items-center space-x-2 justify-center p-6">
-				<label htmlFor="my-modal" className="text-md btn modal-button">
+				<label htmlFor="my-modal" className="text-md btn modal-button bg-background-color text-text-color">
 					わからない<HelpCircle className="ml-1 h-5 w-5" />
 				</label>
 			</div>
@@ -97,7 +97,7 @@ const FirstDemonstration = () => {
 						<p>こちらの質問は、肌質を断定するものではございません。</p>
 					</div>
 					<div className="modal-action">
-						<button className="btn" onClick={() => setIsModalOpen(false)}>閉じる</button>
+						<button className="btn text-text-color" onClick={() => setIsModalOpen(false)}>閉じる</button>
 					</div>
 				</div>
 			</div>
