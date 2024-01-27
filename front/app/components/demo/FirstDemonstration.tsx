@@ -64,50 +64,49 @@ const FirstDemonstration = () => {
 				</RadioGroup>
 			</ul>
 			<div className="text-l flex items-center space-x-2 justify-center p-6">
-					<label htmlFor="my-modal" className="text-md btn modal-button">
-						わからない<HelpCircle className="ml-1 h-5 w-5" />
-					</label>
-				</div>
-				<input type="checkbox" id="my-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
-				<div className="modal">
-  <div className="modal-box text-left">
-	<div className="flex items-center">
-    <SearchCheck className="mr-1 h-6 w-6" />
-    <p className="py-4">あなたの洗顔後の肌の様子に一番近いものは？</p>
-  </div>
-    ・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる<br />
-    →乾燥肌<br />
-    ・額やTゾーンはベタつきがあり、目元・口元・頬は乾燥を感じる<br />
-    →混合肌<br />
-    ・全体的にベタつきがあり、乾燥は感じない<br />
-    →脂性肌<br />
-    ・ベタつきも乾燥もほとんど感じない<br />
-    →普通肌<br />
-    <br />
-    <div className="flex items-center">
-      <Diamond className="mr-1 h-6 w-6" />
-      <p>敏感肌の方の特徴</p>
-    </div>
-    ・いつも使っている化粧品がしみたり、かゆくなったりすることがある<br />
-    ・化粧品でかぶれたり、つけるもので刺激を感じることがある<br />
-    ・化粧品を選ぶ時は、低刺激性であることを重視している<br />
-    <br />
-    <div className="flex items-center">
-      <AlertTriangle className="mr-1 h-6 w-6" />
-      <p>こちらの質問は、肌質を断定するものではございません。</p>
-    </div>
-		<div className="modal-action">
-  <button className="btn" onClick={() => setIsModalOpen(false)}>閉じる</button>
-</div>
-  </div>
-</div>
-				<Link href='/second_demonstration'>
-					<div className="flex justify-center pt-2">
-						<CustomButton colorClass="btn-506D7D" onClick={handleSubmit}>次の質問へ</CustomButton>
-					</div>
-				</Link>
+				<label htmlFor="my-modal" className="text-md btn modal-button">
+					わからない<HelpCircle className="ml-1 h-5 w-5" />
+				</label>
 			</div>
-			
+			<input type="checkbox" id="my-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
+			<div className="modal">
+				<div className="modal-box text-left">
+					<div className="flex items-center">
+						<SearchCheck className="mr-1 h-6 w-6" />
+						<p className="py-4">あなたの洗顔後の肌の様子に一番近いものは？</p>
+					</div>
+					・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる<br />
+					→乾燥肌<br />
+					・額やTゾーンはベタつきがあり、目元・口元・頬は乾燥を感じる<br />
+					→混合肌<br />
+					・全体的にベタつきがあり、乾燥は感じない<br />
+					→脂性肌<br />
+					・ベタつきも乾燥もほとんど感じない<br />
+					→普通肌<br />
+					<br />
+					<div className="flex items-center">
+						<Diamond className="mr-1 h-6 w-6" />
+						<p>敏感肌の方の特徴</p>
+					</div>
+					・いつも使っている化粧品がしみたり、かゆくなったりすることがある<br />
+					・化粧品でかぶれたり、つけるもので刺激を感じることがある<br />
+					・化粧品を選ぶ時は、低刺激性であることを重視している<br />
+					<br />
+					<div className="flex items-center">
+						<AlertTriangle className="mr-1 h-6 w-6" />
+						<p>こちらの質問は、肌質を断定するものではございません。</p>
+					</div>
+					<div className="modal-action">
+						<button className="btn" onClick={() => setIsModalOpen(false)}>閉じる</button>
+					</div>
+				</div>
+			</div>
+			<Link href='/second_demonstration'>
+				<div className="flex justify-center pt-2">
+					<CustomButton colorClass="btn-506D7D" onClick={handleSubmit}>次の質問へ</CustomButton>
+				</div>
+			</Link>
+		</div>
 	);
 }
 

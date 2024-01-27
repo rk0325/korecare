@@ -26,7 +26,7 @@ export default function FavoriteCosmeticsPage() {
             headers: headers,
             withCredentials: true
           });
-          console.log('API Response:', response.data); // APIレスポンスの内容を確認
+          console.log('APIからのレスポンス内容:', response.data); // APIレスポンスの内容を確認
 
           // レスポンスデータがオブジェクトの配列である場合の処理
           if (Array.isArray(response.data)) {
@@ -38,14 +38,11 @@ export default function FavoriteCosmeticsPage() {
               itemUrl: item.item_url,
               mediumImageUrl: item.image_url,
             }));
-            console.log('Transformed Data:', cosmeticsData); // 変換後のデータを確認
+            console.log('変換後のデータ:', cosmeticsData); // 変換後のデータを確認
             setFavoriteCosmetics(cosmeticsData); // 状態を更新
-          } else {
-            // レスポンスデータの構造が予期されたものでない場合のエラーハンドリング
-            console.error('Unexpected response data structure:', response.data);
           }
         } catch (error) {
-          console.error('Error fetching favorites:', error);
+          console.error('お気に入りコスメの情報取得失敗:', error);
         }
       }
     };
@@ -53,10 +50,9 @@ export default function FavoriteCosmeticsPage() {
     fetchFavorites();
   }, [token, headers]);
 
-
   // お気に入りに追加する関数
   const addToFavorites = useCallback(async (cosmetic: Cosmetic) => {
-    console.log('cosmeticオブジェクトの中身', cosmetic);
+    console.log('cosmeticオブジェクトの中身:', cosmetic);
     const favoriteCosmetic = {
       favorite_cosmetic: {
         user_id: session?.user?.id,
@@ -74,7 +70,7 @@ export default function FavoriteCosmeticsPage() {
         headers: headers,
         withCredentials: true
       });
-      console.log(response.data);
+      console.log('APIからのレスポンス内容:', response.data);
     } catch (error) {
       console.error(error);
     }
@@ -105,6 +101,11 @@ export default function FavoriteCosmeticsPage() {
     }
   }, [favoriteStatus, setFavoriteStatus, addToFavorites, removeFromFavorites]);
 
+  useEffect(() => {
+    // お気に入り状態を初期化する
+    setFavoriteStatus(new Map(favoriteCosmetics.map(cosmetic => [cosmetic.id, true])));
+  }, [favoriteCosmetics]);
+
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center'>
       <p className="text-2xl font-bold text-center justify-between pt-10">
@@ -133,7 +134,7 @@ export default function FavoriteCosmeticsPage() {
                       style={{ objectFit: "contain", width: "auto" }}
                     />
                     <button onClick={() => toggleFavorite(cosmetic)}>
-                      <FavoriteIconAnim on={true} />
+                      <FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? false} />
                     </button>
                     <p>{cosmetic.shopName}</p>
                     <p>{cosmetic.itemPrice}円</p>
