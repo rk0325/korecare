@@ -12,13 +12,11 @@ class ApplicationController < ActionController::API
   private
 
   def set_current_user
-    begin
       Rails.logger.info "Current session: #{session.inspect}"  # セッション情報をログに出力
 
       if request.headers["Authorization"].present?
         received_access_token = request.headers["Authorization"].split(' ').last
       else
-        Rails.logger.error "Authorization header is missing"
         render json: { error: 'Authorization header is missing' }, status: :unauthorized
         return
       end
@@ -42,7 +40,7 @@ class ApplicationController < ActionController::API
         # ユーザーが見つからなかった場合、新規ユーザーを作成
         if @current_user.nil?
           @current_user = User.create(
-            provider: 'google',  # ここに適切なプロバイダー名を設定
+            provider: 'google',
             uid: user_info['sub'],
             name: user_info['name'],
             email: user_info['email']
@@ -53,11 +51,7 @@ class ApplicationController < ActionController::API
         session[:user_id] = @current_user.id
         session[:access_token] = received_access_token
       end
-    rescue => e
-      Rails.logger.error "Error in set_current_user: #{e.message}"
-      Rails.logger.error e.backtrace.join("\n")
       render json: { error: 'Internal Server Error' }, status: :internal_server_error
-    end
   end
 
   # Googleのユーザー情報を取得
@@ -69,8 +63,6 @@ class ApplicationController < ActionController::API
     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == "https") do |http|
       http.request(request)
     end
-
-    Rails.logger.info "Response from Google: #{response.body}"  # レスポンスをログに出力
 
     JSON.parse(response.body)
   end
