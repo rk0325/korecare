@@ -95,7 +95,6 @@ end
         keyword: keyword,
         genreId: genre_id,
         tagId: tag_id,
-        orFlag: 0,
         NGKeyword: ng_keywords,
         elements: elements,
         formatVersion: 2,
