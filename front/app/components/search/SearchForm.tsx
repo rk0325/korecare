@@ -80,9 +80,9 @@ const SearchForm = () => {
           </SelectTrigger>
           <SelectContent className="text-text-color">
             <SelectItem value="〜3,000円以内">〜3,000円以内</SelectItem>
-            <SelectItem value="〜5,000円以内">〜5,000円以内</SelectItem>
-            <SelectItem value="〜1万円以内">〜1万円以内</SelectItem>
-            <SelectItem value="1万円以上">1万円以上</SelectItem>
+            <SelectItem value="3,001円〜5,000円以内">3,001円〜5,000円以内</SelectItem>
+            <SelectItem value="5,001円〜10,000円以内">5,001円〜10,000円以内</SelectItem>
+            <SelectItem value="10,001円以上">10,001円以上</SelectItem>
           </SelectContent>
         </Select>
         <Select onValueChange={value => setProductType(value)}>

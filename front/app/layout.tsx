@@ -22,19 +22,19 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <NextAuthProvider>
-          <ProfileProvider>
-            <UserInfoProvider>
-              <Header />
-              <CosmeticsContextProvider>
+          <CosmeticsContextProvider>
+            <ProfileProvider>
+              <UserInfoProvider>
+                <Header />
                 <Toaster position="top-right" reverseOrder={true} />
                 <div className='font-genjyuu min-h-screen'>
                   {children}
                 </div>
-              </CosmeticsContextProvider>
-            </UserInfoProvider>
-          </ProfileProvider>
+                <Footer />
+              </UserInfoProvider>
+            </ProfileProvider>
+          </CosmeticsContextProvider>
         </NextAuthProvider>
-        <Footer />
       </body>
     </html>
   );

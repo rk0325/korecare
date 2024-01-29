@@ -77,29 +77,38 @@ const toggleFavorite = useCallback(async (cosmetic: Cosmetic) => {
 				あなたにおすすめの韓国コスメはこちら！
 			</p>
 			{categories.map((category) => {
-				const filteredCosmetics = cosmetics.filter(cosmetic => cosmetic.itemName.includes(category));
-				if (filteredCosmetics.length === 0) {
-					return null; // アイテムが存在しない場合は何も表示しない
+				// cosmeticsがundefinedまたはnullでないことを確認
+				if (!cosmetics) {
+					return null;
 				}
-				return (
+				const filteredCosmetics = cosmetics.filter(cosmetic => cosmetic.itemName && cosmetic.itemName.includes(category));
+				return filteredCosmetics.length > 0 && (
 					<div key={category}>
-						<h2 className="text-xl font-bold text-center pt-5">{category}</h2>
-						<div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center flex-wrap'>
+						<h2 className="text-xl font-bold text-left pt-8 pl-10">{category}</h2>
+						<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
 							{filteredCosmetics.map((cosmetic, index) => (
-								<div key={index} className='flex flex-col items-center p-4'>
-									<p className="pb-2">{cosmetic.itemName.length > 40 ? cosmetic.itemName.substring(0, 40) + '...' : cosmetic.itemName}</p>
-									<Image
-										src={cosmetic.mediumImageUrl}
-										alt={cosmetic.itemName}
-										width={500}
-										height={500}
-										style={{ objectFit: "contain", width: "auto" }}
-									/>
-									<button onClick={() => toggleFavorite(cosmetic)}>
-										<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) || cosmetic.isFavorite} />
-									</button>
+								<div key={index} className='relative flex flex-col items-center p-2'>
+									<p className="line-clamp-2">
+										{cosmetic.itemName}
+									</p>
+									<div className="relative">
+										<Image
+											src={cosmetic.mediumImageUrl}
+											alt={cosmetic.itemName}
+											width={500}
+											height={500}
+											style={{ objectFit: "contain", width: "auto" }}
+										/>
+										<button
+											onClick={() => toggleFavorite(cosmetic)}
+											className="absolute bottom-0 right-0 p-4 m-2"
+											style={{ transform: 'translate(45%, 85%)' }}
+										>
+											<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? false} />
+										</button>
+									</div>
+									<p className='pt-10'>{cosmetic.itemPrice}円</p>
 									<p>{cosmetic.shopName}</p>
-									<p>{cosmetic.itemPrice}円</p>
 								</div>
 							))}
 						</div>
