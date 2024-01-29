@@ -8,7 +8,6 @@ import { FavoriteIconAnim } from '../../components/FavoriteIconAnim';
 
 export const FavoriteCosmetics = () => {
   const { cosmetics } = useContext(CosmeticsContext);
-  console.log('Cosmetics from context:', cosmetics); // デバッグ情報を出力
   const { data: session, status } = useSession();
 
   useEffect(() => {

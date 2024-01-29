@@ -40,7 +40,6 @@ def self.search_cosmetics_for_guests(skin_type, skin_trouble)
         keyword: keyword,
         genreId: genre_id,
         tagId: tag_id,
-        orFlag: 0,
         NGKeyword: ng_keywords,
         elements: elements,
         formatVersion: 2,
