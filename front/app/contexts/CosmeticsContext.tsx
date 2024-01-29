@@ -3,12 +3,19 @@ import { createContext, Dispatch, SetStateAction } from 'react';
 
 export type Cosmetic = {
   id: string;
+  name: string;
   itemName: string;
   itemPrice: number;
   mediumImageUrl: string;
   itemUrl: string;
   shopName: string;
   isFavorite?: boolean;
+  category: string;
+  image_url: string;
+  item_code: string;
+  brand: string;
+  price: string;
+  item_url: string;
 };
 
 type CosmeticsContextType = {
