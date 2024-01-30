@@ -71,49 +71,59 @@ const toggleFavorite = useCallback(async (cosmetic: Cosmetic) => {
   }
 }, [favoriteStatus, setFavoriteStatus, addToFavorites, removeFromFavorites]);
 
-	return (
-		<div className='bg-background-color min-h-screen text-text-color text-center'>
-			<p className="text-2xl font-bold text-center justify-between pt-10">
-				あなたにおすすめの韓国コスメはこちら！
-			</p>
-			{categories.map((category) => {
-				// cosmeticsがundefinedまたはnullでないことを確認
-				if (!cosmetics) {
-					return null;
-				}
-				const filteredCosmetics = cosmetics.filter(cosmetic => cosmetic.itemName && cosmetic.itemName.includes(category));
-				return filteredCosmetics.length > 0 && (
-					<div key={category}>
-						<h2 className="text-xl font-bold text-left pt-8 pl-10">{category}</h2>
-						<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
-							{filteredCosmetics.map((cosmetic, index) => (
-								<div key={index} className='relative flex flex-col items-center p-2'>
-									<p className="line-clamp-2">
-										{cosmetic.itemName}
-									</p>
-									<div className="relative">
-										<Image
-											src={cosmetic.mediumImageUrl}
-											alt={cosmetic.itemName}
-											width={500}
-											height={500}
-											style={{ objectFit: "contain", width: "auto" }}
-										/>
-										<button
-											onClick={() => toggleFavorite(cosmetic)}
-											className="absolute bottom-0 right-0 p-4 m-2"
-											style={{ transform: 'translate(45%, 85%)' }}
-										>
-											<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? false} />
-										</button>
-									</div>
-									<p className='pt-10'>{cosmetic.itemPrice}円</p>
-									<p>{cosmetic.shopName}</p>
+	// 商品名に複数のカテゴリが含まれる場合、最初に一致したカテゴリでフィルタリングするロジック
+const filterCosmeticsByFirstMatchingCategory = (cosmetic: Cosmetic) => {
+	for (let category of categories) {
+		if (cosmetic.itemName.includes(category)) {
+			return category;
+		}
+	}
+	return null; // どのカテゴリにも一致しない場合はnullを返す
+};
+
+return (
+	<div className='bg-background-color min-h-screen text-text-color text-center'>
+		<p className="text-2xl font-bold text-center justify-between pt-10">
+			あなたにおすすめの韓国コスメはこちら！
+		</p>
+		{categories.map((category) => {
+			// cosmeticsがundefinedまたはnullでないことを確認
+			if (!cosmetics) {
+				return null;
+			}
+			const filteredCosmetics = cosmetics.filter(cosmetic => filterCosmeticsByFirstMatchingCategory(cosmetic) === category);
+			return filteredCosmetics.length > 0 && (
+				<div key={category}>
+					<h2 className="text-xl font-bold text-left pt-8 pl-10">{category}</h2>
+					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
+						{filteredCosmetics.map((cosmetic, index) => (
+							<div key={index} className='relative flex flex-col items-center p-2'>
+								<p className="line-clamp-2">
+									{cosmetic.itemName}
+								</p>
+								<div className="relative">
+									<Image
+										src={cosmetic.mediumImageUrl}
+										alt={cosmetic.itemName}
+										width={500}
+										height={500}
+										style={{ objectFit: "contain", width: "auto" }}
+									/>
+									<button
+										onClick={() => toggleFavorite(cosmetic)}
+										className="absolute bottom-0 right-0 p-4 m-2"
+										style={{ transform: 'translate(45%, 85%)' }}
+									>
+										<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? false} />
+									</button>
 								</div>
-							))}
-						</div>
+								<p className='pt-10'>{cosmetic.itemPrice}円</p>
+								<p>{cosmetic.shopName}</p>
+							</div>
+						))}
 					</div>
-				);
+				</div>
+			);
 			})}
 			<br />
 			<Link href='/home'>

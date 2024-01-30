@@ -17,7 +17,7 @@ const About = () => {
       あなたに合った韓国コスメを探そう</p>
       <Link href='/first_demonstration'>
         <div className="flex justify-center pb-5">
-          <CustomButton colorClass="btn-506D7D">診断してみる</CustomButton>
+          <CustomButton colorClass="btn-506D7D">試してみる</CustomButton>
         </div>
       </Link>
       <p className="text-2xl font-bold text-center justify-between pt-10">

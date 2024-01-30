@@ -1,6 +1,6 @@
 class CosmeticsRecommendation
 
-  COMMON_NG_KEYWORDS = '%詰め替え% ミスト マスク パッド セット %洗顔% 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛美容 ボディクリーム アイクリーム スポット リップクリーム シャンプー'.freeze
+  COMMON_NG_KEYWORDS = '詰め替え ミスト マスク パッド セット %洗顔% 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛美容 ボディクリーム アイクリーム スポット リップクリーム シャンプー メイク落とし ブースター'.freeze
 
   SKIN_TYPE_TAGS = {
     '乾燥肌' => '1001296',
@@ -25,17 +25,22 @@ class CosmeticsRecommendation
   'クリーム単品' => ['クリーム', '%クリーム']
   }.freeze
 
+  PRODUCT_TYPE_NG_KEYWORDS = {
+    '化粧水単品' => ['%エッセンス', '%セラム%'],
+    '美容液単品' => ['ブレミッシュ', '%クリーム%', 'フェイスクリーム'],
+    'クリーム単品' => ['エナジーアンプル', '美容液'],
+    '化粧水・美容液・クリームセット' => ['フェイスクリーム'],
+  }.freeze
+
   def self.search_cosmetics_for_guests(skin_type, skin_trouble)
     # 未ログインユーザー向けの検索ロジック
     genre_id = "562084" # 「韓国スキンケア」のジャンルID
     tag_id = SKIN_TYPE_TAGS[skin_type]
-    # trouble_tag_ids = Array(SKIN_TROUBLE_TAGS[skin_trouble]) # trouble_tag_idsを配列として扱う
     ng_keywords = COMMON_NG_KEYWORDS
     elements = "itemCode,itemName,itemPrice,imageUrl"
     results = []
     ["化粧水", "セラム", "クリーム"].each do |item|
       keyword = "公式 #{item}"
-      # trouble_tag_ids.each do |trouble_tag_id| # trouble_tag_idsの各要素に対して検索を行う
         search_results = RakutenWebService::Ichiba::Item.search(
           keyword: keyword,
           genreId: genre_id,
@@ -84,11 +89,18 @@ class CosmeticsRecommendation
     # 「1万円以上」の場合、max_priceはnilになる
     max_price = nil if price_range.include?('以上')
 
-    if product_type == '化粧水・美容液・クリームセット'
-      max_price /= 3
+    if product_type == '化粧水・美容液・クリームセット' && !max_price.nil?
+      new_max_price = max_price / 3
+      # max_priceを更新する前に、min_priceと比較して、max_priceがmin_priceよりも大きいことを保証
+      max_price = new_max_price if new_max_price > min_price && new_max_price < max_price
     end
 
     items = PRODUCT_TYPE_KEYWORDS[product_type] || [product_type]
+    product_ng_keywords = PRODUCT_TYPE_NG_KEYWORDS[product_type]
+    product_ng_keywords.each do |ng_keyword|
+      ng_keywords += " #{ng_keyword}"
+    end
+
     items.each do |item|
       keyword = "公式 #{item}"
       trouble_tag_ids.each do |trouble_tag_id| # trouble_tag_idsの各要素に対して検索を行う
