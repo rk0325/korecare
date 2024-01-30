@@ -15,7 +15,7 @@ export const Profile = () => {
       <div className='bg-background-color flex justify-center h-screen'>
         <div className="max-w-sm text-center">
           <Image
-            className="mb-6"
+            className="mb-6 justify-center"
             src={avatar || session.user?.image || '/default-avatar.png'}
             alt="User Avatar"
             width={100}
