@@ -10,14 +10,14 @@ export default function Home() {
 
 	return (
 		session ? (
-			<div className='bg-background-color min-h-screen text-text-color text-center flex justify-center'>
+			<div className='bg-background-color min-h-screen text-text-color text-center flex justify-center font-genjyuu'>
 				<div className='flex flex-col space-y-4 p-10'>
-					<p className='text-2xl font-bold'>韓国コスメ検索</p><br />
-					<p>すべてのカテゴリを選択しても、どれか一つを選択しても検索できます。</p>
+					<p className='text-2xl font-bold'>韓国コスメ検索</p>
 					<div className="flex justify-center">
 						<AlertTriangle className="mr-1 h-6 w-6" />
-						<p>検索結果が表示されない場合、該当商品がない可能性があります。</p>
+						<p>「肌悩み」は選択必須項目となります。</p>
 					</div>
+					<p>検索結果が表示されない場合、該当商品がない可能性があります。</p>
 					<p>条件を変更して再度検索してみてください。</p>
 					<SearchForm />
 				</div>

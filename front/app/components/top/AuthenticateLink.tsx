@@ -1,6 +1,8 @@
 import React from 'react'
+import Link from 'next/link'
 import toast from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
+import CustomButton from '@/components/ui/custom-button';
 import {
   Tooltip,
   TooltipContent,
@@ -24,7 +26,13 @@ export default function AuthenticateLink() {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <p className='p-2 cursor-pointer' onClick={handleLogin}>Login</p>
+          <Link href='/profile'>
+            <CustomButton
+              colorClass="btn-506D7D w-full p-2 cursor-pointer font-genjyuu" onClick={handleLogin}
+            >
+              ログイン
+            </CustomButton>
+          </Link>
         </TooltipTrigger>
         <TooltipContent >
           <p>Googleでログインする</p>

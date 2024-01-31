@@ -68,7 +68,7 @@ export default function EditProfile() {
 
   return (
     session ? (
-      <div className='bg-background-color flex justify-center h-screen p-10 text-text-color'>
+      <div className='bg-background-color flex justify-center h-screen p-10 text-text-color font-genjyuu'>
         <div className="w-full max-w-sm text-left">
         <div className="mb-6">
             <Label htmlFor="name">お名前</Label>

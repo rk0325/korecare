@@ -25,7 +25,7 @@ const FirstDemonstration = () => {
 	};
 
 	return (
-		<div className='bg-background-color min-h-screen text-text-color text-center'>
+		<div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
 			<p className="text-xl font-bold text-center justify-between p-10">
 				あなたの肌質は？
 			</p>
