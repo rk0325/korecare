@@ -1,9 +1,9 @@
 'use client';
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import { useSession, getSession } from 'next-auth/react'
-import ProfileContext from '.././contexts/ProfileContext';
+import { useProfile } from '../hooks/useProfile';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { Input } from "@/components/ui/input"
@@ -20,7 +20,7 @@ import {
 export default function EditProfile() {
   const router = useRouter()
   const { data: session } = useSession();
-  const profile = useContext(ProfileContext);
+  const { profile, mutate } = useProfile();
 
   const [name, setName] = useState(profile?.name || session?.user?.name || "");
   const [age, setAge] = useState(profile?.age || "");
@@ -37,23 +37,21 @@ export default function EditProfile() {
     const profileData = {
       name: name,
       age: age,
-      skinType: skinType,
-      skinTrouble: skinTrouble,
+      skin_type: skinType,
+      skin_trouble: skinTrouble,
       avatar: avatar,
     };
 
     try {
-      await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profiles/update`, profileData, {
+      const updatedProfile = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profiles/update`, profileData, {
         headers: headers,
         withCredentials: true
       });
 
-      // プロフィール更新後にコンテキストを更新
-      profile.setProfile(profileData);
+      // mutateを使用してローカルキャッシュを更新
+      mutate(updatedProfile.data);
 
-      // APIリクエストが成功した後にリダイレクト
       router.push('/my_page');
-
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error)
@@ -70,12 +68,12 @@ export default function EditProfile() {
 
   return (
     session ? (
-      <div className='bg-background-color flex justify-center h-screen p-10'>
+      <div className='bg-background-color flex justify-center h-screen p-10 text-text-color'>
         <div className="w-full max-w-sm text-left">
         <div className="mb-6">
             <Label htmlFor="name">お名前</Label>
             <Input
-              value={name}
+              value={profile?.name || session?.user?.name}
               type="name"
               onChange={(e) => setName(e.target.value)}
             />
@@ -84,7 +82,7 @@ export default function EditProfile() {
           <Label htmlFor="age">年代</Label>
           <Select onValueChange={value => setAge(value)}>
             <SelectTrigger>
-              <SelectValue className="text-text-color" placeholder={age || "年代"} />
+              <SelectValue className="text-text-color" placeholder={profile?.age || "年代"} />
             </SelectTrigger>
             <SelectContent className="text-text-color">
               <SelectItem value="10代">10代</SelectItem>
@@ -100,7 +98,7 @@ export default function EditProfile() {
           <Label htmlFor="skinType">肌質</Label>
           <Select onValueChange={setSkinType}>
             <SelectTrigger>
-              <SelectValue className="text-text-color" placeholder={skinType || "肌質"} />
+              <SelectValue className="text-text-color" placeholder={profile?.skin_type || "肌質"} />
             </SelectTrigger>
             <SelectContent className="text-text-color">
               <SelectItem value="乾燥肌">乾燥肌</SelectItem>
@@ -115,7 +113,7 @@ export default function EditProfile() {
           <Label htmlFor="skinTrouble">肌悩み</Label>
           <Select onValueChange={setSkinTrouble}>
             <SelectTrigger>
-              <SelectValue className="text-text-color" placeholder={skinTrouble || "肌悩み"} />
+              <SelectValue className="text-text-color" placeholder={profile?.skin_trouble || "肌悩み"} />
             </SelectTrigger>
             <SelectContent className="text-text-color">
               <SelectItem value="保湿">保湿</SelectItem>

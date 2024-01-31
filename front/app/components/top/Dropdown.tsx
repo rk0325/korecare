@@ -1,10 +1,10 @@
 'use client';
-import React, { useContext } from 'react'
+import React from 'react'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
-import ProfileContext from '../../contexts/ProfileContext';
+import { useProfile } from '../../hooks/useProfile';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,7 +34,11 @@ export default function Dropdown() {
   };
 
   const { data: session } = useSession();
-  const { name, avatar } = useContext(ProfileContext);
+  const { profile } = useProfile();
+
+  // プロフィールデータまたはセッションデータを使用
+  const name = profile?.name || session?.user?.name || "";
+  const avatar = profile?.avatar || session?.user?.image || '/default-avatar.png';
 
   const handleNavigation = async (url: string) => {
     await router.push(url);
