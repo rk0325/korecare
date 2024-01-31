@@ -5,7 +5,8 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 import axios from 'axios';
-import { FavoriteIconAnim } from '../../components/FavoriteIconAnim';
+import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
+import { Skeleton } from "@/components/ui/skeleton";
 
 // axiosのインスタンスを作成
 const axiosInstance = axios.create({
@@ -27,7 +28,7 @@ export const FavoriteCosmetics = () => {
   const categories = ['化粧水', '美容液', 'クリーム'];
 
   // useSWRを使用してお気に入りコスメのデータを取得
-  const { data: favoriteCosmetics, error, mutate } = useSWR<Cosmetic[]>(token ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics` : null, () => fetcher(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, headers));
+  const { data: favoriteCosmetics, error } = useSWR<Cosmetic[]>(token ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics` : null, () => fetcher(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, headers));
 
   // データのロード状態を管理
   const isLoading = !favoriteCosmetics && !error;
@@ -107,12 +108,13 @@ export const FavoriteCosmetics = () => {
     setFavoriteStatus(new Map(favoriteCosmetics?.map(cosmetic => [cosmetic.item_code, true])));
   }, [favoriteCosmetics]);
 
-  // レンダリング部分でisLoadingをチェック
   return (
-    <div className='bg-background-color min-h-screen text-text-color text-center pb-10'>
+    <div className='bg-background-color font-genjyuu min-h-screen text-text-color text-center pb-10'>
       {isLoading ? (
-        <div className="text-xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
-          <div>Loading...<br />잠깐만요.</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <Skeleton key={index} className="h-64 w-full rounded-lg" />
+          ))}
         </div>
       ) : (
         categories.map((category) => {
@@ -141,7 +143,7 @@ export const FavoriteCosmetics = () => {
                         <button
                           onClick={() => toggleFavorite(cosmetic)}
                           className="absolute bottom-0 right-0 p-4 m-2"
-                          style={{ transform: 'translate(45%, 85%)' }} // ボタンを右下に配置
+                          style={{ transform: 'translate(45%, 85%)' }}
                         >
                           <FavoriteIconAnim on={favoriteStatus.get(cosmetic.item_code) ?? false} />
                         </button>

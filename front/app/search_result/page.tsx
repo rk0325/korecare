@@ -6,7 +6,8 @@ import CustomButton from '@/components/ui/custom-button';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
-import { FavoriteIconAnim } from '../components/FavoriteIconAnim';
+import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
+import { Skeleton } from "@/components/ui/skeleton"
 
 export default function SearchResult() {
 	const { cosmetics } = useContext(CosmeticsContext);
@@ -16,9 +17,8 @@ export default function SearchResult() {
 		return token ? { Authorization: `Bearer ${token}` } : {};
 	}, [token]); // tokenの値が変わるとheadersも更新される
 	const categories = ['化粧水', '美容液', 'クリーム'];
-
-	// お気に入り状態を更新するためのローカルステート
 	const [favoriteStatus, setFavoriteStatus] = useState(new Map());
+	const isLoading = cosmetics === null || cosmetics === undefined;
 
 	// お気に入りに追加する関数
 	const addToFavorites = useCallback(async (cosmetic: Cosmetic) => {
@@ -71,7 +71,7 @@ export default function SearchResult() {
 		}
 	}, [favoriteStatus, setFavoriteStatus, addToFavorites, removeFromFavorites]);
 
-	// 商品名に複数のカテゴリが含まれる場合、最初に一致したカテゴリでフィルタリングするロジック
+	// 商品名に複数のカテゴリが含まれる場合、最初に一致したカテゴリでフィルタリング
 	const filterCosmeticsByFirstMatchingCategory = (cosmetic: Cosmetic) => {
 		for (let category of categories) {
 			if (cosmetic.itemName.includes(category)) {
@@ -82,49 +82,59 @@ export default function SearchResult() {
 	};
 
 	return (
-		<div className='bg-background-color min-h-screen text-text-color text-center'>
-			<p className="text-2xl font-bold text-center justify-between pt-10">
+		<div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
+			<p className="text-2xl font-bold text-center justify-between pt-10 p-6">
 				あなたにおすすめの韓国コスメはこちら！
 			</p>
-			{categories.map((category) => {
-				// cosmeticsがundefinedまたはnullでないことを確認
-				if (!cosmetics) {
-					return null;
-				}
-				const filteredCosmetics = cosmetics.filter(cosmetic => filterCosmeticsByFirstMatchingCategory(cosmetic) === category);
-				return filteredCosmetics.length > 0 && (
-					<div key={category}>
-						<h2 className="text-xl font-bold text-left pt-8 pl-10">{category}</h2>
-						<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
-							{filteredCosmetics.map((cosmetic, index) => (
-								<div key={index} className='relative flex flex-col items-center p-2'>
-									<p className="line-clamp-2">
-										{cosmetic.itemName}
-									</p>
-									<div className="relative">
-										<Image
-											src={cosmetic.mediumImageUrl}
-											alt={cosmetic.itemName}
-											width={500}
-											height={500}
-											style={{ objectFit: "contain", width: "auto" }}
-										/>
-										<button
-											onClick={() => toggleFavorite(cosmetic)}
-											className="absolute bottom-0 right-0 p-4 m-2"
-											style={{ transform: 'translate(45%, 85%)' }}
-										>
-											<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? false} />
-										</button>
+			{isLoading ? (
+				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4'>
+					{Array.from({ length: 6 }).map((_, index) => (
+						<Skeleton key={index} className="h-64 w-full rounded-lg" />
+					))}
+				</div>
+			) : (
+				categories.map((category) => {
+					if (!cosmetics) {
+						return null;
+					}
+					const filteredCosmetics = cosmetics.filter(cosmetic => filterCosmeticsByFirstMatchingCategory(cosmetic) === category);
+					return filteredCosmetics.length > 0 && (
+						<div key={category}>
+							<h2 className="text-xl font-bold text-left pt-8 pl-10">{category}</h2>
+							<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
+								{filteredCosmetics.map((cosmetic, index) => (
+									<div key={index} className='relative flex flex-col items-center p-2'>
+										<p className="line-clamp-2">
+											{cosmetic.itemName}
+										</p>
+										<div className="relative">
+											<Image
+												src={cosmetic.mediumImageUrl}
+												alt={cosmetic.itemName}
+												width={500}
+												height={500}
+												style={{ objectFit: "contain", width: "auto" }}
+											/>
+											<button
+												onClick={() => toggleFavorite(cosmetic)}
+												className="absolute bottom-0 right-0 p-4 m-2"
+												style={{ transform: 'translate(45%, 85%)' }}
+											>
+												<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? false} />
+											</button>
+										</div>
+										<p className='pt-10'>{cosmetic.itemPrice}円</p>
+										<p>{cosmetic.shopName}</p>
+										<Link href={cosmetic.itemUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+											商品ページへ
+										</Link>
 									</div>
-									<p className='pt-10'>{cosmetic.itemPrice}円</p>
-									<p>{cosmetic.shopName}</p>
-								</div>
-							))}
+								))}
+							</div>
 						</div>
-					</div>
-				);
-			})}
+					);
+				})
+			)}
 			<br />
 			<Link href='/home'>
 				<div className="flex justify-center pb-10">

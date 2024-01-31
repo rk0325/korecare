@@ -4,7 +4,7 @@ import CustomButton from '@/components/ui/custom-button';
 
 const About = () => {
   return (
-    <div className='bg-background-color min-h-screen text-text-color text-center'>
+    <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
       <p className="text-2xl font-bold text-center justify-between pt-20">
         ロゴ
       </p>

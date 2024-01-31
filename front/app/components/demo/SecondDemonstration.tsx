@@ -18,7 +18,7 @@ const SecondDemonstration = () => {
 	}
 
   return (
-    <div className='bg-background-color min-h-screen text-text-color text-center'>
+    <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
       <p className="text-xl font-bold text-center justify-between p-10">
         あなたのお悩み・スキンケアに求めるものを一つあげるなら？
       </p>

@@ -25,14 +25,14 @@ export const Profile = () => {
 
   return (
     session ? (
-      <div className='bg-background-color flex justify-center h-screen text-text-color'>
+      <div className='font-genjyuu min-h-screen bg-background-color flex justify-center text-text-color'>
         <div className="max-w-sm text-center">
           <Image
             className="mb-6 justify-center"
             src={avatar}
             alt="User Avatar"
-            width={100}
-            height={100}
+            width={120}
+            height={120}
             style={{ borderRadius: '50%' }}
             priority
           />
