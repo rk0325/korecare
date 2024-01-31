@@ -1,83 +1,46 @@
 'use client';
-import React, { useContext, useState, useCallback, useMemo, useEffect } from 'react';
-import { CosmeticsContext, Cosmetic } from '../../contexts/CosmeticsContext';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import { Cosmetic } from '../../contexts/CosmeticsContext';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
+import useSWR from 'swr';
 import axios from 'axios';
 import { FavoriteIconAnim } from '../../components/FavoriteIconAnim';
 
-export const FavoriteCosmetics = () => {
-  const { cosmetics } = useContext(CosmeticsContext);
-  const { data: session, status } = useSession();
+// axiosのインスタンスを作成
+const axiosInstance = axios.create({
+  withCredentials: true,
+});
 
-  useEffect(() => {
-    console.log('セッションステータス:', status);
-    console.log('セッションデータ:', session);
-  }, [session, status]);
+// axiosInstanceを使用してリクエストを行うfetcher関数を定義
+const fetcher = (url: string, headers: any) => axiosInstance.get(url, { headers }).then(res => res.data);
+
+export const FavoriteCosmetics = () => {
+  const { data: session } = useSession();
   const token = session?.accessToken;
+
+  // useMemoを使用してheadersをメモ化
   const headers = useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
   }, [token]);
 
   const categories = ['化粧水', '美容液', 'クリーム'];
+
+  // useSWRを使用してお気に入りコスメのデータを取得
+  const { data: favoriteCosmetics, error, mutate } = useSWR<Cosmetic[]>(token ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics` : null, () => fetcher(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, headers));
+
+  // データのロード状態を管理
+  const isLoading = !favoriteCosmetics && !error;
+
+  // お気に入りコスメの状態をMapで管理
   const [favoriteStatus, setFavoriteStatus] = useState(new Map());
-  const [favoriteCosmetics, setFavoriteCosmetics] = useState<Cosmetic[]>([]);
-
-  // データがロード中であることを示す状態を追加
-  const [isLoading, setIsLoading] = useState(true);
-
-  const fetchFavorites = useCallback(async () => {
-    console.log('使用する認証ヘッダー:', headers);
-    console.log('fetchFavoritesが呼び出されたよ');
-    if (token) {
-      try {
-        console.log('APIリクエストを送信したよ:', `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`);
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, {
-          headers: headers,
-          withCredentials: true
-        });
-        console.log('APIからのレスポンス:', response.data); // APIレスポンスの内容を確認
-
-        // レスポンスデータがオブジェクトの配列である場合の処理
-        if (Array.isArray(response.data)) {
-          const cosmeticsData = response.data.map(item => ({
-            id: item.item_code,
-            name: item.name,
-            category: item.category,
-            itemName: item.name,
-            shopName: item.brand,
-            itemPrice: item.price,
-            itemUrl: item.item_url,
-            mediumImageUrl: item.image_url,
-            item_code: item.item_code,
-            image_url: item.image_url,
-            brand: item.brand,
-            price: item.price,
-            item_url: item.item_url,
-          }));
-          console.log('変換後のデータ:', cosmeticsData); // 変換後のデータを確認
-          setFavoriteCosmetics(cosmeticsData); // 状態を更新
-          setIsLoading(false); // ロード状態を解除
-        }
-      } catch (error) {
-        console.error('お気に入りコスメの情報取得に失敗したよ:', error);
-        setIsLoading(false); // ロード状態を解除
-      }
-    }
-  }, [token, headers]); // fetchFavorites関数をuseCallbackでメモ化
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      fetchFavorites();
+    // お気に入り状態を初期化する
+    if (favoriteCosmetics) {
+      setFavoriteStatus(new Map(favoriteCosmetics.map(cosmetic => [cosmetic.item_code, true])));
     }
-  }, [status, fetchFavorites]); // statusとfetchFavoritesが変わるたびにこのeffectが実行される
-
-  // データが更新されたことを示すuseEffect
-  useEffect(() => {
-    if (!isLoading) {
-      console.log('お気に入りコスメの状態が更新されたよ:', favoriteCosmetics);
-    }
-  }, [favoriteCosmetics, isLoading]);
+  }, [favoriteCosmetics]);
 
   // お気に入りに追加する関数
   const addToFavorites = useCallback(async (cosmetic: Cosmetic) => {
@@ -141,54 +104,60 @@ export const FavoriteCosmetics = () => {
 
   useEffect(() => {
     // お気に入り状態を初期化する
-    setFavoriteStatus(new Map(favoriteCosmetics.map(cosmetic => [cosmetic.item_code, true])));
+    setFavoriteStatus(new Map(favoriteCosmetics?.map(cosmetic => [cosmetic.item_code, true])));
   }, [favoriteCosmetics]);
 
   // レンダリング部分でisLoadingをチェック
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center pb-10'>
-      {categories.map((category) => {
-        // ここでカテゴリーに基づいてフィルタリング
-        const filteredCosmetics = cosmetics.filter(cosmetic =>
-          cosmetic.name && cosmetic.name.toLowerCase().includes(category.toLowerCase())
-        );
-        return (
-          <div key={category}>
-            <h2 className="text-xl font-bold text-left pt-8 pl-10">{category}</h2>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
-              {filteredCosmetics.length > 0 ? (
-                filteredCosmetics.map((cosmetic, index) => (
-                  <div key={index} className='relative flex flex-col items-center p-2'>
-                    <p className="line-clamp-2">
-                      {cosmetic.name}
-                    </p>
-                    <div className="relative">
-                      <Image
-                        src={cosmetic.image_url}
-                        alt={cosmetic.name}
-                        width={500}
-                        height={500}
-                        style={{ objectFit: "contain", width: "auto" }}
-                      />
-                      <button
-                        onClick={() => toggleFavorite(cosmetic)}
-                        className="absolute bottom-0 right-0 p-4 m-2"
-                        style={{ transform: 'translate(45%, 85%)' }} // ボタンを右下に配置
-                      >
-                        <FavoriteIconAnim on={favoriteStatus.get(cosmetic.item_code) ?? false} />
-                      </button>
+      {isLoading ? (
+        <div className="text-xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
+          <div>Loading...<br />잠깐만요.</div>
+        </div>
+      ) : (
+        categories.map((category) => {
+          // ここでカテゴリーに基づいてフィルタリング
+          const filteredCosmetics = favoriteCosmetics?.filter(cosmetic =>
+            cosmetic.name && cosmetic.name.toLowerCase().includes(category.toLowerCase())
+          ) || [];
+          return (
+            <div key={category}>
+              <h2 className="text-xl font-bold text-left pt-8 pl-10">{category}</h2>
+              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
+                {filteredCosmetics.length > 0 ? (
+                  filteredCosmetics.map((cosmetic, index) => (
+                    <div key={index} className='relative flex flex-col items-center p-2'>
+                      <p className="line-clamp-2">
+                        {cosmetic.name}
+                      </p>
+                      <div className="relative">
+                        <Image
+                          src={cosmetic.image_url}
+                          alt={cosmetic.name}
+                          width={500}
+                          height={500}
+                          style={{ objectFit: "contain", width: "auto" }}
+                        />
+                        <button
+                          onClick={() => toggleFavorite(cosmetic)}
+                          className="absolute bottom-0 right-0 p-4 m-2"
+                          style={{ transform: 'translate(45%, 85%)' }} // ボタンを右下に配置
+                        >
+                          <FavoriteIconAnim on={favoriteStatus.get(cosmetic.item_code) ?? false} />
+                        </button>
+                      </div>
+                      <p className='pt-10'>{cosmetic.price}円</p>
+                      <p>{cosmetic.brand}</p>
                     </div>
-                    <p className='pt-10'>{cosmetic.price}円</p>
-                    <p>{cosmetic.brand}</p>
-                  </div>
-                ))
-              ) : (
-                <p className="text-center text-gray-600">お気に入りのコスメはありません。</p>
-              )}
+                  ))
+                ) : (
+                  <p className="text-center text-gray-600">このカテゴリーにはコスメがありません。</p>
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })
+      )}
     </div>
   );
 }

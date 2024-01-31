@@ -53,7 +53,6 @@ class CosmeticsRecommendation
           purchaseType: 0
         ).to_a
         results.concat(search_results)
-      # end
     end
 
     results.map! do |item|

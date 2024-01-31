@@ -4,6 +4,7 @@ module Api
       before_action :set_current_user
 
       def update
+        Rails.logger.debug "Received profile params: #{profile_params.inspect}"
         profile = @current_user.profile || @current_user.build_profile
 
         if profile.nil?
