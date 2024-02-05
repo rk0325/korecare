@@ -45,7 +45,7 @@ const DemonstrationResult = () => {
       <div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center space-y-4 md:space-y-0'>
         {isLoading ? (
           // ローディング中はスケルトンカードを表示
-          Array.from({ length: 3 }).map((_, index) => <Skeleton key={index} className="h-[125px] w-[250px] rounded-xl" />)
+          Array.from({ length: 3 }).map((_, index) => <Skeleton key={index} className="items-center h-[125px] w-[250px] rounded-xl" />)
         ) : (
           cosmetics.map((cosmetic, index) => (
             <div key={index} className='flex flex-col items-center px-4 py-2 sm:py-4'>

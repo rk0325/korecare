@@ -15,9 +15,11 @@ import {
 }  from "@/components/ui/sheet"
 import {
   LogOut,
-  User,
   Search,
-  Heart
+  Heart,
+  Menu,
+  Smartphone,
+  Smile
 } from "lucide-react"
 import {
   Tooltip,
@@ -27,7 +29,7 @@ import {
 } from "@/components/ui/tooltip"
 import { Label } from "@/components/ui/label"
 
-const SHEET_SIDES = ["left"] as const
+const SHEET_SIDES = ["right"] as const
 type SheetSide = (typeof SHEET_SIDES)[number]
 
 export default function SheetSide() {
@@ -61,13 +63,7 @@ export default function SheetSide() {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Image
-                        src={avatar || session.user?.image || '/default-avatar.png'}
-                        alt="User Avatar"
-                        width={40}
-                        height={40}
-                        style={{ borderRadius: '50%' }}
-                      />
+                      <Menu />
                     </TooltipTrigger>
                     <TooltipContent >
                       <p>アカウントメニューを表示する</p>
@@ -81,7 +77,7 @@ export default function SheetSide() {
                 <SheetTitle className="text-text-color">アカウントメニュー</SheetTitle>
               </SheetHeader>
               <div className="text-text-color p-4">
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center pt-4">
                   <Image
                     src={avatar || session.user?.image || '/default-avatar.png'}
                     alt="User Avatar"
@@ -92,25 +88,31 @@ export default function SheetSide() {
                   <Label style={{ fontSize: '1rem', textAlign: 'center', marginTop: '1rem' }}>{name || session.user?.name}さん</Label>
                 </div>
                 <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/my_page')}>
-                    <User className="mr-2 h-4 w-4" />
+                  <div className="flex items-center cursor-pointer pt-8" onClick={() => handleNavigation('/my_page')}>
+                    <Smile className="mr-2 h-4 w-4" />
                     <span>マイページ</span>
                   </div>
                 </SheetClose>
                 <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/home')}>
+                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/home')}>
                     <Search className="mr-2 h-4 w-4" />
                     <span>韓国コスメ検索</span>
                   </div>
                 </SheetClose>
                 <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/favorite_cosmetics')}>
+                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/favorite_cosmetics')}>
                     <Heart className="mr-2 h-4 w-4" />
                     <span>お気に入りコスメ</span>
                   </div>
                 </SheetClose>
                 <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-4" onClick={handleLogout}>
+                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/line_notification')}>
+                    <Smartphone className="mr-2 h-4 w-4" />
+                    <span>LINE通知登録</span>
+                  </div>
+                </SheetClose>
+                <SheetClose asChild>
+                  <div className="flex items-center cursor-pointer pt-6" onClick={handleLogout}>
                     <LogOut className="mr-2 h-4 w-4" />
                     <span>ログアウト</span>
                   </div>

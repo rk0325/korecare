@@ -27,7 +27,7 @@ export default function RootLayout({
               <UserInfoProvider>
                 <Header />
                 <Toaster position="top-right" reverseOrder={true} />
-                <div className='bg-background-color min-h-screen text-text-color text-center'>
+                <div className='font-genjyuu bg-background-color min-h-screen text-text-color'>
                   {children}
                 </div>
                 <Footer />
