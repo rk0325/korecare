@@ -24,27 +24,27 @@ const SecondDemonstration = () => {
       </p>
       <ul className="text-center flex justify-center">
         <RadioGroup defaultValue="comfortable" onValueChange={handleSkinTroubleChange}>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 pb-2">
             <RadioGroupItem value="保湿" id="r1" />
             <Label htmlFor="r1"><li>
               <div className="text-base sm:text-lg">保湿</div>
             </li></Label></div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 pb-2">
             <RadioGroupItem value="ニキビ" id="r2" />
             <Label htmlFor="r2"><li>
               <div className="text-base sm:text-lg">ニキビ</div>
             </li></Label></div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 pb-2">
             <RadioGroupItem value="毛穴・黒ずみ" id="r3" />
             <Label htmlFor="r3"><li>
               <div className="text-base sm:text-lg">毛穴・黒ずみ</div>
             </li></Label></div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 pb-2">
             <RadioGroupItem value="美白" id="r4" />
             <Label htmlFor="r4"><li>
               <div className="text-base sm:text-lg">美白</div>
             </li></Label></div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 pb-2">
             <RadioGroupItem value="肌のハリ・弾力" id="r5" />
             <Label htmlFor="r5"><li>
               <div className="text-base sm:text-lg">肌のハリ・弾力</div>

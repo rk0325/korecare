@@ -7,6 +7,8 @@ import useSWR from 'swr';
 import axios from 'axios';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
 import { Skeleton } from "@/components/ui/skeleton";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
 // axiosのインスタンスを作成
 const axiosInstance = axios.create({
@@ -113,7 +115,7 @@ export const FavoriteCosmetics = () => {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center">
           {Array.from({ length: 6 }).map((_, index) => (
-            <Skeleton key={index} className="h-64 w-full rounded-lg" />
+            <Skeleton key={index} className="items-center h-[300px] w-[500px] rounded-xl" />
           ))}
         </div>
       ) : (
@@ -140,13 +142,15 @@ export const FavoriteCosmetics = () => {
                           height={500}
                           style={{ objectFit: "contain", width: "auto" }}
                         />
-                        <button
-                          onClick={() => toggleFavorite(cosmetic)}
-                          className="absolute bottom-0 right-0 p-4 m-2"
-                          style={{ transform: 'translate(45%, 85%)' }}
-                        >
-                          <FavoriteIconAnim on={favoriteStatus.get(cosmetic.item_code) ?? false} />
-                        </button>
+                        <div className="absolute bottom-0 right-0 flex" style={{ transform: 'translate(10%, 80%)' }}>
+                          <FontAwesomeIcon icon={faXTwitter} className="pt-6 text-text-color text-xl" />
+                          <button
+                            onClick={() => toggleFavorite(cosmetic)}
+                            className="pt-2"
+                          >
+                            <FavoriteIconAnim on={favoriteStatus.get(cosmetic.item_code) ?? false} />
+                          </button>
+                        </div>
                       </div>
                       <p className='pt-10'>{cosmetic.price}円</p>
                       <p>{cosmetic.brand}</p>

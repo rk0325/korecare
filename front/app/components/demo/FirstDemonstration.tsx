@@ -31,25 +31,25 @@ const FirstDemonstration = () => {
 			</p>
 			<ul className="text-center flex justify-center">
 				<RadioGroup defaultValue="comfortable" onValueChange={handleSkinTypeChange}>
-					<div className="flex items-center space-x-2">
+					<div className="flex items-center space-x-2 pb-2">
 						<RadioGroupItem value="乾燥肌" id="r1" />
 						<Label htmlFor="r1"><li>
 							<div className="text-base sm:text-lg">乾燥肌</div>
 						</li></Label>
 					</div>
-					<div className="flex items-center space-x-2">
+					<div className="flex items-center space-x-2 pb-2">
 						<RadioGroupItem value="混合肌" id="r2" />
 						<Label htmlFor="r2"><li>
 							<div className="text-base sm:text-lg">混合肌</div>
 						</li></Label>
 					</div>
-					<div className="flex items-center space-x-2">
+					<div className="flex items-center space-x-2 pb-2">
 						<RadioGroupItem value="脂性肌" id="r3" />
 						<Label htmlFor="r3"><li>
 							<div className="text-base sm:text-lg">脂性肌</div>
 						</li></Label>
 					</div>
-					<div className="flex items-center space-x-2">
+					<div className="flex items-center space-x-2 pb-2">
 						<RadioGroupItem value="普通肌" id="r4" />
 						<Label htmlFor="r4"><li>
 							<div className="text-base sm:text-lg">普通肌</div>
