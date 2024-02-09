@@ -46,13 +46,12 @@ const Modal = () => {
       </div>
       <div className={`modal ${isModalOpen ? 'modal-open' : ''}`}>
         <div className="modal-box">
-          <h3 className="font-bold text-lg">メニュー</h3>
           <div className="flex flex-col items-center pt-4">
             <Image
               src={avatar || session?.user?.image || '/default-avatar.png'}
               alt="User Avatar"
-              width={100}
-              height={100}
+              width={80}
+              height={80}
               style={{ borderRadius: '50%' }}
             />
             <Label style={{ fontSize: '1rem', textAlign: 'center', marginTop: '1rem' }}>{name || session?.user?.name}さん</Label>

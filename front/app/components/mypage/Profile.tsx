@@ -31,8 +31,8 @@ export const Profile = () => {
             className="mb-6 justify-center"
             src={avatar}
             alt="User Avatar"
-            width={120}
-            height={120}
+            width={100}
+            height={100}
             style={{ borderRadius: '50%' }}
             priority
           />

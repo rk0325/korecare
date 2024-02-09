@@ -130,7 +130,7 @@
     left: 20px;
     bottom: 20px;
     background-color: #E0DBD2;
-    border-radius: 20%;
+    border-radius: 50%;
     padding: 12px; /* ボタン内のアイコンとの間隔 */
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2); /* 軽い影を追加 */
     display: flex; /* アイコンを中央に配置 */
