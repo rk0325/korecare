@@ -109,3 +109,33 @@
     height: 600px !important;
   }
 }
+
+.textarea-custom {
+  max-width: 500px;
+  margin: auto;
+}
+
+/* PC用のスタイル */
+@media (min-width: 769px) {
+  .menu-button {
+    position: relative;
+    left: auto;
+    bottom: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-button {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    background-color: #E0DBD2;
+    border-radius: 20%;
+    padding: 12px; /* ボタン内のアイコンとの間隔 */
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2); /* 軽い影を追加 */
+    display: flex; /* アイコンを中央に配置 */
+    justify-content: center; /* 水平方向の中央揃え */
+    align-items: center; /* 垂直方向の中央揃え */
+    z-index: 1000;
+  }
+}

@@ -3,7 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react';
 import AuthenticateLink from './AuthenticateLink';
-import Sheet from './Sheet';
+import ResponsiveMenu from './ResponsiveMenu';
 
 const Header = () => {
   const { data: session } = useSession();
@@ -14,11 +14,11 @@ const Header = () => {
       <div className='h-20 w-full border-b-2 border-line-color flex items-center justify-between p-2'>
         <ul className='flex'>
           <li className='p-2 cursor-pointer'>
-            <Link href={linkHref}>ホーム</Link>
+            <Link href={linkHref}>韓 RECO</Link>
           </li>
         </ul>
         {session ? (
-          <Sheet />
+          <ResponsiveMenu />
         ) : (
           <AuthenticateLink />
         )}
