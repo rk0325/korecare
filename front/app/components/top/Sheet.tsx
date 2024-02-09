@@ -63,10 +63,10 @@ export default function SheetSide() {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <Menu />
+                      <Menu className='menu-button' />
                     </TooltipTrigger>
                     <TooltipContent >
-                      <p>アカウントメニューを表示する</p>
+                      <p>メニューを表示する</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -74,7 +74,7 @@ export default function SheetSide() {
             </SheetTrigger>
             <SheetContent side={side} className="text-text-color font-genjyuu w-[320px] sm:w-[540px]">
               <SheetHeader>
-                <SheetTitle className="text-text-color">アカウントメニュー</SheetTitle>
+                <SheetTitle className="text-text-color">メニュー</SheetTitle>
               </SheetHeader>
               <div className="text-text-color p-4">
                 <div className="flex flex-col items-center pt-4">

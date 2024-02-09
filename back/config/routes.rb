@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :profiles, only: [:update]
       get '/profiles', to: 'profiles#show'
       resources :favorite_cosmetics, only: [:index, :create, :destroy]
+      resources :addresses, only: [:create]
     end
   end
 end
