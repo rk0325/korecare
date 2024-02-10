@@ -47,5 +47,7 @@ module Api
     config.middleware.use ActionDispatch::Session::CookieStore
     config.middleware.use config.session_store, config.session_options
     config.middleware.use ActionDispatch::Flash
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end

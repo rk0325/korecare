@@ -14,7 +14,7 @@ const Header = () => {
       <div className='h-20 w-full border-b-2 border-line-color flex items-center justify-between p-2'>
         <ul className='flex'>
           <li className='p-2 cursor-pointer'>
-            <Link href={linkHref}>韓 RECO</Link>
+            <Link href={linkHref}>KoreCare</Link>
           </li>
         </ul>
         {session ? (
