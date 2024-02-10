@@ -1,15 +1,21 @@
 require 'net/http'
 
 class LineNotifyService
-  def self.send_weather_notification(user_line_token, weather_info)
-    message = "今日の最高UV指数は#{weather_info[:daily_uvi]}です。紫外線に注意してください。\n今日の最低湿度は#{weather_info[:daily_humidity]}%です。乾燥に注意してください。"
-    uri = URI.parse('https://notify-api.line.me/api/notify')
+  def self.send_message(user_line_id, message)
+    uri = URI.parse('https://api.line.me/v2/bot/message/push')
     request = Net::HTTP::Post.new(uri)
-    request['Authorization'] = "Bearer #{user_line_token}"
-    request.set_form_data('message' => message)
+    request.content_type = 'application/json'
+    request['Authorization'] = "Bearer #{ENV['LINE_CHANNEL_TOKEN']}"
+    request.body = { to: user_id, messages: [{ type: 'text', text: message }] }.to_json
 
     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
       http.request(request)
+    end
+
+    if response.is_a?(Net::HTTPSuccess)
+      puts "メッセージ送信成功したよー"
+    else
+      puts "メッセージ送信失敗したよー: #{response.body}"
     end
   end
 end

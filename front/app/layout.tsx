@@ -9,8 +9,8 @@ import ProfileProvider from './providers/ProfileProvider';
 import CosmeticsContextProvider from './providers/CosmeticsContextProvider';
 
 export const metadata: Metadata = {
-  title: '韓 RECO（かんれこ）',
-  description: '韓国コスメに特化した、ユーザーのスキンケアをサポートするサービスです。',
+  title: 'KoreCare｜コレケア',
+  description: 'KoreCareは、韓国コスメに特化したユーザーのスキンケアをサポートするサービスです。',
 }
 
 export default function RootLayout({

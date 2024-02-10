@@ -23,6 +23,9 @@ const config: Config = {
         'text-color': '#48352F',   // テキストの色
         'background-color': '#F5F5F5', // 背景色
         'line-color': '#E0DBD2',   // 線の色
+        'F5F5F5': '#F5F5F5',
+        'E0DBD2': '#E0DBD2',
+        '48352F': '#48352F',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

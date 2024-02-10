@@ -2,6 +2,7 @@ import React from 'react';
 
 interface CustomButtonProps {
   colorClass: string;
+  type?: 'button' | 'submit' | 'reset';
   children: React.ReactNode;
   onClick?: () => void; // onClick ハンドラーを追加
   variant?: 'outline'; // 'outline' などの特定のバリアントを受け取る

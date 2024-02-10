@@ -9,7 +9,7 @@ const About = () => {
         ロゴ
       </p>
       <p className="text-center justify-between p-10">
-        『韓 RECO（かんれこ）』は韓国コスメに特化した、毎日のスキンケアをサポートするサービスです。<br />
+        『KoreCare（コレケア）』は韓国コスメに特化した、毎日のスキンケアをサポートするサービスです。<br />
       </p>
       <p className="text-xl text-center justify-between pt-10">
         2つの質問に答えて</p>
@@ -21,7 +21,7 @@ const About = () => {
         </div>
       </Link>
       <p className="text-2xl text-center justify-between pt-10">
-        『韓 RECO』でできること
+        『KoreCare』でできること
       </p>
       <ul className="text-center p-10">
         <li>お悩みや肌質別に韓国コスメをレコメンドします。</li>

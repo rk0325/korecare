@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       get '/profiles', to: 'profiles#show'
       resources :favorite_cosmetics, only: [:index, :create, :destroy]
       resources :addresses, only: [:create]
+      post '/line_webhook', to: 'line_webhooks#callback'
     end
   end
 end
