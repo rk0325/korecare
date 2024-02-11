@@ -12,10 +12,16 @@ module Api
         end
 
         # 天気情報の取得
-        weather_info = WeatherService.fetch_weather_by_coordinates(address_record.latitude, address_record.longitude)
+        weather_info = WeatherService.fetch_weather_data(prefecture_name)
 
         # LINE通知の送信
-        LineNotifyService.send_weather_notification(current_user.line_token, weather_info)
+        if current_user && current_user.line_id.present?
+          message = "今日の天気情報: #{weather_info}"
+          LineNotifyService.send_message(current_user.line_id, message)
+        else
+          # line_idがnil、またはcurrent_userがnilの場合の処理
+          Rails.logger.warn "LINEメッセージを送信できませんでした。ユーザーが認証されていないか、line_idが設定されていません。"
+        end
 
         # 住所情報をaddressesテーブルに保存
         save_address(prefecture_name)
@@ -26,7 +32,8 @@ module Api
       private
 
       def save_address(prefecture_name)
-        Address.create(address: prefecture_name)
+        # 現在のユーザーに紐づくAddressインスタンスを作成
+        current_user.addresses.create(address: prefecture_name)
       end
     end
   end
