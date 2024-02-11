@@ -69,7 +69,7 @@ export default function PrivacyPolicy() {
               <p className="mt-2 sm:mt-3 pl-5 sm:pl-10">この場合、必ず、運転免許証のご提示等当方が指定する方法により、ご本人からのご請求であることの確認をさせていただきます。<br/>
                 なお、情報の開示請求については、開示の有無に関わらず、ご申請時に一件あたり1,000円の事務手数料を申し受けます。</p>
               <br/>
-              <p className="text-center mt-5 sm:mt-10 text-sm sm:text-base">2024年2月日 制定</p>
+              <p className="text-center mt-5 sm:mt-10 text-sm sm:text-base">2024年2月制定</p>
             </div>
           </div>
         </div>
