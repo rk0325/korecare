@@ -10,8 +10,8 @@ const About = () => {
         <Image
           src="/Logo.png"
           alt="LOGO"
-          width={400}
-          height={400}
+          width={360}
+          height={360}
           priority
         />
       </div>

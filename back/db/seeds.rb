@@ -52,4 +52,3 @@ addresses = [
 addresses.each do |address|
   Address.create_with(latitude: address[:latitude], longitude: address[:longitude]).find_or_create_by(address: address[:address])
 end
-

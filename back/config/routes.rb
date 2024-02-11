@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :favorite_cosmetics, only: [:index, :create, :destroy]
       resources :addresses, only: [:create]
       post '/line_webhook', to: 'line_webhooks#callback'
+      get '/line_webhook', to: 'line_webhooks#callback'
     end
   end
 end
