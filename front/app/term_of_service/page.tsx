@@ -196,7 +196,7 @@ export default function TermOfService() {
               <p className='mt-2 sm:mt-3 pl-5 sm:pl-10'>本規約の解釈にあたっては、日本法を準拠法とします。<br/>
                 本サービスに関して紛争が生じた場合には、当方の本店所在地を管轄する地方裁判所を専属的合意管轄とします。</p>
               <br/>
-              <p className="text-center mt-5 sm:mt-10 text-sm sm:text-base">2024年2月日 制定</p>
+              <p className="text-center mt-5 sm:mt-10 text-sm sm:text-base">2024年2月制定</p>
 						</div>
 					</div>
 				</div>
