@@ -49,6 +49,10 @@ addresses = [
   { address: '沖縄県', latitude: 26.21250, longitude: 127.68111 }
 ]
 
-addresses.each do |address|
-  Address.create_with(latitude: address[:latitude], longitude: address[:longitude]).find_or_create_by(address: address[:address])
+addresses.each do |address_data|
+  # Addressインスタンスを直接作成
+  Address.find_or_create_by(address: address_data[:address]) do |address|
+    address.latitude = address_data[:latitude]
+    address.longitude = address_data[:longitude]
+  end
 end

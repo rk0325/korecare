@@ -16,10 +16,10 @@ import {
 } from "lucide-react"
 
 const LineNotification = () => {
-  const [address, setAddress] = useState('');
   const { data: session } = useSession();
   const token = session?.accessToken;
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
+  const [address, setAddress] = useState('');
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
