@@ -139,3 +139,7 @@
     z-index: 1000;
   }
 }
+
+.carousel-height-custom {
+  height: 400px;
+}
