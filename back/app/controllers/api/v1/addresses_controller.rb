@@ -2,6 +2,7 @@ module Api
   module V1
     class AddressesController < ApplicationController
       def create
+        Rails.logger.info "Current User: #{current_user.inspect}"
         prefecture_name = params[:address] # ユーザーから入力された都道府県名
 
         # 対応する緯度経度情報の取得
