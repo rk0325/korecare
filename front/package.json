@@ -30,6 +30,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "daisyui": "^4.6.0",
+    "embla-carousel-react": "^8.0.0-rc22",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.303.0",
     "next": "14.0.4",
