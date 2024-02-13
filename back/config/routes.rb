@@ -7,9 +7,11 @@ Rails.application.routes.draw do
       resources :profiles, only: [:update]
       get '/profiles', to: 'profiles#show'
       resources :favorite_cosmetics, only: [:index, :create, :destroy]
-      resources :addresses, only: [:create]
+      resources :weather, only: [:create, :show]
       post '/line_webhook', to: 'line_webhooks#callback'
       get '/line_webhook', to: 'line_webhooks#callback'
+      post '/notifications/enable', to: 'notifications#enable'
+      get '/notifications/status', to: 'notifications#status'
     end
   end
 end

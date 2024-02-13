@@ -4,14 +4,30 @@ class WeatherService
 
     api_key = ENV['OPENWEATHERMAP_API_KEY']
     url = "https://api.openweathermap.org/data/3.0/onecall?lat=#{latitude}&lon=#{longitude}&exclude=minutely,alerts&appid=#{api_key}"
-    response = Net::HTTP.get_response(URI(url))
-    data = JSON.parse(response.body)
 
-    {
-      current_uvi: data['current']['uvi'],
-      daily_uvi: data['daily'][0]['uvi'],
-      daily_humidity: data['daily'][0]['humidity']
-    }
+    begin
+      response = Net::HTTP.get_response(URI(url))
+      data = JSON.parse(response.body)
+
+      # 必要なデータを抽出
+      current_uvi = data['current']['uvi']
+      daily_max_uvi = data['daily'][0]['uvi']
+      current_humidity = data['current']['humidity']
+      daily_min_humidity = data['daily'].map { |day| day['humidity'] }.min
+
+      weather_info = {
+        current_uvi: current_uvi,
+        daily_max_uvi: daily_max_uvi,
+        current_humidity: current_humidity,
+        daily_min_humidity: daily_min_humidity
+      }
+
+      Rails.logger.info "Weather Info: #{weather_info}"
+
+      weather_info
+    rescue => e
+      Rails.logger.error "Error fetching weather data: #{e.message}"
+    end
   end
 
   private
