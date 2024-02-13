@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import Image from 'next/image';
@@ -11,10 +11,12 @@ import {
   CheckSquare2
 }
 from "lucide-react"
+import { useProfile } from '../../hooks/useProfile';
 
 export const LineNotification = () => {
   const { data: session } = useSession();
   const token = session?.accessToken;
+  const { profile } = useProfile();
   const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
 
   // useMemoを使用してheadersをメモ化
@@ -25,32 +27,19 @@ export const LineNotification = () => {
   const handleSwitchChange = async (checked: boolean) => {
     setIsNotificationEnabled(checked);
 
-    try {
-      await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/enable`,
-        { enabled: checked },
-        { headers: headers, withCredentials: true }
-      );
-    } catch (error) {
-      console.error('通知設定の更新エラー:', error);
+    if (checked) {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/weather`,
+          { address: profile?.prefecture },
+          { headers: headers, withCredentials: true }
+        );
+        console.log(response.data);
+      } catch (error) {
+        console.error('送信エラー:', error);
+      }
     }
   };
-
-  useEffect(() => {
-    const fetchNotificationSetting = async () => {
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/status`, {
-          headers: headers,
-          withCredentials: true
-        });
-        setIsNotificationEnabled(response.data.notificationEnabled);
-      } catch (error) {
-        console.error('通知設定の取得エラー:', error);
-      }
-    };
-
-    fetchNotificationSetting();
-  }, [headers]);
 
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu items-center'>
