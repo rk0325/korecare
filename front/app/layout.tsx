@@ -5,11 +5,10 @@ import Header from './components/top/Header';
 import Footer from './components/top/Footer';
 import { Toaster } from 'react-hot-toast';
 import UserInfoProvider from './providers/UserInfoProvider';
-import ProfileProvider from './providers/ProfileProvider';
 import CosmeticsContextProvider from './providers/CosmeticsContextProvider';
 
 export const metadata: Metadata = {
-  title: 'KoreCare｜コレケア',
+  title: 'KoreCare｜コリケア',
   description: 'KoreCareは、韓国コスメに特化したユーザーのスキンケアをサポートするサービスです。',
 }
 
@@ -24,16 +23,14 @@ export default function RootLayout({
       <body>
         <NextAuthProvider>
           <CosmeticsContextProvider>
-            <ProfileProvider>
-              <UserInfoProvider>
-                <Header />
-                <Toaster position="top-right" reverseOrder={true} />
-                <div className='font-genjyuu bg-background-color min-h-screen text-text-color'>
-                  {children}
-                </div>
-                <Footer />
-              </UserInfoProvider>
-            </ProfileProvider>
+            <UserInfoProvider>
+              <Header />
+              <Toaster position="top-right" reverseOrder={true} />
+              <div className='font-genjyuu bg-background-color min-h-screen text-text-color'>
+                {children}
+              </div>
+              <Footer />
+            </UserInfoProvider>
           </CosmeticsContextProvider>
         </NextAuthProvider>
       </body>

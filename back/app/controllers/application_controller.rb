@@ -12,7 +12,7 @@ class ApplicationController < ActionController::API
   private
 
   def set_current_user
-    # Rails.logger.info "Current session: #{session.inspect}"  # セッション情報をログに出力
+    Rails.logger.info "Current session: #{session.inspect}"  # セッション情報をログに出力
 
     if request.headers["Authorization"].present?
       received_access_token = request.headers["Authorization"].split(' ').last

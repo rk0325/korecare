@@ -14,7 +14,10 @@ export function useProfile() {
   // useSWRの第一引数に配列を使用してURLとトークンを渡す
   const { data, error, mutate } = useSWR(
     [`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profiles`, token], // URLとトークンを配列で渡す
-    fetcher // 修正したfetcher関数を渡す
+    fetcher,
+    {
+      refreshInterval: 30000, // 30秒ごとにデータを更新
+    }
   );
 
   return {

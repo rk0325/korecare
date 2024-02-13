@@ -4,11 +4,15 @@ module Api
       before_action :set_current_user
 
       def update
-        Rails.logger.debug "Received profile params: #{profile_params.inspect}"
         profile = @current_user.profile || @current_user.build_profile
 
-        if profile.nil?
-          render json: { status: 'failure', message: 'Profile not found', data: {} }, status: :not_found
+        # フロントエンドから送信された都道府県名に基づいてAddressレコードを検索
+        address = Address.find_by(address: profile_params[:prefecture])
+        if address
+          # Addressレコードが見つかった場合、そのidをProfileに設定
+          profile.address_id = address.id
+        else
+          render json: { status: 'failure', message: 'Address not found', data: {} }, status: :not_found
           return
         end
 
@@ -32,7 +36,7 @@ module Api
       private
 
       def profile_params
-        params.permit(:name, :age, :skin_type, :skin_trouble, :avatar)
+        params.permit(:name, :age, :skin_type, :skin_trouble, :avatar, :prefecture)
       end
     end
   end

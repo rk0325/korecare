@@ -47,5 +47,8 @@ module Api
     config.middleware.use ActionDispatch::Session::CookieStore
     config.middleware.use config.session_store, config.session_options
     config.middleware.use ActionDispatch::Flash
+
+    # ログから特定のパラメータを除外
+    config.filter_parameters += [:avatar]
   end
 end
