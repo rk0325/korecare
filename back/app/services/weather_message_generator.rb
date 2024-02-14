@@ -5,7 +5,7 @@ module WeatherMessageGenerator
     text += uv_index_advice(weather_info[:current_uvi], weather_info[:daily_max_uvi])
     text += "💧現在の湿度は#{weather_info[:current_humidity]}%、最低湿度は#{weather_info[:daily_min_humidity]}%です。\n"
     text += humidity_advice(weather_info[:current_humidity], weather_info[:daily_min_humidity])
-    text += "本日もKoreCareをご利用いただき、ありがとうございます。"
+    text += "今日もKoreCareをご利用いただき、ありがとうございます。"
   end
 
   def self.uv_index_advice(current_uvi, daily_max_uvi)
