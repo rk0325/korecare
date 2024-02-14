@@ -1,7 +1,7 @@
 module Api
   module V1
     class NotificationsController < ApplicationController
-      before_action :authenticate_user!
+      before_action :set_current_user
       before_action :set_user, only: [:enable, :status]
 
       def enable
@@ -20,13 +20,6 @@ module Api
 
       def set_user
         @user = current_user
-      end
-
-      def authenticate_user!
-        unless current_user
-          render json: { error: '認証されていません。' }, status: :unauthorized
-          return
-        end
       end
     end
   end

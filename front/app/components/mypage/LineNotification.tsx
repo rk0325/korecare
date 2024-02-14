@@ -1,7 +1,8 @@
 'use client';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
+import useSWR from 'swr';
 import Image from 'next/image';
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
@@ -13,33 +14,68 @@ import {
 from "lucide-react"
 import { useProfile } from '../../hooks/useProfile';
 
+// axiosのインスタンスを作成
+const axiosInstance = axios.create({
+  withCredentials: true,
+});
+
+// axiosInstanceを使用してリクエストを行うfetcher関数を定義
+const fetcher = (url: string, headers: any) => axiosInstance.get(url, { headers }).then(res => res.data);
+
 export const LineNotification = () => {
   const { data: session } = useSession();
   const token = session?.accessToken;
   const { profile } = useProfile();
-  const [isNotificationEnabled, setIsNotificationEnabled] = useState(false);
-
-  // useMemoを使用してheadersをメモ化
+  const [notificationMap, setNotificationMap] = useState(new Map());
   const headers = useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
   }, [token]);
 
-  const handleSwitchChange = async (checked: boolean) => {
-    setIsNotificationEnabled(checked);
+  // useSWRを使用して通知のオンオフ状態を取得
+  const { data: notificationStatus } = useSWR<{ receive_notifications: boolean }>(
+    token ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/status` : null,
+    () => fetcher(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/status`, headers)
+  );
+
+  // 通知設定の初期化
+  useEffect(() => {
+    if (notificationStatus && typeof notificationStatus.receive_notifications === 'boolean') {
+      setNotificationMap(new Map([['notification', notificationStatus.receive_notifications]]));
+    }
+  }, [notificationStatus]);
+
+  console.log(notificationStatus)
+  console.log(notificationMap)
+
+  const handleSwitchChange = useCallback(async (checked: boolean) => {
+    setNotificationMap(new Map(notificationMap).set('notification', checked));
 
     if (checked) {
       try {
+        // スイッチがオンになった時、prefectureを含む通知設定をバックエンドに送信
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/weather`,
-          { address: profile?.prefecture },
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/enable`,
+          { enabled: true, address: profile?.prefecture },
           { headers: headers, withCredentials: true }
         );
-        console.log(response.data);
+        console.log('通知設定有効化:', response.data);
       } catch (error) {
-        console.error('送信エラー:', error);
+        console.error('通知設定エラー:', error);
+      }
+    } else {
+      try {
+        // スイッチがオフになった時、通知を無効化するリクエストを送信
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/enable`,
+          { enabled: false },
+          { headers: headers, withCredentials: true }
+        );
+        console.log('通知設定無効化:', response.data);
+      } catch (error) {
+        console.error('通知無効化エラー:', error);
       }
     }
-  };
+  }, [notificationMap, headers, profile?.prefecture]);
 
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu items-center'>
@@ -54,7 +90,7 @@ export const LineNotification = () => {
       <div className="flex items-center justify-center space-x-2 pt-4">
         <Switch
           id="line-notification"
-          checked={isNotificationEnabled}
+          checked={notificationMap.get('notification') ?? false}
           onCheckedChange={handleSwitchChange}
         />
         <Label htmlFor="line-notification" className='text-md'>通知ON</Label>
