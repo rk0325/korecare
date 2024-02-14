@@ -9,24 +9,18 @@ module WeatherMessageGenerator
   end
 
   def self.uv_index_advice(current_uvi, daily_max_uvi)
-    if daily_max_uvi >= 6
-      if current_uvi < 6
-        "現在はUV指数は通常範囲内ですが、これからUV指数が高くなるので、日傘や日焼け止めを使用しましょう。\n\n"
-      else
-        "UV指数が高くなるので、日傘や日焼け止めを使用しましょう。\n\n"
-      end
+    if current_uvi >= 6
+      "UV指数が高いです。日焼けを防ぐために、日傘や日焼け止めの使用をお勧めします。\n\n"
+    elsif daily_max_uvi >= 6
+      "現在はUV指数は通常範囲内ですが、これからUV指数が高くなるので、日傘や日焼け止めを使用しましょう。\n\n"
     else
       "UV指数は通常範囲内です。\n\n"
     end
   end
 
   def self.humidity_advice(current_humidity, daily_min_humidity)
-    if daily_min_humidity <= 30
-      if current_humidity > 30
-        "現在は湿度は通常範囲内ですが、これから空気が乾燥してくるので、適宜保湿をするようにしましょう。\n\n"
-      else
-        "空気が乾燥しているので、適宜保湿をするようにしましょう。\n\n"
-      end
+    if current_humidity <= 30 || daily_min_humidity <= 30
+      "空気が乾燥しています。ミスト化粧水やクリームを活用して、適宜うるおいを補給することをお勧めします。\n\n"
     else
       "湿度は通常範囲内です。\n\n"
     end
