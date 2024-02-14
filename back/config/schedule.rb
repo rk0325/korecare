@@ -6,8 +6,12 @@
 set :environment, "production"
 set :output, "log/cron_log.log"
 
-every 1.day, at: '9:30 pm' do
-  runner "LineNotifyService.send_message"
+every 1.day, at: '9:50 pm' do
+  runner "LineNotifyService.send_message(user_line_id, message)"
+end
+
+every 1.day, at: '9:45 pm' do
+  runner "LineNotifyService.send_message('U10f113aafce110cb4b376c3d261c9bad', 'テストメッセージ')"
 end
 
 # Example:
