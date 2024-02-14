@@ -5,7 +5,6 @@ WORKDIR /app
 
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
-
 RUN gem install bundler
 RUN bundle install
 
@@ -13,10 +12,7 @@ COPY . /app
 
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
-
-COPY ./bin/render-build.sh /usr/bin/render-build.sh
-RUN chmod +x /usr/bin/render-build.sh
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 
 EXPOSE 3002
 
