@@ -15,6 +15,9 @@ COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 ENTRYPOINT ["entrypoint.sh"]
 
+COPY ./bin/render-build.sh /usr/bin/render-build.sh
+RUN chmod +x /usr/bin/render-build.sh
+
 EXPOSE 3002
 
 CMD ["rails", "server", "-b", "0.0.0.0"]
