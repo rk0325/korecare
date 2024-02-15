@@ -44,23 +44,28 @@ export const LineNotification = () => {
     }
   }, [notificationStatus]);
 
-  console.log(notificationStatus)
-  console.log(notificationMap)
-
   const handleSwitchChange = useCallback(async (checked: boolean) => {
     setNotificationMap(new Map(notificationMap).set('notification', checked));
 
     if (checked) {
       try {
-        // スイッチがオンになった時、prefectureを含む通知設定をバックエンドに送信
-        const response = await axios.post(
+        // 通知設定を有効化
+        await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/enable`,
-          { enabled: true, address: profile?.prefecture },
+          { enabled: true },
           { headers: headers, withCredentials: true }
         );
-        console.log('通知設定有効化:', response.data);
+
+        // 天気情報の設定（都道府県情報の送信）
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/weather`,
+          { address: profile?.prefecture },
+          { headers: headers, withCredentials: true }
+        );
+
+        console.log('通知設定有効化と天気情報設定完了');
       } catch (error) {
-        console.error('通知設定エラー:', error);
+        console.error('通知設定または天気情報設定エラー:', error);
       }
     } else {
       try {
@@ -75,7 +80,7 @@ export const LineNotification = () => {
         console.error('通知無効化エラー:', error);
       }
     }
-  }, [notificationMap, headers, profile?.prefecture]);
+  }, [headers, profile?.prefecture, notificationMap]);
 
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu items-center'>

@@ -7,6 +7,9 @@ Rails.application.configure do
   config.cache_classes = true
   config.hosts << "graduation-exam-app.onrender.com"
 
+  config.active_job.queue_adapter = :sidekiq
+  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
+
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
   # and those relying on copy on write to perform better.

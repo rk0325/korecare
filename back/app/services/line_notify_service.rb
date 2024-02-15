@@ -3,7 +3,7 @@ require 'uri'
 require 'json'
 
 class LineNotifyService
-  def self.send_message(user_line_id, message)
+  def self.send_message(user.line_id, message)
     Rails.logger.info "Sending to LINE ID: #{user_line_id}"
     Rails.logger.info "Message content: #{message}"
     uri = URI.parse("https://api.line.me/v2/bot/message/push")

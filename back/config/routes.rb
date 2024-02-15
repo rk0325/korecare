@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   post 'auth/:provider/callback', to: 'api/v1/users#create'
   namespace :api do
     namespace :v1 do

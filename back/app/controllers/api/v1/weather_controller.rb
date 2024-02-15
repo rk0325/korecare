@@ -22,6 +22,9 @@ module Api
         # 住所情報をaddressesテーブルに保存
         current_user.addresses.create(address: prefecture_name)
 
+        # ジョブの実行
+        WeatherNotificationJob.perform_later(current_user.id, prefecture_name)
+
         head :ok
       end
 
