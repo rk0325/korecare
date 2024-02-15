@@ -38,12 +38,6 @@ gem "rack-cors"
 
 gem 'dotenv-rails'
 
-gem 'devise'
-gem 'devise_token_auth'
-gem 'devise-i18n'
-
-gem "letter_opener_web"
-
 gem "active_model_serializers"
 
 gem 'rakuten_web_service'
@@ -61,6 +55,8 @@ gem 'line-bot-api'
 gem 'sidekiq-cron'
 
 gem 'sinatra', require: false
+
+gem 'redis'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
