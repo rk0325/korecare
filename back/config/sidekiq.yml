@@ -1,6 +1,0 @@
-:schedule:
-  weather_notification:
-    cron: "0 10 * * *"   # 毎日10時に実行
-    class: WeatherNotificationJob
-:redis:
-  url: redis://localhost:6379/0

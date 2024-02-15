@@ -8,42 +8,57 @@ Users ||--|| Profiles : has
 Users ||--o{ FavoriteCosmetics : favorites
 Users ||--o{ NotFavoriteCosmetics : has
 Users ||--o{ Reviews : creates
-FavoriteCosmetics ||--|| Reviews : has
-Reviews ||--o{ Comments : has
-Users ||--o{ Comments : posts
-Reviews ||--o{ Bookmarks : has
+Users ||--o{ Addresses : has
 Users ||--o{ Bookmarks : bookmarks
-Reviews ||--o{ ReviewTags : has
-Tags ||--o{ ReviewTags : has
 Users ||--o{ CosmeticUsage : has
 Users ||--o{ NotificationSettings : has
-Users ||--|| Addresses : has
+Users ||--o{ Comments : posts
+FavoriteCosmetics ||--|| Reviews : has
+Reviews ||--o{ Comments : has
+Reviews ||--o{ Bookmarks : has
+Reviews ||--o{ ReviewTags : has
+Tags ||--o{ ReviewTags : has
 
 Users {
-  integer id PK
+  bigint id PK
   string name
   string email "UNIQUE"
-  string provider
-  string uid
+  string provider "UNIQUE"
+  string uid "UNIQUE"
   string avatar
+  string line_id "UNIQUE"
+  boolean receive_notifications
   datetime created_at
   datetime updated_at
 }
 
 Profiles {
-  integer id PK
-  integer user_id FK
+  bigint id PK
+  bigint user_id FK
+  bigint address_id FK
   string name
-  string skin_trouble
   string skin_type
+  string skin_trouble
   integer age
+  string avatar
+  string prefecture
+  datetime created_at
+  datetime updated_at
+}
+
+Addresses {
+  bigint id PK
+  bigint user_id FK
+  text address
+  float latitude
+  float longitude
   datetime created_at
   datetime updated_at
 }
 
 FavoriteCosmetics {
-  integer id PK
-  integer user_id FK
+  bigint id PK
+  bigint user_id FK
   string name
   string brand
   string price
@@ -55,8 +70,8 @@ FavoriteCosmetics {
 }
 
 NotFavoriteCosmetics {
-  integer id PK
-  integer user_id FK
+  bigint id PK
+  bigint user_id FK
   string name
   string brand
   string price
@@ -67,53 +82,9 @@ NotFavoriteCosmetics {
   datetime updated_at
 }
 
-Reviews {
-  integer id PK
-  integer user_id FK
-  integer favorite_cosmetic_id FK
-  string rating
-  string title
-  text body
-  string item_url
-  string visibility
-  datetime created_at
-  datetime updated_at
-}
-
-Comments {
-  integer id PK
-  integer user_id FK
-  integer review_id FK
-  text body
-  datetime created_at
-  datetime updated_at
-}
-
-Bookmarks {
-  integer id PK
-  integer user_id FK
-  integer review_id FK
-  datetime created_at
-  datetime updated_at
-}
-
-Tags {
-  integer id PK
-  string tag_name
-  datetime created_at
-  datetime updated_at
-}
-
-ReviewTags {
-  integer id FK
-  integer tag_id FK
-  datetime created_at
-  datetime updated_at
-}
-
 CosmeticUsage {
-  integer id PK
-  integer user_id FK
+  bigint id PK
+  bigint user_id FK
   integer item_type
   datetime start_date
   datetime duration_date
@@ -124,17 +95,53 @@ CosmeticUsage {
 }
 
 NotificationSettings {
-  integer id PK
-  integer user_id FK
+  bigint id PK
+  bigint user_id FK
   integer notification_type
   datetime created_at
   datetime updated_at
 }
 
-Addresses {
-  integer id PK
-  integer user_id FK
-  text address
+Reviews {
+  bigint id PK
+  bigint user_id FK
+  bigint favorite_cosmetic_id FK
+  string rating
+  string title
+  text body
+  string item_url
+  string visibility
+  datetime created_at
+  datetime updated_at
+}
+
+Comments {
+  bigint id PK
+  bigint user_id FK
+  bigint review_id FK
+  text body
+  datetime created_at
+  datetime updated_at
+}
+
+Bookmarks {
+  bigint id PK
+  bigint user_id FK
+  bigint review_id FK
+  datetime created_at
+  datetime updated_at
+}
+
+Tags {
+  bigint id PK
+  string tag_name
+  datetime created_at
+  datetime updated_at
+}
+
+ReviewTags {
+  bigint id FK
+  bigint tag_id FK
   datetime created_at
   datetime updated_at
 }
@@ -194,13 +201,10 @@ Addresses {
   - 「〜5,000円以内」「〜1万円以内」のように選択式にして、ユーザーが選択→検索ボタンを押すと商品一覧が表示される想定
 
 ### LINE通知
-- 買い忘れ防止通知：スキンケアコスメの使用開始日と、だいたい使い終わる日数をあらかじめ登録しておいたら「もうすぐなくなるから買っておいたほうがいいですよ」と通知
-  - 登録日の何日前に通知するかを選択できるようにする
-  - 使用開始日と容量で、ある程度使い終わる日を予想して、初期値を入れておくことも検討中
-- 使用期限通知：スキンケアコスメの開封日と、使用期限をあらかじめ登録しておいたら「そろそろ替え時ですよ」と通知
-  - 登録日の何日前に通知するかを選択できるようにする
 - 紫外線 / 乾燥注意通知：住所を登録したら、天候に合わせて「今日はこれをするといいですよ（注意するといいですよ）」と通知
   - 紫外線に注意（日傘をさしたり、日焼け止めを塗りましょう）、乾燥に注意しましょうなど
+- 使用期限通知：スキンケアコスメの開封日と、使用期限をあらかじめ登録しておいたら「そろそろ替え時ですよ」と通知
+  - 登録日の何日前に通知するかを選択できるようにする
 
 ### お気に入りコスメ登録 / 削除 / 一覧（マイページ内）
 - レコメンド機能でレコメンドされた韓国コスメのお気に入り
@@ -243,13 +247,11 @@ Addresses {
 - テスト（RSpec）
 
 ## ■現在検討している追加サービス案
-- 人気の韓国コスメ、新しい韓国コスメ情報の提供
-  - InstagramグラフAPIを使用し、ハッシュタグ「韓国スキンケア」の投稿を取得できないか検証中
-  - 提供方法は、LINE通知、もしくはレビュー投稿一覧の中に私自身がInstagramグラフAPIから取得した情報を投稿して提供
+- 人気の韓国コスメ、新しい韓国コスメ、メガ割などのセール情報の提供
 - 韓国アイドルが使用している韓国コスメ情報の提供
-  - APIなどによる情報の取得が難しいため、私自身が調査の上、レビュー投稿一覧の中に投稿して提供
+  - 提供方法は、LINE通知もしくはレビュー投稿一覧の中に私自身が調査の上、情報を投稿して提供
 
-## ■使用予定技術
+## ■使用技術
 |カテゴリ|技術|
 |:-------------|:------------|
 |開発環境|Docker|
@@ -257,4 +259,4 @@ Addresses {
 |バックエンド|Ruby / Ruby on Rails 7系（API モード）|
 |データベース|PostgreSQL|
 |インフラ|Vercel / Render|
-|Web API|楽天市場商品検索API / LINE Messaging API / OpenWeatherMap API / InstagramグラフAPI|
+|Web API|楽天市場商品検索API / LINE Messaging API / OpenWeatherMap API|

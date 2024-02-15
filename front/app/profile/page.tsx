@@ -216,11 +216,13 @@ export default function EditProfile() {
               更新する
             </CustomButton>
           </div>
-          <Link href='/my_page'>
-            <Button className="text-md bg-F5F5F5 text-48352F w-full hover:bg-E0DBD2">
-              キャンセル
-            </Button>
-          </Link>
+          <div className="w-full pb-10">
+            <Link href='/my_page'>
+              <Button className="text-md bg-F5F5F5 text-48352F w-full hover:bg-E0DBD2">
+                キャンセル
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     ) : null

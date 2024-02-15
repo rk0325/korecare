@@ -1,0 +1,3 @@
+weather_notification_job:
+  cron: "0 10 * * *"   # 毎日午前10時に実行
+  class: "WeatherNotificationJob"

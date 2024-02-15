@@ -48,7 +48,9 @@ module Api
     config.middleware.use config.session_store, config.session_options
     config.middleware.use ActionDispatch::Flash
 
-    # ログから特定のパラメータを除外
+    # ログからavatarパラメータを除外
     config.filter_parameters += [:avatar]
+
+    config.active_job.queue_adapter = :sidekiq
   end
 end
