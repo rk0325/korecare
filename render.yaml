@@ -1,4 +1,10 @@
 services:
+  - type: redis
+    name: weather-notification
+    region: singapore
+    maxmemoryPolicy: noeviction
+    ipAllowList: [] # only allow internal connections
+
   - type: worker
     name: weather-notification
     runtime: ruby
@@ -13,5 +19,20 @@ services:
           property: connectionString
       - key: RAILS_ENV
         value: production
+      - key: RAILS_MASTER_KEY
+        sync: false
+
+  - type: web
+    name: korean-cosmetics-app
+    runtime: ruby
+    region: singapore
+    buildCommand: bundle install; bundle exec rake assets:precompile; bundle exec rake assets:clean;
+    startCommand: bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development}
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: weather-notification
+          property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false
