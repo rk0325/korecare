@@ -16,4 +16,4 @@ ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 
 EXPOSE 3002
 
-CMD ["foreman", "start"]
+CMD ["rails", "server", "-b", "0.0.0.0"]

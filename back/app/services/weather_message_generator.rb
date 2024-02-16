@@ -1,5 +1,6 @@
 module WeatherMessageGenerator
   def self.generate_message(prefecture_name, weather_info)
+    Rails.logger.info("Weather info: #{weather_info.inspect}")
     text = "おはようございます！\n今日の#{prefecture_name}の天気情報をお届けします✉️\n\n"
     text += "☀️現在のUV指数は#{weather_info[:current_uvi]}、最高UV指数は#{weather_info[:daily_max_uvi]}です。\n"
     text += uv_index_advice(weather_info[:current_uvi], weather_info[:daily_max_uvi])
