@@ -10,6 +10,8 @@ Rails.application.configure do
   config.active_job.queue_adapter = :sidekiq
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
 
+  config.logger = ActiveSupport::Logger.new(STDOUT)
+
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
   # and those relying on copy on write to perform better.

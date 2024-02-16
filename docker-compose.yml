@@ -15,6 +15,11 @@ services:
       context: ./back
       dockerfile: Dockerfile
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+  sidekiq:
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    command: bundle exec sidekiq
     volumes:
       - ./back:/app
     ports:
