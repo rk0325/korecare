@@ -83,7 +83,7 @@ export default function SearchResult() {
 
 	return (
 		<div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
-			<p className="text-2xl font-bold text-center justify-between pt-10 p-6">
+			<p className="text-2xl text-center justify-between pt-10 p-6">
 				あなたにおすすめの韓国コスメはこちら！
 			</p>
 			{isLoading ? (

@@ -12,7 +12,7 @@ export default function Home() {
 		session ? (
 			<div className='bg-background-color min-h-screen text-text-color text-center flex justify-center font-genjyuu'>
 				<div className='flex flex-col space-y-4 p-10'>
-					<p className='text-2xl font-bold'>韓国コスメ検索</p>
+					<p className='text-2xl'>韓国コスメ検索</p>
 					<div className="flex justify-center">
 						<AlertTriangle className="mr-1 h-6 w-6" />
 						<p>「肌悩み」は選択必須項目となります。</p>
