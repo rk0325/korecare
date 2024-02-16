@@ -1,0 +1,17 @@
+services:
+  - type: worker
+    name: sidekiq-worker
+    runtime: ruby
+    region: singapore
+    buildCommand: bundle install
+    startCommand: bundle exec sidekiq
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: sidekiq-redis
+          property: connectionString
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_MASTER_KEY
+        sync: false
