@@ -24,7 +24,7 @@ services:
 
   - type: web
     name: korean-cosmetics-app
-    runtime: ruby
+    runtime: docker
     region: singapore
     envVars:
       - key: REDIS_URL
