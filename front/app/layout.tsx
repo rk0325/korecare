@@ -25,7 +25,13 @@ export default function RootLayout({
           <CosmeticsContextProvider>
             <UserInfoProvider>
               <Header />
-              <Toaster position="top-right" reverseOrder={true} />
+              <Toaster
+                position="top-right"
+                reverseOrder={true}
+                containerStyle={{
+                  zIndex: 9999,
+                }}
+              />
               <div className='font-genjyuu bg-background-color min-h-screen text-text-color'>
                 {children}
               </div>

@@ -39,7 +39,7 @@ const DemonstrationResult = () => {
 
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
-      <p className="text-2xl font-bold text-center justify-between pt-10 p-6">
+      <p className="text-2xl text-center justify-between pt-10 p-6">
         あなたにおすすめの韓国コスメはこちら！
       </p>
       <div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center space-y-4 md:space-y-0'>

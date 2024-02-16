@@ -45,7 +45,7 @@ const About = () => {
           priority
         />
       </div>
-      <p className="text-center justify-between p-10">
+      <p className="text-center justify-between p-6">
         『KoreCare（コリケア）』は韓国コスメに特化した、毎日のスキンケアをサポートするサービスです。<br />
       </p>
       <Carousel className="mx-auto w-3/4 max-w-2xl">
@@ -75,20 +75,20 @@ const About = () => {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
+      <p className="text-md text-center justify-between pt-6 pb-2">
+        Googleでログインする</p>
+      <div className="flex justify-center pb-4">
+        <CustomButton colorClass="btn-506D7D" onClick={handleLogin}>ログイン</CustomButton>
+      </div>
       <p className="text-md text-center justify-between pt-4">
         2つの質問に答えるだけ！</p>
       <p className="text-md text-center justify-between pb-2">
         ログインせずにレコメンド機能を</p>
       <Link href='/first_demonstration'>
-        <div className="flex justify-center pb-5">
+        <div className="flex justify-center pb-10">
           <CustomButton colorClass="btn-506D7D">試してみる</CustomButton>
         </div>
       </Link>
-      <p className="text-md text-center justify-between pt-2 pb-2">
-        Googleでログインする</p>
-      <div className="flex justify-center pb-10">
-        <CustomButton colorClass="btn-506D7D" onClick={handleLogin}>ログイン</CustomButton>
-      </div>
     </div>
   );
 }
