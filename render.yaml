@@ -23,7 +23,7 @@ services:
         sync: false
 
   - type: web
-    name: korean-cosmetics-app
+    name: graduation-exam-app
     runtime: docker
     region: singapore
     envVars:
@@ -32,5 +32,7 @@ services:
           type: redis
           name: weather-notification
           property: connectionString
+      - key: RAILS_ENV
+        value: production
       - key: RAILS_MASTER_KEY
         sync: false
