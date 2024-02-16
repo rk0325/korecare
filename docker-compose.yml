@@ -3,9 +3,9 @@ services:
   db:
     image: postgres:15.5
     environment:
-      POSTGRES_DB: app_development
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: graduation_exam_app_db
+      POSTGRES_USER: graduation_exam_app_db_user
+      POSTGRES_PASSWORD: ${APP_DATABASE_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -15,6 +15,9 @@ services:
       context: ./back
       dockerfile: Dockerfile
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -b '0.0.0.0'"
+    environment:
+    - RAILS_ENV=production
+    - TZ=Asia/Tokyo
   sidekiq:
     build:
       context: ./back
