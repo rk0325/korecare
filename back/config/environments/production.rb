@@ -9,7 +9,8 @@ Rails.application.configure do
   config.active_job.queue_adapter = :sidekiq
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
 
-  config.hosts << "graduation-exam-app.onrender.com"
+  Rails.application.config.hosts << 'korecare.vercel.app'
+  config.hosts << 'graduation-exam-app.onrender.com'
 
   config.logger = ActiveSupport::Logger.new(STDOUT)
 
