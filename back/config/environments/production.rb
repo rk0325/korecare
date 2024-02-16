@@ -5,7 +5,6 @@ Rails.application.configure do
 
   # Code is not reloaded between requests.
   config.cache_classes = true
-  config.hosts << "graduation-exam-app.onrender.com"
 
   config.active_job.queue_adapter = :sidekiq
   config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
@@ -89,4 +88,6 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.hosts << "graduation-exam-app.onrender.com"
 end
