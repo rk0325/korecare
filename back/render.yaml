@@ -1,3 +1,9 @@
+databases:
+  - name: graduation-exam-app
+    databaseName: graduation_exam_app_db
+    user: graduation_exam_app_db_user
+    region: singapore
+
 services:
   - type: redis
     name: weather-notification
@@ -27,8 +33,14 @@ services:
     name: graduation-exam-app
     runtime: docker
     region: singapore
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
     rootDirectory: back
     envVars:
+      - key: DATABASE_URL
+          fromDatabase:
+            name: graduation-exam-app
+            property: connectionString
       - key: REDIS_URL
         fromService:
           type: redis
