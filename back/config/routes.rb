@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
+  root to: proc { [200, {}, ["Welcome to my API!"]] }
   namespace :api do
     namespace :v1 do
       resources :profiles, only: [:update]
