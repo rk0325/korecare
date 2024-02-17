@@ -33,7 +33,6 @@ services:
     runtime: docker
     region: singapore
     buildCommand: "./bin/render-build.sh"
-    startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
       - key: REDIS_URL
         fromService:
