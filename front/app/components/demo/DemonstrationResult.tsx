@@ -44,20 +44,23 @@ const DemonstrationResult = () => {
       </p>
       <div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center space-y-4 md:space-y-0'>
         {isLoading ? (
-          <PropagateLoader color="#506D7D" />
+          <div className="flex justify-center">
+            <PropagateLoader color="#506D7D" />
+          </div>
         ) : (
           cosmetics.map((cosmetic, index) => (
-            <div key={index} className='flex flex-col items-center px-4 py-2 sm:py-4'>
-              <p className="text-lg font-bold">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
-              <p className="pb-2 line-clamp-2">{cosmetic.itemName.length > 40 ? cosmetic.itemName.substring(0, 40) + '...' : cosmetic.itemName}</p>
-              <Image
-                src={cosmetic.mediumImageUrl}
-                alt={cosmetic.itemName}
-                width={800}
-                height={800}
-                style={{ objectFit: "contain", width: "auto" }}
-              />
-              <p>{cosmetic.itemPrice}円</p>
+            <div key={index} className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
+              <p className="text-lg font-bold z-10">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
+              <p className="pb-2 line-clamp-2 z-10">{cosmetic.itemName.length > 40 ? cosmetic.itemName.substring(0, 40) + '...' : cosmetic.itemName}</p>
+              <div className="relative w-full h-60">
+                <Image
+                  src={cosmetic.mediumImageUrl}
+                  alt={cosmetic.itemName}
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </div>
+              <p className="z-10">{cosmetic.itemPrice}円</p>
             </div>
           ))
         )}

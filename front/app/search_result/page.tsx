@@ -87,7 +87,9 @@ export default function SearchResult() {
 				あなたにおすすめの韓国コスメはこちら！
 			</p>
 			{isLoading ? (
-				<PropagateLoader color="#506D7D" />
+				<div className="flex justify-center">
+					<PropagateLoader color="#506D7D" />
+				</div>
 			) : (
 				categories.map((category) => {
 					if (!cosmetics) {
