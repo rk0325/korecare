@@ -22,7 +22,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: user
   password: password
-  host: db
+  host: host.docker.internal
 
 development:
   <<: *default
@@ -86,5 +86,4 @@ production:
   <<: *default
   database: graduation_exam_app_db
   username: graduation_exam_app_db_user
-  password: <%= ENV["APP_DATABASE_PASSWORD"] %>
   url: <%= ENV['DATABASE_URL'] %>

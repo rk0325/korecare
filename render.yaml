@@ -9,6 +9,7 @@ services:
     name: weather-notification
     runtime: ruby
     region: singapore
+    rootDirectory: back
     buildCommand: bundle install
     startCommand: bundle exec sidekiq
     envVars:
@@ -26,6 +27,7 @@ services:
     name: graduation-exam-app
     runtime: docker
     region: singapore
+    rootDirectory: back
     envVars:
       - key: REDIS_URL
         fromService:

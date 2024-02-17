@@ -36,8 +36,6 @@ gem "bootsnap", require: false
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem "rack-cors"
 
-gem 'dotenv-rails'
-
 gem "active_model_serializers"
 
 gem 'rakuten_web_service'
@@ -68,5 +66,6 @@ end
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
+  gem 'dotenv-rails'
 end
 

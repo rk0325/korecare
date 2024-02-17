@@ -6,11 +6,6 @@ Rails.application.configure do
   # Code is not reloaded between requests.
   config.cache_classes = true
 
-  config.active_job.queue_adapter = :sidekiq
-  # config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
-
-  config.hosts << "graduation-exam-app.onrender.com"
-
   config.logger = ActiveSupport::Logger.new(STDOUT)
 
   # Eager load code on boot. This eager loads most of Rails and
@@ -81,6 +76,12 @@ Rails.application.configure do
   # Use a different logger for distributed setups.
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
+
+  config.active_job.queue_adapter = :sidekiq
+  config.cache_store = :redis_cache_store, { url: ENV['REDIS_URL'] }
+
+  config.hosts << 'back'
+  config.hosts << 'graduation-exam-app.onrender.com'
 
   if ENV["RAILS_LOG_TO_STDOUT"].present?
     logger           = ActiveSupport::Logger.new(STDOUT)
