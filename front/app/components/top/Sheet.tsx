@@ -94,7 +94,7 @@ export default function SheetSide() {
                   </div>
                 </SheetClose>
                 <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/home')}>
+                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/search')}>
                     <Search className="mr-2 h-4 w-4" />
                     <span>韓国コスメ検索</span>
                   </div>

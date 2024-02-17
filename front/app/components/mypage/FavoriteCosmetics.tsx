@@ -113,7 +113,9 @@ export const FavoriteCosmetics = () => {
   return (
     <div className='bg-background-color font-genjyuu min-h-screen text-text-color text-center pb-10'>
       {isLoading ? (
-        <PropagateLoader color="#506D7D" />
+        <div className="flex justify-center">
+          <PropagateLoader color="#506D7D" />
+        </div>
       ) : (
         categories.map((category) => {
           // ここでカテゴリーに基づいてフィルタリング
