@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
-import { Skeleton } from "@/components/ui/skeleton"
+import { PropagateLoader } from 'react-spinners';
 
 export default function SearchResult() {
 	const { cosmetics } = useContext(CosmeticsContext);
@@ -87,11 +87,7 @@ export default function SearchResult() {
 				あなたにおすすめの韓国コスメはこちら！
 			</p>
 			{isLoading ? (
-				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4'>
-					{Array.from({ length: 6 }).map((_, index) => (
-						<Skeleton key={index} className="h-64 w-full rounded-lg" />
-					))}
-				</div>
+				<PropagateLoader color="#506D7D" />
 			) : (
 				categories.map((category) => {
 					if (!cosmetics) {

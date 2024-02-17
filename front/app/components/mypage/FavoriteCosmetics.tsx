@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 import axios from 'axios';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
-import { Skeleton } from "@/components/ui/skeleton";
+import { PropagateLoader } from 'react-spinners';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
@@ -113,11 +113,7 @@ export const FavoriteCosmetics = () => {
   return (
     <div className='bg-background-color font-genjyuu min-h-screen text-text-color text-center pb-10'>
       {isLoading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <Skeleton key={index} className="items-center h-[300px] w-[500px] rounded-xl" />
-          ))}
-        </div>
+        <PropagateLoader color="#506D7D" />
       ) : (
         categories.map((category) => {
           // ここでカテゴリーに基づいてフィルタリング

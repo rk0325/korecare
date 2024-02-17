@@ -16,14 +16,8 @@ module Api
         # 天気情報の取得
         weather_info = fetch_weather_data(prefecture_name)
 
-        # LINE通知の送信
-        send_line_notification(current_user, prefecture_name, weather_info)
-
         # 住所情報をaddressesテーブルに保存
         current_user.addresses.create(address: prefecture_name)
-
-        # ジョブの実行
-        WeatherNotificationJob.perform_later(current_user.id, prefecture_name)
 
         head :ok
       end
@@ -39,15 +33,6 @@ module Api
 
       def fetch_weather_data(prefecture_name)
         WeatherService.fetch_weather_data(prefecture_name)
-      end
-
-      def send_line_notification(user, prefecture_name, weather_info)
-        if user&.line_id.present?
-          message = WeatherMessageGenerator.generate_message(prefecture_name, weather_info)
-          LineNotifyService.send_message(user.line_id, message)
-        else
-          Rails.logger.warn "LINEメッセージを送信できませんでした。ユーザーが認証されていないか、line_idが設定されていません。"
-        end
       end
     end
   end
