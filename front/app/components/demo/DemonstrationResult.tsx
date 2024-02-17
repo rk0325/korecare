@@ -5,7 +5,7 @@ import Link from 'next/link'
 import CustomButton from '@/components/ui/custom-button';
 import axios from 'axios';
 import Image from 'next/image';
-import { Skeleton } from "@/components/ui/skeleton"
+import { PropagateLoader } from 'react-spinners';
 
 type Cosmetic = {
   itemName: string;
@@ -25,7 +25,7 @@ const DemonstrationResult = () => {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cosmetics_recommendation/search_cosmetics_for_guests`, {
 					skin_type: skinType,
 					skin_trouble: skinTrouble
-				});
+        });
         setCosmetics(response.data);
       } catch (error) {
         console.error(error);
@@ -44,12 +44,11 @@ const DemonstrationResult = () => {
       </p>
       <div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center space-y-4 md:space-y-0'>
         {isLoading ? (
-          // ローディング中はスケルトンカードを表示
-          Array.from({ length: 3 }).map((_, index) => <Skeleton key={index} className="items-center h-[125px] w-[250px] rounded-xl" />)
+          <PropagateLoader color="#506D7D" />
         ) : (
           cosmetics.map((cosmetic, index) => (
             <div key={index} className='flex flex-col items-center px-4 py-2 sm:py-4'>
-              <p className="text-lg">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
+              <p className="text-lg font-bold">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
               <p className="pb-2 line-clamp-2">{cosmetic.itemName.length > 40 ? cosmetic.itemName.substring(0, 40) + '...' : cosmetic.itemName}</p>
               <Image
                 src={cosmetic.mediumImageUrl}
@@ -64,6 +63,9 @@ const DemonstrationResult = () => {
         )}
       </div>
       <br />
+      <p className="text-md text-center justify-between pt-2 pb-10 p-6">
+        ログインしていただくと、コスメをお気に入りに登録したり、商品の詳細を見ることができます！
+      </p>
       <Link href='/first_demonstration'>
         <div className="flex justify-center pb-10">
           <CustomButton colorClass="btn-506D7D">もう一度診断する</CustomButton>

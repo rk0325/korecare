@@ -36,23 +36,23 @@ class CosmeticsRecommendation
     # 未ログインユーザー向けの検索ロジック
     genre_id = "562084" # 「韓国スキンケア」のジャンルID
     tag_id = SKIN_TYPE_TAGS[skin_type]
-    ng_keywords = COMMON_NG_KEYWORDS
     elements = "itemCode,itemName,itemPrice,imageUrl"
+    ng_keywords = COMMON_NG_KEYWORDS
     results = []
     ["化粧水", "セラム", "クリーム"].each do |item|
       keyword = "公式 #{item}"
-        search_results = RakutenWebService::Ichiba::Item.search(
-          keyword: keyword,
-          genreId: genre_id,
-          tagId: tag_id,
-          NGKeyword: ng_keywords,
-          elements: elements,
-          formatVersion: 2,
-          sort: 'standard',
-          hits: 1,
-          purchaseType: 0
-        ).to_a
-        results.concat(search_results)
+      search_results = RakutenWebService::Ichiba::Item.search(
+        keyword: keyword,
+        genreId: genre_id,
+        tagId: tag_id,
+        NGKeyword: ng_keywords,
+        elements: elements,
+        formatVersion: 2,
+        sort: 'standard',
+        hits: 1,
+        purchaseType: 0
+      ).to_a
+      results.concat(search_results)
     end
 
     results.map! do |item|
