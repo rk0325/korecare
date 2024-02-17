@@ -15,7 +15,6 @@ services:
     name: weather-notification
     runtime: ruby
     region: singapore
-    rootDirectory: back
     buildCommand: bundle install
     startCommand: bundle exec sidekiq
     envVars:
@@ -35,7 +34,6 @@ services:
     region: singapore
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma -C config/puma.rb"
-    rootDirectory: back
     envVars:
       - key: REDIS_URL
         fromService:
