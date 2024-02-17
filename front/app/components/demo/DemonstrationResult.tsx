@@ -53,8 +53,8 @@ const DemonstrationResult = () => {
               <Image
                 src={cosmetic.mediumImageUrl}
                 alt={cosmetic.itemName}
-                width={500}
-                height={500}
+                width={800}
+                height={800}
                 style={{ objectFit: "contain", width: "auto" }}
               />
               <p>{cosmetic.itemPrice}円</p>

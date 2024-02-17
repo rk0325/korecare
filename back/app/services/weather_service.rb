@@ -22,11 +22,10 @@ class WeatherService
         daily_min_humidity: daily_min_humidity
       }
 
-      Rails.logger.info "Weather Info: #{weather_info}"
-
       weather_info
     rescue => e
       Rails.logger.error "Error fetching weather data: #{e.message}"
+      return {}
     end
   end
 

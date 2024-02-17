@@ -19,9 +19,12 @@ class WeatherNotificationJob < ApplicationJob
 
       # 天気情報の取得
       weather_info = WeatherService.fetch_weather_data(prefecture_name)
+      # weather_infoの値をログに出力
+      Rails.logger.debug "Fetched weather_info: #{weather_info.inspect}"
 
-      # 通知メッセージの生成
       message = WeatherMessageGenerator.generate_message(prefecture_name, weather_info)
+      # 生成されたメッセージをログに出力
+      Rails.logger.debug "Generated message: #{message}"
 
       # LINE通知の送信
       LineNotifyService.send_message(user.line_id, message) if user.line_id.present?

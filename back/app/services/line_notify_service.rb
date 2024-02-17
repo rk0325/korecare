@@ -4,8 +4,6 @@ require 'json'
 
 class LineNotifyService
   def self.send_message(line_id, message)
-    Rails.logger.info "Sending to LINE ID: #{line_id}"
-    Rails.logger.info "Message content: #{message}"
     uri = URI.parse("https://api.line.me/v2/bot/message/push")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
