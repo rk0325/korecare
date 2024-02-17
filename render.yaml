@@ -1,0 +1,52 @@
+databases:
+  - name: graduation-exam-app
+    databaseName: graduation_exam_app_db
+    user: graduation_exam_app_db_user
+    region: singapore
+
+services:
+  - type: redis
+    name: weather-notification
+    region: singapore
+    maxmemoryPolicy: noeviction
+    ipAllowList: [] # only allow internal connections
+
+  - type: worker
+    name: weather-notification
+    runtime: ruby
+    region: singapore
+    rootDirectory: back
+    buildCommand: bundle install
+    startCommand: bundle exec sidekiq
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: weather-notification
+          property: connectionString
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_MASTER_KEY
+        sync: false
+
+  - type: web
+    name: graduation-exam-app
+    runtime: docker
+    region: singapore
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    rootDirectory: back
+    envVars:
+      - key: DATABASE_URL
+          fromDatabase:
+            name: graduation-exam-app
+            property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: weather-notification
+          property: connectionString
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_MASTER_KEY
+        sync: false
