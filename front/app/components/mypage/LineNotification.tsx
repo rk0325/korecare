@@ -12,7 +12,6 @@ import {
   CheckSquare2
 }
 from "lucide-react"
-import { useProfile } from '../../hooks/useProfile';
 
 // axiosのインスタンスを作成
 const axiosInstance = axios.create({
@@ -25,7 +24,6 @@ const fetcher = (url: string, headers: any) => axiosInstance.get(url, { headers 
 export const LineNotification = () => {
   const { data: session } = useSession();
   const token = session?.accessToken;
-  const { profile } = useProfile();
   const [notificationMap, setNotificationMap] = useState(new Map());
   const headers = useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -56,16 +54,9 @@ export const LineNotification = () => {
           { headers: headers, withCredentials: true }
         );
 
-        // 天気情報の設定（都道府県情報の送信）
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/weather`,
-          { address: profile?.prefecture },
-          { headers: headers, withCredentials: true }
-        );
-
-        console.log('通知設定有効化と天気情報設定完了');
+        console.log('通知設定有効化完了');
       } catch (error) {
-        console.error('通知設定または天気情報設定エラー:', error);
+        console.error('通知設定エラー:', error);
       }
     } else {
       try {
@@ -80,7 +71,7 @@ export const LineNotification = () => {
         console.error('通知無効化エラー:', error);
       }
     }
-  }, [headers, profile?.prefecture, notificationMap]);
+  }, [headers, notificationMap]);
 
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu items-center'>
