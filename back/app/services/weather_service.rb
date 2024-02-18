@@ -7,8 +7,7 @@ class WeatherService
     begin
       response = Net::HTTP.get_response(URI(url))
 
-      # HTTPレスポンスコードのチェック
-      unless response.is_a?(Net::HTTPSuccess)
+      if response.code == '401'
         Rails.logger.error "APIリクエスト失敗: #{response.code} #{response.message}"
         return nil
       end
@@ -16,9 +15,8 @@ class WeatherService
       data = JSON.parse(response.body)
 
       # 必要なキーの存在を確認
-      required_keys = %w[current daily]
-      unless required_keys.all? { |key| data.key?(key) }
-        Rails.logger.error "APIレスポンスの中に必要なキーがありません"
+      unless data['current'] && data['daily']
+        Rails.logger.error "APIレスポンスに必要なキーが含まれていません"
         return nil
       end
 
