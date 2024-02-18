@@ -32,7 +32,7 @@ class WeatherService
   private
 
   def self.get_lat_lon_for_prefecture(prefecture_name)
-    address = Address.find_by(address: prefecture_name)
+    address = Address.where.not(latitude: nil, longitude: nil).find_by(address: prefecture_name)
     raise "都道府県名が見つかりません: #{prefecture_name}" unless address
 
     [address.latitude, address.longitude]

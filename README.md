@@ -8,7 +8,6 @@ Users ||--|| Profiles : has
 Users ||--o{ FavoriteCosmetics : favorites
 Users ||--o{ NotFavoriteCosmetics : has
 Users ||--o{ Reviews : creates
-Users ||--o{ Addresses : has
 Users ||--o{ Bookmarks : bookmarks
 Users ||--o{ CosmeticUsage : has
 Users ||--o{ NotificationSettings : has
@@ -48,7 +47,6 @@ Profiles {
 
 Addresses {
   bigint id PK
-  bigint user_id FK
   text address
   float latitude
   float longitude
