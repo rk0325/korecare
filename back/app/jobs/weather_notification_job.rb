@@ -18,6 +18,12 @@ class WeatherNotificationJob < ApplicationJob
       prefecture_name = user.profile.prefecture
       Rails.logger.debug "ユーザー #{user.id} の都道府県: #{prefecture_name}"
 
+      # 都道府県名が空の場合は処理をスキップ
+      if prefecture_name.blank?
+        Rails.logger.debug "ユーザー #{user.id} の都道府県名が空のため処理をスキップ"
+        next
+      end
+
       # 天気情報の取得
       weather_info = WeatherService.fetch_weather_data(prefecture_name)
       Rails.logger.debug "ユーザー #{user.id} の天気情報: #{weather_info.inspect}"
