@@ -2,11 +2,11 @@ class WeatherNotificationJob < ApplicationJob
   queue_as :default
 
   # リトライ回数を1回に設定
-  sidekiq_options retry: 1
+  sidekiq_options retry: 3
 
-  # リトライ間隔を3分後に設定
+  # リトライ間隔を1分後に設定
   sidekiq_retry_in do |count|
-    180 # 秒単位で指定（3分 = 180秒）
+    60
   end
 
   def perform
@@ -21,6 +21,11 @@ class WeatherNotificationJob < ApplicationJob
       weather_info = WeatherService.fetch_weather_data(prefecture_name)
       # weather_infoの値をログに出力
       Rails.logger.debug "Fetched weather_info: #{weather_info.inspect}"
+
+      if weather_info.blank?
+        Rails.logger.error "weather_info is nil or empty for prefecture: #{prefecture_name}"
+        next
+      end
 
       message = WeatherMessageGenerator.generate_message(prefecture_name, weather_info)
       # 生成されたメッセージをログに出力
