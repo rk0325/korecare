@@ -1,8 +1,8 @@
 class WeatherNotificationJob < ApplicationJob
   queue_as :default
 
-  # リトライ回数を3回に設定
-  sidekiq_options retry: 3
+  # リトライ回数を1回に設定
+  sidekiq_options retry: 1
 
   # リトライ間隔を1分後に設定
   sidekiq_retry_in do |count|
@@ -12,24 +12,23 @@ class WeatherNotificationJob < ApplicationJob
   def perform
     # すべてのユーザーを対象にループ
     User.includes(:profile).find_each do |user|
-      next unless user.profile # プロファイルが存在しない場合はスキップ
+      next unless user.profile # プロフィールが存在しない場合はスキップ
 
-      # ユーザーのプロファイルから都道府県名を取得
+      # ユーザーのプロフィールから都道府県名を取得
       prefecture_name = user.profile.prefecture
+      Rails.logger.debug "ユーザー #{user.id} の都道府県: #{prefecture_name}"
 
       # 天気情報の取得
       weather_info = WeatherService.fetch_weather_data(prefecture_name)
-      # weather_infoの値をログに出力
-      Rails.logger.debug "Fetcheしたweather_info: #{weather_info.inspect}"
+      Rails.logger.debug "ユーザー #{user.id} の天気情報: #{weather_info.inspect}"
 
       if weather_info.blank?
-        Rails.logger.error "weather_infoのprefectureがnilかempty: #{prefecture_name}"
+        Rails.logger.error "ユーザー #{user.id} の weather_info が nil または空: #{prefecture_name}"
         next
       end
 
       message = WeatherMessageGenerator.generate_message(prefecture_name, weather_info)
-      # 生成されたメッセージをログに出力
-      Rails.logger.debug "生成されたメッセージ: #{message}"
+      Rails.logger.debug "ユーザー #{user.id} に送信されるメッセージ: #{message}"
 
       # LINE通知の送信
       LineNotifyService.send_message(user.line_id, message) if user.line_id.present?
