@@ -9,6 +9,7 @@ module WeatherMessageGenerator
   end
 
   def self.uv_index_advice(current_uvi, daily_max_uvi)
+    return "UV指数情報が利用できません。" if current_uvi.nil? || daily_max_uvi.nil?
     if current_uvi >= 6
       "UV指数が高いです。日焼けを防ぐために、日傘や日焼け止めの使用をお勧めします。\n\n"
     elsif daily_max_uvi >= 6
@@ -19,6 +20,7 @@ module WeatherMessageGenerator
   end
 
   def self.humidity_advice(current_humidity, daily_min_humidity)
+    return "湿度情報が利用できません。" if current_humidity.nil? || daily_min_humidity.nil?
     if current_humidity <= 30 || daily_min_humidity <= 30
       "空気が乾燥しています。ミスト化粧水やクリームを活用して、適宜うるおいを補給することをお勧めします。\n\n"
     else

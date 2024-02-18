@@ -1,1 +1,2 @@
 :logfile: STDOUT
+:concurrency: 5
