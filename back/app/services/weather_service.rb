@@ -1,31 +1,45 @@
 class WeatherService
   def self.fetch_weather_data(prefecture_name)
     latitude, longitude = get_lat_lon_for_prefecture(prefecture_name)
-
     api_key = ENV['OPENWEATHERMAP_API_KEY']
     url = "https://api.openweathermap.org/data/3.0/onecall?lat=#{latitude}&lon=#{longitude}&exclude=minutely,alerts&appid=#{api_key}"
 
     begin
       response = Net::HTTP.get_response(URI(url))
+
+      # HTTPレスポンスコードのチェック
+      unless response.is_a?(Net::HTTPSuccess)
+        Rails.logger.error "APIリクエスト失敗: #{response.code} #{response.message}"
+        return nil
+      end
+
       data = JSON.parse(response.body)
 
+      # 必要なキーの存在を確認
+      required_keys = %w[current daily]
+      unless required_keys.all? { |key| data.key?(key) }
+        Rails.logger.error "APIレスポンスの中に必要なキーがありません"
+        return nil
+      end
+
       # 必要なデータを抽出
-      current_uvi = data['current']['uvi']
-      daily_max_uvi = data['daily'][0]['uvi']
-      current_humidity = data['current']['humidity']
+      current_uvi = data.dig('current', 'uvi')
+      daily_max_uvi = data.dig('daily', 0, 'uvi')
+      current_humidity = data.dig('current', 'humidity')
       daily_min_humidity = data['daily'].map { |day| day['humidity'] }.min
 
-      weather_info = {
+      {
         current_uvi: current_uvi,
         daily_max_uvi: daily_max_uvi,
         current_humidity: current_humidity,
         daily_min_humidity: daily_min_humidity
       }
-
-      weather_info
+    rescue JSON::ParserError => e
+      Rails.logger.error "JSONを解析できませんでした: #{e.message}"
+      nil
     rescue => e
-      Rails.logger.error "Error fetching weather data: #{e.message}"
-      return {}
+      Rails.logger.error "データ取得できませんでした: #{e.message}"
+      nil
     end
   end
 

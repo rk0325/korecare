@@ -22,20 +22,6 @@ services:
       - "3000:3000"
     depends_on:
       - db
-  sidekiq:
-    build:
-      context: ./back
-      dockerfile: Dockerfile
-    command: bundle exec sidekiq
-    volumes:
-      - ./back:/app
-    depends_on:
-      - db
-    tty: true
-    stdin_open: true
-    environment:
-      - RAILS_ENV=development
-      - TZ=Asia/Tokyo
   front:
     build:
       context: ./front/

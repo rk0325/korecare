@@ -21,13 +21,13 @@ class LineNotifyService
 
       # レスポンスのステータスコードをチェック
       if response.is_a?(Net::HTTPSuccess)
-        Rails.logger.info "LINE message 送信成功"
+        Rails.logger.info "LINE通知 送信成功"
       else
-        Rails.logger.error "LINE message 送信失敗: #{response.code} #{response.message}"
+        Rails.logger.error "LINE通知 送信失敗: #{response.code} #{response.message}"
         Rails.logger.error "レスポンスボディ: #{response.body}"
       end
     rescue => e
-      Rails.logger.error "LINE message 送信エラー: #{e.message}"
+      Rails.logger.error "LINE通知 送信エラー: #{e.message}"
     end
   end
 end
