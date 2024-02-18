@@ -14,20 +14,34 @@ class LineNotifyService
     })
 
     begin
-      req_options = { use_ssl: uri.scheme == "https" }
+      req_options = { use_ssl: uri.scheme == "https", read_timeout: 10, open_timeout: 5 }
       response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
         http.request(request)
       end
 
-      # レスポンスのステータスコードをチェック
-      if response.is_a?(Net::HTTPSuccess)
-        Rails.logger.info "LINE通知 送信成功"
-      else
-        Rails.logger.error "LINE通知 送信失敗: #{response.code} #{response.message}"
-        Rails.logger.error "レスポンスボディ: #{response.body}"
-      end
-    rescue => e
-      Rails.logger.error "LINE通知 送信エラー: #{e.message}"
+      handle_response(response)
+    rescue Net::ReadTimeout, Net::OpenTimeout
+      Rails.logger.error "LINE通知: タイムアウトエラー"
+    rescue SocketError => e
+      Rails.logger.error "LINE通知: ネットワーク接続エラー: #{e.message}"
+    rescue StandardError => e
+      Rails.logger.error "LINE通知: 予期せぬエラー: #{e.message}"
+    end
+  end
+
+  private
+
+  def self.handle_response(response)
+    case response
+    when Net::HTTPSuccess
+      Rails.logger.info "LINE通知 送信成功"
+    when Net::HTTPUnauthorized
+      Rails.logger.error "LINE通知 送信失敗: 認証エラー"
+    when Net::HTTPNotFound
+      Rails.logger.error "LINE通知 送信失敗: リソースが見つかりません"
+    else
+      Rails.logger.error "LINE通知 送信失敗: #{response.code} #{response.message}"
+      Rails.logger.error "レスポンスボディ: #{response.body}"
     end
   end
 end
