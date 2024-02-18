@@ -1,6 +1,14 @@
 class WeatherService
   def self.fetch_weather_data(prefecture_name)
-    latitude, longitude = get_lat_lon_for_prefecture(prefecture_name)
+    # 都道府県名に基づいて緯度と経度を取得
+    address = Address.find_by(address: prefecture_name)
+    if address.nil? || address.latitude.nil? || address.longitude.nil?
+      Rails.logger.error "緯度経度のデータが見つかりません: #{prefecture_name}"
+      return nil
+    end
+    latitude, longitude = address.latitude, address.longitude
+
+    # 天気情報のAPIリクエスト
     api_key = ENV['OPENWEATHERMAP_API_KEY']
     url = "https://api.openweathermap.org/data/3.0/onecall?lat=#{latitude}&lon=#{longitude}&exclude=minutely,alerts&appid=#{api_key}"
 
@@ -36,17 +44,8 @@ class WeatherService
       Rails.logger.error "JSONを解析できませんでした: #{e.message}"
       nil
     rescue => e
-      Rails.logger.error "データ取得できませんでした: #{e.message}"
+      Rails.logger.error "データを取得できませんでした: #{e.message}"
       nil
     end
-  end
-
-  private
-
-  def self.get_lat_lon_for_prefecture(prefecture_name)
-    address = Address.where.not(latitude: nil, longitude: nil).find_by(address: prefecture_name)
-    raise "都道府県名が見つかりません: #{prefecture_name}" unless address
-
-    [address.latitude, address.longitude]
   end
 end
