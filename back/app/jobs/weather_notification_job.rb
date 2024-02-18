@@ -1,7 +1,7 @@
 class WeatherNotificationJob < ApplicationJob
   queue_as :default
 
-  # リトライ回数を1回に設定
+  # リトライ回数を3回に設定
   sidekiq_options retry: 3
 
   # リトライ間隔を1分後に設定
