@@ -64,7 +64,7 @@ const FirstDemonstration = () => {
 				</RadioGroup>
 			</ul>
 			<div className="text-l flex items-center space-x-2 justify-center p-6">
-				<label htmlFor="my-modal" className="text-md btn modal-button bg-background-color text-text-color">
+				<label htmlFor="my-modal" className="text-md btn modal-button bg-background-color text-text-color shadow-md">
 					わからない<HelpCircle className="ml-1 h-5 w-5" />
 				</label>
 			</div>
@@ -73,24 +73,18 @@ const FirstDemonstration = () => {
 				<div className="modal-box text-left">
 					<div className="flex items-center">
 						<SearchCheck className="mr-1 h-6 w-6" />
-						<p className="py-4">あなたの洗顔後の肌の様子に一番近いものは？</p>
+						<p className="pt-2 pb-2">あなたの洗顔後の肌の様子に一番近いものは？</p>
 					</div>
-					・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる
-					→乾燥肌<br />
-					・額や鼻はベタつきがあり、目元・口元・頬は乾燥を感じる
-					→混合肌<br />
-					・全体的にベタつきがあり、乾燥は感じない
-					→脂性肌<br />
-					・ベタつきも乾燥もほとんど感じない
-					→普通肌<br />
-					<br />
+					<p className="my-2">・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる →乾燥肌</p>
+					<p className="my-2">・額や鼻はベタつきがあり、目元・口元・頬は乾燥を感じる →混合肌</p>
+					<p className="my-2">・全体的にベタつきがあり、乾燥は感じない →脂性肌</p>
+					<p className="my-2 pb-2">・ベタつきも乾燥もほとんど感じない →普通肌</p>
 					<div className="flex items-center">
 						<Diamond className="mr-1 h-6 w-6" />
 						<p>以下のような特徴がある方は、敏感肌の可能性があります。</p>
 					</div>
-					・いつも使っている化粧品がしみたり、かゆくなったりすることがある<br />
-					・化粧品でかぶれたり、つけるもので刺激を感じることがある<br />
-					<br />
+					<p className="my-2 pt-2">・いつも使っている化粧品がしみたり、かゆくなったりすることがある</p>
+					<p className="my-2 pb-4">・化粧品でかぶれたり、つけるもので刺激を感じることがある</p>
 					<div className="flex items-center">
 						<AlertTriangle className="mr-1 h-6 w-6" />
 						<p>こちらの質問は、肌質を断定するものではございません。</p>

@@ -1,6 +1,6 @@
 module Api
   module V1
-    class LineBotController < ApplicationController
+    class LineWebhooksController < ApplicationController
       require 'line/bot'
 
       # LINEからのWebhookを受け取るアクション

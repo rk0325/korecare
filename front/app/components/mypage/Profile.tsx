@@ -14,7 +14,7 @@ export const Profile = () => {
   if (isLoading) return <div className="text-2xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
     Loading...<br />
     잠깐만요.</div>;
-  if (isError) return <div className="text-2xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
+  if (isError) return <div className="text-xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
     プロフィールの読み込みに失敗しました。</div>;
 
   // プロフィールデータまたはセッションデータを使用
@@ -29,7 +29,7 @@ export const Profile = () => {
     session ? (
       <div className='font-genjyuu min-h-screen bg-background-color flex justify-center text-text-color'>
         <div className="max-w-sm text-center justify-center">
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div className="flex justify-center">
             <Image
               className="mb-6"
               src={avatar}

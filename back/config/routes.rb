@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       post '/line_webhook', to: 'line_webhooks#callback'
       get '/notifications/status', to: 'notifications#status'
       post '/notifications/enable', to: 'notifications#enable'
+      get '/weather', to: 'weather#show'
     end
   end
   post 'auth/:provider/callback', to: 'api/v1/users#create'
