@@ -49,7 +49,7 @@ const SearchForm = () => {
 
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu flex justify-center pt-10'>
-      <div className='flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0'>
+      <div className='flex flex-col md:flex-row md:space-x-4 space-y-8 md:space-y-0'>
         <Select onValueChange={value => setSkinType(value)}>
           <SelectTrigger className="w-[200px]">
             <SelectValue className="text-text-color" placeholder="肌質" />
@@ -96,7 +96,7 @@ const SearchForm = () => {
             <SelectItem value="化粧水・美容液・クリームセット">化粧水・美容液・クリームセット</SelectItem>
           </SelectContent>
         </Select>
-        <div className="flex justify-center md:flex-row md:space-x-6 space-y-6" onClick={handleSubmit}>
+        <div className="flex justify-center md:flex-row md:space-x-6" onClick={handleSubmit}>
           <Link href='/search_result'>
             <CustomButton colorClass="btn-506D7D">
               <Search size={18} className="mr-2" />

@@ -19,7 +19,8 @@ import {
   Heart,
   Menu,
   Smartphone,
-  Smile
+  Smile,
+  Home
 } from "lucide-react"
 import {
   Tooltip,
@@ -88,7 +89,13 @@ export default function SheetSide() {
                   <Label style={{ fontSize: '1rem', textAlign: 'center', marginTop: '1rem' }}>{name || session.user?.name}さん</Label>
                 </div>
                 <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-8" onClick={() => handleNavigation('/my_page')}>
+                  <div className="flex items-center cursor-pointer pt-8" onClick={() => handleNavigation('/home')}>
+                    <Home className="mr-2 h-4 w-4" />
+                    <span>ホーム</span>
+                  </div>
+                </SheetClose>
+                <SheetClose asChild>
+                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page')}>
                     <Smile className="mr-2 h-4 w-4" />
                     <span>マイページ</span>
                   </div>

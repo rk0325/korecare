@@ -110,6 +110,17 @@ export const FavoriteCosmetics = () => {
     setFavoriteStatus(new Map(favoriteCosmetics?.map(cosmetic => [cosmetic.item_code, true])));
   }, [favoriteCosmetics]);
 
+  function truncateName(name: string, maxLength: number = 40): string {
+    return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
+  }
+
+  const shareOnTwitter = useCallback((cosmetic: Cosmetic) => {
+    const truncatedName = truncateName(cosmetic.name, 30);
+    const text = `${truncatedName}をお気に入りコスメに登録しました！ #korecare`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=https://korecare.vercel.app`;
+    window.open(url, '_blank');
+  }, []);
+
   return (
     <div className='bg-background-color font-genjyuu min-h-screen text-text-color text-center pb-10'>
       {isLoading ? (
@@ -118,39 +129,36 @@ export const FavoriteCosmetics = () => {
         </div>
       ) : (
         categories.map((category) => {
-          // ここでカテゴリーに基づいてフィルタリング
           const filteredCosmetics = favoriteCosmetics?.filter(cosmetic =>
             cosmetic.name && cosmetic.name.toLowerCase().includes(category.toLowerCase())
           ) || [];
           return (
             <div key={category}>
-              <h2 className="text-xl font-bold text-left pt-8 pl-10">{category}</h2>
+              <h2 className="text-xl text-left pt-8 pl-10">{category}</h2>
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
                 {filteredCosmetics.length > 0 ? (
                   filteredCosmetics.map((cosmetic, index) => (
-                    <div key={index} className='relative flex flex-col items-center p-2'>
+                    <div key={index} className='flex flex-col items-center p-2'>
                       <p className="line-clamp-2">
-                        {cosmetic.name}
+                        {truncateName(cosmetic.name)}
                       </p>
-                      <div className="relative">
+                      <div className="relative w-full h-60">
                         <Image
                           src={cosmetic.image_url}
                           alt={cosmetic.name}
-                          width={500}
-                          height={500}
-                          style={{ objectFit: "contain", width: "auto" }}
+                          layout="fill"
+                          objectFit="contain"
                         />
-                        <div className="absolute bottom-0 right-0 flex" style={{ transform: 'translate(10%, 80%)' }}>
-                          <FontAwesomeIcon icon={faXTwitter} className="pt-6 text-text-color text-xl" />
-                          <button
-                            onClick={() => toggleFavorite(cosmetic)}
-                            className="pt-2"
-                          >
-                            <FavoriteIconAnim on={favoriteStatus.get(cosmetic.item_code) ?? false} />
-                          </button>
-                        </div>
                       </div>
-                      <p className='pt-10'>{cosmetic.price}円</p>
+                      <div className="flex justify-center items-center space-x-2 mt-2">
+                        <button onClick={() => shareOnTwitter(cosmetic)}>
+                          <FontAwesomeIcon icon={faXTwitter} className="text-text-color text-xl pl-4 pt-1" />
+                        </button>
+                        <button onClick={() => toggleFavorite(cosmetic)}>
+                          <FavoriteIconAnim on={favoriteStatus.get(cosmetic.item_code) ?? false} />
+                        </button>
+                      </div>
+                      <p className='pt-2'>{cosmetic.price}円</p>
                       <p>{cosmetic.brand}</p>
                     </div>
                   ))

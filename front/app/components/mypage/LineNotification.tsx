@@ -76,7 +76,7 @@ export const LineNotification = () => {
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu items-center'>
       <Separator className="my-20" />
-      <div className="text-2xl text-center flex justify-center items-center">
+      <div className="text-xl text-center flex justify-center items-center">
         <span>LINE通知登録</span>
       </div>
       <div className="flex items-center pt-8 justify-center text-lg">

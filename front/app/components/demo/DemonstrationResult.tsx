@@ -37,9 +37,13 @@ const DemonstrationResult = () => {
     fetchCosmetics();
   }, [skinType, skinTrouble]);
 
+  function truncateName(name: string, maxLength: number = 40): string {
+    return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
+  }
+
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
-      <p className="text-2xl text-center justify-between pt-10 p-6">
+      <p className="text-xl text-center justify-between pt-10 p-6">
         あなたにおすすめの韓国コスメはこちら！
       </p>
       <div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center space-y-4 md:space-y-0'>
@@ -50,8 +54,8 @@ const DemonstrationResult = () => {
         ) : (
           cosmetics.map((cosmetic, index) => (
             <div key={index} className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
-              <p className="text-lg font-bold z-10">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
-              <p className="pb-2 line-clamp-2 z-10">{cosmetic.itemName.length > 40 ? cosmetic.itemName.substring(0, 40) + '...' : cosmetic.itemName}</p>
+              <p className="text-lg z-10">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
+              <p className="pb-2 line-clamp-2 z-10">{truncateName(cosmetic.itemName)}</p>
               <div className="relative w-full h-60">
                 <Image
                   src={cosmetic.mediumImageUrl}

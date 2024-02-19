@@ -83,7 +83,7 @@ export default function SearchResult() {
 
 	return (
 		<div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
-			<p className="text-2xl text-center justify-between pt-10 p-6">
+			<p className="text-xl text-center justify-between pt-10 p-6">
 				あなたにおすすめの韓国コスメはこちら！
 			</p>
 			{isLoading ? (
@@ -98,7 +98,7 @@ export default function SearchResult() {
 					const filteredCosmetics = cosmetics.filter(cosmetic => filterCosmeticsByFirstMatchingCategory(cosmetic) === category);
 					return filteredCosmetics.length > 0 && (
 						<div key={category}>
-							<h2 className="text-xl font-bold text-left pt-8 pl-10">{category}</h2>
+							<h2 className="text-xl text-left pt-8 pl-10">{category}</h2>
 							<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
 								{filteredCosmetics.map((cosmetic, index) => (
 									<div key={index} className='relative flex flex-col items-center p-2'>
