@@ -28,17 +28,23 @@ class WeatherService
         return nil
       end
 
-      # 必要なデータを抽出
       current_uvi = data.dig('current', 'uvi')
       daily_max_uvi = data.dig('daily', 0, 'uvi')
       current_humidity = data.dig('current', 'humidity')
       daily_min_humidity = data['daily'].map { |day| day['humidity'] }.min
 
+      current_weather = data.dig('current', 'weather', 0, 'main')
+      min_temp = data.dig('daily', 0, 'temp', 'min')
+      max_temp = data.dig('daily', 0, 'temp', 'max')
+
       {
         current_uvi: current_uvi,
         daily_max_uvi: daily_max_uvi,
         current_humidity: current_humidity,
-        daily_min_humidity: daily_min_humidity
+        daily_min_humidity: daily_min_humidity,
+        current_weather: current_weather,
+        min_temp: min_temp,
+        max_temp: max_temp
       }
     rescue JSON::ParserError => e
       Rails.logger.error "JSONを解析できませんでした: #{e.message}"

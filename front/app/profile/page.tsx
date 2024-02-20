@@ -211,14 +211,14 @@ export default function EditProfile() {
               }}
             />
           </div>
-          <div className="w-full pt-4 pb-4" onClick={handleSubmit}>
-            <CustomButton colorClass="btn-506D7D w-full">
+          <div className="w-full pt-4 pb-4 flex justify-center" onClick={handleSubmit}>
+            <CustomButton colorClass="btn-506D7D">
               更新する
             </CustomButton>
           </div>
-          <div className="w-full pb-10">
+          <div className="w-full pb-10 flex justify-center">
             <Link href='/my_page'>
-              <Button className="text-md bg-F5F5F5 text-48352F w-full hover:bg-E0DBD2">
+              <Button className="text-md bg-F5F5F5 text-48352F hover:bg-E0DBD2">
                 キャンセル
               </Button>
             </Link>

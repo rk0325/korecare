@@ -9,7 +9,7 @@ import CosmeticsContextProvider from './providers/CosmeticsContextProvider';
 
 export const metadata: Metadata = {
   title: 'KoreCare｜コリケア',
-  description: 'KoreCareは、韓国コスメに特化したユーザーのスキンケアをサポートするサービスです。',
+  description: 'KoreCareは、韓国コスメに特化した毎日のスキンケアをサポートするサービスです。',
 }
 
 export default function RootLayout({

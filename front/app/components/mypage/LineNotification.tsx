@@ -74,10 +74,10 @@ export const LineNotification = () => {
   }, [headers, notificationMap]);
 
   return (
-    <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu items-center'>
-      <Separator className="my-20" />
-      <div className="text-xl text-center flex justify-center items-center">
-        <span>LINE通知登録</span>
+    <div className='bg-background-color text-text-color text-center font-genjyuu items-center'>
+      <Separator className="my-10" />
+      <div className="text-xl text-center flex justify-center">
+        <span id="line-notification">LINE通知登録</span>
       </div>
       <div className="flex items-center pt-8 justify-center text-lg">
         <Sun className="mr-2 h-6 w-6" />
@@ -104,8 +104,8 @@ export const LineNotification = () => {
           <CheckSquare2 className="mr-2 h-6 w-6" />
           <span>通知の設定方法</span>
         </div>
-        <p>QRコードもしくは<a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline' }}>こちらのリンク</a>から、KoreCareの公式アカウントを友だちに追加。</p>
-        <p>入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
+        <p className='pt-4'>PCの方は上記のQRコードを読み取っていただき、スマートフォンの方は<a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">こちらのリンク</a>から、KoreCareの公式アカウントを友だちに追加。</p>
+        <p className='p-4'>入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
       </div>
     </div>
   );

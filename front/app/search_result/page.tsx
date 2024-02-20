@@ -81,13 +81,17 @@ export default function SearchResult() {
 		return null; // どのカテゴリにも一致しない場合はnullを返す
 	};
 
+	function truncateName(name: string, maxLength: number = 46): string {
+    return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
+  }
+
 	return (
 		<div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
 			<p className="text-xl text-center justify-between pt-10 p-6">
 				あなたにおすすめの韓国コスメはこちら！
 			</p>
 			{isLoading ? (
-				<div className="flex justify-center">
+				<div className="flex justify-center items-center min-h-screen">
 					<PropagateLoader color="#506D7D" />
 				</div>
 			) : (
@@ -103,7 +107,7 @@ export default function SearchResult() {
 								{filteredCosmetics.map((cosmetic, index) => (
 									<div key={index} className='relative flex flex-col items-center p-2'>
 										<p className="line-clamp-2">
-											{cosmetic.itemName}
+											{truncateName(cosmetic.itemName)}
 										</p>
 										<div className="relative">
 											<Image
@@ -134,7 +138,7 @@ export default function SearchResult() {
 				})
 			)}
 			<br />
-			<Link href='/home'>
+			<Link href='/search'>
 				<div className="flex justify-center pb-10">
 					<CustomButton colorClass="btn-506D7D">もう一度検索する</CustomButton>
 				</div>

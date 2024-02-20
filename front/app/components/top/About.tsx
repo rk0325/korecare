@@ -48,7 +48,7 @@ const About = () => {
       <p className="text-center justify-between p-6">
         『KoreCare（コリケア）』は韓国コスメに特化した、毎日のスキンケアをサポートするサービスです。<br />
       </p>
-      <Carousel className="mx-auto w-4/5 md:w-1/2" style={{ maxWidth: '1280px' }}>
+      <Carousel className="mx-auto w-4/5 md:w-1/2 max-w-screen-xl">
         <CarouselContent>
           {carouselTexts.map((text, index) => (
             <CarouselItem key={index}>

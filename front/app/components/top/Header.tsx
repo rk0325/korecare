@@ -10,8 +10,8 @@ const Header = () => {
   const linkHref = session ? '/home' : '/';
 
   return (
-    <header className='bg-custom-color text-text-color font-genjyuu' style={{ top: 0, width: '100%'}}>
-      <div className='h-20 w-full border-b-2 border-line-color flex items-center justify-between p-2'>
+    <header className='bg-custom-color text-text-color font-genjyuu shadow-custom w-full mb-2'>
+      <div className='h-20 flex items-center justify-between p-4'>
         <ul className='flex'>
           <li className='p-2 cursor-pointer'>
             <Link href={linkHref}>KoreCare</Link>

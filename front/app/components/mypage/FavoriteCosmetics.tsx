@@ -110,7 +110,7 @@ export const FavoriteCosmetics = () => {
     setFavoriteStatus(new Map(favoriteCosmetics?.map(cosmetic => [cosmetic.item_code, true])));
   }, [favoriteCosmetics]);
 
-  function truncateName(name: string, maxLength: number = 40): string {
+  function truncateName(name: string, maxLength: number = 36): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
   }
 
@@ -124,7 +124,7 @@ export const FavoriteCosmetics = () => {
   return (
     <div className='bg-background-color font-genjyuu min-h-screen text-text-color text-center pb-10'>
       {isLoading ? (
-        <div className="flex justify-center">
+        <div className="flex justify-center items-center min-h-screen">
           <PropagateLoader color="#506D7D" />
         </div>
       ) : (
@@ -138,16 +138,17 @@ export const FavoriteCosmetics = () => {
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
                 {filteredCosmetics.length > 0 ? (
                   filteredCosmetics.map((cosmetic, index) => (
-                    <div key={index} className='flex flex-col items-center p-2'>
+                    <div key={index} className='flex flex-col items-center'>
                       <p className="line-clamp-2">
                         {truncateName(cosmetic.name)}
                       </p>
-                      <div className="relative w-full h-60">
+                      <div className="relative pt-4">
                         <Image
                           src={cosmetic.image_url}
                           alt={cosmetic.name}
-                          layout="fill"
-                          objectFit="contain"
+                          width={500}
+                          height={500}
+                          style={{ objectFit: "contain", width: "auto" }}
                         />
                       </div>
                       <div className="flex justify-center items-center space-x-2 mt-2">

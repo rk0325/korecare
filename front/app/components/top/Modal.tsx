@@ -55,13 +55,13 @@ const Modal = () => {
               height={80}
               style={{ borderRadius: '50%' }}
             />
-            <Label style={{ fontSize: '1rem', textAlign: 'center', marginTop: '1rem' }}>{name || session?.user?.name}さん</Label>
+            <Label className="text-base text-center mt-4">{name || session?.user?.name}さん</Label>
           </div>
           <div className="flex items-center cursor-pointer pt-8" onClick={() => handleNavigation('/home')}>
             <Home className="mr-2 h-4 w-4" />
             <span>ホーム</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-8" onClick={() => handleNavigation('/my_page')}>
+          <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page')}>
             <Smile className="mr-2 h-4 w-4" />
             <span>マイページ</span>
           </div>
@@ -73,7 +73,7 @@ const Modal = () => {
             <Heart className="mr-2 h-4 w-4" />
             <span>お気に入りコスメ</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page')}>
+          <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page#line-notification')}>
             <Smartphone className="mr-2 h-4 w-4" />
             <span>LINE通知登録</span>
           </div>
