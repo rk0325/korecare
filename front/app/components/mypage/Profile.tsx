@@ -28,7 +28,7 @@ export const Profile = () => {
   return (
     session ? (
       <div className='font-genjyuu min-h-screen bg-background-color flex justify-center text-text-color'>
-        <div className="max-w-sm text-center justify-center">
+        <div className="text-center justify-center">
           <div className="flex justify-center">
             <Image
               className="mb-6"
@@ -45,16 +45,16 @@ export const Profile = () => {
           <p className="mb-6">肌質：{skinType}</p>
           <p className="mb-6">お悩み：{skinTrouble}</p>
           <p className="mb-6">お住まい：{prefecture}</p>
-          <div className="w-full max-w-sm mt-4">
+          <div className="flex justify-center pt-2">
             <Link href='/profile'>
               <CustomButton
-                colorClass="btn-506D7D w-full max-w-sm"
+                colorClass="btn-506D7D"
               >
                 編集する
               </CustomButton>
             </Link>
-            <LineNotification />
           </div>
+          <LineNotification />
         </div>
       </div>
     ) : null

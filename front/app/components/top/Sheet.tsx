@@ -86,10 +86,10 @@ export default function SheetSide() {
                     height={100}
                     style={{ borderRadius: '50%' }}
                   />
-                  <Label style={{ fontSize: '1rem', textAlign: 'center', marginTop: '1rem' }}>{name || session.user?.name}さん</Label>
+                  <Label className="text-base text-center mt-4">{name || session?.user?.name}さん</Label>
                 </div>
                 <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-8" onClick={() => handleNavigation('/home')}>
+                  <div className="flex items-center cursor-pointer pt-10" onClick={() => handleNavigation('/home')}>
                     <Home className="mr-2 h-4 w-4" />
                     <span>ホーム</span>
                   </div>
@@ -113,7 +113,7 @@ export default function SheetSide() {
                   </div>
                 </SheetClose>
                 <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page')}>
+                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page#line-notification')}>
                     <Smartphone className="mr-2 h-4 w-4" />
                     <span>LINE通知登録</span>
                   </div>

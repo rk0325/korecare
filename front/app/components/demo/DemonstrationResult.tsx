@@ -48,7 +48,7 @@ const DemonstrationResult = () => {
       </p>
       <div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center space-y-4 md:space-y-0'>
         {isLoading ? (
-          <div className="flex justify-center">
+          <div className="flex justify-center items-center min-h-screen">
             <PropagateLoader color="#506D7D" />
           </div>
         ) : (
@@ -56,15 +56,16 @@ const DemonstrationResult = () => {
             <div key={index} className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
               <p className="text-lg z-10">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
               <p className="pb-2 line-clamp-2 z-10">{truncateName(cosmetic.itemName)}</p>
-              <div className="relative w-full h-60">
+              <div className="relative z-0">
                 <Image
                   src={cosmetic.mediumImageUrl}
                   alt={cosmetic.itemName}
-                  layout="fill"
-                  objectFit="contain"
+                  width={500}
+                  height={500}
+                  style={{ objectFit: "contain", width: "auto" }}
                 />
               </div>
-              <p className="z-10">{cosmetic.itemPrice}円</p>
+              <p className="z-10 relative">{cosmetic.itemPrice}円</p>
             </div>
           ))
         )}

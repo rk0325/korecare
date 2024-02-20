@@ -13,8 +13,10 @@ module Api
           when Line::Bot::Event::Follow
             # ユーザーがボットを友達に追加した場合
             user_id = event['source']['userId']
-            # ユーザーIDをデータベースに保存する
-            User.find_or_create_by(line_id: user_id)
+            # ユーザーIDとproviderをデータベースに保存する
+            User.find_or_create_by(line_id: user_id) do |user|
+              user.provider = 'google'
+            end
           end
         end
       end

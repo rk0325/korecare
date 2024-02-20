@@ -73,7 +73,7 @@ const FirstDemonstration = () => {
 				<div className="modal-box text-left">
 					<div className="flex items-center">
 						<SearchCheck className="mr-1 h-6 w-6" />
-						<p className="pt-2 pb-2">あなたの洗顔後の肌の様子に一番近いものは？</p>
+						<p className="pt-2 pb-2 text-lg">あなたの洗顔後の肌の様子に一番近いものは？</p>
 					</div>
 					<p className="my-2">・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる →乾燥肌</p>
 					<p className="my-2">・額や鼻はベタつきがあり、目元・口元・頬は乾燥を感じる →混合肌</p>
