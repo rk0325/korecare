@@ -105,7 +105,7 @@ export const LineNotification = () => {
           <span>通知の設定方法</span>
         </div>
         <p className='pt-4'>PCの方は上記のQRコードを読み取っていただき、スマートフォンの方は<a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">こちらのリンク</a>から、KoreCareの公式アカウントを友だちに追加。</p>
-        <p className='p-4'>入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
+        <p className='pt-2 pb-4'>入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
       </div>
     </div>
   );
