@@ -11,6 +11,8 @@ type Cosmetic = {
   itemName: string;
   itemPrice: number;
   mediumImageUrl: string;
+  shopName: string;
+  itemUrl: string;
 };
 
 const DemonstrationResult = () => {
@@ -44,7 +46,7 @@ const DemonstrationResult = () => {
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
       <p className="text-xl text-center justify-between pt-10 p-6">
-        あなたにおすすめの韓国コスメはこちら！
+        あなたにおすすめの<br />韓国コスメはこちら！
       </p>
       <div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center space-y-4 md:space-y-0'>
         {isLoading ? (
@@ -66,13 +68,17 @@ const DemonstrationResult = () => {
                 />
               </div>
               <p className="z-10 relative">{cosmetic.itemPrice}円</p>
+              <p>{cosmetic.shopName}</p>
+              <Link href={cosmetic.itemUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                商品ページへ
+              </Link>
             </div>
           ))
         )}
       </div>
       <br />
       <p className="text-md text-center justify-between pt-2 pb-10 p-6">
-        ログインしていただくと、コスメをお気に入りに登録したり、商品の詳細を見ることができます！
+        ログインしていただくと、コスメをお気に入りに登録することができます！
       </p>
       <Link href='/first_demonstration'>
         <div className="flex justify-center pb-10">

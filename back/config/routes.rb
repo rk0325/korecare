@@ -1,20 +1,27 @@
 Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
+
   root to: proc { [200, {}, ["Welcome to my API!"]] }
+
   namespace :api do
     namespace :v1 do
-      resources :profiles, only: [:update]
+      resource :profiles, only: [:show, :update]
       resources :favorite_cosmetics, only: [:index, :create, :destroy]
-      get '/profiles', to: 'profiles#show'
-      post 'cosmetics_recommendation/search_cosmetics_for_guests', to: 'cosmetics_recommendation#search_cosmetics_for_guests'
-      post 'cosmetics_recommendation/search_cosmetics_for_logged_in_users', to: 'cosmetics_recommendation#search_cosmetics_for_logged_in_users'
-      get '/line_webhook', to: 'line_webhooks#callback'
-      post '/line_webhook', to: 'line_webhooks#callback'
-      get '/notifications/status', to: 'notifications#status'
-      post '/notifications/enable', to: 'notifications#enable'
+
+      namespace :cosmetics_recommendation do
+        post :search_cosmetics_for_guests
+        post :search_cosmetics_for_logged_in_users
+      end
+
+      resource :notifications, only: [] do
+        get :status
+        post :enable
+      end
+
       get '/weather', to: 'weather#show'
     end
   end
+
   post 'auth/:provider/callback', to: 'api/v1/users#create'
 end

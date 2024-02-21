@@ -29,7 +29,7 @@ export default function AuthenticateLink() {
           </p>
         </TooltipTrigger>
         <TooltipContent >
-          <p>Googleでログインする</p>
+          <p>LINEでログインする</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

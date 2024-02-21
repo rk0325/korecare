@@ -2,6 +2,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Cosmetic } from '../../contexts/CosmeticsContext';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 import axios from 'axios';
@@ -161,6 +162,9 @@ export const FavoriteCosmetics = () => {
                       </div>
                       <p className='pt-2'>{cosmetic.price}円</p>
                       <p>{cosmetic.brand}</p>
+                      <Link href={cosmetic.item_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+                        商品ページへ
+                      </Link>
                     </div>
                   ))
                 ) : (

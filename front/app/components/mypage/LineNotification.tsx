@@ -89,7 +89,7 @@ export const LineNotification = () => {
           checked={notificationMap.get('notification') ?? false}
           onCheckedChange={handleSwitchChange}
         />
-        <Label htmlFor="line-notification" className='text-md'>通知ON</Label>
+        <Label htmlFor="line-notification" className='text-md'>通知を受け取る</Label>
       </div>
       <div className="pt-4 flex justify-center items-center">
         <Image
@@ -104,8 +104,8 @@ export const LineNotification = () => {
           <CheckSquare2 className="mr-2 h-6 w-6" />
           <span>通知の設定方法</span>
         </div>
-        <p className='pt-4'>PCの方は上記のQRコードを読み取っていただき、スマートフォンの方は<a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">こちらのリンク</a>から、KoreCareの公式アカウントを友だちに追加。</p>
-        <p className='pt-2 pb-4'>入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
+        <p className='pt-4'>PCの方は上記のQRコードを読み取っていただき、スマートフォンの方は<a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">こちらのリンク</a>から、KoreCareの公式アカウントを友だちへ追加していただきます。</p>
+        <p className='pt-2 pb-4'>通知をONにしていただくと、入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
       </div>
     </div>
   );

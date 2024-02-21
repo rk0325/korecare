@@ -23,13 +23,6 @@ const fetcher = async ([url, token]: [string, string | undefined]) => {
   return axios.get(url, { headers }).then(res => res.data);
 };
 
-const getColorByLevel = (baseHue: number, level: number): string => {
-  const saturation = 100; // 彩度は100%で固定
-  let lightness = 50 - (level * 5); // 明度をレベルに応じて調整（レベルが高いほど暗く）
-  lightness = lightness < 20 ? 20 : lightness; // 明度が20%未満にならないように制限
-  return `hsl(${baseHue}, ${saturation}%, ${lightness}%)`;
-};
-
 const calculateLevel = (value: number, max: number): number => {
   const level = Math.ceil((value / max) * 5);
   return level > 5 ? 5 : level; // 最大レベルを5に制限
