@@ -36,7 +36,7 @@ class CosmeticsRecommendation
     # 未ログインユーザー向けの検索ロジック
     genre_id = "562084" # 「韓国スキンケア」のジャンルID
     tag_id = SKIN_TYPE_TAGS[skin_type]
-    elements = "itemCode,itemName,itemPrice,imageUrl"
+    elements = "itemCode,itemName,itemPrice,imageUrl,itemUrl"
     ng_keywords = COMMON_NG_KEYWORDS
     results = []
     ["化粧水", "セラム", "クリーム"].each do |item|
@@ -60,6 +60,7 @@ class CosmeticsRecommendation
         id: item['itemCode'], # 楽天市場の商品コードをidとして使用
         itemName: item['itemName'],
         itemPrice: item['itemPrice'],
+        itemUrl: item['itemUrl'],
         mediumImageUrl: item['mediumImageUrls'].first,
       }
     end

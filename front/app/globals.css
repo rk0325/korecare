@@ -143,3 +143,18 @@
 .carousel-height-custom {
   height: 450px;
 }
+
+.carouselItemContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.carouselItemContent p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #333;
+}

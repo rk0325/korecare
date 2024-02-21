@@ -37,7 +37,7 @@ class WeatherNotificationJob < ApplicationJob
       Rails.logger.debug "ユーザー #{user.id} に送信されるメッセージ: #{message}"
 
       # LINE通知の送信
-      LineNotifyService.send_message(user.line_id, message) if user.line_id.present?
+      LineNotifyService.send_message(user.uid, message) if user.uid.present?
     end
   end
 end

@@ -6,7 +6,6 @@ module Api
         user = User.find_or_initialize_by(provider: params[:provider], uid: params[:uid])
         # ユーザー情報を更新
         user.name = params[:name]
-        user.email = params[:email]
         user.avatar = params[:avatar]
 
         if user.save
@@ -16,6 +15,12 @@ module Api
         end
       rescue StandardError => e
         render json: { error: e.message }, status: :internal_server_error
+      end
+
+      private
+
+      def user_params
+        params.require(:user).permit(:provider, :uid, :name, :avatar)
       end
     end
   end

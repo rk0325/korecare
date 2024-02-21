@@ -5,7 +5,7 @@ module WeatherMessageGenerator
     text += uv_index_advice(weather_info[:current_uvi], weather_info[:daily_max_uvi])
     text += "💧現在の湿度は#{weather_info[:current_humidity]}%、最低湿度は#{weather_info[:daily_min_humidity]}%です。\n"
     text += humidity_advice(weather_info[:current_humidity], weather_info[:daily_min_humidity])
-    text += "UV指数や湿度の目安をご覧になりたい方は、「目安」と送信していただけますと幸いです。"
+    text += "✔︎UV指数や湿度の目安をご覧になりたい方は、「目安」と送信していただけますと幸いです。"
   end
 
   def self.uv_index_advice(current_uvi, daily_max_uvi)
@@ -30,7 +30,11 @@ module WeatherMessageGenerator
   def self.humidity_advice(current_humidity, daily_min_humidity)
     return "湿度情報が利用できません。" if current_humidity.nil? || daily_min_humidity.nil?
 
-    if current_humidity <= 30 || daily_min_humidity <= 30
+    if current_humidity >= 70 && daily_min_humidity > 30
+      "現在湿度が高く、お肌のトラブルが起こりやすい状態です。適度な保湿を心がけるとともに、肌を清潔に保つことをお勧めします。\n\n"
+    elsif current_humidity >= 70 && daily_min_humidity <= 30
+      "現在は湿度が高いですが、日中の最低湿度が低いため、お肌の乾燥に注意してください。保湿を心がけ、肌を清潔に保つことをお勧めします。\n\n"
+    elsif current_humidity <= 30 || daily_min_humidity <= 30
       "現在空気が乾燥しています。ミスト化粧水やクリームを活用して、適宜うるおいを補給することをお勧めします。\n\n"
     elsif current_humidity.between?(30, 50)
       "現在空気がやや乾燥しています。ミスト化粧水やクリームを活用して、適宜うるおいを補給することをお勧めします。\n\n"

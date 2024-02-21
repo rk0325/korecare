@@ -3,13 +3,13 @@ require 'uri'
 require 'json'
 
 class LineNotifyService
-  def self.send_message(line_id, message)
+  def self.send_message(uid, message)
     uri = URI.parse("https://api.line.me/v2/bot/message/push")
     request = Net::HTTP::Post.new(uri)
     request.content_type = "application/json"
     request["Authorization"] = "Bearer #{ENV['LINE_CHANNEL_TOKEN']}"
     request.body = JSON.dump({
-      to: line_id,
+      to: uid,
       messages: [{ type: "text", text: message }]
     })
 

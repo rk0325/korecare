@@ -21,11 +21,9 @@ Tags ||--o{ ReviewTags : has
 Users {
   bigint id PK
   string name
-  string email "UNIQUE"
   string provider "UNIQUE"
   string uid "UNIQUE"
   string avatar
-  string line_id "UNIQUE"
   boolean receive_notifications
   datetime created_at
   datetime updated_at
@@ -208,7 +206,7 @@ ReviewTags {
 - レコメンド機能でレコメンドされた韓国コスメのお気に入り
 
 ### その他
-- Googleログイン
+- LINEログイン
 - マイページ
   - プロフィール登録 / 編集 / 削除
   - 肌質・お悩み・年代の登録 / 編集 / 削除
@@ -240,7 +238,6 @@ ReviewTags {
 - カテゴリ（肌質・お悩み・年代）別にレビューの評価が高い順でランキング
 
 ### その他
-- LINEログイン
 - レビュー投稿のX（旧Twitter）シェア
 - テスト（RSpec）
 
