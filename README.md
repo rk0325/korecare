@@ -82,8 +82,6 @@ CosmeticUsage {
   bigint id PK
   bigint user_id FK
   integer item_type
-  datetime start_date
-  datetime duration_date
   datetime open_date
   datetime expiry_date
   datetime created_at
