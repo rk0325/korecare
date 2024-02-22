@@ -3,10 +3,10 @@ module Api
     class UsersController < ApplicationController
       def create
         # find_or_initialize_byを使用して、ユーザーが存在しない場合は新しいインスタンスを初期化
-        user = User.find_or_initialize_by(provider: params[:provider], uid: params[:uid])
+        user = User.find_or_initialize_by(provider: user_params[:provider], uid: user_params[:uid])
         # ユーザー情報を更新
-        user.name = params[:name]
-        user.avatar = params[:avatar]
+        user.name = user_params[:name]
+        user.avatar = user_params[:avatar]
 
         if user.save
           head :ok
