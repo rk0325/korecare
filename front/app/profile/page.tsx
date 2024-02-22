@@ -38,16 +38,18 @@ export default function EditProfile() {
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
     const profileData = {
-      name: name,
-      age: age,
-      skin_type: skinType,
-      skin_trouble: skinTrouble,
-      avatar: avatar,
-      prefecture: prefecture
+      profile: {
+        name: name,
+        age: age,
+        skin_type: skinType,
+        skin_trouble: skinTrouble,
+        avatar: avatar,
+        prefecture: prefecture
+      }
     };
 
     try {
-      const updatedProfile = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profiles/update`, profileData, {
+      const updatedProfile = await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profiles`, profileData, {
         headers: headers,
         withCredentials: true
       });

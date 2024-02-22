@@ -35,7 +35,7 @@ module Api
       private
 
       def profile_params
-        params.permit(:name, :age, :skin_type, :skin_trouble, :avatar, :prefecture)
+        params.require(:profile).permit(:name, :age, :skin_type, :skin_trouble, :avatar, :prefecture)
       end
     end
   end
