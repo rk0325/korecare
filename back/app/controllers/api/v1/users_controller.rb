@@ -4,19 +4,14 @@ module Api
       rescue_from StandardError, with: :handle_standard_error
 
       def create
-        # find_or_initialize_byを使用して、ユーザーが存在しない場合は新しいインスタンスを初期化
-        user = User.find_or_initialize_by(provider: user_params[:provider], uid: user_params[:uid])
-        # ユーザー情報を更新
-        user.name = user_params[:name]
-        user.avatar = user_params[:avatar]
+        user = User.find_or_initialize_by(user_params.slice(:provider, :uid))
+        user.assign_attributes(user_params.except(:provider, :uid))
 
         if user.save
-          head :ok
+          render json: user, status: :ok
         else
-          render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+          render json: { errors: user.errors.full_messages }, status: :bad_request
         end
-      rescue StandardError => e
-        render json: { error: e.message }, status: :internal_server_error
       end
 
       private
@@ -26,8 +21,8 @@ module Api
       end
 
       def handle_standard_error(e)
-        logger.error "Internal Server Error: #{e.message}"
-        e.backtrace.each { |line| logger.error line }
+        Rails.logger.error "Internal Server Error: #{e.message}"
+        e.backtrace.each { |line| Rails.logger.error line }
         render json: { error: '内部サーバーエラーが発生しました。' }, status: :internal_server_error
       end
     end

@@ -71,21 +71,38 @@ const handler = NextAuth({
 
       try {
         const response = await axios.post(
-          `${apiUrl}/auth/${provider}/callback`,
-          {
+          `${apiUrl}/auth/${provider}/callback`, {
+          user: {
             provider,
             uid,
             name,
             avatar,
           }
-        );
+        });
         if (response.status === 200) {
           return true;
         } else {
           return false;
         }
       } catch (error) {
-        console.error(error);
+        if (axios.isAxiosError(error)) {
+          // AxiosErrorの場合、error.responseやerror.requestを安全にアクセスできる
+          if (error.response) {
+            console.error("Response data:", error.response.data);
+            console.error("Response status:", error.response.status);
+            console.error("Response headers:", error.response.headers);
+          } else if (error.request) {
+            console.error("No response received:", error.request);
+          } else {
+            console.error("Error message:", error.message);
+          }
+        } else if (error instanceof Error) {
+          // 一般的なErrorインスタンスの場合
+          console.error("Error:", error.message);
+        } else {
+          // それ以外の未知のエラータイプ
+          console.error("An unknown error occurred");
+        }
         return false;
       }
     },
