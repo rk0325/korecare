@@ -15,7 +15,8 @@ export const Profile = () => {
     Loading...<br />
     잠깐만요.</div>;
   if (isError) return <div className="text-xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
-    プロフィールの読み込みに失敗しました。</div>;
+    Loading...<br />
+    잠깐만요.</div>;
 
   // プロフィールデータまたはセッションデータを使用
   const name = profile?.name || session?.user?.name || "";

@@ -15,7 +15,8 @@ import {
   Umbrella,
   Snowflake,
   CloudFog,
-  Zap
+  Zap,
+  X
 } from "lucide-react"
 
 const fetcher = async ([url, token]: [string, string | undefined]) => {
@@ -63,6 +64,10 @@ export default function Home() {
   const { data: session } = useSession();
   const { profile, isLoading: isProfileLoading } = useProfile();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const { data: weatherData, error } = useSWR(
     profile ? [`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/weather?prefecture_name=${profile.prefecture || "東京都"}`, session?.accessToken] : null,
@@ -146,8 +151,13 @@ export default function Home() {
         </label>
       </div>
       <input type="checkbox" id="my-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
-      <div className="modal">
-        <div className="modal-box text-left">
+      <div className="modal" onClick={handleCloseModal}>
+        <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
+          <div className="flex justify-end">
+            <button onClick={handleCloseModal} className="btn btn-ghost btn-circle">
+              <X />
+            </button>
+          </div>
           <p className="my-2 text-lg">・UV指数</p>
           <p className="my-2 text-md">1〜2が「弱い」、3〜5が「中程度」、6以上が「強い」といわれています。</p>
           <p className="my-2 text-md">WHOによると、UV指数が3以上の場合は屋外での日焼け止めの利用、長袖や帽子の着用が推奨されています。</p>
@@ -156,9 +166,6 @@ export default function Home() {
           <p className="my-2 text-md pb-2">湿度が50%を下回っていたり、お肌の乾燥が気になった際はミスト化粧水やクリームを活用して、適宜うるおいを補給することをお勧めします。</p>
           <div className="my-2 text-md flex items-center">
             <MapPinned className="mr-2 h-16 w-16" />マイページにてお住まいを登録していただくと、住んでいる場所の情報が表示されます。登録前は、東京都の情報を表示しています。
-          </div>
-          <div className="modal-action">
-            <button className="btn text-text-color" onClick={() => setIsModalOpen(false)}>閉じる</button>
           </div>
         </div>
       </div>
