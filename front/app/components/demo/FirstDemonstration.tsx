@@ -10,6 +10,7 @@ import {
 	Diamond,
 	SearchCheck,
 	HelpCircle,
+	X
 } from "lucide-react"
 
 const FirstDemonstration = () => {
@@ -23,6 +24,10 @@ const FirstDemonstration = () => {
 	const handleSubmit = () => {
 		console.log(skinType)
 	};
+
+	const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
 	return (
 		<div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
@@ -69,8 +74,13 @@ const FirstDemonstration = () => {
 				</label>
 			</div>
 			<input type="checkbox" id="my-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
-			<div className="modal">
-				<div className="modal-box text-left">
+			<div className="modal" onClick={handleCloseModal}>
+				<div className="modal-box text-left" onClick={e => e.stopPropagation()}>
+					<div className="flex justify-end">
+						<button onClick={handleCloseModal} className="btn btn-ghost btn-circle">
+							<X />
+						</button>
+					</div>
 					<div className="flex items-center">
 						<SearchCheck className="mr-1 h-6 w-6" />
 						<p className="pt-2 pb-2 text-lg">あなたの洗顔後の肌の様子に一番近いものは？</p>
@@ -88,9 +98,6 @@ const FirstDemonstration = () => {
 					<div className="flex items-center">
 						<AlertTriangle className="mr-1 h-6 w-6" />
 						<p>こちらの質問は、肌質を断定するものではございません。</p>
-					</div>
-					<div className="modal-action">
-						<button className="btn text-text-color" onClick={() => setIsModalOpen(false)}>閉じる</button>
 					</div>
 				</div>
 			</div>

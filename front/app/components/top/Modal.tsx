@@ -13,7 +13,8 @@ import {
   Menu,
   Smartphone,
   Smile,
-  Home
+  Home,
+  X
 } from "lucide-react"
 
 const Modal = () => {
@@ -24,6 +25,8 @@ const Modal = () => {
     setIsModalOpen(false); // ログアウト処理後にモーダルを閉じる
     toast.loading('ログアウトしています...');
   };
+
+  const handleClose = () => setIsModalOpen(false);
 
   const { data: session } = useSession();
   const { profile } = useProfile();
@@ -45,9 +48,14 @@ const Modal = () => {
       <div className="menu-button" onClick={() => setIsModalOpen(true)}>
         <Menu />
       </div>
-      <div className={`modal ${isModalOpen ? 'modal-open' : ''}`}>
-        <div className="modal-box">
-          <div className="flex flex-col items-center pt-4">
+      <div className={`modal ${isModalOpen ? 'modal-open' : ''}`} onClick={handleClose}>
+        <div className="modal-box" onClick={e => e.stopPropagation()}>
+          <div className="flex justify-end">
+            <button onClick={handleClose} className="btn btn-ghost btn-circle">
+              <X />
+            </button>
+          </div>
+          <div className="flex flex-col items-center">
             <Image
               src={avatar || session?.user?.image || '/default-avatar.png'}
               alt="User Avatar"
@@ -80,9 +88,6 @@ const Modal = () => {
           <div className="flex items-center cursor-pointer pt-6" onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>ログアウト</span>
-          </div>
-          <div className="modal-action">
-            <button className="btn text-text-color font-genjyuu" onClick={() => setIsModalOpen(false)}>閉じる</button>
           </div>
         </div>
       </div>
