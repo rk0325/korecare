@@ -32,7 +32,9 @@ const About = () => {
         />
       </div>
       <p className="text-center justify-between p-6">
-        『KoreCare（コリケア）』は韓国コスメに特化した、毎日のスキンケアをサポートするサービスです。<br />
+        KoreCare（コリケア）は<br />
+        韓国コスメに特化した<br />
+        毎日のスキンケアをサポートする<br />サービスです。<br />
       </p>
       <CarouselContents />
       <p className="text-md text-center justify-between pt-10 pb-2">

@@ -14,7 +14,8 @@ import {
   Smartphone,
   Smile,
   Home,
-  X
+  X,
+  PenLine
 } from "lucide-react"
 
 const Modal = () => {
@@ -22,7 +23,7 @@ const Modal = () => {
   const router = useRouter();
   const handleLogout = async () => {
     await signOut({ callbackUrl: '/' });
-    setIsModalOpen(false); // ログアウト処理後にモーダルを閉じる
+    setIsModalOpen(false);
     toast.loading('ログアウトしています...');
   };
 
@@ -31,7 +32,6 @@ const Modal = () => {
   const { data: session } = useSession();
   const { profile } = useProfile();
 
-  // プロフィールデータまたはセッションデータを使用
   const name = profile?.name || session?.user?.name || "";
   const avatar = profile?.avatar || session?.user?.image || '/default-avatar.png';
 
@@ -79,11 +79,15 @@ const Modal = () => {
           </div>
           <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/favorite_cosmetics')}>
             <Heart className="mr-2 h-4 w-4" />
-            <span>お気に入りコスメ</span>
+            <span>お気に入り</span>
           </div>
           <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page#line-notification')}>
             <Smartphone className="mr-2 h-4 w-4" />
             <span>LINE通知登録</span>
+          </div>
+          <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/column')}>
+            <PenLine className="mr-2 h-4 w-4" />
+            <span>コラム</span>
           </div>
           <div className="flex items-center cursor-pointer pt-6" onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />

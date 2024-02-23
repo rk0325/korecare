@@ -129,12 +129,12 @@ export default function EditProfile() {
                 </div>
                 <div className="flex items-center">
                   <SearchCheck className="mr-1 h-6 w-6" />
-                  <p className="pt-2 pb-2 text-lg">あなたの洗顔後の肌の様子に一番近いものは？</p>
+                  <p className="pt-2 pb-2 text-md font-bold">あなたの洗顔後の肌の様子に一番近いものは？</p>
                 </div>
-                <p className="my-2">・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる →乾燥肌</p>
-                <p className="my-2">・額や鼻はベタつきがあり、目元・口元・頬は乾燥を感じる →混合肌</p>
-                <p className="my-2">・全体的にベタつきがあり、乾燥は感じない →脂性肌</p>
-                <p className="my-2 pb-2">・ベタつきも乾燥もほとんど感じない →普通肌</p>
+                <p className="my-2">・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる→乾燥肌</p>
+                <p className="my-2">・額や鼻はベタつきがあり、目元・口元・頬は乾燥を感じる→混合肌</p>
+                <p className="my-2">・全体的にベタつきがあり、乾燥は感じない→脂性肌</p>
+                <p className="my-2 pb-2">・ベタつきも乾燥もほとんど感じない→普通肌</p>
                 <div className="flex items-center">
                   <Diamond className="mr-1 h-6 w-6" />
                   <p>以下のような特徴がある方は、敏感肌の可能性があります。</p>

@@ -13,12 +13,10 @@ import {
 }
 from "lucide-react"
 
-// axiosのインスタンスを作成
 const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-// axiosInstanceを使用してリクエストを行うfetcher関数を定義
 const fetcher = (url: string, headers: any) => axiosInstance.get(url, { headers }).then(res => res.data);
 
 export const LineNotification = () => {
@@ -29,13 +27,11 @@ export const LineNotification = () => {
     return token ? { Authorization: `Bearer ${token}` } : {};
   }, [token]);
 
-  // useSWRを使用して通知のオンオフ状態を取得
   const { data: notificationStatus } = useSWR<{ receive_notifications: boolean }>(
     token ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/status` : null,
     () => fetcher(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/status`, headers)
   );
 
-  // 通知設定の初期化
   useEffect(() => {
     if (notificationStatus && typeof notificationStatus.receive_notifications === 'boolean') {
       setNotificationMap(new Map([['notification', notificationStatus.receive_notifications]]));
@@ -47,7 +43,6 @@ export const LineNotification = () => {
 
     if (checked) {
       try {
-        // 通知設定を有効化
         await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/enable`,
           { enabled: true },
@@ -60,7 +55,6 @@ export const LineNotification = () => {
       }
     } else {
       try {
-        // スイッチがオフになった時、通知を無効化するリクエストを送信
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/enable`,
           { enabled: false },
@@ -104,8 +98,11 @@ export const LineNotification = () => {
           <CheckSquare2 className="mr-2 h-6 w-6" />
           <span>通知の設定方法</span>
         </div>
-        <p className='pt-4'>PCの方は上記のQRコードを読み取っていただき、スマートフォンの方は<a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">こちらのリンク</a>から、KoreCareの公式アカウントを友だちへ追加していただきます。</p>
-        <p className='pt-2 pb-4'>通知をONにしていただくと、入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
+        <p className='pt-4'>PCの方</p>
+        <p className='pt-2'>上記のQRコードを読み取っていただき、KoreCare公式アカウントを友だちへ追加</p>
+        <p className='pt-4'>スマートフォンの方</p>
+        <p className='pt-2'><a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">こちらのリンク</a>から、KoreCare公式アカウントを友だちへ追加</p>
+        <p className='pt-4 pb-4'>通知をONにしていただくと、入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
       </div>
     </div>
   );
