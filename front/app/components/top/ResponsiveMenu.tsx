@@ -11,12 +11,9 @@ const ResponsiveMenu = () => {
       setIsMobile(window.innerWidth <= 768);
     };
 
-    // コンポーネントマウント時に実行
     handleResize();
-    // ウィンドウのリサイズイベントに応じて実行
     window.addEventListener('resize', handleResize);
 
-    // クリーンアップ関数
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 

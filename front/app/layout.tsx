@@ -6,6 +6,10 @@ import Footer from './components/top/Footer';
 import { Toaster } from 'react-hot-toast';
 import UserInfoProvider from './providers/UserInfoProvider';
 import CosmeticsContextProvider from './providers/CosmeticsContextProvider';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
+
+library.add(faXTwitter, faGithub);
 
 export const metadata: Metadata = {
   title: 'KoreCare｜コリケア',
