@@ -18,11 +18,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import {
+	AlertTriangle,
+	Diamond,
+	SearchCheck,
+	HelpCircle,
+	X
+} from "lucide-react"
 
 export default function EditProfile() {
   const router = useRouter()
   const { data: session } = useSession();
   const { profile, mutate } = useProfile();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [name, setName] = useState(profile?.name || session?.user?.name || "");
   const [age, setAge] = useState(profile?.age || "");
@@ -30,6 +38,10 @@ export default function EditProfile() {
   const [skinTrouble, setSkinTrouble] = useState(profile?.skinTrouble || "");
   const [avatar, setAvatar] = useState(profile?.avatar || session?.user?.image || '/default-avatar.png');
   const [prefecture, setPrefecture] = useState(profile?.prefecture || "");
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -101,7 +113,40 @@ export default function EditProfile() {
             </Select>
           </div>
           <div className="mb-6">
-            <Label htmlFor="skinType">肌質</Label>
+            <div className="flex items-center">
+              <Label htmlFor="skinType">肌質</Label>
+              <button className="ml-1 p-1 rounded-full bg-white border border-gray-200 shadow" onClick={() => setIsModalOpen(true)}>
+                <HelpCircle className="h-5 w-5" />
+              </button>
+            </div>
+            <input type="checkbox" id="my-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
+            <div className="modal" onClick={handleCloseModal}>
+              <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
+                <div className="flex justify-end">
+                  <button onClick={handleCloseModal} className="btn btn-ghost btn-circle">
+                    <X />
+                  </button>
+                </div>
+                <div className="flex items-center">
+                  <SearchCheck className="mr-1 h-6 w-6" />
+                  <p className="pt-2 pb-2 text-lg">あなたの洗顔後の肌の様子に一番近いものは？</p>
+                </div>
+                <p className="my-2">・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる →乾燥肌</p>
+                <p className="my-2">・額や鼻はベタつきがあり、目元・口元・頬は乾燥を感じる →混合肌</p>
+                <p className="my-2">・全体的にベタつきがあり、乾燥は感じない →脂性肌</p>
+                <p className="my-2 pb-2">・ベタつきも乾燥もほとんど感じない →普通肌</p>
+                <div className="flex items-center">
+                  <Diamond className="mr-1 h-6 w-6" />
+                  <p>以下のような特徴がある方は、敏感肌の可能性があります。</p>
+                </div>
+                <p className="my-2 pt-2">・いつも使っている化粧品がしみたり、かゆくなったりすることがある</p>
+                <p className="my-2 pb-4">・化粧品でかぶれたり、つけるもので刺激を感じることがある</p>
+                <div className="flex items-center">
+                  <AlertTriangle className="mr-1 h-6 w-6" />
+                  <p>こちらの質問は、肌質を断定するものではございません。</p>
+                </div>
+              </div>
+            </div>
             <Select onValueChange={setSkinType}>
               <SelectTrigger>
                 <SelectValue className="text-text-color" placeholder={profile?.skin_type || "肌質"} />

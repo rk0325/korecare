@@ -8,7 +8,6 @@ import { Separator } from "@/components/ui/separator"
 import {
   CloudSun,
   Droplets,
-  MapPinned,
   HelpCircle,
   SunMedium,
   Cloudy,
@@ -26,7 +25,7 @@ const fetcher = async ([url, token]: [string, string | undefined]) => {
 
 const calculateLevel = (value: number, max: number): number => {
   const level = Math.ceil((value / max) * 5);
-  return level > 5 ? 5 : level; // 最大レベルを5に制限
+  return level > 5 ? 5 : level;
 };
 
 interface LevelIconsProps {
@@ -72,7 +71,7 @@ export default function Home() {
   const { data: weatherData, error } = useSWR(
     profile ? [`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/weather?prefecture_name=${profile.prefecture || "東京都"}`, session?.accessToken] : null,
     fetcher,
-    { refreshInterval: 60000 } // 60秒ごとに再検証
+    { refreshInterval: 60000 }
   );
 
   if (isProfileLoading || !weatherData) {
@@ -83,11 +82,9 @@ export default function Home() {
 
   if (error) return <div className='text-center justify-between'>データの取得に失敗しました。</div>;
 
-  // UV指数と湿度のレベルを計算
   const uviLevel = calculateLevel(weatherData?.current_uvi, 10);
   const humidityLevel = calculateLevel(weatherData?.current_humidity, 100);
 
-  // UV指数と湿度のレベルに応じた文言を取得
   const uviDescription = getUviDescription(weatherData?.current_uvi);
   const humidityDescription = getHumidityDescription(weatherData?.current_humidity);
 
@@ -129,23 +126,23 @@ export default function Home() {
 
   return (
     <div className='text-center justify-between'>
-      <p className='text-xl pt-10 pb-4'>今日の{profile.prefecture || "東京都"}の天気情報</p>
+      <p className='text-2xl pt-10 pb-4'>今日の{profile.prefecture || "東京都"}の天気情報</p>
       <div className='text-lg'>
-        <p className="my-2">現在の天気 : {translateWeather(currentWeather)} {getWeatherIcon(translateWeather(currentWeather))}</p>
-        <p className="my-2">最高気温 : {kelvinToCelsius(maxTemp)}°C</p>
-        <p className="my-2">最低気温 : {kelvinToCelsius(minTemp)}°C</p>
+        <p className="my-2 text-xl">現在の天気: {translateWeather(currentWeather)} {getWeatherIcon(translateWeather(currentWeather))}</p>
+        <p className="my-2 pt-2">最高気温: {kelvinToCelsius(maxTemp)}°C</p>
+        <p className="my-2">最低気温: {kelvinToCelsius(minTemp)}°C</p>
         <Separator className="my-10 w-1/4 mx-auto" />
-        <p className="my-2">現在のUV指数: {weatherData?.current_uvi}</p>
+        <p className="my-2 text-xl">現在のUV指数: {weatherData?.current_uvi}</p>
         <p className="my-2">{uviDescription}</p>
         <LevelIcons level={uviLevel} color={uviColor} Icon={CloudSun} />
+        <p className="pt-6">最高UV指数: {weatherData?.daily_max_uvi}</p>
         <Separator className="my-10 w-1/4 mx-auto" />
-        <p className="my-2">現在の湿度: {weatherData?.current_humidity}%</p>
+        <p className="my-2 text-xl">現在の湿度: {weatherData?.current_humidity}%</p>
         <p className="my-2">{humidityDescription}</p>
         <LevelIcons level={humidityLevel} color={humidityColor} Icon={Droplets} />
-        <p className="pt-6">最高UV指数: {weatherData?.daily_max_uvi}</p>
-        <p className="my-2">最低湿度: {weatherData?.daily_min_humidity}%</p>
+        <p className="pt-6">最低湿度: {weatherData?.daily_min_humidity}%</p>
       </div>
-      <div className="text-l flex items-center space-x-2 justify-center p-6">
+      <div className="text-l flex items-center space-x-2 justify-center p-8 pb-20">
         <label htmlFor="my-modal" className="text-md btn modal-button bg-background-color text-text-color shadow-md">
           UV指数と湿度の目安<HelpCircle className="ml-1 h-5 w-5" />
         </label>
@@ -164,9 +161,6 @@ export default function Home() {
           <p className="my-2 text-lg">・湿度</p>
           <p className="my-2 text-md">お肌に最適な湿度は、50〜60%といわれています。</p>
           <p className="my-2 text-md pb-2">湿度が50%を下回っていたり、お肌の乾燥が気になった際はミスト化粧水やクリームを活用して、適宜うるおいを補給することをお勧めします。</p>
-          <div className="my-2 text-md flex items-center">
-            <MapPinned className="mr-2 h-16 w-16" />マイページにてお住まいを登録していただくと、住んでいる場所の情報が表示されます。登録前は、東京都の情報を表示しています。
-          </div>
         </div>
       </div>
     </div>

@@ -1,9 +1,13 @@
 module WeatherMessageGenerator
   def self.generate_message(prefecture_name, weather_info)
     text = "おはようございます！\n今日の#{prefecture_name}の天気情報をお届けします✉️\n\n"
-    text += "☀️現在のUV指数は#{weather_info[:current_uvi]}、最高UV指数は#{weather_info[:daily_max_uvi]}です。\n"
+    text += "☀️UV指数\n"
+    text += "・現在のUV指数: #{weather_info[:current_uvi]}\n"
+    text += "・最高UV指数: #{weather_info[:daily_max_uvi]}\n"
     text += uv_index_advice(weather_info[:current_uvi], weather_info[:daily_max_uvi])
-    text += "💧現在の湿度は#{weather_info[:current_humidity]}%、最低湿度は#{weather_info[:daily_min_humidity]}%です。\n"
+    text += "💧湿度\n"
+    text += "・現在の湿度: #{weather_info[:current_humidity]}%\n"
+    text += "・最低湿度: #{weather_info[:daily_min_humidity]}%\n"
     text += humidity_advice(weather_info[:current_humidity], weather_info[:daily_min_humidity])
     text += "✔︎UV指数や湿度の目安をご覧になりたい方は、「目安」と送信していただけますと幸いです。"
   end
