@@ -16,10 +16,11 @@ export default function Home() {
 					<p className='text-xl'>韓国コスメ検索</p>
 					<div className="flex justify-center">
 						<AlertTriangle className="mr-1 h-6 w-6" />
-						<p>「肌悩み」は選択必須項目となります。</p>
+						<p>「肌悩み」は選択必須項目です。</p>
 					</div>
-					<p>検索結果が表示されない場合、該当商品がない可能性があります。</p>
-					<p>条件を変更して再度検索してみてください。</p>
+					<p>検索結果が表示されない場合、<br />
+						該当商品がない可能性があります。</p>
+					<p>条件を変更して検索してみてください。</p>
 					<SearchForm />
 				</div>
 			</div>

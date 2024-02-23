@@ -3,7 +3,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
   const { data: session } = useSession();
@@ -27,7 +27,7 @@ const Footer = () => {
             <ul className="flex justify-center">
               <li className="cursor-pointer pb-4 pr-6">
                 <Link href="https://twitter.com/__rk2530" target="_blank" rel="noopener noreferrer">
-                  <FontAwesomeIcon icon={faTwitter} style={{ width: '22px', height: '22px' }} />
+                  <FontAwesomeIcon icon={faXTwitter} style={{ width: '22px', height: '22px' }} />
                 </Link>
               </li>
               <li className="cursor-pointer pb-4">
@@ -36,8 +36,7 @@ const Footer = () => {
                 </Link>
               </li>
             </ul>
-            <a href="https://developers.rakuten.com/" target="_blank" rel="noopener noreferrer">Supported by Rakuten Developers</a>
-            <p className="text-sm pt-2">© 2024 KoreCare</p>
+            <p className="text-sm">© 2024 KoreCare</p>
           </>
         )}
         {session && (

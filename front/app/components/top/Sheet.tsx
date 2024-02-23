@@ -5,12 +5,11 @@ import toast from 'react-hot-toast';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useProfile } from '../../hooks/useProfile';
+import { Label } from "@/components/ui/label"
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 }  from "@/components/ui/sheet"
 import {
@@ -20,7 +19,8 @@ import {
   Menu,
   Smartphone,
   Smile,
-  Home
+  Home,
+  PenLine
 } from "lucide-react"
 import {
   Tooltip,
@@ -28,7 +28,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Label } from "@/components/ui/label"
 
 const SHEET_SIDES = ["right"] as const
 type SheetSide = (typeof SHEET_SIDES)[number]
@@ -74,9 +73,6 @@ export default function SheetSide() {
               </div>
             </SheetTrigger>
             <SheetContent side={side} className="text-text-color font-genjyuu w-[320px] sm:w-[540px]">
-              <SheetHeader>
-                <SheetTitle className="text-text-color">メニュー</SheetTitle>
-              </SheetHeader>
               <div className="text-text-color p-4">
                 <div className="flex flex-col items-center pt-4">
                   <Image
@@ -109,13 +105,19 @@ export default function SheetSide() {
                 <SheetClose asChild>
                   <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/favorite_cosmetics')}>
                     <Heart className="mr-2 h-4 w-4" />
-                    <span>お気に入りコスメ</span>
+                    <span>お気に入り</span>
                   </div>
                 </SheetClose>
                 <SheetClose asChild>
                   <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page#line-notification')}>
                     <Smartphone className="mr-2 h-4 w-4" />
                     <span>LINE通知登録</span>
+                  </div>
+                </SheetClose>
+                <SheetClose asChild>
+                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/column')}>
+                    <PenLine className="mr-2 h-4 w-4" />
+                    <span>コラム</span>
                   </div>
                 </SheetClose>
                 <SheetClose asChild>

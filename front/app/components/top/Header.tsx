@@ -29,10 +29,10 @@ const Header = () => {
         <div className="flex items-center">
           {isHome && (
             <div className="flex items-center justify-end">
-              <button className="p-2" onClick={() => setIsModalOpen(true)}>
+              <button className="p-2" id="info-modal" onClick={() => setIsModalOpen(true)}>
                 <HelpCircle className="h-6 w-6" />
               </button>
-              <input type="checkbox" id="my-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
+              <input type="checkbox" id="info-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
               <div className="modal" onClick={handleCloseModal}>
                 <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
                   <div className="flex justify-end">

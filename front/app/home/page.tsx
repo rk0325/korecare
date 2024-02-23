@@ -143,11 +143,11 @@ export default function Home() {
         <p className="pt-6">最低湿度: {weatherData?.daily_min_humidity}%</p>
       </div>
       <div className="text-l flex items-center space-x-2 justify-center p-8 pb-20">
-        <label htmlFor="my-modal" className="text-md btn modal-button bg-background-color text-text-color shadow-md">
+        <label htmlFor="weather-modal" className="text-md btn modal-button bg-background-color text-text-color shadow-md">
           UV指数と湿度の目安<HelpCircle className="ml-1 h-5 w-5" />
         </label>
       </div>
-      <input type="checkbox" id="my-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
+      <input type="checkbox" id="weather-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
       <div className="modal" onClick={handleCloseModal}>
         <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
           <div className="flex justify-end">
