@@ -1,6 +1,5 @@
 class WeatherService
   def self.fetch_weather_data(prefecture_name)
-    # 都道府県名に基づいて緯度と経度を取得
     address = Address.find_by(address: prefecture_name)
     if address.nil? || address.latitude.nil? || address.longitude.nil?
       Rails.logger.error "緯度経度のデータが見つかりません: #{prefecture_name}"
@@ -8,9 +7,8 @@ class WeatherService
     end
     latitude, longitude = address.latitude, address.longitude
 
-    # 天気情報のAPIリクエスト
     api_key = ENV['OPENWEATHERMAP_API_KEY']
-    url = "https://api.openweathermap.org/data/3.0/onecall?lat=#{latitude}&lon=#{longitude}&exclude=minutely,alerts&appid=#{api_key}"
+    url = "https://api.openweathermap.org/data/3.0/onecall?lat=#{latitude}&lon=#{longitude}&exclude=minutely,alerts&appid=#{api_key}&units=metric"
 
     begin
       response = Net::HTTP.get_response(URI(url))
@@ -22,7 +20,6 @@ class WeatherService
 
       data = JSON.parse(response.body)
 
-      # 必要なキーの存在を確認
       unless data['current'] && data['daily']
         Rails.logger.error "APIレスポンスに必要なキーが含まれていません"
         return nil

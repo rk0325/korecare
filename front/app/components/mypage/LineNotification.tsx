@@ -102,7 +102,7 @@ export const LineNotification = () => {
         <p className='pt-2'>上記のQRコードを読み取っていただき、KoreCare公式アカウントを友だちへ追加</p>
         <p className='pt-4'>スマートフォンの方</p>
         <p className='pt-2'><a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">こちらのリンク</a>から、KoreCare公式アカウントを友だちへ追加</p>
-        <p className='pt-4 pb-4'>通知をONにしていただくと、入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
+        <p className='pt-4 pb-4'>「通知を受け取る」をONにしていただくと、入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
       </div>
     </div>
   );

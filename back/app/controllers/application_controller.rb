@@ -46,8 +46,6 @@ class ApplicationController < ActionController::API
         # セッションにユーザー情報を保存
         session[:user_id] = @current_user.id
         session[:access_token] = received_access_token
-        Rails.logger.debug "Received access token: #{received_access_token}"
-        Rails.logger.debug "Found user: #{@current_user.inspect}"
       else
         # ユーザー情報の保存に失敗した場合のエラーメッセージをログに出力
         Rails.logger.error "Failed to save user: #{@current_user.errors.full_messages.join(', ')}"
@@ -66,8 +64,6 @@ class ApplicationController < ActionController::API
     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == "https") do |http|
       http.request(request)
     end
-
-    Rails.logger.info "LINE API Response: #{response.body}"
 
     JSON.parse(response.body)
   end

@@ -23,7 +23,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <meta name="google-site-verification" content="yYMH9eCg38wS83hsztC9J4owFm9eabEWPbZHNyvEOWo" />
       <body>
         <NextAuthProvider>
           <CosmeticsContextProvider>
