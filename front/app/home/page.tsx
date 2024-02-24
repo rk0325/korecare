@@ -92,8 +92,10 @@ export default function Home() {
   const humidityColor = "#567485";
 
   const currentWeather = weatherData?.current_weather;
-  const minTemp = weatherData?.min_temp;
-  const maxTemp = weatherData?.max_temp;
+  const minTemp = Math.floor(weatherData?.min_temp);
+  const maxTemp = Math.floor(weatherData?.max_temp);
+  const currentUvi = Math.floor(weatherData?.current_uvi);
+  const dailyMaxUvi = Math.floor(weatherData?.daily_max_uvi);
 
   const translateWeather = (weather: string): string => {
     const mapping: { [key: string]: string } = {
@@ -106,10 +108,6 @@ export default function Home() {
       'Thunderstorm': '雷雨',
     };
     return mapping[weather] || weather;
-  };
-
-  const kelvinToCelsius = (kelvin: number): number => {
-    return Math.round(kelvin - 273.15);
   };
 
   const getWeatherIcon = (weather: string) => {
@@ -129,13 +127,13 @@ export default function Home() {
       <p className='text-2xl pt-10 pb-4'>今日の{profile.prefecture || "東京都"}の天気情報</p>
       <div className='text-lg'>
         <p className="my-2 text-xl">現在の天気: {translateWeather(currentWeather)} {getWeatherIcon(translateWeather(currentWeather))}</p>
-        <p className="my-2 pt-2">最高気温: {kelvinToCelsius(maxTemp)}°C</p>
-        <p className="my-2">最低気温: {kelvinToCelsius(minTemp)}°C</p>
+        <p className="my-2 pt-2">最高気温: <span style={{ color: '#de6c6c' }}>{maxTemp}°C</span></p>
+        <p className="my-2">最低気温: <span style={{ color: '#4e94cd' }}>{minTemp}°C</span></p>
         <Separator className="my-10 w-1/4 mx-auto" />
-        <p className="my-2 text-xl">現在のUV指数: {weatherData?.current_uvi}</p>
+        <p className="my-2 text-xl">現在のUV指数: {currentUvi}</p>
         <p className="my-2">{uviDescription}</p>
         <LevelIcons level={uviLevel} color={uviColor} Icon={CloudSun} />
-        <p className="pt-6">最高UV指数: {weatherData?.daily_max_uvi}</p>
+        <p className="pt-6">最高UV指数: {dailyMaxUvi}</p>
         <Separator className="my-10 w-1/4 mx-auto" />
         <p className="my-2 text-xl">現在の湿度: {weatherData?.current_humidity}%</p>
         <p className="my-2">{humidityDescription}</p>
@@ -155,12 +153,22 @@ export default function Home() {
               <X />
             </button>
           </div>
-          <p className="my-2 text-lg">・UV指数</p>
-          <p className="my-2 text-md">1〜2が「弱い」、3〜5が「中程度」、6以上が「強い」といわれています。</p>
-          <p className="my-2 text-md">WHOによると、UV指数が3以上の場合は屋外での日焼け止めの利用、長袖や帽子の着用が推奨されています。</p>
-          <p className="my-2 text-lg">・湿度</p>
-          <p className="my-2 text-md">お肌に最適な湿度は、50〜60%といわれています。</p>
-          <p className="my-2 text-md pb-2">湿度が50%を下回っていたり、お肌の乾燥が気になった際はミスト化粧水やクリームを活用して、適宜うるおいを補給することをお勧めします。</p>
+          <div className="flex items-start mb-2">
+            <CloudSun className="mr-2 h-10 w-16" />
+            <div>
+              <p className="my-2 text-lg">UV指数</p>
+              <p className="my-2 text-md">1〜2が「弱い」、3〜5が「中程度」、6以上が「強い」といわれています。</p>
+              <p className="my-2 text-md">WHOによると、UV指数が3以上の場合は屋外での日焼け止めの利用、長袖や帽子の着用が推奨されています。</p>
+            </div>
+          </div>
+          <div className="flex items-start">
+            <Droplets className="mr-2 h-10 w-16" />
+            <div>
+              <p className="my-2 text-lg">湿度</p>
+              <p className="my-2 text-md">お肌に最適な湿度は、50〜60%といわれています。</p>
+              <p className="my-2 text-md">湿度が50%を下回っていたり、お肌の乾燥が気になった際はミスト化粧水やクリームを活用して、適度な保湿を心がけることをお勧めします。</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

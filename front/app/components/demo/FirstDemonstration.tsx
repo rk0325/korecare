@@ -81,23 +81,29 @@ const FirstDemonstration = () => {
 							<X />
 						</button>
 					</div>
-					<div className="flex items-center">
-						<SearchCheck className="mr-1 h-6 w-6" />
-						<p className="pt-2 pb-2 text-md font-bold">あなたの洗顔後の肌の様子に一番近いものは？</p>
+					<div className="flex justify-start items-start mb-2">
+						<SearchCheck className="mr-2 h-6 w-6" />
+						<div>
+							<p className="text-md">あなたの洗顔後の肌の様子に一番近いものは？</p>
+							<p className="my-2 text-sm">・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる→乾燥肌</p>
+							<p className="my-2 text-sm">・額や鼻はベタつきがあり、目元・口元・頬は乾燥を感じる→混合肌</p>
+							<p className="my-2 text-sm">・全体的にベタつきがあり、乾燥は感じない→脂性肌</p>
+							<p className="my-2 text-sm">・ベタつきも乾燥もほとんど感じない→普通肌</p>
+						</div>
 					</div>
-					<p className="my-2">・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる→乾燥肌</p>
-					<p className="my-2">・額や鼻はベタつきがあり、目元・口元・頬は乾燥を感じる→混合肌</p>
-					<p className="my-2">・全体的にベタつきがあり、乾燥は感じない→脂性肌</p>
-					<p className="my-2 pb-2">・ベタつきも乾燥もほとんど感じない→普通肌</p>
-					<div className="flex items-center">
-						<Diamond className="mr-1 h-6 w-6" />
-						<p>以下のような特徴がある方は、敏感肌の可能性があります。</p>
+					<div className="flex justify-start items-start mb-2">
+						<Diamond className="mr-2 h-6 w-6" />
+						<div>
+							<p className='text-sm'>以下のような特徴がある方は、敏感肌の可能性があります。</p>
+							<p className="my-2 text-sm">・いつも使っている化粧品がしみたり、かゆくなったりすることがある</p>
+							<p className="my-2 text-sm">・化粧品でかぶれたり、つけるもので刺激を感じることがある</p>
+						</div>
 					</div>
-					<p className="my-2 pt-2">・いつも使っている化粧品がしみたり、かゆくなったりすることがある</p>
-					<p className="my-2 pb-4">・化粧品でかぶれたり、つけるもので刺激を感じることがある</p>
-					<div className="flex items-center">
-						<AlertTriangle className="mr-1 h-6 w-6" />
-						<p>こちらの質問は、肌質を断定するものではございません。</p>
+					<div className="flex justify-start items-start">
+						<AlertTriangle className="mr-2 h-6 w-6" />
+						<div>
+							<p className='text-sm'>こちらの質問は、肌質を断定するものではございません。</p>
+						</div>
 					</div>
 				</div>
 			</div>

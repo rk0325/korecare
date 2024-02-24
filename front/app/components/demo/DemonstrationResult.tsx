@@ -44,13 +44,13 @@ const DemonstrationResult = () => {
   }
 
   return (
-    <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
+    <>
       <p className="text-xl text-center justify-between pt-10 p-6">
         あなたにおすすめの<br />韓国コスメはこちら！
       </p>
       <div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center space-y-4 md:space-y-0'>
         {isLoading ? (
-          <div className="flex justify-center items-center min-h-screen">
+          <div className="flex justify-center min-h-screen">
             <PropagateLoader color="#506D7D" />
           </div>
         ) : (
@@ -77,15 +77,15 @@ const DemonstrationResult = () => {
         )}
       </div>
       <br />
-      <p className="text-md text-center justify-between pt-2 pb-10 p-6">
-        ログインしていただくと、コスメをお気に入りに登録することができます！
+      <p className="text-md text-center justify-between p-6">
+        ログインしていただくと、<br />コスメをお気に入りに登録できます！
       </p>
       <Link href='/first_demonstration'>
-        <div className="flex justify-center pb-10">
+        <div className="flex justify-center pb-20">
           <CustomButton colorClass="btn-506D7D">もう一度診断する</CustomButton>
         </div>
       </Link>
-    </div>
+    </>
   );
 }
 

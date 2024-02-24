@@ -125,7 +125,7 @@ export const FavoriteCosmetics = () => {
   return (
     <div className='bg-background-color font-genjyuu min-h-screen text-text-color text-center pb-10'>
       {isLoading ? (
-        <div className="flex justify-center items-center min-h-screen">
+        <div className="flex justify-center min-h-screen">
           <PropagateLoader color="#506D7D" />
         </div>
       ) : (

@@ -5,14 +5,21 @@ import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation'
 import AuthenticateLink from './AuthenticateLink';
 import ResponsiveMenu from './ResponsiveMenu';
-import { HelpCircle, X } from "lucide-react";
+import {
+  AlertCircle,
+  X,
+  Clock,
+  MapPinned,
+  Wrench,
+  Sparkles
+} from "lucide-react";
 
 const Header = () => {
   const { data: session } = useSession();
-  const pathname = usePathname()
-  const isHome = pathname === '/home';
   const linkHref = session ? '/home' : '/';
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const pathname = usePathname()
+  const isHome = pathname === '/home';
 
     const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -30,7 +37,7 @@ const Header = () => {
           {isHome && (
             <div className="flex items-center justify-end">
               <button className="p-2" id="info-modal" onClick={() => setIsModalOpen(true)}>
-                <HelpCircle className="h-6 w-6" />
+                <AlertCircle className="h-6 w-6" />
               </button>
               <input type="checkbox" id="info-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
               <div className="modal" onClick={handleCloseModal}>
@@ -40,10 +47,26 @@ const Header = () => {
                       <X />
                     </button>
                   </div>
-                  <div className="flex items-center">
-                    <div className="my-2 text-md flex items-center">
-                      <p>マイページにてお住まいを登録していただくと、住んでいる場所の情報が表示されます！<br />
-                        登録前は、東京都の情報を表示しています。</p>
+                  <div className="my-2 text-md">
+                    <p className="mb-6 text-lg">KoreCareへようこそ！</p>
+                    <div className="flex items-start mb-4">
+                      <Clock className="mr-2 h-6 w-10" />
+                      <p>こちらのページでは、天気やUV指数、湿度の情報をリアルタイムでお届けしています。</p>
+                    </div>
+                    <div className="flex items-start mb-4">
+                      <MapPinned className="mr-2 h-6 w-10" />
+                      <p>マイページにてお住まいを設定していただくと、設定された場所の情報が表示されます。</p>
+                    </div>
+                    <div className="flex items-start">
+                      <Wrench className="mr-2 h-6 w-10" />
+                      <p>スマートフォンの方は、メニューボタンの位置をマイページから変更できます。</p>
+                    </div>
+                    <div className="flex items-start justify-between mt-6">
+                      <p>KoreCareがあなたの毎日のスキンケアに</p>
+                    </div>
+                    <div className="flex items-start">
+                      <p>少しでも役立ちますように</p>
+                      <Sparkles className="ml-1 h-6 w-5" />
                     </div>
                   </div>
                 </div>

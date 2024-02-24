@@ -15,12 +15,11 @@ export default function SearchResult() {
 	const token = session?.accessToken;
 	const headers = useMemo(() => {
 		return token ? { Authorization: `Bearer ${token}` } : {};
-	}, [token]); // tokenの値が変わるとheadersも更新される
+	}, [token]);
 	const categories = ['化粧水', '美容液', 'クリーム'];
 	const [favoriteStatus, setFavoriteStatus] = useState(new Map());
 	const isLoading = cosmetics === null || cosmetics === undefined;
 
-	// お気に入りに追加する関数
 	const addToFavorites = useCallback(async (cosmetic: Cosmetic) => {
 		console.log('cosmeticオブジェクトの中身', cosmetic);
 		const favoriteCosmetic = {
@@ -46,7 +45,6 @@ export default function SearchResult() {
 		}
 	}, [headers, session?.user?.id]);
 
-	// お気に入りから削除する関数
 	const removeFromFavorites = useCallback(async (cosmeticId: string) => {
 		try {
 			const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics/${cosmeticId}`, {
@@ -59,7 +57,6 @@ export default function SearchResult() {
 		}
 	}, [headers]);
 
-	// お気に入りの状態をトグルする関数
 	const toggleFavorite = useCallback(async (cosmetic: Cosmetic) => {
 		const currentStatus = favoriteStatus.get(cosmetic.id) || cosmetic.isFavorite;
 		if (currentStatus) {
@@ -71,14 +68,13 @@ export default function SearchResult() {
 		}
 	}, [favoriteStatus, setFavoriteStatus, addToFavorites, removeFromFavorites]);
 
-	// 商品名に複数のカテゴリが含まれる場合、最初に一致したカテゴリでフィルタリング
 	const filterCosmeticsByFirstMatchingCategory = (cosmetic: Cosmetic) => {
 		for (let category of categories) {
 			if (cosmetic.itemName.includes(category)) {
 				return category;
 			}
 		}
-		return null; // どのカテゴリにも一致しない場合はnullを返す
+		return null;
 	};
 
 	function truncateName(name: string, maxLength: number = 46): string {
@@ -91,7 +87,7 @@ export default function SearchResult() {
 				あなたにおすすめの韓国コスメはこちら！
 			</p>
 			{isLoading ? (
-				<div className="flex justify-center items-center min-h-screen">
+				<div className="flex justify-center min-h-screen">
 					<PropagateLoader color="#506D7D" />
 				</div>
 			) : (
@@ -137,7 +133,6 @@ export default function SearchResult() {
 					);
 				})
 			)}
-			<br />
 			<Link href='/search'>
 				<div className="flex justify-center pb-10">
 					<CustomButton colorClass="btn-506D7D">もう一度検索する</CustomButton>

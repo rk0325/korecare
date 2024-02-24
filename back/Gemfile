@@ -46,8 +46,6 @@ gem 'sidekiq'
 
 gem 'sidekiq-scheduler'
 
-gem 'whenever', require: false
-
 gem 'line-bot-api'
 
 gem 'sidekiq-cron'
@@ -55,8 +53,6 @@ gem 'sidekiq-cron'
 gem 'sinatra', require: false
 
 gem 'redis'
-
-gem 'foreman'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
