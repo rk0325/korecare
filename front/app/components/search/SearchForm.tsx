@@ -3,8 +3,7 @@ import React, { useState, useContext } from 'react';
 import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import { getSession } from 'next-auth/react'
-import Link from 'next/link'
-import { CosmeticsContext } from '../../contexts/CosmeticsContext';
+import { CosmeticsContext, CosmeticSet, ApiResponse } from '../../contexts/CosmeticsContext';
 import { LoadingContext } from '../../contexts/LoadingContext';
 import {
   Select,
@@ -21,14 +20,19 @@ const SearchForm = () => {
   const [skinType, setSkinType] = useState("");
   const [skinTrouble, setSkinTrouble] = useState("");
   const [priceRange, setPriceRange] = useState("");
-  const [productType, setProductType] = useState("");
-  const { setCosmetics } = useContext(CosmeticsContext);
+  const { setCosmetics, setCosmeticSets } = useContext(CosmeticsContext);
   const { setIsLoading } = useContext(LoadingContext);
   const router = useRouter()
+  const [productType, setProductType] = useState('');
+  const isSetSelected = productType === '化粧水・美容液・クリームセット';
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
+
+    setCosmetics([]);
+    setCosmeticSets([]);
+
     const session = await getSession();
     const token = session?.accessToken;
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
@@ -40,13 +44,60 @@ const SearchForm = () => {
       product_type: productType,
     };
 
+    type Cosmetic = {
+      id: any;
+      name: any;
+      itemName: any;
+      itemPrice: any;
+      mediumImageUrl: any;
+      itemUrl: any;
+      item_url: any;
+      shopName: any;
+      category: any;
+      image_url: any;
+      item_code: any;
+      brand: any;
+      price: any;
+      lotion?: string;
+      serum?: string;
+      cream?: string;
+    };
+
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cosmetics_recommendation/search_cosmetics_for_logged_in_users`, UserData, {
+      const response = await axios.post<ApiResponse>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cosmetics_recommendation/search_cosmetics_for_logged_in_users`, UserData, {
         headers: headers,
         withCredentials: true
       });
-        setCosmetics(response.data);
-        setIsLoading(false);
+
+      if (productType === '化粧水・美容液・クリームセット') {
+        // セット商品の情報を処理
+        const cosmeticSets: CosmeticSet[] = response.data.map((set: any): CosmeticSet => ({
+          lotion: set.lotion,
+          serum: set.serum,
+          cream: set.cream,
+        }));
+        setCosmeticSets(cosmeticSets);
+      } else {
+        // 単品商品の情報を処理
+        const cosmetics: Cosmetic[] = response.data.map((item: any): Cosmetic => ({
+          id: item.id,
+          name: item.name,
+          itemName: item.itemName,
+          itemPrice: item.itemPrice,
+          mediumImageUrl: item.mediumImageUrl,
+          itemUrl: item.itemUrl,
+          item_url: item.itemUrl,
+          shopName: item.shopName,
+          category: item.category,
+          image_url: item.image_url,
+          item_code: item.item_code,
+          brand: item.brand,
+          price: item.price,
+        }));
+        setCosmetics(cosmetics);
+      }
+
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -81,18 +132,7 @@ const SearchForm = () => {
               <SelectItem value="肌のハリ・弾力">肌のハリ・弾力</SelectItem>
             </SelectContent>
           </Select>
-          <Select onValueChange={value => setPriceRange(value)}>
-            <SelectTrigger className="w-[240px]">
-              <SelectValue className="text-text-color" placeholder="金額" />
-            </SelectTrigger>
-            <SelectContent className="text-text-color">
-              <SelectItem value="〜3,000円以内">〜3,000円以内</SelectItem>
-              <SelectItem value="3,001円〜5,000円以内">3,001円〜5,000円以内</SelectItem>
-              <SelectItem value="5,001円〜10,000円以内">5,001円〜10,000円以内</SelectItem>
-              <SelectItem value="10,001円以上">10,001円以上</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select onValueChange={value => setProductType(value)}>
+          <Select value={productType} onValueChange={value => setProductType(value)}>
             <SelectTrigger className="w-[240px]">
               <SelectValue className="text-text-color" placeholder="形態" />
             </SelectTrigger>
@@ -101,6 +141,17 @@ const SearchForm = () => {
               <SelectItem value="美容液単品">美容液単品</SelectItem>
               <SelectItem value="クリーム単品">クリーム単品</SelectItem>
               <SelectItem value="化粧水・美容液・クリームセット">化粧水・美容液・クリームセット</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select disabled={isSetSelected} onValueChange={value => setPriceRange(value)}>
+            <SelectTrigger className="w-[240px]">
+              <SelectValue className="text-text-color" placeholder="金額" />
+            </SelectTrigger>
+            <SelectContent className="text-text-color">
+              <SelectItem value="〜3,000円以内">〜3,000円以内</SelectItem>
+              <SelectItem value="3,001円〜5,000円以内">3,001円〜5,000円以内</SelectItem>
+              <SelectItem value="5,001円〜10,000円以内">5,001円〜10,000円以内</SelectItem>
+              <SelectItem value="10,001円以上">10,001円以上</SelectItem>
             </SelectContent>
           </Select>
           <div className="flex justify-center md:flex-row md:space-x-10">

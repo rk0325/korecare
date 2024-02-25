@@ -123,22 +123,28 @@ export default function Home() {
   };
 
   return (
-    <div className='text-center justify-between'>
-      <p className='text-2xl pt-10 pb-4'>今日の{profile.prefecture || "東京都"}の天気情報</p>
-      <div className='text-lg'>
-        <p className="my-2 text-xl">現在の天気: {translateWeather(currentWeather)} {getWeatherIcon(translateWeather(currentWeather))}</p>
-        <p className="my-2 pt-2">最高気温: <span style={{ color: '#de6c6c' }}>{maxTemp}°C</span></p>
-        <p className="my-2">最低気温: <span style={{ color: '#4e94cd' }}>{minTemp}°C</span></p>
-        <Separator className="my-10 w-1/4 mx-auto" />
-        <p className="my-2 text-xl">現在のUV指数: {currentUvi}</p>
-        <p className="my-2">{uviDescription}</p>
-        <LevelIcons level={uviLevel} color={uviColor} Icon={CloudSun} />
-        <p className="pt-6">最高UV指数: {dailyMaxUvi}</p>
-        <Separator className="my-10 w-1/4 mx-auto" />
-        <p className="my-2 text-xl">現在の湿度: {weatherData?.current_humidity}%</p>
-        <p className="my-2">{humidityDescription}</p>
-        <LevelIcons level={humidityLevel} color={humidityColor} Icon={Droplets} />
-        <p className="pt-6">最低湿度: {weatherData?.daily_min_humidity}%</p>
+    <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu p-6'>
+      <p className='text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-4 mb-4'>
+        今日の{profile.prefecture || "東京都"}の天気情報
+      </p>
+      <div className="grid grid-cols-1 gap-5 justify-center">
+        <div className='shadow-md rounded-md overflow-hidden p-4 max-w-md mx-auto w-full'>
+          <p className="text-xl my-2">現在の天気: {translateWeather(currentWeather)} {getWeatherIcon(translateWeather(currentWeather))}</p>
+          <p className="my-2">最高気温: <span style={{ color: '#de6c6c' }}>{maxTemp}°C</span></p>
+          <p className="my-2">最低気温: <span style={{ color: '#4e94cd' }}>{minTemp}°C</span></p>
+        </div>
+        <div className='shadow-md rounded-md overflow-hidden p-4 max-w-md mx-auto w-full'>
+          <p className="text-xl my-2">現在のUV指数: {currentUvi}</p>
+          <p className="my-2">{uviDescription}</p>
+          <LevelIcons level={uviLevel} color={uviColor} Icon={CloudSun} />
+          <p className="my-2">最高UV指数: {dailyMaxUvi}</p>
+        </div>
+        <div className='shadow-md rounded-md overflow-hidden p-4 max-w-md mx-auto w-full'>
+          <p className="text-xl my-2">現在の湿度: {weatherData?.current_humidity}%</p>
+          <p className="my-2">{humidityDescription}</p>
+          <LevelIcons level={humidityLevel} color={humidityColor} Icon={Droplets} />
+          <p className="my-2">最低湿度: {weatherData?.daily_min_humidity}%</p>
+        </div>
       </div>
       <div className="text-l flex items-center space-x-2 justify-center p-8 pb-20">
         <label htmlFor="weather-modal" className="text-md btn modal-button bg-background-color text-text-color shadow-md">
