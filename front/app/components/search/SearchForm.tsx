@@ -109,7 +109,7 @@ const SearchForm = () => {
       <form onSubmit={handleSubmit}>
         <div className='flex flex-col md:flex-row md:space-x-4 space-y-8 md:space-y-0'>
           <Select onValueChange={value => setSkinType(value)}>
-            <SelectTrigger className="w-[240px]">
+            <SelectTrigger className="w-[200px]">
               <SelectValue className="text-text-color" placeholder="肌質" />
             </SelectTrigger>
             <SelectContent className="text-text-color">
@@ -121,7 +121,7 @@ const SearchForm = () => {
             </SelectContent>
           </Select>
           <Select onValueChange={value => setSkinTrouble(value)}>
-            <SelectTrigger className="w-[240px]">
+            <SelectTrigger className="w-[200px]">
               <SelectValue className="text-text-color" placeholder="お悩み" />
             </SelectTrigger>
             <SelectContent className="text-text-color">
@@ -133,7 +133,7 @@ const SearchForm = () => {
             </SelectContent>
           </Select>
           <Select value={productType} onValueChange={value => setProductType(value)}>
-            <SelectTrigger className="w-[240px]">
+            <SelectTrigger className="w-[200px]">
               <SelectValue className="text-text-color" placeholder="形態" />
             </SelectTrigger>
             <SelectContent className="text-text-color">
@@ -144,7 +144,7 @@ const SearchForm = () => {
             </SelectContent>
           </Select>
           <Select disabled={isSetSelected} onValueChange={value => setPriceRange(value)}>
-            <SelectTrigger className="w-[240px]">
+            <SelectTrigger className="w-[200px]">
               <SelectValue className="text-text-color" placeholder="金額" />
             </SelectTrigger>
             <SelectContent className="text-text-color">
