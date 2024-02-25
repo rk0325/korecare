@@ -26,6 +26,7 @@ const config: Config = {
         'F5F5F5': '#F5F5F5',
         'E0DBD2': '#E0DBD2',
         '48352F': '#48352F',
+        '506D7D': '#506D7D',
         'custom-color': '#E0DBD2',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

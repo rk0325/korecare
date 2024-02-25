@@ -45,8 +45,11 @@ const DemonstrationResult = () => {
 
   return (
     <>
-      <p className="text-xl text-center justify-between pt-10 p-6">
-        あなたにおすすめの<br />韓国コスメはこちら！
+      <p className="text-lg text-center justify-between pt-10">
+        {skinType && skinTrouble ?
+          `${skinType} × ${skinTrouble}の方に` :
+          'あなたに'}
+        <br />おすすめの韓国コスメはこちら！
       </p>
       <div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center space-y-4 md:space-y-0'>
         {isLoading ? (
@@ -55,29 +58,29 @@ const DemonstrationResult = () => {
           </div>
         ) : (
           cosmetics.map((cosmetic, index) => (
-            <div key={index} className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
-              <p className="text-lg z-10">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
-              <p className="pb-2 line-clamp-2 z-10">{truncateName(cosmetic.itemName)}</p>
-              <div className="relative z-0">
-                <Image
-                  src={cosmetic.mediumImageUrl}
-                  alt={cosmetic.itemName}
-                  width={500}
-                  height={500}
-                  style={{ objectFit: "contain", width: "auto" }}
-                />
+            <Link key={index} href={cosmetic.itemUrl} target="_blank" rel="noopener noreferrer">
+              <div className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
+                <div className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
+                  <p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
+                  <div className="relative z-0 pt-4">
+                    <Image
+                      src={cosmetic.mediumImageUrl}
+                      alt={cosmetic.itemName}
+                      width={500}
+                      height={500}
+                      style={{ objectFit: "contain", width: "auto" }}
+                    />
+                  </div>
+                  <p className="line-clamp-2 z-10 pt-2 pb-2">{truncateName(cosmetic.itemName)}</p>
+                  <p className="z-10 relative pb-2">{cosmetic.itemPrice}円</p>
+                  <CustomButton colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
+                </div>
               </div>
-              <p className="z-10 relative">{cosmetic.itemPrice}円</p>
-              <p>{cosmetic.shopName}</p>
-              <Link href={cosmetic.itemUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                商品ページへ
-              </Link>
-            </div>
+            </Link>
           ))
         )}
       </div>
-      <br />
-      <p className="text-md text-center justify-between p-6">
+      <p className="text-md text-center justify-between pb-6">
         ログインしていただくと、<br />コスメをお気に入りに登録できます！
       </p>
       <Link href='/first_demonstration'>

@@ -8,47 +8,35 @@ import useSWR from 'swr';
 import axios from 'axios';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
 import { PropagateLoader } from 'react-spinners';
+import CustomButton from '@/components/ui/custom-button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
 
-// axiosのインスタンスを作成
 const axiosInstance = axios.create({
   withCredentials: true,
 });
 
-// axiosInstanceを使用してリクエストを行うfetcher関数を定義
 const fetcher = (url: string, headers: any) => axiosInstance.get(url, { headers }).then(res => res.data);
 
 export const FavoriteCosmetics = () => {
   const { data: session } = useSession();
   const token = session?.accessToken;
+  const categories = ['化粧水', '美容液', 'クリーム'];
+  const { data: favoriteCosmetics, error } = useSWR<Cosmetic[]>(token ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics` : null, () => fetcher(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, headers));
+  const isLoading = !favoriteCosmetics && !error;
+  const [favoriteStatus, setFavoriteStatus] = useState(new Map());
 
-  // useMemoを使用してheadersをメモ化
   const headers = useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
   }, [token]);
 
-  const categories = ['化粧水', '美容液', 'クリーム'];
-
-  // useSWRを使用してお気に入りコスメのデータを取得
-  const { data: favoriteCosmetics, error } = useSWR<Cosmetic[]>(token ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics` : null, () => fetcher(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, headers));
-
-  // データのロード状態を管理
-  const isLoading = !favoriteCosmetics && !error;
-
-  // お気に入りコスメの状態をMapで管理
-  const [favoriteStatus, setFavoriteStatus] = useState(new Map());
-
   useEffect(() => {
-    // お気に入り状態を初期化する
     if (favoriteCosmetics) {
       setFavoriteStatus(new Map(favoriteCosmetics.map(cosmetic => [cosmetic.item_code, true])));
     }
   }, [favoriteCosmetics]);
 
-  // お気に入りに追加する関数
   const addToFavorites = useCallback(async (cosmetic: Cosmetic) => {
-    console.log('cosmeticオブジェクトの中身:', cosmetic);
     const favoriteCosmetic = {
       favorite_cosmetic: {
         user_id: session?.user?.id,
@@ -72,9 +60,7 @@ export const FavoriteCosmetics = () => {
     }
   }, [headers, session?.user?.id]);
 
-  // お気に入りから削除する関数
   const removeFromFavorites = useCallback(async (cosmeticId: string) => {
-    // cosmeticIdがundefinedでないことを確認する
   if (typeof cosmeticId === 'undefined') {
     console.error('cosmeticIdがundefinedです');
     return;
@@ -90,7 +76,6 @@ export const FavoriteCosmetics = () => {
     }
   }, [headers]);
 
-  // お気に入りの状態をトグルする関数
   const toggleFavorite = useCallback(async (cosmetic: Cosmetic) => {
     const currentStatus = favoriteStatus.get(cosmetic.item_code) || cosmetic.isFavorite;
     setFavoriteStatus(prevStatus => {
@@ -100,14 +85,13 @@ export const FavoriteCosmetics = () => {
     });
 
     if (currentStatus) {
-      await removeFromFavorites(cosmetic.item_code); // ここでお気に入りから削除
+      await removeFromFavorites(cosmetic.item_code);
     } else {
-      await addToFavorites(cosmetic); // ここでお気に入りに追加
+      await addToFavorites(cosmetic);
     }
   }, [favoriteStatus, addToFavorites, removeFromFavorites]);
 
   useEffect(() => {
-    // お気に入り状態を初期化する
     setFavoriteStatus(new Map(favoriteCosmetics?.map(cosmetic => [cosmetic.item_code, true])));
   }, [favoriteCosmetics]);
 
@@ -125,7 +109,7 @@ export const FavoriteCosmetics = () => {
   return (
     <div className='bg-background-color font-genjyuu min-h-screen text-text-color text-center pb-10'>
       {isLoading ? (
-        <div className="flex justify-center min-h-screen">
+        <div className="flex justify-center min-h-screen pt-10">
           <PropagateLoader color="#506D7D" />
         </div>
       ) : (
@@ -134,42 +118,43 @@ export const FavoriteCosmetics = () => {
             cosmetic.name && cosmetic.name.toLowerCase().includes(category.toLowerCase())
           ) || [];
           return (
-            <div key={category}>
-              <h2 className="text-xl text-left pt-8 pl-10">{category}</h2>
-              <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
-                {filteredCosmetics.length > 0 ? (
-                  filteredCosmetics.map((cosmetic, index) => (
-                    <div key={index} className='flex flex-col items-center'>
-                      <p className="line-clamp-2">
-                        {truncateName(cosmetic.name)}
-                      </p>
-                      <div className="relative pt-4">
-                        <Image
-                          src={cosmetic.image_url}
-                          alt={cosmetic.name}
-                          width={500}
-                          height={500}
-                          style={{ objectFit: "contain", width: "auto" }}
-                        />
+            <div key={category} className="flex justify-center">
+              <div className="w-full max-w-4xl p-2">
+                <h2 className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-4 mb-2">{category}</h2>
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
+                  {filteredCosmetics.length > 0 ? (
+                    filteredCosmetics.map((cosmetic, index) => (
+                      <div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
+                        <div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
+                          <div className="relative z-0 pt-2">
+                            <Image
+                              src={cosmetic.image_url}
+                              alt={cosmetic.name}
+                              width={500}
+                              height={500}
+                              style={{ objectFit: "contain", width: "auto" }}
+                            />
+                            <div className="flex justify-center items-center space-x-2 mt-2 mr-6">
+                              <button onClick={() => shareOnTwitter(cosmetic)}>
+                                <FontAwesomeIcon icon={faXTwitter} className="text-text-color text-xl pr-6" />
+                              </button>
+                            </div>
+                            <div className="absolute bottom-0 right-5 pb-1 m-2" style={{ transform: 'translate(40%, 50%)' }}>
+                              <button onClick={() => toggleFavorite(cosmetic)}>
+                                <FavoriteIconAnim on={favoriteStatus.get(cosmetic.item_code) ?? false} />
+                              </button>
+                            </div>
+                          </div>
+                          <p className="line-clamp-2 z-10 pt-2">{truncateName(cosmetic.name)}</p>
+                          <p className="z-10 relative mb-2">{cosmetic.price}円</p>
+                          <CustomButton colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
+                        </div>
                       </div>
-                      <div className="flex justify-center items-center space-x-2 mt-2">
-                        <button onClick={() => shareOnTwitter(cosmetic)}>
-                          <FontAwesomeIcon icon={faXTwitter} className="text-text-color text-xl pl-4 pt-1" />
-                        </button>
-                        <button onClick={() => toggleFavorite(cosmetic)}>
-                          <FavoriteIconAnim on={favoriteStatus.get(cosmetic.item_code) ?? false} />
-                        </button>
-                      </div>
-                      <p className='pt-2'>{cosmetic.price}円</p>
-                      <p>{cosmetic.brand}</p>
-                      <Link href={cosmetic.item_url} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-                        商品ページへ
-                      </Link>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-center text-gray-600">このカテゴリーにはコスメがありません。</p>
-                )}
+                    ))
+                  ) : (
+                    <p className="text-center text-gray-600" style={{ whiteSpace: 'nowrap' }}>このカテゴリーにはコスメがありません。</p>
+                  )}
+                </div>
               </div>
             </div>
           );
