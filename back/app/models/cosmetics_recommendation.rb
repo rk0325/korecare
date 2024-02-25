@@ -76,23 +76,23 @@ class CosmeticsRecommendation
     elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl,shopName"
     results = []
 
-    min_price, max_price = price_range.split('〜').map do |price|
-      next if price.nil?
-      price = price.gsub('円以内', '').gsub('円以上', '').gsub(',', '')
-      if price.include?('万')
-        (price.gsub('万', '').to_f * 10000).to_i
-      else
-        price.to_i
+    min_price, max_price = nil, nil
+    if price_range.include?('〜')
+      min_price, max_price = price_range.split('〜').map do |price|
+        next if price.nil?
+        price = price.gsub('円以内', '').gsub(',', '')
+        if price.include?('万')
+          (price.gsub('万', '').to_f * 10000).to_i
+        else
+          price.to_i
+        end
       end
+    elsif price_range.include?('円以上')
+      min_price = price_range.gsub('円以上', '').gsub(',', '').to_i
     end
 
-    # 「1万円以上」の場合、max_priceはnilになる
-    max_price = nil if price_range.include?('以上')
-
-    if product_type == '化粧水・美容液・クリームセット' && !max_price.nil?
-      new_max_price = max_price / 3
-      # max_priceを更新する前に、min_priceと比較して、max_priceがmin_priceよりも大きいことを保証
-      max_price = new_max_price if new_max_price > min_price && new_max_price < max_price
+    if product_type == '化粧水・美容液・クリームセット'
+      return search_cosmetic_sets(skin_type, skin_trouble, min_price, max_price)
     end
 
     items = PRODUCT_TYPE_KEYWORDS[product_type] || [product_type]
@@ -134,5 +134,73 @@ class CosmeticsRecommendation
       }
     end
     results
+  end
+
+  def self.search_cosmetic_sets(skin_type, skin_trouble, min_price, max_price)
+    genre_id = "562084" # 「韓国スキンケア」のジャンルID
+    tag_id = SKIN_TYPE_TAGS[skin_type]
+    ng_keywords = COMMON_NG_KEYWORDS
+    elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl,shopName"
+
+    # 各カテゴリに対して検索を行う
+    lotion_results = search_items_by_category("化粧水", genre_id, tag_id, ng_keywords, elements)
+    serum_results = search_items_by_category("美容液", genre_id, tag_id, ng_keywords, elements)
+    cream_results = search_items_by_category("クリーム", genre_id, tag_id, ng_keywords, elements)
+
+    lotion_results.each do |lotion|
+      lotion_price = lotion[:itemPrice].to_i
+    end
+
+    serum_results.each do |selum|
+      selum_price = selum[:itemPrice].to_i
+    end
+
+    cream_results.each do |cream|
+      cream_price = cream[:itemPrice].to_i
+    end
+
+      # 各カテゴリーの価格合計を計算する
+      lotion_total_price = lotion_results.sum { |lotion| lotion[:itemPrice] }
+      serum_total_price = serum_results.sum { |serum| serum[:itemPrice] }
+      cream_total_price = cream_results.sum { |cream| cream[:itemPrice] }
+
+      sets = lotion_results.product(serum_results, cream_results).map do |lotion, serum, cream|
+        lotion_price = lotion[:itemPrice].to_i
+        serum_price = serum[:itemPrice].to_i
+        cream_price = cream[:itemPrice].to_i
+
+        total_price = lotion_price + serum_price + cream_price
+        if max_price.nil? || total_price.between?(min_price, max_price)
+          { lotion: lotion, serum: serum, cream: cream, total_price: total_price }
+        else
+          nil
+        end
+      end.compact
+
+    sets
+  end
+
+  def self.search_items_by_category(item_category, genre_id, tag_id, ng_keywords, elements)
+    keyword = "公式 #{item_category}"
+    RakutenWebService::Ichiba::Item.search(
+      keyword: keyword,
+      genreId: genre_id,
+      tagId: tag_id,
+      NGKeyword: ng_keywords,
+      elements: elements,
+      formatVersion: 2,
+      sort: 'standard',
+      hits: 1,
+      purchaseType: 0
+    ).to_a.map do |item|
+      {
+        id: item['itemCode'],
+        itemName: item['itemName'],
+        itemPrice: item['itemPrice'],
+        itemUrl: item['itemUrl'],
+        mediumImageUrl: item['mediumImageUrls'].first,
+        shopName: item['shopName'],
+      }
+    end
   end
 end

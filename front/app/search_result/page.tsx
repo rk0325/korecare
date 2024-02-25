@@ -11,7 +11,7 @@ import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
 import { PropagateLoader } from 'react-spinners';
 
 export default function SearchResult() {
-	const { cosmetics } = useContext(CosmeticsContext);
+	const { cosmetics, cosmeticSets } = useContext(CosmeticsContext);
 	const { isLoading } = useContext(LoadingContext);
 	const { data: session } = useSession();
 	const token = session?.accessToken;
@@ -71,7 +71,7 @@ export default function SearchResult() {
 
 	const filterCosmeticsByFirstMatchingCategory = (cosmetic: Cosmetic) => {
 		for (let category of categories) {
-			if (cosmetic.itemName.includes(category)) {
+			if ((cosmetic.itemName ?? '').includes(category)) {
 				return category;
 			}
 		}
@@ -81,6 +81,8 @@ export default function SearchResult() {
 	function truncateName(name: string, maxLength: number = 46): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
   }
+
+	console.log(cosmeticSets);
 
 	return (
 		<div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu p-6'>
@@ -97,54 +99,106 @@ export default function SearchResult() {
 					<PropagateLoader color="#506D7D" />
 				</div>
 			) : (
-				categories.map((category) => {
-					if (!cosmetics) {
-						return null;
-					}
-					const filteredCosmetics = cosmetics.filter(cosmetic => filterCosmeticsByFirstMatchingCategory(cosmetic) === category);
-					return filteredCosmetics.length > 0 && (
-						<div key={category} className="flex justify-center">
-							<div className="w-full max-w-4xl p-2">
-								<p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-2 mb-2">{category}</p>
-								<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center'>
-									{filteredCosmetics.map((cosmetic, index) => (
-										<div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
-											<div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
-												<div
-													onClick={() => window.open(cosmetic.itemUrl, "_blank")}
-													className="relative z-0 pt-2 cursor-pointer text-center"
-												>
-													<div className="flex justify-center">
-														<Image
-															src={cosmetic.mediumImageUrl}
-															alt={cosmetic.itemName}
-															width={500}
-															height={500}
-															style={{ objectFit: "contain", width: "auto" }}
-														/>
+				<>
+					{cosmetics && categories.map((category) => {
+						if (!cosmetics) {
+							return null;
+						}
+						const filteredCosmetics = cosmetics.filter(cosmetic => filterCosmeticsByFirstMatchingCategory(cosmetic) === category);
+						if (filteredCosmetics.length > 0) {
+							return (
+								<div key={category} className="flex justify-center">
+									<div className="w-full max-w-4xl p-2">
+										<p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-2 mb-2">{category}</p>
+										<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center'>
+											{filteredCosmetics.map((cosmetic, index) => (
+												<div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
+													<div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
+														<div
+															onClick={() => window.open(cosmetic.itemUrl, "_blank")}
+															className="relative z-0 pt-2 cursor-pointer text-center"
+														>
+															<div className="flex justify-center">
+																<Image
+																	src={cosmetic.mediumImageUrl}
+																	alt={cosmetic.itemName}
+																	width={500}
+																	height={500}
+																	style={{ objectFit: "contain", width: "auto" }}
+																/>
+															</div>
+															<p className="line-clamp-2 z-10 pt-2">{truncateName(cosmetic.itemName)}</p>
+															<p className="z-10 relative mb-2">{cosmetic.itemPrice}円</p>
+														</div>
+														<div className="items-center space-x-2">
+															<div className="absolute bottom-1 right-3">
+																<button onClick={(e) => {
+																	e.stopPropagation();
+																	toggleFavorite(cosmetic);
+																}}>
+																	<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? false} />
+																</button>
+															</div>
+														</div>
+														<CustomButton colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
 													</div>
-													<p className="line-clamp-2 z-10 pt-2">{truncateName(cosmetic.itemName)}</p>
-													<p className="z-10 relative mb-2">{cosmetic.itemPrice}円</p>
 												</div>
-												<div className=" items-center space-x-2">
-													<div className="absolute bottom-1 right-3">
-														<button onClick={(e) => {
-															e.stopPropagation();
-															toggleFavorite(cosmetic);
-														}}>
-															<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? false} />
-														</button>
-													</div>
-												</div>
-												<CustomButton colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
-											</div>
+											))}
 										</div>
+									</div>
+								</div>
+							);
+						} else {
+							return null;
+						}
+					})}
+					{cosmeticSets && cosmeticSets.length > 0 && (
+						<div className="flex justify-center">
+							<div className="w-full max-w-4xl p-2">
+								<p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-2 mb-2">セット</p>
+								<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center'>
+									{cosmeticSets.map((set, setIndex) => (
+										<>
+											{Object.entries(set).map(([key, cosmetic], index) => (
+												<div key={`${setIndex}-${index}`} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
+													<div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
+														<div
+															onClick={() => window.open(cosmetic.itemUrl, "_blank")}
+															className="relative z-0 pt-2 cursor-pointer text-center"
+														>
+															<div className="flex justify-center">
+																<Image
+																	src={cosmetic.mediumImageUrl}
+																	alt={cosmetic.itemName}
+																	width={500}
+																	height={500}
+																	style={{ objectFit: "contain", width: "auto" }}
+																/>
+															</div>
+															<p className="line-clamp-2 z-10 pt-2">{truncateName(cosmetic.itemName)}</p>
+															<p className="z-10 relative mb-2">{cosmetic.itemPrice}円</p>
+														</div>
+														<div className="items-center space-x-2">
+															<div className="absolute bottom-1 right-3">
+																<button onClick={(e) => {
+																	e.stopPropagation();
+																	toggleFavorite(cosmetic);
+																}}>
+																	<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? cosmetic.isFavorite} />
+																</button>
+															</div>
+														</div>
+														<CustomButton colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
+													</div>
+												</div>
+											))}
+										</>
 									))}
 								</div>
 							</div>
 						</div>
-					);
-				})
+					)}
+				</>
 			)}
 		</div>
 	);

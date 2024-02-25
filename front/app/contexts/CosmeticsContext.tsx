@@ -16,7 +16,24 @@ export type Cosmetic = {
   brand: string;
   price: string;
   item_url: string;
+  lotion?: string;
+  serum?: string;
+  cream?: string;
 };
+
+export type CosmeticSet = {
+  lotion: Cosmetic;
+  serum: Cosmetic;
+  cream: Cosmetic;
+};
+
+export type ApiResponseItem = {
+  lotion: Cosmetic;
+  serum: Cosmetic;
+  cream: Cosmetic;
+};
+
+export type ApiResponse = ApiResponseItem[];
 
 type CosmeticsContextType = {
   skinType: string;
@@ -29,6 +46,8 @@ type CosmeticsContextType = {
   setProductType: (value: string) => void;
   cosmetics: Cosmetic[];
   setCosmetics: Dispatch<SetStateAction<Cosmetic[]>>;
+  cosmeticSets: CosmeticSet[];
+  setCosmeticSets: Dispatch<SetStateAction<CosmeticSet[]>>;
 };
 
 export const CosmeticsContext = createContext<CosmeticsContextType>({
@@ -42,6 +61,8 @@ export const CosmeticsContext = createContext<CosmeticsContextType>({
   setProductType: () => {},
   cosmetics: [],
   setCosmetics: () => {},
+  cosmeticSets: [],
+  setCosmeticSets: () => {},
 });
 
 export default CosmeticsContext;

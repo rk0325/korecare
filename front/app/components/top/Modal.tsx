@@ -65,31 +65,31 @@ const Modal = () => {
             />
             <Label className="text-base text-center mt-4">{name || session?.user?.name}さん</Label>
           </div>
-          <div className="flex items-center cursor-pointer pt-8" onClick={() => handleNavigation('/home')}>
+          <div className="flex items-center cursor-pointer pt-5" onClick={() => handleNavigation('/home')}>
             <Home className="mr-2 h-4 w-4" />
             <span>ホーム</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page')}>
+          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/my_page')}>
             <Smile className="mr-2 h-4 w-4" />
             <span>マイページ</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/search')}>
+          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/search')}>
             <Search className="mr-2 h-4 w-4" />
             <span>韓国コスメ検索</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/favorite_cosmetics')}>
+          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/favorite_cosmetics')}>
             <Heart className="mr-2 h-4 w-4" />
             <span>お気に入り</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page#line-notification')}>
+          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/my_page#line-notification')}>
             <Smartphone className="mr-2 h-4 w-4" />
             <span>LINE通知登録</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/column')}>
+          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/column')}>
             <PenLine className="mr-2 h-4 w-4" />
             <span>コラム</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-6" onClick={handleLogout}>
+          <div className="flex items-center cursor-pointer pt-4" onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>ログアウト</span>
           </div>

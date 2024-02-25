@@ -13,7 +13,7 @@ import { faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 library.add(faXTwitter, faGithub);
 
 export const metadata: Metadata = {
-  title: 'KoreCare｜コリケア',
+  title: 'KoreCare｜韓国コスメ特化型のスキンケアサポートサービス',
   description: 'KoreCareは、韓国コスメに特化した毎日のスキンケアをサポートするサービスです。',
 }
 

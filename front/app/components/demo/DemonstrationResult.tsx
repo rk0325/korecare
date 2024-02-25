@@ -71,8 +71,8 @@ const DemonstrationResult = () => {
                       style={{ objectFit: "contain", width: "auto" }}
                     />
                   </div>
-                  <p className="line-clamp-2 z-10 pt-2 pb-2">{truncateName(cosmetic.itemName)}</p>
-                  <p className="z-10 relative pb-2">{cosmetic.itemPrice}円</p>
+                  <p className="line-clamp-2 z-10 pt-2">{truncateName(cosmetic.itemName)}</p>
+                  <p className="z-10 relative pt-2 pb-2">{cosmetic.itemPrice}円</p>
                   <CustomButton colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
                 </div>
               </div>
