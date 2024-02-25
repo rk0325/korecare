@@ -22,7 +22,6 @@ export default function SearchResult() {
 	const [favoriteStatus, setFavoriteStatus] = useState(new Map());
 
 	const addToFavorites = useCallback(async (cosmetic: Cosmetic) => {
-		console.log('cosmeticオブジェクトの中身', cosmetic);
 		const favoriteCosmetic = {
 			favorite_cosmetic: {
 				user_id: session?.user?.id,
@@ -81,8 +80,6 @@ export default function SearchResult() {
 	function truncateName(name: string, maxLength: number = 46): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
   }
-
-	console.log(cosmeticSets);
 
 	return (
 		<div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu p-6'>

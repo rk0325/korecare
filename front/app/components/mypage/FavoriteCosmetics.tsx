@@ -54,7 +54,7 @@ export const FavoriteCosmetics = () => {
         headers: headers,
         withCredentials: true
       });
-      console.log('APIからのレスポンス:', response.data);
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
