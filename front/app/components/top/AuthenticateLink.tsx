@@ -10,10 +10,10 @@ import {
 
 export default function AuthenticateLink() {
   const handleLogin = async () => {
-    toast.loading('ログインしています...로그인 하고 있어요.');
+    toast.loading('ログインしています...');
     signIn('line', { callbackUrl: '/home' })
       .catch(() => {
-        toast.error('ログインに失敗しました。로그인에 실패했습니다.');
+        toast.error('ログインに失敗しました');
       });
   };
 

@@ -66,18 +66,15 @@ export default function EditProfile() {
         withCredentials: true
       });
 
-      // mutateを使用してローカルキャッシュを更新
       mutate(updatedProfile.data);
 
       router.push('/my_page');
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error)
-        // エラーレスポンスが存在し、その中にメッセージがある場合は表示する
         if (error.response && error.response.data && typeof error.response.data.message === 'string') {
           toast.error(error.response.data.message);
         } else {
-          // その他のエラーの場合は汎用的なメッセージを表示
           toast.error("編集に問題が発生しました");
         }
       }
@@ -167,10 +164,10 @@ export default function EditProfile() {
             </Select>
           </div>
           <div className="mb-6">
-            <Label htmlFor="skinTrouble">肌悩み</Label>
+            <Label htmlFor="skinTrouble">お悩み</Label>
             <Select onValueChange={setSkinTrouble}>
               <SelectTrigger>
-                <SelectValue className="text-text-color" placeholder={profile?.skin_trouble || "肌悩み"} />
+                <SelectValue className="text-text-color" placeholder={profile?.skin_trouble || "お悩み"} />
               </SelectTrigger>
               <SelectContent className="text-text-color">
                 <SelectItem value="保湿">保湿</SelectItem>

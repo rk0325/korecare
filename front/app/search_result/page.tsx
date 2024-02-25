@@ -2,6 +2,7 @@
 import React, { useContext, useState, useCallback, useMemo } from 'react';
 import Link from 'next/link';
 import { CosmeticsContext, Cosmetic } from '../contexts/CosmeticsContext';
+import { LoadingContext } from '../contexts/LoadingContext';
 import CustomButton from '@/components/ui/custom-button';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
@@ -11,6 +12,7 @@ import { PropagateLoader } from 'react-spinners';
 
 export default function SearchResult() {
 	const { cosmetics } = useContext(CosmeticsContext);
+	const { isLoading } = useContext(LoadingContext);
 	const { data: session } = useSession();
 	const token = session?.accessToken;
 	const headers = useMemo(() => {
@@ -18,7 +20,6 @@ export default function SearchResult() {
 	}, [token]);
 	const categories = ['化粧水', '美容液', 'クリーム'];
 	const [favoriteStatus, setFavoriteStatus] = useState(new Map());
-	const isLoading = cosmetics === null || cosmetics === undefined;
 
 	const addToFavorites = useCallback(async (cosmetic: Cosmetic) => {
 		console.log('cosmeticオブジェクトの中身', cosmetic);
@@ -82,12 +83,17 @@ export default function SearchResult() {
   }
 
 	return (
-		<div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
-			<p className="text-xl text-center justify-between pt-10 p-6">
-				あなたにおすすめの韓国コスメはこちら！
+		<div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu p-6'>
+			<p className="text-xl text-center justify-between">
+				あなたにおすすめの<br />韓国コスメはこちら！
 			</p>
+			<Link href='/search'>
+				<div className="flex justify-center pt-6 pb-6">
+					<CustomButton colorClass="btn-506D7D">もう一度検索する</CustomButton>
+				</div>
+			</Link>
 			{isLoading ? (
-				<div className="flex justify-center min-h-screen">
+				<div className="flex justify-center min-h-screen pt-10">
 					<PropagateLoader color="#506D7D" />
 				</div>
 			) : (
@@ -97,47 +103,49 @@ export default function SearchResult() {
 					}
 					const filteredCosmetics = cosmetics.filter(cosmetic => filterCosmeticsByFirstMatchingCategory(cosmetic) === category);
 					return filteredCosmetics.length > 0 && (
-						<div key={category}>
-							<h2 className="text-xl text-left pt-8 pl-10">{category}</h2>
-							<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
-								{filteredCosmetics.map((cosmetic, index) => (
-									<div key={index} className='relative flex flex-col items-center p-2'>
-										<p className="line-clamp-2">
-											{truncateName(cosmetic.itemName)}
-										</p>
-										<div className="relative">
-											<Image
-												src={cosmetic.mediumImageUrl}
-												alt={cosmetic.itemName}
-												width={500}
-												height={500}
-												style={{ objectFit: "contain", width: "auto" }}
-											/>
-											<button
-												onClick={() => toggleFavorite(cosmetic)}
-												className="absolute bottom-0 right-0 p-4 m-2"
-												style={{ transform: 'translate(45%, 85%)' }}
-											>
-												<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? false} />
-											</button>
+						<div key={category} className="flex justify-center">
+							<div className="w-full max-w-4xl p-2">
+								<p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-2 mb-2">{category}</p>
+								<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center'>
+									{filteredCosmetics.map((cosmetic, index) => (
+										<div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
+											<div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
+												<div
+													onClick={() => window.open(cosmetic.itemUrl, "_blank")}
+													className="relative z-0 pt-2 cursor-pointer text-center"
+												>
+													<div className="flex justify-center">
+														<Image
+															src={cosmetic.mediumImageUrl}
+															alt={cosmetic.itemName}
+															width={500}
+															height={500}
+															style={{ objectFit: "contain", width: "auto" }}
+														/>
+													</div>
+													<p className="line-clamp-2 z-10 pt-2">{truncateName(cosmetic.itemName)}</p>
+													<p className="z-10 relative mb-2">{cosmetic.itemPrice}円</p>
+												</div>
+												<div className=" items-center space-x-2">
+													<div className="absolute bottom-1 right-3">
+														<button onClick={(e) => {
+															e.stopPropagation();
+															toggleFavorite(cosmetic);
+														}}>
+															<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? false} />
+														</button>
+													</div>
+												</div>
+												<CustomButton colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
+											</div>
 										</div>
-										<p className='pt-10'>{cosmetic.itemPrice}円</p>
-										<p>{cosmetic.shopName}</p>
-										<Link href={cosmetic.itemUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-											商品ページへ
-										</Link>
-									</div>
-								))}
+									))}
+								</div>
 							</div>
 						</div>
 					);
 				})
 			)}
-			<Link href='/search'>
-				<div className="flex justify-center pb-10">
-					<CustomButton colorClass="btn-506D7D">もう一度検索する</CustomButton>
-				</div>
-			</Link>
 		</div>
 	);
 }
