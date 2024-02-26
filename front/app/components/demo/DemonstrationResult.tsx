@@ -51,7 +51,7 @@ const DemonstrationResult = () => {
           'あなたに'}
         <br />おすすめの韓国コスメはこちら！
       </p>
-      <div className='flex flex-col md:flex-row md:space-x-4 p-8 justify-center space-y-4 md:space-y-0'>
+      <div className='flex flex-col md:flex-row md:space-x-4 p-6 justify-center space-y-4 md:space-y-0'>
         {isLoading ? (
           <div className="flex justify-center min-h-screen">
             <PropagateLoader color="#506D7D" />
@@ -61,14 +61,14 @@ const DemonstrationResult = () => {
             <Link key={index} href={cosmetic.itemUrl} target="_blank" rel="noopener noreferrer">
               <div className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
                 <div className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
-                  <p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
-                  <div className="relative z-0 pt-4">
+                  <p className="text-lg z-10 bg-E0DBD2 py-1 px-3 mb-2 rounded-lg">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
+                  <div className="relative z-0 pt-2 w-custom h-custom">
                     <Image
                       src={cosmetic.mediumImageUrl}
                       alt={cosmetic.itemName}
-                      width={500}
-                      height={500}
-                      style={{ objectFit: "contain", width: "auto" }}
+                      layout="fill"
+                      objectFit="contain"
+                      quality={100}
                     />
                   </div>
                   <p className="line-clamp-2 z-10 pt-2">{truncateName(cosmetic.itemName)}</p>

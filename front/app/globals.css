@@ -158,3 +158,10 @@
   font-size: 16px;
   color: #333;
 }
+
+.marked-text {
+  border-bottom: 2px solid #E0DBD2;
+  display: inline;
+  line-height: normal;
+}
+

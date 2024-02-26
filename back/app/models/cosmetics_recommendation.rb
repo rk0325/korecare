@@ -114,7 +114,7 @@ class CosmeticsRecommendation
         sort: 'standard',
         minPrice: min_price,
         maxPrice: max_price,
-        hits: 5,
+        hits: 3,
         purchaseType: 0
       ).to_a
       results.concat(search_results)

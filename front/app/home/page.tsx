@@ -124,7 +124,7 @@ export default function Home() {
 
   return (
     <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu p-6'>
-      <p className='text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-4 mb-4'>
+      <p className='text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-4 mb-6'>
         今日の{profile.prefecture || "東京都"}の天気情報
       </p>
       <div className="grid grid-cols-1 gap-5 justify-center">

@@ -2,7 +2,7 @@ import type { Config } from 'tailwindcss'
 
 const config: Config = {
   darkMode: ["class"],
-  prefix: '',  // プレフィックスを削除するために空文字列を設定
+  prefix: '',
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -17,6 +17,12 @@ const config: Config = {
       },
       fontFamily: {
         genjyuu: ['GenJyuuGothicL', 'sans-serif'],
+      },
+      width: {
+        'custom': '128px',
+      },
+      height: {
+        'custom': '128px',
       },
       colors: {
         'button-color': '#506D7D', // ボタンの色

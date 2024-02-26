@@ -19,18 +19,21 @@ export type Cosmetic = {
   lotion?: string;
   serum?: string;
   cream?: string;
+  total_price?: number;
 };
 
 export type CosmeticSet = {
   lotion: Cosmetic;
   serum: Cosmetic;
   cream: Cosmetic;
+  total_price: number;
 };
 
 export type ApiResponseItem = {
   lotion: Cosmetic;
   serum: Cosmetic;
   cream: Cosmetic;
+  total_price: number;
 };
 
 export type ApiResponse = ApiResponseItem[];

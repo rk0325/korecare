@@ -9,7 +9,9 @@ import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import {
   Sun,
-  CheckSquare2
+  CheckSquare2,
+  Laptop,
+  Smartphone
 }
 from "lucide-react"
 
@@ -98,11 +100,17 @@ export const LineNotification = () => {
           <CheckSquare2 className="mr-2 h-6 w-6" />
           <span>通知の設定方法</span>
         </div>
-        <p className='pt-4'>PCの方</p>
+        <div className='flex items-end justify-center'>
+          <Laptop className="mr-2 h-6 w-6" />
+          <p className='pt-6'>PCの方</p>
+        </div>
         <p className='pt-2'>上記のQRコードを読み取っていただき、KoreCare公式アカウントを友だちへ追加</p>
-        <p className='pt-4'>スマートフォンの方</p>
+        <div className='flex items-end justify-center'>
+          <Smartphone className="mr-1 h-6 w-6" />
+          <p className='pt-6'>スマートフォンの方</p>
+        </div>
         <p className='pt-2'><a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">こちらのリンク</a>から、KoreCare公式アカウントを友だちへ追加</p>
-        <p className='pt-4 pb-4'>「通知を受け取る」をONにしていただくと、入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
+        <p className='pt-6 pb-6'>「通知を受け取る」をONにしていただくと、入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
       </div>
     </div>
   );
