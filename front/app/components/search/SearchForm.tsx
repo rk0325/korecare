@@ -61,6 +61,7 @@ const SearchForm = () => {
       lotion?: string;
       serum?: string;
       cream?: string;
+      total_price?: number;
     };
 
     try {
@@ -75,6 +76,7 @@ const SearchForm = () => {
           lotion: set.lotion,
           serum: set.serum,
           cream: set.cream,
+          total_price: set.total_price
         }));
         setCosmeticSets(cosmeticSets);
       } else {

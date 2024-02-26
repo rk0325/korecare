@@ -53,8 +53,8 @@ export default function EditProfile() {
       profile: {
         name: name,
         age: age,
-        skin_type: skinType,
-        skin_trouble: skinTrouble,
+        skin_type: skinType || profile?.skinType,
+        skin_trouble: skinTrouble || profile?.skinTrouble,
         avatar: avatar,
         prefecture: prefecture
       }

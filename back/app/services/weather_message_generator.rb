@@ -16,21 +16,21 @@ module WeatherMessageGenerator
     return "UV指数情報が利用できません。" if current_uvi.nil? || daily_max_uvi.nil?
 
     advice = ""
+    sun_protection_advice = "日焼けを防ぐために日傘や日焼け止めの利用、長袖や帽子の着用をお勧めします。\n\n"
+
     if current_uvi < 3 && daily_max_uvi >= 3
-      advice += "現在のUV指数は低いですが、これからUV指数が高くなる予報が出ています。日焼けを防ぐために日傘や日焼け止めの利用、長袖や帽子の着用をお勧めします。\n\n"
+      advice += "現在のUV指数は低いですが、これからUV指数が高くなる予報が出ています。#{sun_protection_advice}"
     elsif current_uvi.between?(3, 5)
-      advice += "現在UV指数は中程度です。日焼けを防ぐために日傘や日焼け止めの利用、長袖や帽子の着用をお勧めします。\n\n"
+      advice += "現在UV指数は中程度です。#{sun_protection_advice}"
     end
 
-    if daily_max_uvi.between?(3, 5)
-      advice += "これからUV指数が高くなる予報が出ています。日焼けを防ぐために日傘や日焼け止めの利用、長袖や帽子の着用をお勧めします。\n\n"
-    elsif daily_max_uvi >= 6
-      advice += "これからUV指数がとても高くなる予報が出ています。日焼けを防ぐために日傘や日焼け止めの利用、長袖や帽子の着用をお勧めします。\n\n"
+    if daily_max_uvi.between?(3, 5) && !current_uvi.between?(3, 5)
+      advice += "これからUV指数が高くなる予報が出ています。#{sun_protection_advice}"
+    elsif daily_max_uvi >= 6 && !current_uvi.between?(3, 5)
+      advice += "これからUV指数がとても高くなる予報が出ています。#{sun_protection_advice}"
     end
 
-    if advice.empty?
-      advice = "UV指数は通常範囲内です。\n\n"
-    end
+    advice = "UV指数は通常範囲内です。\n\n" if advice.empty?
 
     advice
   end
@@ -45,13 +45,13 @@ module WeatherMessageGenerator
     elsif current_humidity > 50 && daily_min_humidity <= 30
       "現在の湿度は適正ですが、日中の最低湿度が低いため、お肌の乾燥に注意してください。保湿を心がけ、肌を清潔に保つことをお勧めします。\n\n"
     elsif current_humidity <= 30 || daily_min_humidity <= 30
-      "現在空気が乾燥しています。ミスト化粧水やクリームを活用して、適度な保湿を心がけることをお勧めします。\n\n"
+      "現在空気が乾燥しています。ミスト化粧水やクリームなどを活用して、適度な保湿を心がけることをお勧めします。\n\n"
     elsif current_humidity.between?(30, 50)
-      "現在空気がやや乾燥しています。ミスト化粧水やクリームを活用して、適度な保湿を心がけることをお勧めします。\n\n"
+      "現在空気がやや乾燥しています。ミスト化粧水やクリームなどを活用して、適度な保湿を心がけることをお勧めします。\n\n"
     elsif daily_min_humidity < 50
-      "最低湿度が50%を下回る予報が出ています。お肌の乾燥が気になった際はミスト化粧水やクリームを活用して、適度な保湿を心がけることをお勧めします。\n\n"
+      "最低湿度が50%を下回る予報が出ています。お肌の乾燥が気になった際は、適度な保湿を心がけることをお勧めします。\n\n"
     else
-      "現在湿度は通常範囲内ですが、お肌の乾燥が気になった際はミスト化粧水やクリームを活用して、適度な保湿を心がけることをお勧めします。\n\n"
+      "現在湿度は通常範囲内ですが、お肌の乾燥が気になった際はミスト化粧水やクリームなどを活用して、適度な保湿を心がけることをお勧めします。\n\n"
     end
   end
 end

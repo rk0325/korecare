@@ -101,7 +101,7 @@ export const FavoriteCosmetics = () => {
 
   const shareOnTwitter = useCallback((cosmetic: Cosmetic) => {
     const truncatedName = truncateName(cosmetic.name, 50);
-    const text = `${truncatedName}をお気に入りコスメに登録しました！ #KoreCare`;
+    const text = `${truncatedName}をお気に入りに登録しました！ #KoreCare`;
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=https://korecare.vercel.app`;
     window.open(url, '_blank');
   }, []);
@@ -119,34 +119,34 @@ export const FavoriteCosmetics = () => {
           ) || [];
           return (
             <div key={category} className="flex justify-center">
-              <div className="w-full max-w-4xl p-2">
+              <div className="w-full max-w-4xl p-1">
                 <h2 className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-4 mb-2">{category}</h2>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
                   {filteredCosmetics.length > 0 ? (
                     filteredCosmetics.map((cosmetic, index) => (
                       <div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
-                        <div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
-                          <div className="relative z-0 pt-2">
+                        <div className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
+                          <div className="relative z-0 pt-2 w-custom h-custom">
                             <Image
                               src={cosmetic.image_url}
                               alt={cosmetic.name}
-                              width={500}
-                              height={500}
-                              style={{ objectFit: "contain", width: "auto" }}
+                              layout="fill"
+                              objectFit="contain"
+                              quality={100}
                             />
-                            <div className="flex justify-center items-center space-x-2 mt-2 mr-6">
-                              <button onClick={() => shareOnTwitter(cosmetic)}>
-                                <FontAwesomeIcon icon={faXTwitter} className="text-text-color text-xl pr-6" />
-                              </button>
-                            </div>
-                            <div className="absolute bottom-0 right-5 pb-1 m-2" style={{ transform: 'translate(40%, 50%)' }}>
-                              <button onClick={() => toggleFavorite(cosmetic)}>
-                                <FavoriteIconAnim on={favoriteStatus.get(cosmetic.item_code) ?? false} />
-                              </button>
-                            </div>
                           </div>
-                          <p className="line-clamp-2 z-10 pt-2">{truncateName(cosmetic.name)}</p>
-                          <p className="z-10 relative mb-2">{cosmetic.price}円</p>
+                          <div className="flex justify-center items-center space-x-4 mt-1 pl-4">
+                            <button onClick={() => shareOnTwitter(cosmetic)}>
+                              <FontAwesomeIcon icon={faXTwitter} className="text-text-color text-xl mt-1" />
+                            </button>
+                            <button onClick={() => toggleFavorite(cosmetic)}>
+                              <FavoriteIconAnim on={favoriteStatus.get(cosmetic.item_code) ?? false} />
+                            </button>
+                          </div>
+                        </div>
+                        <p className="line-clamp-2 z-10 mb-2 pr-2 pl-2">{truncateName(cosmetic.name)}</p>
+                        <p className="z-10 relative mb-2">{cosmetic.price}円</p>
+                        <div className="flex justify-center items-center mt-2 mb-2">
                           <CustomButton colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
                         </div>
                       </div>
