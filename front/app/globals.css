@@ -169,7 +169,7 @@
 }
 
 .carousel-height-custom {
-  height: 450px;
+  height: 480px;
 }
 
 .carouselItemContent {
@@ -178,11 +178,10 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 20px;
 }
 
 .carouselItemContent p {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 16px;
   color: #333;
 }

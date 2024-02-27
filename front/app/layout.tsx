@@ -14,8 +14,24 @@ import { faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 library.add(faXTwitter, faGithub);
 
 export const metadata: Metadata = {
-  title: 'KoreCare｜韓国コスメ特化型のスキンケアサポートサービス',
+  metadataBase: new URL('https://korecare.vercel.app/'),
+  title: 'KoreCare | 韓国コスメ特化型のスキンケアサポートサービス',
   description: 'KoreCareは、韓国コスメに特化した毎日のスキンケアをサポートするサービスです。',
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
+  openGraph: {
+		title: 'KoreCare | 韓国コスメ特化型のスキンケアサポートサービス',
+    description: '韓国コスメ特化型のスキンケアサポートサービス',
+    siteName: "KoreCare",
+	},
+	twitter: {
+		title: 'KoreCare | 韓国コスメ特化型のスキンケアサポートサービス',
+		description: '韓国コスメ特化型のスキンケアサポートサービス',
+    card: 'summary_large_image',
+	},
 }
 
 export default function RootLayout({
