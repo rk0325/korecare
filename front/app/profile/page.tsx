@@ -1,6 +1,7 @@
 'use client';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation'
+import useSWR from 'swr';
 import axios from 'axios';
 import Link from 'next/link'
 import { useSession, getSession } from 'next-auth/react'
@@ -27,6 +28,11 @@ import {
 	X
 } from "lucide-react"
 
+const fetcher = (args: [string, string]) => {
+  const [url, token] = args;
+  return axios.get(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.data);
+};
+
 export default function EditProfile() {
   const router = useRouter()
   const { data: session } = useSession();
@@ -40,6 +46,17 @@ export default function EditProfile() {
   const [avatar, setAvatar] = useState(profile?.avatar || session?.user?.image || '/default-avatar.png');
   const [prefecture, setPrefecture] = useState(profile?.prefecture || "");
   const [menuPosition, setMenuPosition] = useState(profile?.menuPosition || 'left');
+
+  const { data: menuPositionData, error: menuPositionError } = useSWR(
+    session?.accessToken ? [`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profiles/menu_position`, session.accessToken] : null,
+    fetcher
+  );
+
+  useEffect(() => {
+    if (menuPositionData && menuPositionData.menu_position) {
+      setMenuPosition(menuPositionData.menu_position);
+    }
+  }, [menuPositionData]);
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -70,6 +87,7 @@ export default function EditProfile() {
       });
 
       mutate(updatedProfile.data);
+      console.log(updatedProfile.data);
 
       router.push('/my_page');
     } catch (error) {
@@ -238,48 +256,50 @@ export default function EditProfile() {
               </SelectContent>
             </Select>
           </div>
-          <div className="mb-6">
-            <Label htmlFor="menuPosition">メニューボタンの位置</Label>
-            <RadioGroup defaultValue={menuPosition || profile?.menuPosition} onValueChange={setMenuPosition}>
-              <div className="flex items-center space-x-2 pb-2">
-                <RadioGroupItem value="left" id="r1" />
-                <Label htmlFor="r1">
-                  <div className="text-base sm:text-lg">左</div>
-                </Label>
-                <RadioGroupItem value="right" id="r2" />
-                <Label htmlFor="r2">
-                  <div className="text-base sm:text-lg">右</div>
-                </Label>
-              </div>
-            </RadioGroup>
+          <div className="mb-8 mt-8 text-center">
+            <Label htmlFor="menuPosition" className="block mb-2">メニューボタンの位置</Label>
+            <div className="flex justify-center">
+              <RadioGroup value={menuPosition} onValueChange={setMenuPosition}>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="left" id="r1" />
+                  <Label htmlFor="r1" className="text-base sm:text-md">左</Label>
+                  <RadioGroupItem value="right" id="r2" />
+                  <Label htmlFor="r2" className="text-base sm:text-md">右</Label>
+                </div>
+              </RadioGroup>
+            </div>
           </div>
           <div className="mb-6">
-            <Label htmlFor="avatar">アバター画像</Label>
-            <Image
-              src={avatar || session.user?.image || '/default-avatar.png'}
-              alt="User Avatar"
-              width={100}
-              height={100}
-              style={{ borderRadius: '50%' }}
-            />
-            <Input className="mt-6"
-              type="file"
-              id="avatar"
-              onChange={(e) => {
-                if (e.target.files) {
-                  const file = e.target.files[0];
-                  if (file) {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                      setAvatar(reader.result as string);
-                    };
-                    reader.readAsDataURL(file);
+            <Label htmlFor="avatar" className="block text-center mb-2">アバター画像</Label>
+            <div className="flex justify-center">
+              <Image
+                src={avatar || session.user?.image || '/default-avatar.png'}
+                alt="User Avatar"
+                width={100}
+                height={100}
+                style={{ borderRadius: '50%' }}
+              />
+            </div>
+            <div className="flex justify-center">
+              <Input className="mt-4"
+                type="file"
+                id="avatar"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    const file = e.target.files[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setAvatar(reader.result as string);
+                      };
+                      reader.readAsDataURL(file);
+                    }
                   }
-                }
-              }}
-            />
+                }}
+              />
+            </div>
           </div>
-          <div className="w-full pt-4 pb-4 flex justify-center" onClick={handleSubmit}>
+          <div className="w-full pt-2 pb-4 flex justify-center" onClick={handleSubmit}>
             <CustomButton colorClass="btn-506D7D">
               更新する
             </CustomButton>

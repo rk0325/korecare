@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import CustomButton from '@/components/ui/custom-button';
-import { PropagateLoader } from 'react-spinners';
+import { PulseLoader } from 'react-spinners';
 
 type Cosmetic = {
   itemName: string;
@@ -55,7 +55,7 @@ const DemonstrationResult = () => {
 
   return (
     <>
-      <p className="text-lg text-center justify-between pt-10">
+      <p className="text-lg text-center justify-between custom-marked-text">
         {skinType && skinTrouble ?
           `${skinType} × ${skinTrouble}の方に` :
           'あなたに'}
@@ -64,7 +64,7 @@ const DemonstrationResult = () => {
       <div className='flex flex-col md:flex-row md:space-x-4 p-6 justify-center space-y-4 md:space-y-0'>
         {isLoading ? (
           <div className="flex justify-center min-h-screen">
-            <PropagateLoader color="#506D7D" />
+            <PulseLoader color="#506D7D" />
           </div>
         ) : (
           cosmetics.map((cosmetic, index) => (
@@ -97,7 +97,7 @@ const DemonstrationResult = () => {
       </p>
       <p className="text-md text-center justify-between pt-8 pb-2">
         LINEでログインする</p>
-      <div className="flex justify-center pb-4">
+      <div className="flex justify-center pb-6">
         <div
           onMouseEnter={() => setLoginButtonImage('/btn_login_hover.png')}
           onMouseLeave={() => setLoginButtonImage('/btn_login_base.png')}
@@ -115,7 +115,7 @@ const DemonstrationResult = () => {
         </div>
       </div>
       <Link href='/first_demonstration'>
-        <div className="flex justify-center pt-4 pb-20">
+        <div className="flex justify-center pt-6 pb-20">
           <CustomButton colorClass="btn-506D7D">もう一度診断する</CustomButton>
         </div>
       </Link>

@@ -2,12 +2,11 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Cosmetic } from '../../contexts/CosmeticsContext';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 import axios from 'axios';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
-import { PropagateLoader } from 'react-spinners';
+import { PulseLoader } from 'react-spinners';
 import CustomButton from '@/components/ui/custom-button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -110,7 +109,7 @@ export const FavoriteCosmetics = () => {
     <div className='pb-10'>
       {isLoading ? (
         <div className="flex justify-center min-h-screen pt-10">
-          <PropagateLoader color="#506D7D" />
+          <PulseLoader color="#506D7D" />
         </div>
       ) : (
         categories.map((category) => {

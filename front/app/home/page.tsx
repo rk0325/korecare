@@ -14,7 +14,8 @@ import {
   Snowflake,
   CloudFog,
   Zap,
-  X
+  X,
+  Wind
 } from "lucide-react"
 
 const fetcher = async ([url, token]: [string, string | undefined]) => {
@@ -70,7 +71,7 @@ export default function Home() {
   const { data: weatherData, error } = useSWR(
     profile ? [`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/weather?prefecture_name=${profile.prefecture || "東京都"}`, session?.accessToken] : null,
     fetcher,
-    { refreshInterval: 60000 }
+    { refreshInterval: 300000 }
   );
 
   if (isProfileLoading || !weatherData) {
@@ -105,18 +106,20 @@ export default function Home() {
       'Mist': '霧',
       'Fog': '霧',
       'Thunderstorm': '雷雨',
+      'Squall': '突風',
     };
     return mapping[weather] || weather;
   };
 
   const getWeatherIcon = (weather: string) => {
     const icons: { [key: string]: JSX.Element } = {
-      '晴れ': <SunMedium className="inline-block" color="#FDB813" />,
-      '曇り': <Cloudy className="inline-block" color="#B1B1B1" />,
-      '雨': <Umbrella className="inline-block" color="#5171A5" />,
-      '雪': <Snowflake className="inline-block" color="#75BFFF" />,
-      '霧': <CloudFog className="inline-block" color="#8E8E8E" />,
-      '雷雨': <Zap className="inline-block" color="#FFD700" />,
+      '晴れ': <SunMedium className="inline-block mb-1" color="#FDB813" />,
+      '曇り': <Cloudy className="inline-block mb-1" color="#B1B1B1" />,
+      '雨': <Umbrella className="inline-block mb-1" color="#5171A5" />,
+      '雪': <Snowflake className="inline-block mb-1" color="#75BFFF" />,
+      '霧': <CloudFog className="inline-block mb-1" color="#8E8E8E" />,
+      '雷雨': <Zap className="inline-block mb-1" color="#FFD700" />,
+      '突風': <Wind className="inline-block mb-1" color="#6E7F80" />,
     };
     return icons[weather] || null;
   };
@@ -128,18 +131,18 @@ export default function Home() {
       </p>
       <div className="grid grid-cols-1 gap-5 justify-center">
         <div className='shadow-md rounded-md overflow-hidden p-4 max-w-md mx-auto w-full'>
-          <p className="text-xl my-2">現在の天気: {translateWeather(currentWeather)} {getWeatherIcon(translateWeather(currentWeather))}</p>
+          <p className="text-xl my-2 marked-text">現在の天気: {translateWeather(currentWeather)} {getWeatherIcon(translateWeather(currentWeather))}</p>
           <p className="my-2">最高気温: <span style={{ color: '#de6c6c' }}>{maxTemp}°C</span></p>
-          <p className="my-2">最低気温: <span style={{ color: '#4e94cd' }}>{minTemp}°C</span></p>
+          <p className="my-2">最低気温: <span style={{ color: '#498bc1' }}>{minTemp}°C</span></p>
         </div>
         <div className='shadow-md rounded-md overflow-hidden p-4 max-w-md mx-auto w-full'>
-          <p className="text-xl my-2">現在のUV指数: {currentUvi}</p>
+          <p className="text-xl my-2 marked-text">現在のUV指数: {currentUvi}</p>
           <p className="my-2">{uviDescription}</p>
           <LevelIcons level={uviLevel} color={uviColor} Icon={CloudSun} />
           <p className="my-2">最高UV指数: {dailyMaxUvi}</p>
         </div>
         <div className='shadow-md rounded-md overflow-hidden p-4 max-w-md mx-auto w-full'>
-          <p className="text-xl my-2">現在の湿度: {weatherData?.current_humidity}%</p>
+          <p className="text-xl my-2 marked-text">現在の湿度: {weatherData?.current_humidity}%</p>
           <p className="my-2">{humidityDescription}</p>
           <LevelIcons level={humidityLevel} color={humidityColor} Icon={Droplets} />
           <p className="my-2">最低湿度: {weatherData?.daily_min_humidity}%</p>

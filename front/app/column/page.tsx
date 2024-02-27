@@ -16,7 +16,7 @@ export default function Column() {
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger className='text-lg'>韓国コスメはなんで人気なの？</AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className='text-left'>
                 <p className='my-1 text-lg marked-text'>・製品の多様性</p>
                 <p className='my-1'>韓国コスメは、さまざまな肌のお悩みに対応する製品や、敏感肌や乾燥肌、脂性肌など、さまざまな肌質に合わせた製品が豊富にそろっています。</p>
                 <p className='my-1 text-lg marked-text'>・手頃な価格</p>
@@ -29,7 +29,7 @@ export default function Column() {
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger className='text-lg'>韓国コスメ購入時の注意点</AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className='text-left'>
                 <p className='my-1'>ずばり、偽物に注意！です。</p>
                 <p className='my-1'>韓国コスメを購入する際は、公式ショップから購入することをお勧めします。商品名やショップ名に「公式」と書いてあることをご確認いただけますと幸いです。</p>
                 <p className='my-1'>なお、KoreCareの検索機能では、公式ショップの商品がヒットするようにしておりますが、購入される際は、念の為ご確認をお願いいたします。</p>
@@ -37,7 +37,7 @@ export default function Column() {
             </AccordionItem>
             <AccordionItem value="item-3">
               <AccordionTrigger className='text-lg'>韓国コスメ用語と使い方</AccordionTrigger>
-              <AccordionContent>
+              <AccordionContent className='text-left'>
                 <p className='my-1 text-lg marked-text'>・トナー、スキン</p>
                 <p className='my-1'>韓国コスメでは、化粧水のことをトナーやスキンといいます。</p>
                 <p className='my-1 text-lg marked-text'>・エッセンス、セラム、アンプル</p>
