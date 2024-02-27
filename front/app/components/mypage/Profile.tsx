@@ -25,6 +25,7 @@ export const Profile = () => {
   const avatar = profile?.avatar || session?.user?.image || '/default-avatar.png';
   const prefecture = profile?.prefecture || "";
   const menuPosition = profile?.menu_position || "left";
+  const menuPositionText = menuPosition === "left" ? "左" : "右";
 
   return (
     session ? (
@@ -41,12 +42,12 @@ export const Profile = () => {
               priority
             />
           </div>
-          <p className="mb-6">お名前：{name}</p>
-          <p className="mb-6">年代：{age}</p>
-          <p className="mb-6">肌質：{skinType}</p>
-          <p className="mb-6">お悩み：{skinTrouble}</p>
-          <p className="mb-6">お住まい：{prefecture}</p>
-          <p className="mb-6">メニューボタンの位置：{menuPosition}</p>
+          <p className="mb-6">お名前: {name}</p>
+          <p className="mb-6">年代: {age}</p>
+          <p className="mb-6">肌質: {skinType}</p>
+          <p className="mb-6">お悩み: {skinTrouble}</p>
+          <p className="mb-6">お住まい: {prefecture}</p>
+          <p className="mb-6">メニューボタンの位置: {menuPositionText}</p>
           <div className="flex justify-center pt-2">
             <Link href='/profile'>
               <CustomButton

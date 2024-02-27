@@ -16,7 +16,7 @@ export function useProfile() {
     [`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profiles`, token], // URLとトークンを配列で渡す
     fetcher,
     {
-      refreshInterval: 30000, // 30秒ごとにデータを更新
+      refreshInterval: 300000,
     }
   );
 

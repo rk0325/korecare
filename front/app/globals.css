@@ -193,3 +193,10 @@
   line-height: normal;
 }
 
+.custom-marked-text {
+  border-bottom: 2px solid #E0DBD2;
+  display: inline;
+  position: relative;
+  top: 20px;
+}
+

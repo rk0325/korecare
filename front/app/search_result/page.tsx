@@ -8,7 +8,7 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
-import { PropagateLoader } from 'react-spinners';
+import { PulseLoader } from 'react-spinners';
 
 export default function SearchResult() {
 	const { cosmetics, cosmeticSets } = useContext(CosmeticsContext);
@@ -83,17 +83,17 @@ export default function SearchResult() {
 
 	return (
 		<div className='p-6'>
-			<p className="text-xl text-center justify-between">
+			<p className="text-xl text-center justify-between custom-marked-text">
 				あなたにおすすめの<br />韓国コスメはこちら！
 			</p>
 			<Link href='/search'>
-				<div className="flex justify-center pt-6 pb-2">
+				<div className="flex justify-center pt-14 pb-4">
 					<CustomButton colorClass="btn-506D7D">もう一度検索する</CustomButton>
 				</div>
 			</Link>
 			{isLoading ? (
 				<div className="flex justify-center min-h-screen pt-10">
-					<PropagateLoader color="#506D7D" />
+					<PulseLoader color="#506D7D" />
 				</div>
 			) : (
 				<>
@@ -157,7 +157,7 @@ export default function SearchResult() {
 								<p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-2 mb-2">セット</p>
 								{cosmeticSets.map((set, index) => (
 									<div key={index} className="mb-4">
-										<p className="text-lg">合計価格: {set.total_price}円</p>
+										<p className="text-lg">合計金額: {set.total_price}円</p>
 										<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center'>
 											{Object.entries(set).filter(([key, _]) => key !== 'total_price').map(([key, value], index) => {
 												if (typeof value === 'object' && value !== null && 'itemUrl' in value) {

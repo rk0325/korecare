@@ -6,10 +6,8 @@ module Api
       def update
         profile = @current_user.profile || @current_user.build_profile
 
-        # フロントエンドから送信された都道府県名に基づいてAddressレコードを検索
         address = Address.find_by(address: profile_params[:prefecture])
         if address
-          # Addressレコードが見つかった場合、そのidをProfileに設定
           profile.address_id = address.id
         else
           render json: { status: 'failure', message: 'Address not found', data: {} }, status: :not_found
@@ -30,6 +28,24 @@ module Api
           new_profile.avatar = current_user.avatar
         end
         render json: profile
+      end
+
+      def menu_position
+        profile = @current_user.profile
+        if profile
+          render json: { menu_position: profile.menu_position }
+        else
+          render json: { error: 'Profile not found' }, status: :not_found
+        end
+      end
+
+      def index
+        profile = @current_user.profile
+        if profile
+          render json: profile
+        else
+          render json: { error: 'Profile not found' }, status: :not_found
+        end
       end
 
       private

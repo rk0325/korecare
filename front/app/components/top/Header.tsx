@@ -51,7 +51,7 @@ const Header = () => {
                     <p className="mb-6 text-lg">KoreCareへようこそ！</p>
                     <div className="flex items-start mb-4">
                       <Clock className="mr-2 h-6 w-10" />
-                      <p>こちらのページでは、天気やUV指数、湿度の情報をリアルタイムでお届けしています。</p>
+                      <p>こちらのページでは、天気やUV指数、湿度の情報をほぼリアルタイムでお届けしています。</p>
                     </div>
                     <div className="flex items-start mb-4">
                       <MapPinned className="mr-2 h-6 w-10" />

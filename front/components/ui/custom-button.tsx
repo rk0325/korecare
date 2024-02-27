@@ -10,7 +10,7 @@ interface CustomButtonProps {
 
 const CustomButton: React.FC<CustomButtonProps> = ({ colorClass, children, onClick, variant }) => {
   const additionalClasses = variant === 'outline' ? 'border border-[#E0DBD2]' : '';
-  const roundedClass = 'rounded-md';
+  const roundedClass = 'rounded-lg';
   const flexClass = 'flex items-center justify-center'; // Flexboxを適用
   const shadowClass = 'shadow-lg'; // 影を追加
 
