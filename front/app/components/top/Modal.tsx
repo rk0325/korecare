@@ -20,16 +20,9 @@ import {
 
 const Modal = () => {
   const { data: session } = useSession();
-  const { profile, isLoading, isError } = useProfile();
+  const { profile } = useProfile();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
-
-  if (isLoading) return <div className="text-2xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
-  Loading...<br />
-  잠깐만요.</div>;
-  if (isError) return <div className="text-xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
-  Loading...<br />
-  잠깐만요.</div>;
 
   const handleLogout = async () => {
     await signOut({ callbackUrl: '/' });
