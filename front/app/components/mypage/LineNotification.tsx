@@ -70,7 +70,7 @@ export const LineNotification = () => {
   }, [headers, notificationMap]);
 
   return (
-    <div className='bg-background-color text-text-color text-center font-genjyuu items-center'>
+    <div className='items-center'>
       <Separator className="my-10" />
       <div className="text-xl text-center flex justify-center">
         <span id="line-notification">LINE通知登録</span>

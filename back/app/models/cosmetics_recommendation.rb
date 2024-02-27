@@ -20,9 +20,9 @@ class CosmeticsRecommendation
 
   PRODUCT_TYPE_KEYWORDS = {
   '化粧水・美容液・クリームセット' => ['化粧水', '%化粧水', 'トナー', '%トナー', 'セラム', '%セラム', '美容液', '%美容液', 'アンプル', '%アンプル', 'クリーム', '%クリーム'],
-  '化粧水単品' => ['化粧水', '%化粧水', 'トナー', '%トナー'],
-  '美容液単品' => ['セラム', '%セラム', '美容液', '%美容液', 'アンプル', '%アンプル'],
-  'クリーム単品' => ['クリーム', '%クリーム']
+  '化粧水単品' => ['化粧水', 'トナー'],
+  '美容液単品' => ['セラム', '美容液', 'アンプル'],
+  'クリーム単品' => ['クリーム']
   }.freeze
 
   PRODUCT_TYPE_NG_KEYWORDS = {
@@ -114,7 +114,7 @@ class CosmeticsRecommendation
         sort: 'standard',
         minPrice: min_price,
         maxPrice: max_price,
-        hits: 3,
+        hits: 5,
         purchaseType: 0
       ).to_a
       results.concat(search_results)

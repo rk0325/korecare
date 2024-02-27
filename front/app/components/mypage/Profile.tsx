@@ -18,17 +18,17 @@ export const Profile = () => {
     Loading...<br />
     잠깐만요.</div>;
 
-  // プロフィールデータまたはセッションデータを使用
   const name = profile?.name || session?.user?.name || "";
   const age = profile?.age || "";
   const skinType = profile?.skin_type || "";
   const skinTrouble = profile?.skin_trouble || "";
   const avatar = profile?.avatar || session?.user?.image || '/default-avatar.png';
   const prefecture = profile?.prefecture || "";
+  const menuPosition = profile?.menu_position || "left";
 
   return (
     session ? (
-      <div className='font-genjyuu min-h-screen bg-background-color flex justify-center text-text-color'>
+      <div className='flex justify-center'>
         <div className="text-center justify-center">
           <div className="flex justify-center">
             <Image
@@ -46,6 +46,7 @@ export const Profile = () => {
           <p className="mb-6">肌質：{skinType}</p>
           <p className="mb-6">お悩み：{skinTrouble}</p>
           <p className="mb-6">お住まい：{prefecture}</p>
+          <p className="mb-6">メニューボタンの位置：{menuPosition}</p>
           <div className="flex justify-center pt-2">
             <Link href='/profile'>
               <CustomButton

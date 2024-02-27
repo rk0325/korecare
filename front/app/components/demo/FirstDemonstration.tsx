@@ -30,7 +30,7 @@ const FirstDemonstration = () => {
   };
 
 	return (
-		<div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
+		<>
 			<p className="text-xl text-center justify-between p-10">
 				あなたの肌質は？
 			</p>
@@ -112,7 +112,7 @@ const FirstDemonstration = () => {
 					<CustomButton colorClass="btn-506D7D" onClick={handleSubmit}>次の質問へ</CustomButton>
 				</div>
 			</Link>
-		</div>
+		</>
 	);
 }
 

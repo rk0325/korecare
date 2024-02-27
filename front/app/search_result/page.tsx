@@ -82,12 +82,12 @@ export default function SearchResult() {
   }
 
 	return (
-		<div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu p-6'>
+		<div className='p-6'>
 			<p className="text-xl text-center justify-between">
 				あなたにおすすめの<br />韓国コスメはこちら！
 			</p>
 			<Link href='/search'>
-				<div className="flex justify-center pt-6 pb-6">
+				<div className="flex justify-center pt-6 pb-2">
 					<CustomButton colorClass="btn-506D7D">もう一度検索する</CustomButton>
 				</div>
 			</Link>
@@ -115,14 +115,16 @@ export default function SearchResult() {
 															onClick={() => window.open(cosmetic.itemUrl, "_blank")}
 															className="relative z-0 pt-2 cursor-pointer text-center"
 														>
-															<div className="relative z-0 pt-2 w-custom h-custom">
-																<Image
-																	src={cosmetic.mediumImageUrl}
-																	alt={cosmetic.itemName}
-																	layout="fill"
-																	objectFit="contain"
-																	quality={100}
-																/>
+															<div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
+																<div className="relative z-0 pt-2 w-custom h-custom">
+																	<Image
+																		src={cosmetic.mediumImageUrl}
+																		alt={cosmetic.itemName}
+																		layout="fill"
+																		objectFit="contain"
+																		quality={100}
+																	/>
+																</div>
 															</div>
 															<p className="line-clamp-2 z-10 pt-2">{truncateName(cosmetic.itemName)}</p>
 															<p className="z-10 relative mb-2">{cosmetic.itemPrice}円</p>

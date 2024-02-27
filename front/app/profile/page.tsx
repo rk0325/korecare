@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import CustomButton from '@/components/ui/custom-button';
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Button } from "@/components/ui/button"
 import {
   Select,
@@ -38,6 +39,7 @@ export default function EditProfile() {
   const [skinTrouble, setSkinTrouble] = useState(profile?.skinTrouble || "");
   const [avatar, setAvatar] = useState(profile?.avatar || session?.user?.image || '/default-avatar.png');
   const [prefecture, setPrefecture] = useState(profile?.prefecture || "");
+  const [menuPosition, setMenuPosition] = useState(profile?.menuPosition || 'left');
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -56,7 +58,8 @@ export default function EditProfile() {
         skin_type: skinType || profile?.skinType,
         skin_trouble: skinTrouble || profile?.skinTrouble,
         avatar: avatar,
-        prefecture: prefecture
+        prefecture: prefecture,
+        menu_position: menuPosition || profile?.menuPosition,
       }
     };
 
@@ -83,7 +86,7 @@ export default function EditProfile() {
 
   return (
     session ? (
-      <div className='bg-background-color flex justify-center min-h-screen p-10 text-text-color font-genjyuu'>
+      <div className='flex justify-center p-10'>
         <div className="w-full max-w-sm text-left">
           <div className="mb-6">
             <Label htmlFor="name">お名前</Label>
@@ -234,6 +237,21 @@ export default function EditProfile() {
                 <SelectItem value="沖縄県">沖縄県</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          <div className="mb-6">
+            <Label htmlFor="menuPosition">メニューボタンの位置</Label>
+            <RadioGroup defaultValue={menuPosition || profile?.menuPosition} onValueChange={setMenuPosition}>
+              <div className="flex items-center space-x-2 pb-2">
+                <RadioGroupItem value="left" id="r1" />
+                <Label htmlFor="r1">
+                  <div className="text-base sm:text-lg">左</div>
+                </Label>
+                <RadioGroupItem value="right" id="r2" />
+                <Label htmlFor="r2">
+                  <div className="text-base sm:text-lg">右</div>
+                </Label>
+              </div>
+            </RadioGroup>
           </div>
           <div className="mb-6">
             <Label htmlFor="avatar">アバター画像</Label>
