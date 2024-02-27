@@ -1,10 +1,10 @@
 'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'
-import toast from 'react-hot-toast';
 import { signOut, useSession } from 'next-auth/react';
-import Image from 'next/image';
 import { useProfile } from '../../hooks/useProfile';
+import Image from 'next/image';
+import toast from 'react-hot-toast';
 import { Label } from "@/components/ui/label"
 import {
   LogOut,
@@ -19,8 +19,18 @@ import {
 } from "lucide-react"
 
 const Modal = () => {
+  const { data: session } = useSession();
+  const { profile, isLoading, isError } = useProfile();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
+
+  if (isLoading) return <div className="text-2xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
+  Loading...<br />
+  잠깐만요.</div>;
+  if (isError) return <div className="text-xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
+  Loading...<br />
+  잠깐만요.</div>;
+
   const handleLogout = async () => {
     await signOut({ callbackUrl: '/' });
     setIsModalOpen(false);
@@ -29,11 +39,9 @@ const Modal = () => {
 
   const handleClose = () => setIsModalOpen(false);
 
-  const { data: session } = useSession();
-  const { profile } = useProfile();
-
   const name = profile?.name || session?.user?.name || "";
   const avatar = profile?.avatar || session?.user?.image || '/default-avatar.png';
+  const menuPosition = profile?.menu_position || 'left';
 
   const handleNavigation = async (url: string) => {
     await router.push(url);
@@ -43,9 +51,11 @@ const Modal = () => {
     }
   };
 
+  const menuButtonClass = menuPosition === 'left' ? 'menu-button-left' : 'menu-button-right';
+
   return (
-    <div className="text-text-color font-genjyuu">
-      <div className="menu-button" onClick={() => setIsModalOpen(true)}>
+    <>
+      <div className={menuButtonClass} onClick={() => setIsModalOpen(true)}>
         <Menu />
       </div>
       <div className={`modal ${isModalOpen ? 'modal-open' : ''}`} onClick={handleClose}>
@@ -95,7 +105,7 @@ const Modal = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

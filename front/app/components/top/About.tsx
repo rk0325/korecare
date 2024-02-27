@@ -1,14 +1,17 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image';
 import toast from 'react-hot-toast';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import CustomButton from '@/components/ui/custom-button';
 import CarouselContents from './CarouselContents';
 import Motion from '../../components/motionWrapper/MotionWrapper';
 
 const About = () => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [loginButtonImage, setLoginButtonImage] = useState('/btn_login_base.png');
   const handleLogin = async () => {
     toast.loading('ログインしています...');
@@ -17,6 +20,18 @@ const About = () => {
         toast.error('ログインに失敗しました');
       });
   };
+
+  useEffect(() => {
+    if (session) {
+      router.replace("/home");
+    }
+  }, [session, router]);
+
+  if (status === "loading") {
+    return <div className="text-xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
+      <div>Loading...<br /><br />잠깐만요.</div>
+    </div>;
+  }
 
   return (
     <>

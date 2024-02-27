@@ -107,7 +107,7 @@ export const FavoriteCosmetics = () => {
   }, []);
 
   return (
-    <div className='bg-background-color font-genjyuu min-h-screen text-text-color text-center pb-10'>
+    <div className='pb-10'>
       {isLoading ? (
         <div className="flex justify-center min-h-screen pt-10">
           <PropagateLoader color="#506D7D" />
@@ -152,7 +152,9 @@ export const FavoriteCosmetics = () => {
                       </div>
                     ))
                   ) : (
-                    <p className="text-center text-gray-600" style={{ whiteSpace: 'nowrap' }}>このカテゴリーにはコスメがありません。</p>
+                    <div className="col-span-1 md:col-span-2 lg:col-span-3">
+                      <p className="text-center text-gray-600 whitespace-nowrap">このカテゴリーにはコスメがありません。</p>
+                    </div>
                   )}
                 </div>
               </div>

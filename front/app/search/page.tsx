@@ -11,7 +11,7 @@ export default function Home() {
 
 	return (
 		session ? (
-			<div className='bg-background-color min-h-screen text-text-color text-center flex justify-center font-genjyuu'>
+			<>
 				<div className='flex flex-col space-y-4 p-10'>
 					<p className='text-xl'>韓国コスメ検索</p>
 					<div className="flex justify-center">
@@ -23,7 +23,7 @@ export default function Home() {
 					<p>条件を変更して検索してみてください。</p>
 					<SearchForm />
 				</div>
-			</div>
+			</>
 		) : null
 	);
 }

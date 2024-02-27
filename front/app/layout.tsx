@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import UserInfoProvider from './providers/UserInfoProvider';
 import CosmeticsContextProvider from './providers/CosmeticsContextProvider';
 import LoadingProvider from './providers/LoadingProvider';
+import SessionProvider from './providers/SessionContextProvider';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 
@@ -26,24 +27,26 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <NextAuthProvider>
-          <CosmeticsContextProvider>
-            <LoadingProvider>
-              <UserInfoProvider>
-                <Header />
-                <Toaster
-                  position="top-right"
-                  reverseOrder={true}
-                  containerStyle={{
-                    zIndex: 9999,
-                  }}
-                />
-                <div className='font-genjyuu bg-background-color min-h-screen text-text-color'>
-                  {children}
-                </div>
-                <Footer />
-              </UserInfoProvider>
-            </LoadingProvider>
-          </CosmeticsContextProvider>
+          <SessionProvider>
+            <CosmeticsContextProvider>
+              <LoadingProvider>
+                <UserInfoProvider>
+                  <Header />
+                  <Toaster
+                    position="top-right"
+                    reverseOrder={true}
+                    containerStyle={{
+                      zIndex: 9999,
+                    }}
+                  />
+                  <div className='font-genjyuu bg-background-color min-h-screen text-text-color text-center'>
+                    {children}
+                  </div>
+                  <Footer />
+                </UserInfoProvider>
+              </LoadingProvider>
+            </CosmeticsContextProvider>
+          </SessionProvider>
         </NextAuthProvider>
       </body>
     </html>

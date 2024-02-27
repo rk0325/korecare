@@ -18,7 +18,7 @@ const SecondDemonstration = () => {
 	}
 
   return (
-    <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu'>
+    <>
       <p className="text-xl text-center justify-between p-10">
         あなたのお悩み・スキンケアに<br />求めるものを一つあげるなら？
       </p>
@@ -57,7 +57,7 @@ const SecondDemonstration = () => {
           <CustomButton colorClass="btn-506D7D" onClick={handleSubmit}>結果を見る</CustomButton>
         </div>
       </Link>
-    </div>
+    </>
   );
 }
 

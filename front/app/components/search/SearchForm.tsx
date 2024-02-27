@@ -107,7 +107,7 @@ const SearchForm = () => {
   };
 
   return (
-    <div className='bg-background-color min-h-screen text-text-color text-center font-genjyuu flex justify-center pt-10'>
+    <div className='flex justify-center pt-10'>
       <form onSubmit={handleSubmit}>
         <div className='flex flex-col md:flex-row md:space-x-4 space-y-8 md:space-y-0'>
           <Select onValueChange={value => setSkinType(value)}>

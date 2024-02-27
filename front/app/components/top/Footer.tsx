@@ -31,7 +31,7 @@ const Footer = () => {
                 </Link>
               </li>
               <li className="cursor-pointer pb-4">
-                <Link href="https://github.com/rk0325" target="_blank" rel="noopener noreferrer">
+                <Link href="https://github.com/rk0325/korecare" target="_blank" rel="noopener noreferrer">
                   <FontAwesomeIcon icon={faGithub} style={{ width: '22px', height: '22px' }} />
                 </Link>
               </li>

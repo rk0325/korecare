@@ -20,6 +20,9 @@ Rails.application.routes.draw do
       end
 
       get '/weather', to: 'weather#show'
+
+      get '/users/update_menu_position', to: 'users#update_menu_position'
+      put '/users/update_menu_position', to: 'users#update_menu_position'
     end
   end
 

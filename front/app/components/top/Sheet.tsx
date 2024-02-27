@@ -42,7 +42,6 @@ export default function SheetSide() {
   const { data: session } = useSession();
   const { profile } = useProfile();
 
-  // プロフィールデータまたはセッションデータを使用
   const name = profile?.name || session?.user?.name || "";
   const avatar = profile?.avatar || session?.user?.image || '/default-avatar.png';
 
