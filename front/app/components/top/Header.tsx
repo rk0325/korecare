@@ -44,6 +44,7 @@ const Header = () => {
               <button className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" id="info-modal" onClick={() => setIsModalOpen(true)}>
                 <AlertCircle className="h-6 w-6" />
               </button>
+              <p className='text-sm pr-2 cursor-pointer' id="info-modal" onClick={() => setIsModalOpen(true)}>KoreCareについて</p>
               <input type="checkbox" id="info-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
               <div className="modal" onClick={handleCloseModal}>
                 <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
@@ -64,7 +65,7 @@ const Header = () => {
                     </div>
                     <div className="flex items-start">
                       <Wrench className="mr-2 h-6 w-10" />
-                      <p>スマートフォンの方は、メニューボタンの位置をマイページから変更できます。</p>
+                      <p>PCの方は右上のメニューから、スマートフォンの方は左下にあるメニューボタンから各ページにアクセスできます。<br />スマートフォンの方は、左下にあるメニューボタンの位置をマイページから変更できます。</p>
                     </div>
                     <div className="flex items-start justify-between mt-6">
                       <p>KoreCareがあなたの毎日のスキンケアに</p>
@@ -80,10 +81,10 @@ const Header = () => {
           )}
           {isSearch && (
             <>
-              <button className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" onClick={() => setIsModalOpen(true)}>
+              <button className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" id="my-modal" onClick={() => setIsModalOpen(true)}>
                 <HelpCircle className="h-5 w-5" />
               </button>
-              <p className='text-sm pr-2' onClick={() => setIsModalOpen(true)}>肌質について</p>
+              <p className='text-sm pr-2 cursor-pointer' id="my-modal" onClick={() => setIsModalOpen(true)}>肌質について</p>
               <input type="checkbox" id="my-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
               <div className="modal" onClick={handleCloseModal}>
                 <div className="modal-box text-left" onClick={e => e.stopPropagation()}>

@@ -40,7 +40,7 @@ const CarouselContents = () => {
               <CardContent className="flex flex-col items-center justify-center">
                 <p className="text-text-color text-center text-lg mb-2 mt-4 marked-text">KoreCareでできること</p>
                 <p className="text-text-color text-center pb-4">スキンケアコスメの使用期限切れを防ぐサポートをします。</p>
-                <p className="text-text-color text-center text-sm pb-1">LINEにて「そろそろ替え時ですよ〜」とご連絡します！</p>
+                <p className="text-text-color text-center text-sm pb-1">LINEで替え時をご連絡します！</p>
                 <Image src="/coming_soon.png" alt="Image" width={200} height={200} />
               </CardContent>
             </Card>
@@ -59,13 +59,13 @@ const CarouselContents = () => {
             <Card className='carousel-height-custom flex flex-col items-center justify-center'>
               <CardContent className="flex flex-col items-center justify-center">
                 <p className="text-text-color text-center text-lg mb-2 marked-text">他にはどんな機能があるの？</p>
-                <p className="text-text-color text-center pb-1">・いいな！と思ったコスメをお気に入りに登録</p>
-                <p className="text-text-color text-center text-sm pb-6">Xでみんなに共有しよう！</p>
+                <p className="text-text-color text-center pb-1">・お気に入りコスメ登録</p>
+                <p className="text-text-color text-center text-sm pb-8">いいな！と思ったコスメをお気に入りに登録したり、Xでみんなに共有しよう！</p>
                 <p className="text-text-color text-center text-lg mb-2 marked-text">後日リリース予定</p>
-                <p className="text-text-color text-center pb-1">・私には合わなかったな…と思ったコスメを登録</p>
-                <p className="text-text-color text-center text-sm pb-4">どこが合わなかったのか、コメントとともに記録できるよ。</p>
-                <p className="text-text-color text-center pb-1">・実際に使ってみた感想をレビューに投稿</p>
-                <p className="text-text-color text-center text-sm">他の人のレビューにいいね！やコメントをし合おう。</p>
+                <p className="text-text-color text-center pb-1">・合わなかったコスメ登録</p>
+                <p className="text-text-color text-center text-sm pb-4">私には合わなかったな…と思ったコスメを、どこが合わなかったのかコメントとともに記録できるよ。</p>
+                <p className="text-text-color text-center pb-1">・レビュー投稿</p>
+                <p className="text-text-color text-center text-sm">実際に使ってみた感想をレビューに投稿したり、他の人のレビューにいいね！やコメントをし合おう。</p>
               </CardContent>
             </Card>
           </CarouselItem>

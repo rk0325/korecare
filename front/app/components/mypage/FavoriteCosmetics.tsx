@@ -108,7 +108,7 @@ export const FavoriteCosmetics = () => {
   return (
     <div className='pb-10'>
       {isLoading ? (
-        <div className="flex justify-center min-h-screen pt-10">
+        <div className="flex justify-center min-h-screen pt-20">
           <PulseLoader color="#506D7D" />
         </div>
       ) : (
@@ -123,7 +123,8 @@ export const FavoriteCosmetics = () => {
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
                   {filteredCosmetics.length > 0 ? (
                     filteredCosmetics.map((cosmetic, index) => (
-                      <div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
+                      <div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'
+                        onClick={() => window.open(cosmetic.item_url, "_blank")}>
                         <div className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
                           <div className="relative z-0 pt-2 w-custom h-custom">
                             <Image
@@ -135,10 +136,16 @@ export const FavoriteCosmetics = () => {
                             />
                           </div>
                           <div className="flex justify-center items-center space-x-4 mt-1 pl-4">
-                            <button onClick={() => shareOnTwitter(cosmetic)}>
+                            <button onClick={(e) => {
+                              e.stopPropagation();
+                              shareOnTwitter(cosmetic);
+                            }}>
                               <FontAwesomeIcon icon={faXTwitter} className="text-text-color text-xl mt-1" />
                             </button>
-                            <button onClick={() => toggleFavorite(cosmetic)}>
+                            <button onClick={(e) => {
+                              e.stopPropagation();
+                              toggleFavorite(cosmetic);
+                            }}>
                               <FavoriteIconAnim on={favoriteStatus.get(cosmetic.item_code) ?? false} />
                             </button>
                           </div>
