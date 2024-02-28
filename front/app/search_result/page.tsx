@@ -92,7 +92,7 @@ export default function SearchResult() {
 				</div>
 			</Link>
 			{isLoading ? (
-				<div className="flex justify-center min-h-screen pt-10">
+				<div className="flex justify-center min-h-screen pt-20">
 					<PulseLoader color="#506D7D" />
 				</div>
 			) : (
@@ -139,7 +139,7 @@ export default function SearchResult() {
 																</button>
 															</div>
 														</div>
-														<CustomButton colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
+														<CustomButton onClick={() => window.open(cosmetic.itemUrl, "_blank")} colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
 													</div>
 												</div>
 											))}
@@ -193,7 +193,7 @@ export default function SearchResult() {
 																		</button>
 																	</div>
 																</div>
-																<CustomButton colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
+																<CustomButton onClick={() => window.open(cosmetic.itemUrl, "_blank")} colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
 															</div>
 														</div>
 													);

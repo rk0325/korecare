@@ -80,24 +80,9 @@ export const LineNotification = () => {
         <Sun className="mr-2 h-6 w-6" />
         <span className='marked-text'>紫外線 / 乾燥注意通知</span><br />
       </div>
-      <div className="flex items-center justify-center space-x-2 pt-6">
-        <Switch
-          id="line-notification"
-          checked={notificationMap.get('notification') ?? false}
-          onCheckedChange={handleSwitchChange}
-        />
-        <Label htmlFor="line-notification" className='text-md'>通知を受け取る</Label>
-      </div>
-      <div className="pt-6 flex justify-center items-center">
-        <Image
-          src="/LINE_QR.png"
-          alt="LINE QR Code"
-          width={200}
-          height={200}
-        />
-      </div>
+      <p className='pt-4 pb-4'>マイページにて設定していただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
       <div className="px-1 text-center">
-        <div className="flex items-center pt-6 justify-center text-lg">
+        <div className="flex items-center pt-4 justify-center text-lg">
           <CheckSquare2 className="mr-2 h-6 w-6" />
           <span className='marked-text'>通知の設定方法</span>
         </div>
@@ -105,7 +90,15 @@ export const LineNotification = () => {
           <Laptop className="mr-2 h-6 w-6" />
           <p className='pt-6 marked-text'>PCの方</p>
         </div>
-        <p className='pt-2'>上記のQRコードを読み取っていただき、KoreCare公式アカウントを友だちへ追加</p>
+        <p className='pt-2'>こちらのQRコードを読み取っていただき、KoreCare公式アカウントを友だちへ追加</p>
+        <div className="pt-2 flex justify-center items-center">
+          <Image
+            src="/LINE_QR.png"
+            alt="LINE QR Code"
+            width={200}
+            height={200}
+          />
+        </div>
         <div className='flex items-end justify-center'>
           <Smartphone className="mr-1 h-6 w-6" />
           <p className='pt-6 marked-text'>スマートフォンの方</p>
@@ -114,7 +107,15 @@ export const LineNotification = () => {
         <div className='flex justify-center pt-4'>
           <ChevronsDown className="mr-2 h-6 w-6" />
         </div>
-        <p className='pt-4 pb-6'>「通知を受け取る」をONにしていただくと、入力いただいたお住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
+        <div className="flex items-center justify-center space-x-2 pt-4 pb-4">
+          <Switch
+            id="line-notification"
+            checked={notificationMap.get('notification') ?? false}
+            onCheckedChange={handleSwitchChange}
+          />
+          <Label htmlFor="line-notification" className='text-md'>通知を受け取る</Label>
+        </div>
+        <p className='pt-2 pb-6'>「通知を受け取る」をONにしていただいたら設定完了です！</p>
       </div>
     </div>
   );

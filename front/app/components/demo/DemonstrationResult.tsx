@@ -63,7 +63,7 @@ const DemonstrationResult = () => {
       </p>
       <div className='flex flex-col md:flex-row md:space-x-4 p-6 justify-center space-y-4 md:space-y-0'>
         {isLoading ? (
-          <div className="flex justify-center min-h-screen">
+          <div className="flex justify-center min-h-screen pt-20">
             <PulseLoader color="#506D7D" />
           </div>
         ) : (
@@ -115,8 +115,8 @@ const DemonstrationResult = () => {
         </div>
       </div>
       <Link href='/first_demonstration'>
-        <div className="flex justify-center pt-6 pb-20">
-          <CustomButton colorClass="btn-506D7D">もう一度診断する</CustomButton>
+        <div className="flex justify-center pt-4 pb-20">
+          <CustomButton colorClass="btn-506D7D">もう一度やってみる</CustomButton>
         </div>
       </Link>
     </>
