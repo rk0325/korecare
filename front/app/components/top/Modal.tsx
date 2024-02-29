@@ -13,9 +13,9 @@ import {
   Menu,
   Smartphone,
   Smile,
-  Home,
+  CloudSun,
   X,
-  PenLine
+  MessageCircleQuestion
 } from "lucide-react"
 
 const Modal = () => {
@@ -34,7 +34,6 @@ const Modal = () => {
 
   const name = profile?.name || session?.user?.name || "";
   const avatar = profile?.avatar || session?.user?.image || '/default-avatar.png';
-  const menuPosition = profile?.menu_position || 'left';
 
   const handleNavigation = async (url: string) => {
     await router.push(url);
@@ -44,11 +43,9 @@ const Modal = () => {
     }
   };
 
-  const menuButtonClass = menuPosition === 'left' ? 'menu-button-left' : 'menu-button-right';
-
   return (
     <>
-      <div className={menuButtonClass} onClick={() => setIsModalOpen(true)}>
+      <div className="menu-button" onClick={() => setIsModalOpen(true)}>
         <Menu />
       </div>
       <div className={`modal ${isModalOpen ? 'modal-open' : ''}`} onClick={handleClose}>
@@ -69,8 +66,8 @@ const Modal = () => {
             <Label className="text-base text-center mt-4">{name || session?.user?.name}さん</Label>
           </div>
           <div className="flex items-center cursor-pointer pt-5" onClick={() => handleNavigation('/home')}>
-            <Home className="mr-2 h-4 w-4" />
-            <span>ホーム</span>
+            <CloudSun className="mr-2 h-4 w-4" />
+            <span>天気情報</span>
           </div>
           <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/my_page')}>
             <Smile className="mr-2 h-4 w-4" />
@@ -84,13 +81,13 @@ const Modal = () => {
             <Heart className="mr-2 h-4 w-4" />
             <span>お気に入り</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/my_page#line-notification')}>
+          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/line_notification')}>
             <Smartphone className="mr-2 h-4 w-4" />
             <span>LINE通知登録</span>
           </div>
           <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/column')}>
-            <PenLine className="mr-2 h-4 w-4" />
-            <span>コラム</span>
+            <MessageCircleQuestion className="mr-2 h-4 w-4" />
+            <span>Q＆A</span>
           </div>
           <div className="flex items-center cursor-pointer pt-4" onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />

@@ -44,7 +44,6 @@ const Header = () => {
               <button className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" id="info-modal" onClick={() => setIsModalOpen(true)}>
                 <AlertCircle className="h-6 w-6" />
               </button>
-              <p className='text-sm pr-2 cursor-pointer' id="info-modal" onClick={() => setIsModalOpen(true)}>KoreCareについて</p>
               <input type="checkbox" id="info-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
               <div className="modal" onClick={handleCloseModal}>
                 <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
@@ -61,7 +60,7 @@ const Header = () => {
                     </div>
                     <div className="flex items-start mb-4">
                       <MapPinned className="mr-2 h-6 w-10" />
-                      <p>マイページにてお住まいを設定していただくと、設定された場所の情報が表示されます。</p>
+                      <p>マイページにてお住まいを設定して、LINE通知を受け取ろう！</p>
                     </div>
                     <div className="flex items-start">
                       <Wrench className="mr-2 h-6 w-10" />

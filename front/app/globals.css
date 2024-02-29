@@ -115,7 +115,6 @@
   margin: auto;
 }
 
-/* PC用のスタイル */
 @media (min-width: 769px) {
   .menu-button {
     position: relative;
@@ -128,34 +127,6 @@
   .menu-button {
     position: fixed;
     left: 20px;
-    bottom: 20px;
-    background-color: #E0DBD2;
-    border-radius: 50%;
-    padding: 12px;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  /* 左 */
-  .menu-button-left {
-    position: fixed;
-    left: 20px;
-    bottom: 20px;
-    background-color: #E0DBD2;
-    border-radius: 50%;
-    padding: 12px;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  /* 右 */
-  .menu-button-right {
-    position: fixed;
-    right: 20px;
     bottom: 20px;
     background-color: #E0DBD2;
     border-radius: 50%;

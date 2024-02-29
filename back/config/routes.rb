@@ -6,12 +6,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :profiles, only: [:show, :update] do
-        get :menu_position, on: :collection
-      end
-      get '/profiles', to: 'profiles#index'
-      put '/profiles', to: 'profiles#update'
-
+      resource :profiles, only: [:show, :update]
       resources :favorite_cosmetics, only: [:index, :create, :destroy]
 
       namespace :cosmetics_recommendation do

@@ -92,11 +92,9 @@ const DemonstrationResult = () => {
           ))
         )}
       </div>
-      <p className="text-md text-center justify-between pt-4">
-        ログインしていただくと、<br />コスメをお気に入りに登録できます！
+      <p className="text-md text-center justify-between pt-4 pb-2">
+        ログインするとコスメをお気に入りに登録できます！
       </p>
-      <p className="text-md text-center justify-between pt-8 pb-2">
-        LINEでログインする</p>
       <div className="flex justify-center pb-6">
         <div
           onMouseEnter={() => setLoginButtonImage('/btn_login_hover.png')}

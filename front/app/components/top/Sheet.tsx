@@ -19,8 +19,8 @@ import {
   Menu,
   Smartphone,
   Smile,
-  Home,
-  PenLine
+  CloudSun,
+  MessageCircleQuestion
 } from "lucide-react"
 import {
   Tooltip,
@@ -85,8 +85,8 @@ export default function SheetSide() {
                 </div>
                 <SheetClose asChild>
                   <div className="flex items-center cursor-pointer pt-10" onClick={() => handleNavigation('/home')}>
-                    <Home className="mr-2 h-4 w-4" />
-                    <span>ホーム</span>
+                    <CloudSun className="mr-2 h-4 w-4" />
+                    <span>天気情報</span>
                   </div>
                 </SheetClose>
                 <SheetClose asChild>
@@ -108,15 +108,15 @@ export default function SheetSide() {
                   </div>
                 </SheetClose>
                 <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page#line-notification')}>
+                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/line_notification')}>
                     <Smartphone className="mr-2 h-4 w-4" />
                     <span>LINE通知登録</span>
                   </div>
                 </SheetClose>
                 <SheetClose asChild>
                   <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/column')}>
-                    <PenLine className="mr-2 h-4 w-4" />
-                    <span>コラム</span>
+                    <MessageCircleQuestion className="mr-2 h-4 w-4" />
+                    <span>Q＆A</span>
                   </div>
                 </SheetClose>
                 <SheetClose asChild>

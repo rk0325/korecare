@@ -5,6 +5,7 @@ import axios from 'axios';
 import { getSession } from 'next-auth/react'
 import { CosmeticsContext, CosmeticSet, ApiResponse } from '../../contexts/CosmeticsContext';
 import { LoadingContext } from '../../contexts/LoadingContext';
+import toast from 'react-hot-toast';
 import {
   Select,
   SelectContent,
@@ -28,6 +29,12 @@ const SearchForm = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    if (!skinTrouble) {
+      toast.error('お悩みを選択してください');
+      return;
+    }
+
     setIsLoading(true);
 
     setCosmetics([]);
@@ -157,7 +164,12 @@ const SearchForm = () => {
             </SelectContent>
           </Select>
           <div className="flex justify-center md:flex-row md:space-x-10">
-            <button type="submit" className="btn-506D7D flex justify-center items-center rounded-md h-[40px] w-[80px]" onClick={() => router.push('/search_result')}>
+            <button
+              type="submit"
+              className={`btn-506D7D flex justify-center items-center rounded-md h-[40px] w-[80px] ${!skinTrouble ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={!skinTrouble}
+              onClick={() => router.push('/search_result')}
+            >
               <Search size={18} className="mr-2" />
               検索
             </button>

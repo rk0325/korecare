@@ -1,8 +1,8 @@
 'use client';
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { useRouter } from 'next/navigation'
-import useSWR from 'swr';
 import axios from 'axios';
+import useSWR from 'swr';
 import Link from 'next/link'
 import { useSession, getSession } from 'next-auth/react'
 import { useProfile } from '../hooks/useProfile';
@@ -11,8 +11,8 @@ import toast from 'react-hot-toast';
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import CustomButton from '@/components/ui/custom-button';
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Button } from "@/components/ui/button"
+import { Switch } from "@/components/ui/switch"
 import {
   Select,
   SelectContent,
@@ -28,14 +28,21 @@ import {
 	X
 } from "lucide-react"
 
-const fetcher = (args: [string, string]) => {
-  const [url, token] = args;
-  return axios.get(url, { headers: { Authorization: `Bearer ${token}` } }).then(res => res.data);
-};
+const axiosInstance = axios.create({
+  withCredentials: true,
+});
+
+const fetcher = (url: string, headers: any) => axiosInstance.get(url, { headers }).then(res => res.data);
 
 export default function EditProfile() {
   const router = useRouter()
   const { data: session } = useSession();
+  const token = session?.accessToken;
+
+  const headers = useMemo(() => {
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }, [token]);
+
   const { profile, mutate } = useProfile();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -45,18 +52,7 @@ export default function EditProfile() {
   const [skinTrouble, setSkinTrouble] = useState(profile?.skinTrouble || "");
   const [avatar, setAvatar] = useState(profile?.avatar || session?.user?.image || '/default-avatar.png');
   const [prefecture, setPrefecture] = useState(profile?.prefecture || "");
-  const [menuPosition, setMenuPosition] = useState(profile?.menuPosition || 'left');
-
-  const { data: menuPositionData, error: menuPositionError } = useSWR(
-    session?.accessToken ? [`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profiles/menu_position`, session.accessToken] : null,
-    fetcher
-  );
-
-  useEffect(() => {
-    if (menuPositionData && menuPositionData.menu_position) {
-      setMenuPosition(menuPositionData.menu_position);
-    }
-  }, [menuPositionData]);
+  const [notificationMap, setNotificationMap] = useState(new Map());
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -76,7 +72,6 @@ export default function EditProfile() {
         skin_trouble: skinTrouble || profile?.skinTrouble,
         avatar: avatar,
         prefecture: prefecture,
-        menu_position: menuPosition || profile?.menuPosition,
       }
     };
 
@@ -87,7 +82,6 @@ export default function EditProfile() {
       });
 
       mutate(updatedProfile.data);
-      console.log(updatedProfile.data);
 
       router.push('/my_page');
     } catch (error) {
@@ -101,6 +95,46 @@ export default function EditProfile() {
       }
     }
   }
+
+  const { data: notificationStatus } = useSWR<{ receive_notifications: boolean }>(
+    token ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/status` : null,
+    () => fetcher(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/status`, headers)
+  );
+
+  useEffect(() => {
+    if (notificationStatus && typeof notificationStatus.receive_notifications === 'boolean') {
+      setNotificationMap(new Map([['notification', notificationStatus.receive_notifications]]));
+    }
+  }, [notificationStatus]);
+
+  const handleSwitchChange = useCallback(async (checked: boolean) => {
+    setNotificationMap(new Map(notificationMap).set('notification', checked));
+
+    if (checked) {
+      try {
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/enable`,
+          { enabled: true },
+          { headers: headers, withCredentials: true }
+        );
+
+        console.log('通知設定有効化完了');
+      } catch (error) {
+        console.error('通知設定エラー:', error);
+      }
+    } else {
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/enable`,
+          { enabled: false },
+          { headers: headers, withCredentials: true }
+        );
+        console.log('通知設定無効化:', response.data);
+      } catch (error) {
+        console.error('通知無効化エラー:', error);
+      }
+    }
+  }, [headers, notificationMap]);
 
   return (
     session ? (
@@ -256,18 +290,13 @@ export default function EditProfile() {
               </SelectContent>
             </Select>
           </div>
-          <div className="mb-8 mt-8 text-center">
-            <Label htmlFor="menuPosition" className="block mb-2">メニューボタンの位置</Label>
-            <div className="flex justify-center">
-              <RadioGroup value={menuPosition} onValueChange={setMenuPosition}>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="left" id="r1" />
-                  <Label htmlFor="r1" className="text-base sm:text-md">左</Label>
-                  <RadioGroupItem value="right" id="r2" />
-                  <Label htmlFor="r2" className="text-base sm:text-md">右</Label>
-                </div>
-              </RadioGroup>
-            </div>
+          <div className="flex items-center justify-center space-x-2 pt-4 pb-8">
+            <Switch
+              id="line-notification"
+              checked={notificationMap.get('notification') ?? false}
+              onCheckedChange={handleSwitchChange}
+            />
+            <Label htmlFor="line-notification" className='text-md'>LINE通知を受け取る</Label>
           </div>
           <div className="mb-6">
             <Label htmlFor="avatar" className="block text-center mb-2">アバター画像</Label>

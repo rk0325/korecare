@@ -119,7 +119,7 @@ export const FavoriteCosmetics = () => {
           return (
             <div key={category} className="flex justify-center">
               <div className="w-full max-w-4xl p-1">
-                <h2 className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-4 mb-2">{category}</h2>
+                <h2 className="text-left text-2xl z-10 py-1 px-3 mt-4 mb-2">{category}</h2>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
                   {filteredCosmetics.length > 0 ? (
                     filteredCosmetics.map((cosmetic, index) => (

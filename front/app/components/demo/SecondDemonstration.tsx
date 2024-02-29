@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import UserInfoContext from '../../contexts/UserInfoContext';
 import Link from 'next/link'
 import { Label } from "@/components/ui/label"
@@ -8,9 +8,11 @@ import CustomButton from '@/components/ui/custom-button';
 
 const SecondDemonstration = () => {
   const { skinTrouble, setSkinTrouble } = useContext(UserInfoContext);
+  const [isSkinTroubleSelected, setIsSkinTroubleSelected] = useState(false);
 
   const handleSkinTroubleChange = (value: string) => {
-		setSkinTrouble(value);
+    setSkinTrouble(value);
+    setIsSkinTroubleSelected(true);
 	};
 
   const handleSubmit = () => {
@@ -54,7 +56,7 @@ const SecondDemonstration = () => {
       <br />
       <Link href='/demonstration_result'>
         <div className="flex justify-center pt-2">
-          <CustomButton colorClass="btn-506D7D" onClick={handleSubmit}>結果を見る</CustomButton>
+          <CustomButton colorClass="btn-506D7D" onClick={handleSubmit} disabled={!isSkinTroubleSelected}>結果を見る</CustomButton>
         </div>
       </Link>
     </>

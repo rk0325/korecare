@@ -30,28 +30,10 @@ module Api
         render json: profile
       end
 
-      def menu_position
-        profile = @current_user.profile
-        if profile
-          render json: { menu_position: profile.menu_position }
-        else
-          render json: { error: 'Profile not found' }, status: :not_found
-        end
-      end
-
-      def index
-        profile = @current_user.profile
-        if profile
-          render json: profile
-        else
-          render json: { error: 'Profile not found' }, status: :not_found
-        end
-      end
-
       private
 
       def profile_params
-        params.require(:profile).permit(:name, :age, :skin_type, :skin_trouble, :avatar, :prefecture, :menu_position)
+        params.require(:profile).permit(:name, :age, :skin_type, :skin_trouble, :avatar, :prefecture)
       end
     end
   end

@@ -15,7 +15,7 @@ library.add(faXTwitter, faGithub);
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://korecare.vercel.app/'),
-  title: 'KoreCare | 韓国コスメ特化型のスキンケアサポートサービス',
+  title: 'KoreCare | 韓国コスメのスキンケア情報サービス',
   description: 'KoreCareは、韓国コスメに特化した毎日のスキンケアをサポートするサービスです。',
   viewport: {
     width: "device-width",
@@ -23,13 +23,13 @@ export const metadata: Metadata = {
     maximumScale: 1,
   },
   openGraph: {
-		title: 'KoreCare | 韓国コスメ特化型のスキンケアサポートサービス',
-    description: '韓国コスメ特化型のスキンケアサポートサービス',
+		title: 'KoreCare | 韓国コスメのスキンケア情報サービス',
+    description: '韓国コスメのスキンケア情報サービス',
     siteName: "KoreCare",
 	},
 	twitter: {
-		title: 'KoreCare | 韓国コスメ特化型のスキンケアサポートサービス',
-		description: '韓国コスメ特化型のスキンケアサポートサービス',
+		title: 'KoreCare | 韓国コスメのスキンケア情報サービス',
+		description: '韓国コスメのスキンケア情報サービス',
     card: 'summary_large_image',
 	},
 }
