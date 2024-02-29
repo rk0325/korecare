@@ -20,6 +20,7 @@ export const LineNotification = () => {
         <span className='marked-text'>紫外線 / 乾燥注意通知</span><br />
       </div>
       <p className='pt-4 pb-4'>お住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
+      <p className='pb-4'>通知のオンオフはマイページから変更できます。</p>
       <div className="px-1 text-center">
         <div className="flex items-center pt-4 justify-center text-lg">
           <CheckSquare2 className="mr-2 h-6 w-6" />

@@ -290,7 +290,8 @@ export default function EditProfile() {
               </SelectContent>
             </Select>
           </div>
-          <div className="flex items-center justify-center space-x-2 pt-4 pb-8">
+          <p className='pt-2 text-md text-center'>KoreCare公式アカウントを<a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">友だち追加</a>して</p>
+          <div className="flex items-center justify-center space-x-2 pt-2 pb-8">
             <Switch
               id="line-notification"
               checked={notificationMap.get('notification') ?? false}
