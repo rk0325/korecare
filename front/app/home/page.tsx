@@ -110,7 +110,7 @@ export default function Home() {
 
   return (
     <div className='p-6'>
-      <p className='text-3xl z-10 py-1 px-3 mt-4 mb-8'>
+      <p className='text-2xl z-10 py-1 px-3 mt-4 mb-8'>
         今日の{profile.prefecture || "東京都"}の天気情報
       </p>
       <div className="grid grid-cols-1 md:grid-cols-3 p-2 justify-center">

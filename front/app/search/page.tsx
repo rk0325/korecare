@@ -13,7 +13,7 @@ export default function Home() {
 		session ? (
 			<>
 				<div className='flex flex-col space-y-4 p-10'>
-					<p className='text-3xl'>韓国コスメ検索</p>
+					<p className='text-2xl'>韓国コスメ検索</p>
 					<div className="flex justify-center pt-4">
 						<AlertTriangle className="mr-1 h-5 w-5" />
 						<p className='marked-text'>「お悩み」は選択必須項目です。</p>
