@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import CustomButton from '@/components/ui/custom-button';
+import toast from 'react-hot-toast';
 import {
 	AlertTriangle,
 	Diamond,
@@ -15,14 +16,20 @@ import {
 
 const FirstDemonstration = () => {
 	const { skinType, setSkinType } = useContext(UserInfoContext);
+	const [isSkinTypeSelected, setIsSkinTypeSelected] = useState(false);
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleSkinTypeChange = (value: string) => {
 		setSkinType(value);
+		setIsSkinTypeSelected(true);
 	};
 
 	const handleSubmit = () => {
-		console.log(skinType)
+		if (!isSkinTypeSelected) {
+			toast.error('肌質を選択してください');
+			return;
+		}
+		console.log(skinType);
 	};
 
 	const handleCloseModal = () => {
@@ -109,7 +116,7 @@ const FirstDemonstration = () => {
 			</div>
 			<Link href='/second_demonstration'>
 				<div className="flex justify-center pt-2">
-					<CustomButton colorClass="btn-506D7D" onClick={handleSubmit}>次の質問へ</CustomButton>
+					<CustomButton colorClass="btn-506D7D" onClick={handleSubmit} disabled={!isSkinTypeSelected}>次の質問へ</CustomButton>
 				</div>
 			</Link>
 		</>

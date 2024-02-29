@@ -13,13 +13,11 @@ export default function Home() {
 		session ? (
 			<>
 				<div className='flex flex-col space-y-4 p-10'>
-					<p className='text-xl'>韓国コスメ検索</p>
-					<div className="flex justify-center">
+					<p className='text-3xl'>韓国コスメ検索</p>
+					<div className="flex justify-center pt-4">
 						<AlertTriangle className="mr-1 h-5 w-5" />
 						<p className='marked-text'>「お悩み」は選択必須項目です。</p>
 					</div>
-					<p className='text-sm'>検索結果が表示されない場合、<br />
-						該当商品がない可能性があります。<br />条件を変更して検索してみてください。</p>
 					<SearchForm />
 				</div>
 			</>

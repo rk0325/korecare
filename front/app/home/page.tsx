@@ -46,19 +46,6 @@ const LevelIcons: React.FC<LevelIconsProps> = ({ level, color, grayColor = "hsl(
   );
 };
 
-const getUviDescription = (uvi: number): string => {
-  if (uvi <= 2) return "弱い";
-  if (uvi <= 5) return "中程度";
-  return "強い";
-};
-
-const getHumidityDescription = (humidity: number): string => {
-  if (humidity < 40) return "低い";
-  if (humidity < 50) return "やや低い";
-  if (humidity < 60) return "適正";
-  return "高い";
-};
-
 export default function Home() {
   const { data: session } = useSession();
   const { profile, isLoading: isProfileLoading } = useProfile();
@@ -84,9 +71,6 @@ export default function Home() {
 
   const uviLevel = calculateLevel(weatherData?.current_uvi, 10);
   const humidityLevel = calculateLevel(weatherData?.current_humidity, 100);
-
-  const uviDescription = getUviDescription(weatherData?.current_uvi);
-  const humidityDescription = getHumidityDescription(weatherData?.current_humidity);
 
   const uviColor = "#d4924f";
   const humidityColor = "#567485";
@@ -126,24 +110,22 @@ export default function Home() {
 
   return (
     <div className='p-6'>
-      <p className='text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-4 mb-8'>
+      <p className='text-3xl z-10 py-1 px-3 mt-4 mb-8'>
         今日の{profile.prefecture || "東京都"}の天気情報
       </p>
-      <div className="grid grid-cols-1 gap-5 justify-center">
-        <div className='shadow-md rounded-md overflow-hidden p-4 max-w-md mx-auto w-full'>
-          <p className="text-xl my-2 marked-text">現在の天気: {translateWeather(currentWeather)} {getWeatherIcon(translateWeather(currentWeather))}</p>
+      <div className="grid grid-cols-1 md:grid-cols-3 p-2 justify-center">
+        <div className='shadow-md rounded-md overflow-hidden p-2 max-w-sm mx-auto w-full'>
+          <p className="text-xl my-2">{translateWeather(currentWeather)} {getWeatherIcon(translateWeather(currentWeather))}</p>
           <p className="my-2">最高気温: <span style={{ color: '#de6c6c' }}>{maxTemp}°C</span></p>
           <p className="my-2">最低気温: <span style={{ color: '#498bc1' }}>{minTemp}°C</span></p>
         </div>
-        <div className='shadow-md rounded-md overflow-hidden p-4 max-w-md mx-auto w-full'>
-          <p className="text-xl my-2 marked-text">現在のUV指数: {currentUvi}</p>
-          <p className="my-2">{uviDescription}</p>
+        <div className='shadow-md rounded-md overflow-hidden p-4 max-w-sm mx-auto w-full'>
+          <p className="text-xl my-2">UV指数: {currentUvi}</p>
           <LevelIcons level={uviLevel} color={uviColor} Icon={CloudSun} />
           <p className="my-2">最高UV指数: {dailyMaxUvi}</p>
         </div>
-        <div className='shadow-md rounded-md overflow-hidden p-4 max-w-md mx-auto w-full'>
-          <p className="text-xl my-2 marked-text">現在の湿度: {weatherData?.current_humidity}%</p>
-          <p className="my-2">{humidityDescription}</p>
+        <div className='shadow-md rounded-md overflow-hidden p-4 max-w-sm mx-auto w-full'>
+          <p className="text-xl my-2">湿度: {weatherData?.current_humidity}%</p>
           <LevelIcons level={humidityLevel} color={humidityColor} Icon={Droplets} />
           <p className="my-2">最低湿度: {weatherData?.daily_min_humidity}%</p>
         </div>

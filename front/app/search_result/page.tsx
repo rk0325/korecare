@@ -97,79 +97,24 @@ export default function SearchResult() {
 				</div>
 			) : (
 				<>
-					{cosmetics && categories.map((category) => {
-						if (!cosmetics) {
-							return null;
-						}
-						const filteredCosmetics = cosmetics.filter(cosmetic => filterCosmeticsByFirstMatchingCategory(cosmetic) === category);
-						if (filteredCosmetics.length > 0) {
-							return (
-								<div key={category} className="flex justify-center">
-									<div className="w-full max-w-4xl p-2">
-										<p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-2 mb-2">{category}</p>
-										<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center'>
-											{filteredCosmetics.map((cosmetic, index) => (
-												<div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
-													<div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
-														<div
-															onClick={() => window.open(cosmetic.itemUrl, "_blank")}
-															className="relative z-0 pt-2 cursor-pointer text-center"
-														>
-															<div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
-																<div className="relative z-0 pt-2 w-custom h-custom">
-																	<Image
-																		src={cosmetic.mediumImageUrl}
-																		alt={cosmetic.itemName}
-																		layout="fill"
-																		objectFit="contain"
-																		quality={100}
-																	/>
-																</div>
-															</div>
-															<p className="line-clamp-2 z-10 pt-2">{truncateName(cosmetic.itemName)}</p>
-															<p className="z-10 relative mb-2">{cosmetic.itemPrice}円</p>
-														</div>
-														<div className="items-center space-x-2">
-															<div className="absolute bottom-1 right-3">
-																<button onClick={(e) => {
-																	e.stopPropagation();
-																	toggleFavorite(cosmetic);
-																}}>
-																	<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? false} />
-																</button>
-															</div>
-														</div>
-														<CustomButton onClick={() => window.open(cosmetic.itemUrl, "_blank")} colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
-													</div>
-												</div>
-											))}
-										</div>
-									</div>
-								</div>
-							);
-						} else {
-							return null;
-						}
-					})}
-					{cosmeticSets && cosmeticSets.length > 0 && (
-						<div className="flex justify-center">
-							<div className="w-full max-w-4xl p-2">
-								<p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-2 mb-2">セット</p>
-								{cosmeticSets.map((set, index) => (
-									<div key={index} className="mb-4">
-										<p className="text-lg">合計金額: {set.total_price}円</p>
-										<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center'>
-											{Object.entries(set).filter(([key, _]) => key !== 'total_price').map(([key, value], index) => {
-												if (typeof value === 'object' && value !== null && 'itemUrl' in value) {
-													const cosmetic = value;
-													return (
-														<div key={`${index}`} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
+					{(cosmetics && cosmetics.length > 0) || (cosmeticSets && cosmeticSets.length > 0) ? (
+						<>
+							{cosmetics && categories.map((category) => {
+								const filteredCosmetics = cosmetics.filter(cosmetic => filterCosmeticsByFirstMatchingCategory(cosmetic) === category);
+								if (filteredCosmetics.length > 0) {
+									return (
+										<div key={category} className="flex justify-center">
+											<div className="w-full max-w-4xl p-2">
+												<p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-2 mb-2">{category}</p>
+												<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center'>
+													{filteredCosmetics.map((cosmetic, index) => (
+														<div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
 															<div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
 																<div
 																	onClick={() => window.open(cosmetic.itemUrl, "_blank")}
 																	className="relative z-0 pt-2 cursor-pointer text-center"
 																>
-																	<div className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
+																	<div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
 																		<div className="relative z-0 pt-2 w-custom h-custom">
 																			<Image
 																				src={cosmetic.mediumImageUrl}
@@ -180,7 +125,7 @@ export default function SearchResult() {
 																			/>
 																		</div>
 																	</div>
-																	<p className="line-clamp-2 z-10 pt-2">{cosmetic.itemName}</p>
+																	<p className="line-clamp-2 z-10 pt-2">{truncateName(cosmetic.itemName)}</p>
 																	<p className="z-10 relative mb-2">{cosmetic.itemPrice}円</p>
 																</div>
 																<div className="items-center space-x-2">
@@ -189,23 +134,82 @@ export default function SearchResult() {
 																			e.stopPropagation();
 																			toggleFavorite(cosmetic);
 																		}}>
-																			<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? cosmetic.isFavorite} />
+																			<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? false} />
 																		</button>
 																	</div>
 																</div>
 																<CustomButton onClick={() => window.open(cosmetic.itemUrl, "_blank")} colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
 															</div>
 														</div>
-													);
-												} else {
-													return null;
-												}
-											})}
+													))}
+												</div>
+											</div>
 										</div>
+									);
+								} else {
+									return null;
+								}
+							})}
+							{cosmeticSets && cosmeticSets.length > 0 && (
+								<div className="flex justify-center">
+									<div className="w-full max-w-4xl p-2">
+										<p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-2 mb-2">セット</p>
+										{cosmeticSets.map((set, index) => (
+											<div key={index} className="mb-4">
+												<p className="text-lg">合計金額: {set.total_price}円</p>
+												<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center'>
+													{Object.entries(set).filter(([key, _]) => key !== 'total_price').map(([key, value], index) => {
+														if (typeof value === 'object' && value !== null && 'itemUrl' in value) {
+															const cosmetic = value;
+															return (
+																<div key={`${index}`} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
+																	<div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
+																		<div
+																			onClick={() => window.open(cosmetic.itemUrl, "_blank")}
+																			className="relative z-0 pt-2 cursor-pointer text-center"
+																		>
+																			<div className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
+																				<div className="relative z-0 pt-2 w-custom h-custom">
+																					<Image
+																						src={cosmetic.mediumImageUrl}
+																						alt={cosmetic.itemName}
+																						layout="fill"
+																						objectFit="contain"
+																						quality={100}
+																					/>
+																				</div>
+																			</div>
+																			<p className="line-clamp-2 z-10 pt-2">{cosmetic.itemName}</p>
+																			<p className="z-10 relative mb-2">{cosmetic.itemPrice}円</p>
+																		</div>
+																		<div className="items-center space-x-2">
+																			<div className="absolute bottom-1 right-3">
+																				<button onClick={(e) => {
+																					e.stopPropagation();
+																					toggleFavorite(cosmetic);
+																				}}>
+																					<FavoriteIconAnim on={favoriteStatus.get(cosmetic.id) ?? cosmetic.isFavorite} />
+																				</button>
+																			</div>
+																		</div>
+																		<CustomButton onClick={() => window.open(cosmetic.itemUrl, "_blank")} colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
+																	</div>
+																</div>
+															);
+														} else {
+															return null;
+														}
+													})}
+												</div>
+											</div>
+										))}
 									</div>
-								))}
-							</div>
-						</div>
+								</div>
+							)}
+						</>
+					) : (
+						<p className='text-md text-center pt-4'>検索結果が表示されない場合、<br />
+							該当商品がない可能性があります。<br />条件を変更して検索してみてください。</p>
 					)}
 				</>
 			)}
