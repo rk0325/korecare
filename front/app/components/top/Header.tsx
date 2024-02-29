@@ -60,11 +60,11 @@ const Header = () => {
                     </div>
                     <div className="flex items-start mb-4">
                       <MapPinned className="mr-2 h-6 w-10" />
-                      <p>マイページにてお住まいを設定して、LINE通知を受け取ろう！</p>
+                      <p>マイページにてお住まいを設定すると、設定した場所の情報が表示されます。</p>
                     </div>
                     <div className="flex items-start">
                       <Wrench className="mr-2 h-6 w-10" />
-                      <p>PCの方は右上のメニューから、スマートフォンの方は左下にあるメニューボタンから各ページにアクセスできます。<br />スマートフォンの方は、左下にあるメニューボタンの位置をマイページから変更できます。</p>
+                      <p>PCの方は右上のメニューから、スマートフォンの方は左下にあるメニューボタンから各ページにアクセスできます。</p>
                     </div>
                     <div className="flex items-start justify-between mt-6">
                       <p>KoreCareがあなたの毎日のスキンケアに</p>

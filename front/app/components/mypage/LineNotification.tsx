@@ -12,7 +12,7 @@ from "lucide-react"
 export const LineNotification = () => {
   return (
     <div className='items-center'>
-      <div className="text-3xl text-center flex justify-center">
+      <div className="text-2xl text-center flex justify-center">
         <span id="line-notification">LINE通知登録</span>
       </div>
       <div className="flex items-center pt-8 justify-center text-lg">
