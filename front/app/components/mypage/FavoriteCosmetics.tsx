@@ -100,9 +100,9 @@ export const FavoriteCosmetics = () => {
 
   const shareOnTwitter = useCallback((cosmetic: Cosmetic) => {
     const truncatedName = truncateName(cosmetic.name, 50);
-    const text = `${truncatedName}をお気に入りに登録しました！ #KoreCare`;
+    const text = `私のお気に入りはこれ！ ${truncatedName} #KoreCare`;
     const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=https://korecare.vercel.app`;
-    window.open(url, '_blank');
+    window.open(url, '_blank', 'noopener,noreferrer');
   }, []);
 
   return (

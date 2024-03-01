@@ -11,7 +11,7 @@ export default function Column() {
   return (
     <>
       <div className="p-4 sm:p-6">
-        <p className="text-2xl text-center py-5 sm:py-10">Q＆A</p>
+        <p className="text-2xl md:text-3xl text-center py-5 sm:py-10">Q＆A</p>
         <div className="bg-white rounded-md shadow-md max-w-5xl mx-auto px-5 sm:px-10 py-5 sm:py-10">
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">

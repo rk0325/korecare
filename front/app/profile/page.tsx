@@ -21,6 +21,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import {
 	AlertTriangle,
 	Diamond,
 	SearchCheck,
@@ -167,37 +173,46 @@ export default function EditProfile() {
           <div className="mb-6">
             <div className="flex items-center">
               <Label htmlFor="skinType">肌質</Label>
-              <button className="ml-1 p-1 rounded-full bg-white border border-gray-200 shadow" onClick={() => setIsModalOpen(true)}>
-                <HelpCircle className="h-5 w-5" />
-              </button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className="ml-1 p-1 rounded-full bg-white border border-gray-200 shadow cursor-pointer" onClick={() => setIsModalOpen(true)}>
+                      <HelpCircle className="h-5 w-5" />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>肌質とは？</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
             <input type="checkbox" id="my-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
             <div className="modal" onClick={handleCloseModal}>
               <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
                 <div className="flex justify-end">
-                  <button onClick={handleCloseModal} className="btn btn-ghost btn-circle">
+                  <div onClick={handleCloseModal} className="btn btn-ghost btn-circle">
                     <X />
-                  </button>
+                  </div>
                 </div>
-                <div className="flex justify-start items-start mb-2">
+                <div className="flex justify-start items-start">
                   <SearchCheck className="mr-2 h-6 w-6" />
                   <div>
-                    <p className="pb-2 text-md">あなたの洗顔後の肌の様子に一番近いものは？</p>
-                    <p className="my-2 text-sm">・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる→乾燥肌</p>
+                    <p className="mb-2 text-md marked-text">あなたの洗顔後の肌の様子に一番近いものは？</p>
+                    <p className="my-4 text-sm">・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる→乾燥肌</p>
                     <p className="my-2 text-sm">・額や鼻はベタつきがあり、目元・口元・頬は乾燥を感じる→混合肌</p>
                     <p className="my-2 text-sm">・全体的にベタつきがあり、乾燥は感じない→脂性肌</p>
                     <p className="my-2 pb-2 text-sm">・ベタつきも乾燥もほとんど感じない→普通肌</p>
                   </div>
                 </div>
-                <div className="flex justify-start items-start mb-2">
+                <div className="flex justify-start items-start">
                   <Diamond className="mr-2 h-6 w-6" />
                   <div>
                     <p className='text-sm'>以下のような特徴がある方は、敏感肌の可能性があります。</p>
-                    <p className="my-2 pt-2 text-sm">・いつも使っている化粧品がしみたり、かゆくなったりすることがある</p>
+                    <p className="my-4 text-sm">・いつも使っている化粧品がしみたり、かゆくなったりすることがある</p>
                     <p className="my-2 pb-4 text-sm">・化粧品でかぶれたり、つけるもので刺激を感じることがある</p>
                   </div>
                 </div>
-                <div className="flex justify-start items-start mb-2">
+                <div className="flex justify-start items-start">
                   <AlertTriangle className="mr-2 h-6 w-6" />
                   <div>
                     <p className='text-sm'>こちらの質問は、肌質を断定するものではございません。</p>
@@ -290,8 +305,8 @@ export default function EditProfile() {
               </SelectContent>
             </Select>
           </div>
-          <p className='pt-2 text-md text-center'>KoreCare公式アカウントを<a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">友だち追加</a>して</p>
-          <div className="flex items-center justify-center space-x-2 pt-2 pb-8">
+          <p className='pt-2 pb-2 text-md text-center'>KoreCare公式アカウントを<a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">友だち追加</a>して</p>
+          <div className="flex items-center justify-center space-x-2 pb-8">
             <Switch
               id="line-notification"
               checked={notificationMap.get('notification') ?? false}
@@ -336,7 +351,7 @@ export default function EditProfile() {
           </div>
           <div className="w-full pb-10 flex justify-center">
             <Link href='/my_page'>
-              <Button className="text-md bg-F5F5F5 text-48352F hover:bg-E0DBD2">
+              <Button className="text-md bg-F5F5F5 text-48352F hover:bg-E0DBD2 active:scale-95 transition duration-300 ease-in-out">
                 キャンセル
               </Button>
             </Link>

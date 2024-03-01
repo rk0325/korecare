@@ -17,11 +17,6 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://korecare.vercel.app/'),
   title: 'KoreCare | 韓国コスメのスキンケア情報サービス',
   description: 'KoreCareは、韓国コスメに特化した毎日のスキンケアをサポートするサービスです。',
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
   openGraph: {
 		title: 'KoreCare | 韓国コスメのスキンケア情報サービス',
     description: '韓国コスメのスキンケア情報サービス',

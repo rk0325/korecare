@@ -5,6 +5,7 @@ import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation'
 import AuthenticateLink from './AuthenticateLink';
 import ResponsiveMenu from './ResponsiveMenu';
+import LineNotification from '../mypage/LineNotification';
 import {
   AlertCircle,
   X,
@@ -17,6 +18,12 @@ import {
   Diamond,
   AlertTriangle
 } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const Header = () => {
   const { data: session } = useSession();
@@ -25,6 +32,7 @@ const Header = () => {
   const pathname = usePathname()
   const isHome = pathname === '/home';
   const isSearch = pathname === '/search';
+  const isProfile = pathname === '/profile';
 
     const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -41,16 +49,25 @@ const Header = () => {
         <div className="flex items-center">
           {isHome && (
             <div className="flex items-center justify-end">
-              <button className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" id="info-modal" onClick={() => setIsModalOpen(true)}>
-                <AlertCircle className="h-6 w-6" />
-              </button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" id="info-modal" onClick={() => setIsModalOpen(true)}>
+                      <AlertCircle className="h-6 w-6" />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>KoreCareについて</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               <input type="checkbox" id="info-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
               <div className="modal" onClick={handleCloseModal}>
                 <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
                   <div className="flex justify-end">
-                    <button onClick={handleCloseModal} className="btn btn-ghost btn-circle">
+                    <div onClick={handleCloseModal} className="btn btn-ghost btn-circle">
                       <X />
-                    </button>
+                    </div>
                   </div>
                   <div className="my-2 text-md">
                     <p className="mb-6 text-lg">KoreCareへようこそ！</p>
@@ -60,7 +77,7 @@ const Header = () => {
                     </div>
                     <div className="flex items-start mb-4">
                       <MapPinned className="mr-2 h-6 w-10" />
-                      <p>マイページにてお住まいを設定すると、設定した場所の情報が表示されます。</p>
+                      <p>マイページでお住まいを設定すると、設定した場所の情報が表示されます。</p>
                     </div>
                     <div className="flex items-start">
                       <Wrench className="mr-2 h-6 w-10" />
@@ -80,23 +97,31 @@ const Header = () => {
           )}
           {isSearch && (
             <>
-              <button className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" id="my-modal" onClick={() => setIsModalOpen(true)}>
-                <HelpCircle className="h-5 w-5" />
-              </button>
-              <p className='text-sm pr-2 cursor-pointer' id="my-modal" onClick={() => setIsModalOpen(true)}>肌質について</p>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" id="my-modal" onClick={() => setIsModalOpen(true)}>
+                      <HelpCircle className="h-5 w-5" />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>肌質とは？</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               <input type="checkbox" id="my-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
               <div className="modal" onClick={handleCloseModal}>
                 <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
                   <div className="flex justify-end">
-                    <button onClick={handleCloseModal} className="btn btn-ghost btn-circle">
+                    <div onClick={handleCloseModal} className="btn btn-ghost btn-circle">
                       <X />
-                    </button>
+                    </div>
                   </div>
                   <div className="flex justify-start items-start mb-2">
                     <SearchCheck className="mr-2 h-6 w-6" />
                     <div>
-                      <p className="pb-2 text-md">あなたの洗顔後の肌の様子に一番近いものは？</p>
-                      <p className="my-2 text-sm">・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる→乾燥肌</p>
+                      <p className="mb-2 text-md marked-text">あなたの洗顔後の肌の様子に一番近いものは？</p>
+                      <p className="my-4 text-sm">・全体的につっぱり感があり、目元・口元・頬に乾燥を感じる→乾燥肌</p>
                       <p className="my-2 text-sm">・額や鼻はベタつきがあり、目元・口元・頬は乾燥を感じる→混合肌</p>
                       <p className="my-2 text-sm">・全体的にベタつきがあり、乾燥は感じない→脂性肌</p>
                       <p className="my-2 pb-2 text-sm">・ベタつきも乾燥もほとんど感じない→普通肌</p>
@@ -106,7 +131,7 @@ const Header = () => {
                     <Diamond className="mr-2 h-6 w-6" />
                     <div>
                       <p className='text-sm'>以下のような特徴がある方は、敏感肌の可能性があります。</p>
-                      <p className="my-2 pt-2 text-sm">・いつも使っている化粧品がしみたり、かゆくなったりすることがある</p>
+                      <p className="my-4 text-sm">・いつも使っている化粧品がしみたり、かゆくなったりすることがある</p>
                       <p className="my-2 pb-4 text-sm">・化粧品でかぶれたり、つけるもので刺激を感じることがある</p>
                     </div>
                   </div>
@@ -119,6 +144,35 @@ const Header = () => {
                 </div>
               </div>
             </>
+          )}
+          {isProfile && (
+            <div className="flex items-center justify-end">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" id="info-modal" onClick={() => setIsModalOpen(true)}>
+                      <AlertCircle className="h-6 w-6" />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>LINE通知について</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <input type="checkbox" id="info-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
+              <div className="modal" onClick={handleCloseModal}>
+                <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
+                  <div className="flex justify-end">
+                    <div onClick={handleCloseModal} className="btn btn-ghost btn-circle">
+                      <X />
+                    </div>
+                  </div>
+                  <div className="my-2 text-md">
+                    <LineNotification />
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
           {session ? (
             <ResponsiveMenu />

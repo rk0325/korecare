@@ -87,7 +87,7 @@ export default function SearchResult() {
 				あなたにおすすめの<br />韓国コスメはこちら！
 			</p>
 			<Link href='/search'>
-				<div className="flex justify-center pt-14 pb-4">
+				<div className="flex justify-center pt-14 pb-6">
 					<CustomButton colorClass="btn-506D7D">もう一度検索する</CustomButton>
 				</div>
 			</Link>
@@ -105,7 +105,6 @@ export default function SearchResult() {
 									return (
 										<div key={category} className="flex justify-center">
 											<div className="w-full max-w-4xl p-2">
-												<p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-2 mb-2">{category}</p>
 												<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center'>
 													{filteredCosmetics.map((cosmetic, index) => (
 														<div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
@@ -153,7 +152,6 @@ export default function SearchResult() {
 							{cosmeticSets && cosmeticSets.length > 0 && (
 								<div className="flex justify-center">
 									<div className="w-full max-w-4xl p-2">
-										<p className="text-lg z-10 bg-E0DBD2 py-1 px-3 rounded-lg inline-block mt-2 mb-2">セット</p>
 										{cosmeticSets.map((set, index) => (
 											<div key={index} className="mb-4">
 												<p className="text-lg">合計金額: {set.total_price}円</p>

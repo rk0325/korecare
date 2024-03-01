@@ -17,6 +17,12 @@ import {
   X,
   Wind
 } from "lucide-react"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 const fetcher = async ([url, token]: [string, string | undefined]) => {
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
@@ -84,7 +90,7 @@ export default function Home() {
   const translateWeather = (weather: string): string => {
     const mapping: { [key: string]: string } = {
       'Clear': '晴れ',
-      'Clouds': '曇り',
+      'Clouds': 'くもり',
       'Rain': '雨',
       'Snow': '雪',
       'Mist': '霧',
@@ -98,7 +104,7 @@ export default function Home() {
   const getWeatherIcon = (weather: string) => {
     const icons: { [key: string]: JSX.Element } = {
       '晴れ': <SunMedium className="inline-block mb-1" color="#FDB813" />,
-      '曇り': <Cloudy className="inline-block mb-1" color="#B1B1B1" />,
+      'くもり': <Cloudy className="inline-block mb-1" color="#B1B1B1" />,
       '雨': <Umbrella className="inline-block mb-1" color="#5171A5" />,
       '雪': <Snowflake className="inline-block mb-1" color="#75BFFF" />,
       '霧': <CloudFog className="inline-block mb-1" color="#8E8E8E" />,
@@ -110,38 +116,28 @@ export default function Home() {
 
   return (
     <div className='p-6'>
-      <p className='text-2xl z-10 py-1 px-3 mt-4 mb-8'>
-        今日の{profile.prefecture || "東京都"}の天気情報
-      </p>
-      <div className="grid grid-cols-1 md:grid-cols-3 p-2 justify-center">
-        <div className='shadow-md rounded-md overflow-hidden p-2 max-w-sm mx-auto w-full'>
-          <p className="text-xl my-2">{translateWeather(currentWeather)} {getWeatherIcon(translateWeather(currentWeather))}</p>
-          <p className="my-2">最高気温: <span style={{ color: '#de6c6c' }}>{maxTemp}°C</span></p>
-          <p className="my-2">最低気温: <span style={{ color: '#498bc1' }}>{minTemp}°C</span></p>
-        </div>
-        <div className='shadow-md rounded-md overflow-hidden p-4 max-w-sm mx-auto w-full'>
-          <p className="text-xl my-2">UV指数: {currentUvi}</p>
-          <LevelIcons level={uviLevel} color={uviColor} Icon={CloudSun} />
-          <p className="my-2">最高UV指数: {dailyMaxUvi}</p>
-        </div>
-        <div className='shadow-md rounded-md overflow-hidden p-4 max-w-sm mx-auto w-full'>
-          <p className="text-xl my-2">湿度: {weatherData?.current_humidity}%</p>
-          <LevelIcons level={humidityLevel} color={humidityColor} Icon={Droplets} />
-          <p className="my-2">最低湿度: {weatherData?.daily_min_humidity}%</p>
-        </div>
-      </div>
-      <div className="text-l flex items-center space-x-2 justify-center p-8 pb-20">
-        <label htmlFor="weather-modal" className="text-md btn modal-button bg-background-color text-text-color shadow-md">
-          UV指数と湿度の目安<HelpCircle className="ml-1 h-5 w-5" />
-        </label>
+      <div className='text-2xl md:text-3xl z-10 py-1 px-3 mt-4 mb-4'>
+        今日の{profile.prefecture || "東京都"}の天気
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <div className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" id="my-modal" onClick={() => setIsModalOpen(true)}>
+                <HelpCircle className="h-5 w-5" />
+              </div>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>UV指数と湿度の目安</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
       <input type="checkbox" id="weather-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
       <div className="modal" onClick={handleCloseModal}>
         <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
           <div className="flex justify-end">
-            <button onClick={handleCloseModal} className="btn btn-ghost btn-circle">
+            <div onClick={handleCloseModal} className="btn btn-ghost btn-circle">
               <X />
-            </button>
+            </div>
           </div>
           <div className="flex items-start mb-2">
             <CloudSun className="mr-2 h-10 w-16" />
@@ -157,6 +153,50 @@ export default function Home() {
               <p className="my-2 text-lg">湿度</p>
               <p className="my-2 text-md">お肌に最適な湿度は、50〜60%といわれています。</p>
               <p className="my-2 text-md">湿度が50%を下回っていたり、お肌の乾燥が気になった際はミスト化粧水やクリームを活用して、適度な保湿を心がけることをお勧めします。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 justify-center gap-4 p-2 items-stretch">
+        <div className="flex flex-col">
+          <p className="text-xl md:text-2xl my-2">天気</p>
+          <div className='shadow-md rounded-md overflow-hidden p-2 max-w-sm md:max-w-xs mx-auto w-full h-auto min-h-[200px] flex flex-col justify-center'>
+            <div className="flex items-center">
+              <div className="w-1/2">
+                <p className='text-3xl'>{translateWeather(currentWeather)} {getWeatherIcon(translateWeather(currentWeather))}</p>
+              </div>
+              <div className="w-1/2">
+                <p>最高気温: <span style={{ color: '#de6c6c' }}>{maxTemp}°C</span></p>
+                <p className='pt-2'>最低気温: <span style={{ color: '#498bc1' }}>{minTemp}°C</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <p className="text-xl md:text-2xl my-2">UV指数</p>
+          <div className='shadow-md rounded-md overflow-hidden p-4 max-w-sm md:max-w-xs mx-auto w-full h-auto min-h-[200px] flex flex-col justify-center'>
+            <div className="flex items-center">
+              <div className="w-1/2">
+                <p className='text-3xl'>{currentUvi}</p>
+              </div>
+              <div className="w-1/2 flex flex-col items-center justify-center pr-6">
+                <LevelIcons level={uviLevel} color={uviColor} Icon={CloudSun} />
+                <p className='pt-2'>最高UV指数: {dailyMaxUvi}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <p className="text-xl md:text-2xl my-2">湿度</p>
+          <div className='shadow-md rounded-md overflow-hidden p-4 max-w-sm md:max-w-xs mx-auto w-full h-auto min-h-[200px] flex flex-col justify-center'>
+            <div className="flex items-center">
+              <div className="w-1/2">
+                <p className='text-3xl'>{weatherData?.current_humidity}%</p>
+              </div>
+              <div className="w-1/2 flex flex-col items-center justify-center pr-6">
+                <LevelIcons level={humidityLevel} color={humidityColor} Icon={Droplets} />
+                <p className='pt-2'>最低湿度: {weatherData?.daily_min_humidity}%</p>
+              </div>
             </div>
           </div>
         </div>

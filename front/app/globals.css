@@ -170,3 +170,10 @@
   top: 20px;
 }
 
+:root {
+  --table-border-color: #E0DBD2;
+}
+
+.custom-table-border {
+  border-color: var(--table-border-color);
+}

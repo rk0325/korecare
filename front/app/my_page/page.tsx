@@ -7,7 +7,7 @@ export default function MyPage() {
   return (
     <>
       <div className='p-10'>
-        <p className='text-2xl mb-6'>マイページ</p>
+        <p className='text-2xl md:text-3xl mb-6'>マイページ</p>
         <Profile />
       </div>
     </>

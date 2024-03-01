@@ -166,8 +166,8 @@ const SearchForm = () => {
           <div className="flex justify-center md:flex-row md:space-x-10">
             <button
               type="submit"
-              className={`btn-506D7D flex justify-center items-center rounded-md h-[40px] w-[80px] ${!skinTrouble ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={!skinTrouble}
+              className={`btn-506D7D flex justify-center items-center rounded-md h-[40px] w-[80px] ${!skinTrouble || !productType ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={!skinTrouble || !productType}
               onClick={() => router.push('/search_result')}
             >
               <Search size={18} className="mr-2" />

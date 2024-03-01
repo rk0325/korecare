@@ -7,6 +7,15 @@ import CustomButton from '@/components/ui/custom-button';
 import { useProfile } from '../../hooks/useProfile';
 import axios from 'axios';
 import useSWR from 'swr';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 const axiosInstance = axios.create({
   withCredentials: true,
@@ -58,15 +67,37 @@ export const Profile = () => {
               priority
             />
           </div>
-          <div className="text-center">
-            <p className="mb-6">お名前　{name}</p>
-            <p className="mb-6">年代　{age}</p>
-            <p className="mb-6">肌質　{skinType}</p>
-            <p className="mb-6">お悩み　{skinTrouble}</p>
-            <p className="mb-6">お住まい　{prefecture}</p>
-            <p className="mb-6">LINE通知　{notificationEnabled ? 'ON' : 'OFF'}</p>
+          <div className="text-left max-w-sm mx-auto">
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-medium">お名前</TableCell>
+                  <TableCell>{name}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">年代</TableCell>
+                  <TableCell>{age}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">肌質</TableCell>
+                  <TableCell>{skinType}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">お悩み</TableCell>
+                  <TableCell>{skinTrouble}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">お住まい</TableCell>
+                  <TableCell>{prefecture}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">LINE通知</TableCell>
+                  <TableCell>{notificationEnabled ? 'ON' : 'OFF'}</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </div>
-          <div className="flex justify-center pt-2">
+          <div className="flex justify-center pt-4">
             <Link href='/profile'>
               <CustomButton
                 colorClass="btn-506D7D"
