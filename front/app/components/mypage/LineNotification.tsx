@@ -22,7 +22,8 @@ export const LineNotification = () => {
           <CheckSquare2 className="mr-2 h-6 w-6" />
           <span className='marked-text'>通知の設定方法</span>
         </div>
-        <p className='pt-2'><a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">こちら</a>から、KoreCare公式アカウントを友だち追加してね！</p>
+        <p className='pt-2'>①お住まいを設定</p>
+        <p className='pt-2'>②<a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">こちら</a>から、KoreCare公式アカウントを友だちへ追加</p>
       </div>
     </div>
   );

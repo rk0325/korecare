@@ -72,10 +72,8 @@ const About = () => {
           />
         </div>
       </div>
-      <p className="text-md text-center justify-between pt-4">
-        2つの質問に答えるだけ！</p>
-      <p className="text-md text-center justify-between pb-2">
-        ログインせずにレコメンド機能を</p>
+      <p className="text-md text-center justify-between pt-6 pb-2">
+        ログインせずに検索機能を</p>
       <Link href='/first_demonstration'>
         <div className="flex justify-center pb-20">
           <CustomButton colorClass="btn-506D7D">試してみる</CustomButton>

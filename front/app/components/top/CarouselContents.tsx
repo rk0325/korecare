@@ -19,7 +19,7 @@ const CarouselContents = () => {
             <Card className='carousel-height-custom flex flex-col items-center justify-center'>
               <CardContent className="flex flex-col items-center justify-center p-2">
                 <p className="text-text-color text-center text-lg mb-2 marked-text">KoreCareでできること</p>
-                <p className="text-text-color text-center pb-4">お悩みや肌質別に韓国コスメをレコメンドします。</p>
+                <p className="text-text-color text-center pb-4">お悩みや肌質別に韓国コスメを検索。</p>
                 <p className="text-text-color text-center text-sm pb-1">あなたにピッタリの韓国コスメを探そう！</p>
                 <Image src="/recommend.png" alt="Image" width={200} height={200} />
               </CardContent>

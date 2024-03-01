@@ -5,7 +5,6 @@ import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation'
 import AuthenticateLink from './AuthenticateLink';
 import ResponsiveMenu from './ResponsiveMenu';
-import LineNotification from '../mypage/LineNotification';
 import {
   AlertCircle,
   X,
@@ -32,7 +31,6 @@ const Header = () => {
   const pathname = usePathname()
   const isHome = pathname === '/home';
   const isSearch = pathname === '/search';
-  const isProfile = pathname === '/profile';
 
     const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -144,35 +142,6 @@ const Header = () => {
                 </div>
               </div>
             </>
-          )}
-          {isProfile && (
-            <div className="flex items-center justify-end">
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger>
-                    <div className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" id="info-modal" onClick={() => setIsModalOpen(true)}>
-                      <AlertCircle className="h-6 w-6" />
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>LINE通知について</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              <input type="checkbox" id="info-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
-              <div className="modal" onClick={handleCloseModal}>
-                <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
-                  <div className="flex justify-end">
-                    <div onClick={handleCloseModal} className="btn btn-ghost btn-circle">
-                      <X />
-                    </div>
-                  </div>
-                  <div className="my-2 text-md">
-                    <LineNotification />
-                  </div>
-                </div>
-              </div>
-            </div>
           )}
           {session ? (
             <ResponsiveMenu />
