@@ -6,6 +6,7 @@ import useSWR from 'swr';
 import Link from 'next/link'
 import { useSession, getSession } from 'next-auth/react'
 import { useProfile } from '../hooks/useProfile';
+import LineNotification from "../components/mypage/LineNotification";
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { Input } from "@/components/ui/input"
@@ -31,7 +32,8 @@ import {
 	Diamond,
 	SearchCheck,
 	HelpCircle,
-	X
+  X,
+  AlertCircle
 } from "lucide-react"
 
 const axiosInstance = axios.create({
@@ -50,7 +52,8 @@ export default function EditProfile() {
   }, [token]);
 
   const { profile, mutate } = useProfile();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSkinTypeModalOpen, setIsSkinTypeModalOpen] = useState(false);
+  const [isLineInfoModalOpen, setIsLineInfoModalOpen] = useState(false);
 
   const [name, setName] = useState(profile?.name || session?.user?.name || "");
   const [age, setAge] = useState(profile?.age || "");
@@ -60,8 +63,12 @@ export default function EditProfile() {
   const [prefecture, setPrefecture] = useState(profile?.prefecture || "");
   const [notificationMap, setNotificationMap] = useState(new Map());
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const handleSkinTypeModalClose = () => {
+    setIsSkinTypeModalOpen(false);
+  };
+
+  const handleLineInfoModalClose = () => {
+    setIsLineInfoModalOpen(false);
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -90,6 +97,7 @@ export default function EditProfile() {
       mutate(updatedProfile.data);
 
       router.push('/my_page');
+      toast.success("プロフィールを更新しました");
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error)
@@ -176,7 +184,7 @@ export default function EditProfile() {
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger>
-                    <div className="ml-1 p-1 rounded-full bg-white border border-gray-200 shadow cursor-pointer" onClick={() => setIsModalOpen(true)}>
+                    <div className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow cursor-pointer" onClick={() => setIsSkinTypeModalOpen(true)}>
                       <HelpCircle className="h-5 w-5" />
                     </div>
                   </TooltipTrigger>
@@ -186,11 +194,11 @@ export default function EditProfile() {
                 </Tooltip>
               </TooltipProvider>
             </div>
-            <input type="checkbox" id="my-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
-            <div className="modal" onClick={handleCloseModal}>
-              <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
+            <input type="checkbox" id="skintype-modal" className="modal-toggle" checked={isSkinTypeModalOpen} onChange={() => setIsSkinTypeModalOpen(!isSkinTypeModalOpen)} />
+            <div className="modal" id="skintype-modal" onClick={handleSkinTypeModalClose}>
+              <div className="modal-box text-left" id="skintype-modal" onClick={e => e.stopPropagation()}>
                 <div className="flex justify-end">
-                  <div onClick={handleCloseModal} className="btn btn-ghost btn-circle">
+                  <div onClick={handleSkinTypeModalClose} id="skintype-modal" className="btn btn-ghost btn-circle">
                     <X />
                   </div>
                 </div>
@@ -313,6 +321,33 @@ export default function EditProfile() {
               onCheckedChange={handleSwitchChange}
             />
             <Label htmlFor="line-notification" className='text-md'>LINE通知を受け取る</Label>
+            <div className="flex items-center justify-end">
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" id="lineinfo-modal" onClick={() => setIsLineInfoModalOpen(true)}>
+                      <AlertCircle className="h-6 w-6" />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>LINE通知について</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              <input type="checkbox" id="lineinfo-modal" className="modal-toggle" checked={isLineInfoModalOpen} onChange={() => setIsLineInfoModalOpen(!isLineInfoModalOpen)} />
+              <div className="modal" id="lineinfo-modal" onClick={handleLineInfoModalClose}>
+                <div className="modal-box text-left" id="lineinfo-modal" onClick={e => e.stopPropagation()}>
+                  <div className="flex justify-end">
+                    <div onClick={handleLineInfoModalClose} id="lineinfo-modal" className="btn btn-ghost btn-circle">
+                      <X />
+                    </div>
+                  </div>
+                  <div className="my-2 text-md">
+                    <LineNotification />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           <div className="mb-6">
             <Label htmlFor="avatar" className="block text-center mb-2">アバター画像</Label>
