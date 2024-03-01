@@ -12,11 +12,12 @@ interface CustomButtonProps {
 const CustomButton: React.FC<CustomButtonProps> = ({ colorClass, children, onClick, variant, disabled = false }) => {
   const additionalClasses = variant === 'outline' ? 'border border-[#E0DBD2]' : '';
   const roundedClass = 'rounded-lg';
-  const flexClass = 'flex items-center justify-center'; // Flexboxを適用
-  const shadowClass = 'shadow-lg'; // 影を追加
+  const flexClass = 'flex items-center justify-center';
+  const shadowClass = 'shadow-lg';
+  const hoverActiveClass = 'active:scale-95 transition duration-300 ease-in-out';
 
   return (
-    <button className={`py-2 px-4 ${roundedClass} ${colorClass} ${additionalClasses} ${flexClass} ${shadowClass} transition duration-300 ease-in-out`} onClick={onClick} disabled={disabled}>
+    <button className={`py-2 px-4 ${roundedClass} ${colorClass} ${additionalClasses} ${flexClass} ${shadowClass} ${hoverActiveClass}`} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );

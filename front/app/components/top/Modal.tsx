@@ -11,7 +11,6 @@ import {
   Search,
   Heart,
   Menu,
-  Smartphone,
   Smile,
   CloudSun,
   X,
@@ -51,9 +50,9 @@ const Modal = () => {
       <div className={`modal ${isModalOpen ? 'modal-open' : ''}`} onClick={handleClose}>
         <div className="modal-box" onClick={e => e.stopPropagation()}>
           <div className="flex justify-end">
-            <button onClick={handleClose} className="btn btn-ghost btn-circle">
+            <div onClick={handleClose} className="btn btn-ghost btn-circle">
               <X />
-            </button>
+            </div>
           </div>
           <div className="flex flex-col items-center">
             <Image
@@ -80,10 +79,6 @@ const Modal = () => {
           <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/favorite_cosmetics')}>
             <Heart className="mr-2 h-4 w-4" />
             <span>お気に入り</span>
-          </div>
-          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/line_notification')}>
-            <Smartphone className="mr-2 h-4 w-4" />
-            <span>LINE通知登録</span>
           </div>
           <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/column')}>
             <MessageCircleQuestion className="mr-2 h-4 w-4" />

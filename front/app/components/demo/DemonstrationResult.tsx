@@ -2,12 +2,21 @@
 import React, { useState, useEffect, useContext } from 'react';
 import UserInfoContext from '../../contexts/UserInfoContext';
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import CustomButton from '@/components/ui/custom-button';
 import { PulseLoader } from 'react-spinners';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 type Cosmetic = {
   itemName: string;
@@ -22,6 +31,7 @@ const DemonstrationResult = () => {
   const [cosmetics, setCosmetics] = useState<Cosmetic[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loginButtonImage, setLoginButtonImage] = useState('/btn_login_base.png');
+  const router = useRouter()
   const handleLogin = async () => {
     toast.loading('ログインしています...');
     signIn('line', { callbackUrl: '/home' })
@@ -53,6 +63,11 @@ const DemonstrationResult = () => {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
   }
 
+  const openTwitterShare = () => {
+    const shareUrl = `https://twitter.com/intent/tweet?text=KoreCare使ってみたよ！&url=https://korecare.vercel.app`;
+    window.open(shareUrl, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <>
       <p className="text-lg text-center justify-between custom-marked-text">
@@ -69,9 +84,9 @@ const DemonstrationResult = () => {
         ) : (
           cosmetics.map((cosmetic, index) => (
             <Link key={index} href={cosmetic.itemUrl} target="_blank" rel="noopener noreferrer">
-              <div className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
+              <div className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm mt-6'>
                 <div className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
-                  <p className="text-lg z-10 bg-E0DBD2 py-1 px-3 mb-2 rounded-lg">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
+                  <p className="text-lg z-10 bg-E0DBD2 py-1 px-3 mb-2 rounded-3xl">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
                   <div className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
                     <div className="relative z-0 pt-2 w-custom h-custom">
                       <Image
@@ -92,7 +107,7 @@ const DemonstrationResult = () => {
           ))
         )}
       </div>
-      <p className="text-md text-center justify-between pt-4 pb-2">
+      <p className="text-md text-center justify-between pt-4 pb-2 p-6">
         ログインするとコスメをお気に入りに登録できます！
       </p>
       <div className="flex justify-center pb-6">
@@ -112,11 +127,25 @@ const DemonstrationResult = () => {
           />
         </div>
       </div>
-      <Link href='/first_demonstration'>
-        <div className="flex justify-center pt-4 pb-20">
-          <CustomButton colorClass="btn-506D7D">もう一度やってみる</CustomButton>
-        </div>
-      </Link>
+      <div className="flex justify-center pt-4 pb-20 pl-6">
+        <CustomButton colorClass="btn-506D7D" onClick={() => router.push('/first_demonstration')}>もう一度やってみる</CustomButton>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <button
+                onClick={openTwitterShare}
+                className="inline-flex items-center justify-center ml-3 text-text-color"
+                aria-label="Twitterシェア"
+              >
+                <FontAwesomeIcon icon={faXTwitter} size="lg" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>感想をシェアする</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
     </>
   );
 }

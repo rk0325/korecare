@@ -22,12 +22,6 @@ import {
   CloudSun,
   MessageCircleQuestion
 } from "lucide-react"
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 
 const SHEET_SIDES = ["right"] as const
 type SheetSide = (typeof SHEET_SIDES)[number]
@@ -59,16 +53,7 @@ export default function SheetSide() {
           <Sheet key={side}>
             <SheetTrigger asChild>
               <div className='flex items-center justify-center font-genjyuu'>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Menu className='menu-button' />
-                    </TooltipTrigger>
-                    <TooltipContent >
-                      <p>メニューを表示する</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <Menu className='menu-button' />
               </div>
             </SheetTrigger>
             <SheetContent side={side} className="text-text-color font-genjyuu w-[320px] sm:w-[540px]">
@@ -105,12 +90,6 @@ export default function SheetSide() {
                   <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/favorite_cosmetics')}>
                     <Heart className="mr-2 h-4 w-4" />
                     <span>お気に入り</span>
-                  </div>
-                </SheetClose>
-                <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/line_notification')}>
-                    <Smartphone className="mr-2 h-4 w-4" />
-                    <span>LINE通知登録</span>
                   </div>
                 </SheetClose>
                 <SheetClose asChild>

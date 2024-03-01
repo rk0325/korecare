@@ -56,7 +56,13 @@ const SecondDemonstration = () => {
       <br />
       <Link href='/demonstration_result'>
         <div className="flex justify-center pt-2">
-          <CustomButton colorClass="btn-506D7D" onClick={handleSubmit} disabled={!isSkinTroubleSelected}>結果を見る</CustomButton>
+          <CustomButton
+            colorClass={`btn-506D7D flex justify-center items-center rounded-md h-[40px] w-[120px] ${!isSkinTroubleSelected ? 'opacity-50 cursor-not-allowed' : ''}`}
+            onClick={handleSubmit}
+            disabled={!isSkinTroubleSelected}
+          >
+            結果を見る
+          </CustomButton>
         </div>
       </Link>
     </>

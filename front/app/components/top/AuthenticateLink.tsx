@@ -7,6 +7,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { LogIn } from "lucide-react";
 
 export default function AuthenticateLink() {
   const handleLogin = async () => {
@@ -21,9 +22,10 @@ export default function AuthenticateLink() {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <p className="p-2 cursor-pointer font-genjyuu" onClick={handleLogin}>
-            ログイン
-          </p>
+          <div className="flex items-center p-2 cursor-pointer font-genjyuu" onClick={handleLogin}>
+            <p>ログイン</p>
+            <LogIn className="ml-1" />
+          </div>
         </TooltipTrigger>
         <TooltipContent >
           <p>LINEでログインする</p>

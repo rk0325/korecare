@@ -22,16 +22,17 @@ const About = () => {
   };
 
   useEffect(() => {
-    if (session) {
-      router.replace("/home");
+    if (status === 'authenticated') {
+      router.push("/home");
     }
-  }, [session, router]);
+  }, [status, router]);
 
-  if (status === "loading") {
-    return <div className="text-xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
-      <div>Loading...<br /><br />잠깐만요.</div>
-    </div>;
-  }
+  if (status === "loading" || status === 'authenticated')
+    return (
+      <div className="text-xl text-text-color bg-background-color min-h-screen w-full flex justify-center items-center">
+        <div>Loading...<br /><br />잠깐만요.</div>
+      </div>
+    );
 
   return (
     <>

@@ -18,16 +18,14 @@ module WeatherMessageGenerator
     advice = ""
     sun_protection_advice = "日焼けを防ぐために日傘や日焼け止めの利用、長袖や帽子の着用をお勧めします。\n\n"
 
-    if current_uvi < 3 && daily_max_uvi >= 3
-      advice += "現在のUV指数は低いですが、これからUV指数が高くなる予報が出ています。#{sun_protection_advice}"
+    if current_uvi >= 6
+      advice += "現在UV指数が高いです。#{sun_protection_advice}"
     elsif current_uvi.between?(3, 5)
       advice += "現在UV指数は中程度です。#{sun_protection_advice}"
-    end
-
-    if daily_max_uvi.between?(3, 5) && !current_uvi.between?(3, 5)
-      advice += "これからUV指数が高くなる予報が出ています。#{sun_protection_advice}"
-    elsif daily_max_uvi >= 6 && !current_uvi.between?(3, 5)
-      advice += "これからUV指数がとても高くなる予報が出ています。#{sun_protection_advice}"
+    elsif current_uvi < 3 && daily_max_uvi.between?(3, 5)
+      advice += "現在のUV指数は低いですが、これからUV指数が高くなる予報が出ています。#{sun_protection_advice}"
+    elsif current_uvi < 3 && daily_max_uvi >= 6
+      advice += "現在のUV指数は低いですが、これからUV指数がとても高くなる予報が出ています。#{sun_protection_advice}"
     end
 
     advice = "UV指数は通常範囲内です。\n\n" if advice.empty?
