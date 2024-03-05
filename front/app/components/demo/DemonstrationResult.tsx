@@ -108,7 +108,7 @@ const DemonstrationResult = () => {
         )}
       </div>
       <p className="text-md text-center justify-between pt-4 pb-2 p-6">
-        ログインするとコスメをお気に入りに登録できます！
+        ログインすると<br />コスメをお気に入りに登録できるよ！
       </p>
       <div className="flex justify-center pb-6">
         <div
@@ -132,13 +132,13 @@ const DemonstrationResult = () => {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger>
-              <button
+              <div
                 onClick={openTwitterShare}
-                className="inline-flex items-center justify-center ml-3 text-text-color"
+                className="inline-flex items-center justify-center ml-3 mt-2 text-text-color"
                 aria-label="Twitterシェア"
               >
                 <FontAwesomeIcon icon={faXTwitter} size="lg" />
-              </button>
+              </div>
             </TooltipTrigger>
             <TooltipContent>
               <p>感想をシェアする</p>
