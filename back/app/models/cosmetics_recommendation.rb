@@ -1,6 +1,6 @@
 class CosmeticsRecommendation
 
-  COMMON_NG_KEYWORDS = '詰め替え マスク パッド ミスト セット %洗顔% 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛% ボディ% アイクリーム スポット リップ% シャンプー %落とし ブースター'.freeze
+  COMMON_NG_KEYWORDS = '詰め替え マスク パッド ミスト セット %洗顔% 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛% ボディ% アイクリーム スポット リップ% シャンプー %落とし ブースター %タブレット ヘザーカーミングエッセンス'.freeze
 
   SKIN_TYPE_TAGS = {
     '乾燥肌' => '1001296',
@@ -33,8 +33,7 @@ class CosmeticsRecommendation
   }.freeze
 
   def self.search_cosmetics_for_guests(skin_type, skin_trouble)
-    # 未ログインユーザー向けの検索ロジック
-    genre_id = "562084" # 「韓国スキンケア」のジャンルID
+    genre_id = "562084"
     tag_id = SKIN_TYPE_TAGS[skin_type]
     elements = "itemCode,itemName,itemPrice,imageUrl,itemUrl"
     ng_keywords = COMMON_NG_KEYWORDS
@@ -57,7 +56,7 @@ class CosmeticsRecommendation
 
     results.map! do |item|
       {
-        id: item['itemCode'], # 楽天市場の商品コードをidとして使用
+        id: item['itemCode'],
         itemName: item['itemName'],
         itemPrice: item['itemPrice'],
         itemUrl: item['itemUrl'],
@@ -68,10 +67,9 @@ class CosmeticsRecommendation
   end
 
   def self.search_cosmetics_for_logged_in_users(skin_type, skin_trouble, price_range, product_type)
-    # ログインユーザー向けの検索ロジック
-    genre_id = "562084" # 「韓国スキンケア」のジャンルID
+    genre_id = "562084"
     tag_id = SKIN_TYPE_TAGS[skin_type]
-    trouble_tag_ids = Array(SKIN_TROUBLE_TAGS[skin_trouble]) # trouble_tag_idsを配列として扱う
+    trouble_tag_ids = Array(SKIN_TROUBLE_TAGS[skin_trouble])
     ng_keywords = COMMON_NG_KEYWORDS
     elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl,shopName"
     results = []
@@ -103,7 +101,7 @@ class CosmeticsRecommendation
 
     items.each do |item|
       keyword = "公式 #{item}"
-      trouble_tag_ids.each do |trouble_tag_id| # trouble_tag_idsの各要素に対して検索を行う
+      trouble_tag_ids.each do |trouble_tag_id|
       search_results = RakutenWebService::Ichiba::Item.search(
         keyword: keyword,
         genreId: genre_id,
@@ -125,7 +123,7 @@ class CosmeticsRecommendation
 
     results.map! do |item|
       {
-        id: item['itemCode'], # 楽天市場の商品コードをidとして使用
+        id: item['itemCode'],
         itemName: item['itemName'],
         itemPrice: item['itemPrice'],
         itemUrl: item['itemUrl'],
@@ -137,12 +135,11 @@ class CosmeticsRecommendation
   end
 
   def self.search_cosmetic_sets(skin_type, skin_trouble, min_price, max_price)
-    genre_id = "562084" # 「韓国スキンケア」のジャンルID
+    genre_id = "562084"
     tag_id = SKIN_TYPE_TAGS[skin_type]
     ng_keywords = COMMON_NG_KEYWORDS
     elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl,shopName"
 
-    # 各カテゴリに対して検索を行う
     lotion_results = search_items_by_category("化粧水", genre_id, tag_id, ng_keywords, elements)
     serum_results = search_items_by_category("美容液", genre_id, tag_id, ng_keywords, elements)
     cream_results = search_items_by_category("クリーム", genre_id, tag_id, ng_keywords, elements)
@@ -159,23 +156,22 @@ class CosmeticsRecommendation
       cream_price = cream[:itemPrice].to_i
     end
 
-      # 各カテゴリーの価格合計を計算する
-      lotion_total_price = lotion_results.sum { |lotion| lotion[:itemPrice] }
-      serum_total_price = serum_results.sum { |serum| serum[:itemPrice] }
-      cream_total_price = cream_results.sum { |cream| cream[:itemPrice] }
+    lotion_total_price = lotion_results.sum { |lotion| lotion[:itemPrice] }
+    serum_total_price = serum_results.sum { |serum| serum[:itemPrice] }
+    cream_total_price = cream_results.sum { |cream| cream[:itemPrice] }
 
-      sets = lotion_results.product(serum_results, cream_results).map do |lotion, serum, cream|
-        lotion_price = lotion[:itemPrice].to_i
-        serum_price = serum[:itemPrice].to_i
-        cream_price = cream[:itemPrice].to_i
+    sets = lotion_results.product(serum_results, cream_results).map do |lotion, serum, cream|
+      lotion_price = lotion[:itemPrice].to_i
+      serum_price = serum[:itemPrice].to_i
+      cream_price = cream[:itemPrice].to_i
 
-        total_price = lotion_price + serum_price + cream_price
-        if max_price.nil? || total_price.between?(min_price, max_price)
-          { lotion: lotion, serum: serum, cream: cream, total_price: total_price }
-        else
-          nil
-        end
-      end.compact
+      total_price = lotion_price + serum_price + cream_price
+      if max_price.nil? || total_price.between?(min_price, max_price)
+        { lotion: lotion, serum: serum, cream: cream, total_price: total_price }
+      else
+        nil
+      end
+    end.compact
 
     sets
   end
