@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useSession, getSession } from 'next-auth/react'
 import { useProfile } from '../hooks/useProfile';
 import LineNotification from "../components/mypage/LineNotification";
+import ExpirationDateNotification from "../components/mypage/ExpirationDateNotification";
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { Input } from "@/components/ui/input"
@@ -154,6 +155,36 @@ export default function EditProfile() {
     session ? (
       <div className='flex justify-center p-10'>
         <div className="w-full max-w-sm text-left">
+          <div className="mb-6">
+            <Label htmlFor="avatar" className="block text-center mb-2 text-lg">アバター画像</Label>
+            <div className="flex justify-center">
+              <Image
+                src={avatar || session.user?.image || '/default-avatar.png'}
+                alt="User Avatar"
+                width={100}
+                height={100}
+                style={{ borderRadius: '50%' }}
+              />
+            </div>
+            <div className="flex justify-center">
+              <Input className="mt-4 text-text-color/60"
+                type="file"
+                id="avatar"
+                onChange={(e) => {
+                  if (e.target.files) {
+                    const file = e.target.files[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onloadend = () => {
+                        setAvatar(reader.result as string);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }
+                }}
+              />
+            </div>
+          </div>
           <div className="mb-6">
             <Label htmlFor="name">お名前</Label>
             <Input
@@ -313,14 +344,8 @@ export default function EditProfile() {
               </SelectContent>
             </Select>
           </div>
-          <p className='pt-2 pb-2 text-md text-center'>KoreCare公式アカウントを<a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">友だち追加</a>して</p>
-          <div className="flex items-center justify-center space-x-2 pb-8">
-            <Switch
-              id="line-notification"
-              checked={notificationMap.get('notification') ?? false}
-              onCheckedChange={handleSwitchChange}
-            />
-            <Label htmlFor="line-notification" className='text-md'>LINE通知を受け取る</Label>
+          <div className="flex items-center justify-center pb-2 mt-8">
+            <Label htmlFor="line-notification" className='text-lg'>LINE通知を受け取る</Label>
             <div className="flex items-center justify-end">
               <TooltipProvider>
                 <Tooltip>
@@ -349,44 +374,31 @@ export default function EditProfile() {
               </div>
             </div>
           </div>
-          <div className="mb-6">
-            <Label htmlFor="avatar" className="block text-center mb-2">アバター画像</Label>
-            <div className="flex justify-center">
-              <Image
-                src={avatar || session.user?.image || '/default-avatar.png'}
-                alt="User Avatar"
-                width={100}
-                height={100}
-                style={{ borderRadius: '50%' }}
-              />
-            </div>
-            <div className="flex justify-center">
-              <Input className="mt-4"
-                type="file"
-                id="avatar"
-                onChange={(e) => {
-                  if (e.target.files) {
-                    const file = e.target.files[0];
-                    if (file) {
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        setAvatar(reader.result as string);
-                      };
-                      reader.readAsDataURL(file);
-                    }
-                  }
-                }}
-              />
-            </div>
+          <div className="flex items-center justify-center pt-2">紫外線 / 乾燥注意通知
+            <Switch
+              id="line-notification"
+              className="ml-2"
+              checked={notificationMap.get('notification') ?? false}
+              onCheckedChange={handleSwitchChange}
+            />
           </div>
-          <div className="w-full pt-2 pb-4 flex justify-center" onClick={handleSubmit}>
+          <div className="flex items-center justify-center pt-4">使用期限通知
+            <Switch
+              id="line-notification"
+              className="ml-2"
+              checked={notificationMap.get('notification') ?? false}
+              onCheckedChange={handleSwitchChange}
+            />
+          </div>
+          <ExpirationDateNotification />
+          <div className="w-full pt-10 pb-4 flex justify-center" onClick={handleSubmit}>
             <CustomButton colorClass="btn-506D7D">
               更新する
             </CustomButton>
           </div>
           <div className="w-full pb-10 flex justify-center">
             <Link href='/my_page'>
-              <Button className="text-md bg-F5F5F5 text-48352F hover:bg-E0DBD2 active:scale-95 transition duration-300 ease-in-out">
+              <Button className="text-md rounded-lg bg-F5F5F5 text-48352F hover:bg-E0DBD2 active:scale-95 transition duration-300 ease-in-out">
                 キャンセル
               </Button>
             </Link>
