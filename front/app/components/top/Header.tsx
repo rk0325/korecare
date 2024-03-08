@@ -10,7 +10,7 @@ import {
   X,
   Clock,
   MapPinned,
-  Wrench,
+  Smartphone,
   Sparkles,
   HelpCircle,
   SearchCheck,
@@ -78,8 +78,8 @@ const Header = () => {
                       <p>マイページでお住まいを設定すると、設定した場所の情報が表示されます。</p>
                     </div>
                     <div className="flex items-start">
-                      <Wrench className="mr-2 h-6 w-10" />
-                      <p>PCの方は右上のメニューから、スマートフォンの方は左下にあるメニューボタンから各ページにアクセスできます。</p>
+                      <Smartphone className="mr-2 h-6 w-10" />
+                      <p>各種LINE通知もマイページから設定できます。さっそく設定してみよう！</p>
                     </div>
                     <div className="flex items-start justify-between mt-6">
                       <p>KoreCareがあなたの毎日のスキンケアに</p>

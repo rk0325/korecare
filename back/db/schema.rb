@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_29_060842) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_06_112316) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_29_060842) do
     t.datetime "updated_at", null: false
     t.float "latitude"
     t.float "longitude"
+  end
+
+  create_table "cosmetic_usages", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "item_type"
+    t.date "open_date"
+    t.date "expiry_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_cosmetic_usages_on_user_id"
   end
 
   create_table "favorite_cosmetics", force: :cascade do |t|
@@ -58,10 +68,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_29_060842) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "avatar"
-    t.boolean "receive_notifications", default: false
+    t.boolean "receive_notifications_weather", default: false
+    t.boolean "receive_notifications_expiration_date", default: false
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
   end
 
+  add_foreign_key "cosmetic_usages", "users"
   add_foreign_key "favorite_cosmetics", "users"
   add_foreign_key "profiles", "addresses"
   add_foreign_key "profiles", "users"

@@ -5,15 +5,27 @@ module Api
       before_action :set_user, only: [:enable, :status]
 
       def enable
-        if @user.update(receive_notifications: params[:enabled])
-          render json: { message: '通知設定が更新されました。' }, status: :ok
+        notification_type = params[:notification_type]
+        enabled = params[:enabled] == 'true'
+
+        if notification_type == 'weather'
+          @user.update(receive_notifications_weather: enabled)
+        elsif notification_type == 'expiration_date'
+          @user.update(receive_notifications_expiration_date: enabled)
         else
-          render json: @user.errors, status: :unprocessable_entity
+          return render json: { message: '無効な通知タイプです。' }, status: :bad_request
         end
+
+        render json: { message: '通知設定が更新されました。' }, status: :ok
+      rescue => e
+        render json: { error: e.message }, status: :unprocessable_entity
       end
 
       def status
-        render json: { receive_notifications: @user.receive_notifications }
+        render json: {
+          receive_notifications_weather: @user.receive_notifications_weather,
+          receive_notifications_expiration_date: @user.receive_notifications_expiration_date
+        }
       end
 
       private
