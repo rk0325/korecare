@@ -30,11 +30,15 @@ const About = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, [status, router]);
 
+  useEffect(() => {
+    return () => toast.dismiss();
+  }, []);
+
   const handleLogin = async () => {
-    toast.loading('ログインしています...');
+    const toastId = toast.loading('ログインしています...');
     signIn('line', { callbackUrl: '/home' })
       .catch(() => {
-        toast.error('ログインに失敗しました');
+        toast.error('ログインに失敗しました', { id: toastId });
       });
   };
 

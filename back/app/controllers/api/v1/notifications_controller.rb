@@ -6,7 +6,7 @@ module Api
 
       def enable
         notification_type = params[:notification_type]
-        enabled = params[:enabled] == 'true'
+        enabled = ActiveModel::Type::Boolean.new.cast(params[:enabled])
 
         if notification_type == 'weather'
           @user.update(receive_notifications_weather: enabled)

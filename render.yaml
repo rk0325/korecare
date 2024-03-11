@@ -6,13 +6,13 @@ databases:
 
 services:
   - type: redis
-    name: weather-notification
+    name: line-notification
     region: singapore
     maxmemoryPolicy: noeviction
     ipAllowList: [] # only allow internal connections
 
   - type: worker
-    name: weather-notification
+    name: line-notification
     runtime: ruby
     region: singapore
     buildCommand: bundle install
@@ -21,7 +21,7 @@ services:
       - key: REDIS_URL
         fromService:
           type: redis
-          name: weather-notification
+          name: line-notification
           property: connectionString
       - key: RAILS_ENV
         value: production
@@ -37,7 +37,7 @@ services:
       - key: REDIS_URL
         fromService:
           type: redis
-          name: weather-notification
+          name: line-notification
           property: connectionString
       - key: RAILS_ENV
         value: production

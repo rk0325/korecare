@@ -7,11 +7,14 @@ import Link from 'next/link'
 import { useSession, getSession } from 'next-auth/react'
 import { useProfile } from '../hooks/useProfile';
 import LineNotification from "../components/mypage/LineNotification";
-import ExpirationDateNotification from "../components/mypage/ExpirationDateNotification";
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+import { format, add } from 'date-fns';
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Calendar as CalendarIcon } from "lucide-react"
+import { ja } from 'date-fns/locale'
+import { Calendar } from "@/components/ui/calendar"
 import CustomButton from '@/components/ui/custom-button';
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
@@ -29,6 +32,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import {
 	AlertTriangle,
 	Diamond,
 	SearchCheck,
@@ -42,6 +56,23 @@ const axiosInstance = axios.create({
 });
 
 const fetcher = (url: string, headers: any) => axiosInstance.get(url, { headers }).then(res => res.data);
+
+type ApiResponseNotification = {
+  id: number;
+  item_type: string;
+  open_date: string | null;
+  expiry_date: string | null;
+  created_at: string;
+  updated_at: string;
+  user_id: number;
+};
+
+type Notification = {
+  id: number;
+  productType: string;
+  openDate: Date | null;
+  expiryDate: Date | null;
+};
 
 export default function EditProfile() {
   const router = useRouter()
@@ -109,47 +140,155 @@ export default function EditProfile() {
         }
       }
     }
+
+    notifications.forEach(async (notification) => {
+      try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cosmetic_usages`, {
+          cosmetic_usage: {
+            item_type: notification.productType,
+            open_date: notification.openDate,
+            expiry_date: notification.expiryDate,
+          }
+        }, {
+          headers: headers,
+          withCredentials: true
+        });
+        console.log('保存成功:', response.data);
+      } catch (error) {
+        console.error('保存失敗:', error);
+      }
+    });
   }
 
-  const { data: notificationStatus } = useSWR<{ receive_notifications: boolean }>(
+  const { data: notificationStatus } = useSWR<{ receive_notifications_weather: boolean, receive_notifications_expiration_date: boolean }>(
     token ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/status` : null,
     () => fetcher(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/status`, headers)
   );
 
   useEffect(() => {
-    if (notificationStatus && typeof notificationStatus.receive_notifications === 'boolean') {
-      setNotificationMap(new Map([['notification', notificationStatus.receive_notifications]]));
+    if (notificationStatus) {
+      setNotificationMap(new Map([
+        ['weather', notificationStatus.receive_notifications_weather],
+        ['expiration_date', notificationStatus.receive_notifications_expiration_date]
+      ]));
     }
   }, [notificationStatus]);
 
-  const handleSwitchChange = useCallback(async (checked: boolean) => {
-    setNotificationMap(new Map(notificationMap).set('notification', checked));
+  const handleWeatherNotificationChange = useCallback(async (checked: boolean) => {
+    setNotificationMap(new Map(notificationMap).set('weather', checked));
 
     if (checked) {
+
       try {
         await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/enable`,
-          { enabled: true },
+          { notification_type: 'weather', enabled: true },
           { headers: headers, withCredentials: true }
         );
-
         console.log('通知設定有効化完了');
       } catch (error) {
         console.error('通知設定エラー:', error);
       }
     } else {
+
       try {
-        const response = await axios.post(
+        await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/enable`,
-          { enabled: false },
+          { notification_type: 'weather', enabled: false },
           { headers: headers, withCredentials: true }
         );
-        console.log('通知設定無効化:', response.data);
+        console.log('通知設定無効化完了');
       } catch (error) {
         console.error('通知無効化エラー:', error);
       }
     }
   }, [headers, notificationMap]);
+
+  const handleExpirationDateNotificationChange = useCallback(async (checked: boolean) => {
+    setNotificationMap(new Map(notificationMap).set('expiration_date', checked));
+
+    if (checked) {
+
+      try {
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/enable`,
+          { notification_type: 'expiration_date', enabled: true },
+          { headers: headers, withCredentials: true }
+        );
+        console.log('通知設定有効化完了');
+      } catch (error) {
+        console.error('通知設定エラー:', error);
+      }
+    } else {
+
+      try {
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/enable`,
+          { notification_type: 'expiration_date', enabled: false },
+          { headers: headers, withCredentials: true }
+        );
+        console.log('通知設定無効化完了');
+      } catch (error) {
+        console.error('通知無効化エラー:', error);
+      }
+    }
+  }, [headers, notificationMap]);
+
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+
+  const handleOpenDateSelect = (id: number, date: Date) => {
+    const newExpiryDate = add(date, { months: 3 });
+    setNotifications(notifications.map(notification =>
+      notification.id === id ? { ...notification, openDate: date, expiryDate: newExpiryDate } : notification
+    ));
+  };
+
+  const addNotification = () => {
+    if (notifications.length < 3) {
+      const newId = notifications.length + 1;
+      const newNotification = { id: newId, productType: '', openDate: null, expiryDate: null };
+      setNotifications([...notifications, newNotification]);
+    }
+  };
+
+  const removeNotification = (id: number) => {
+    setNotifications(notifications.filter(notification => notification.id !== id));
+  };
+
+  const handleProductTypeChange = (id: number, productType: string) => {
+    setNotifications(notifications.map(notification =>
+      notification.id === id ? { ...notification, productType: productType } : notification
+    ));
+  };
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cosmetic_usages`, { headers });
+        const formattedNotifications: Notification[] = response.data.map((notification: ApiResponseNotification) => ({
+          id: notification.id,
+          productType: notification.item_type,
+          openDate: notification.open_date ? new Date(notification.open_date) : null,
+          expiryDate: notification.expiry_date ? new Date(notification.expiry_date) : null,
+        }));
+        setNotifications(formattedNotifications);
+      } catch (error) {
+        console.error("通知設定の取得に失敗しました", error);
+      }
+    };
+
+    fetchNotifications();
+  }, [headers]);
+
+  const getProductTypeInJapanese = (productType: string): string => {
+    const productTypeMap: { [key: string]: string } = {
+      lotion: "化粧水",
+      serum: "美容液",
+      cream: "クリーム",
+    };
+
+    return productTypeMap[productType] || "製品タイプを選択";
+  };
 
   return (
     session ? (
@@ -376,21 +515,108 @@ export default function EditProfile() {
           </div>
           <div className="flex items-center justify-center pt-2">紫外線 / 乾燥注意通知
             <Switch
-              id="line-notification"
+              id="weather-notification"
               className="ml-2"
-              checked={notificationMap.get('notification') ?? false}
-              onCheckedChange={handleSwitchChange}
+              checked={notificationMap.get('weather') ?? false}
+              onCheckedChange={handleWeatherNotificationChange}
             />
           </div>
           <div className="flex items-center justify-center pt-4">使用期限通知
             <Switch
-              id="line-notification"
+              id="expiration-date-notification"
               className="ml-2"
-              checked={notificationMap.get('notification') ?? false}
-              onCheckedChange={handleSwitchChange}
+              checked={notificationMap.get('expiration_date') ?? false}
+              onCheckedChange={handleExpirationDateNotificationChange}
             />
           </div>
-          <ExpirationDateNotification />
+          {notifications.length > 0 && (
+            <Accordion type="single" collapsible className="w-full pt-4">
+              {notifications.map((notification, index) => (
+                <AccordionItem key={notification.id} value={`details-${notification.id}`}>
+                  <AccordionTrigger>使用期限通知設定 {index + 1}</AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor={`product_type-${notification.id}`}>製品タイプ</Label>
+                        <Select onValueChange={(value) => handleProductTypeChange(notification.id, value)}>
+                          <SelectTrigger className="text-text-color">
+                            <SelectValue placeholder={getProductTypeInJapanese(notification.productType) || "製品タイプを選択"} />
+                          </SelectTrigger>
+                          <SelectContent className="text-text-color">
+                            <SelectItem value="lotion">化粧水</SelectItem>
+                            <SelectItem value="serum">美容液</SelectItem>
+                            <SelectItem value="cream">クリーム</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label htmlFor={`open_date-${notification.id}`}>開封日</Label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className="w-full justify-start text-left font-normal text-text-color"
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4 text-text-color" />
+                              {notification.openDate ? format(notification.openDate, "yyyy年M月d日", { locale: ja }) : <span className="text-text-color/60">日付を選択</span>}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0 text-text-color">
+                            <Calendar
+                              mode="single"
+                              selected={notification.openDate !== null ? notification.openDate : undefined}
+                              onSelect={(date) => {
+                                if (date !== undefined) {
+                                  handleOpenDateSelect(notification.id, date);
+                                }
+                              }}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                      <div>
+                        <Label htmlFor={`expiry_date-${notification.id}`}>使用期限</Label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className="w-full justify-start text-left font-normal text-text-color"
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4 text-text-color" />
+                              {notification.expiryDate ? format(notification.expiryDate, "yyyy年M月d日", { locale: ja }) : <span className="text-text-color/60">日付を選択</span>}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0 text-text-color">
+                            <Calendar
+                              mode="single"
+                              selected={notification.expiryDate !== null ? notification.expiryDate : undefined}
+                              onSelect={(date) => {
+                                setNotifications(notifications.map(n =>
+                                  n.id === notification.id ? { ...n, expiryDate: date !== undefined ? date : null } : n
+                                ));
+                              }}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
+                      {index === 0 && notifications.length < 3 && (
+                        <div className="pt-2 pr-2 text-right cursor-pointer">
+                          <div onClick={addNotification}>＋追加</div>
+                        </div>
+                      )}
+                      {index !== 0 && (
+                        <div className="pt-2 pr-2 text-right cursor-pointer">
+                          <div onClick={() => removeNotification(notification.id)}>×削除</div>
+                        </div>
+                      )}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          )}
           <div className="w-full pt-10 pb-4 flex justify-center" onClick={handleSubmit}>
             <CustomButton colorClass="btn-506D7D">
               更新する

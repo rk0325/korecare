@@ -1,3 +1,7 @@
 weather_notification_job:
   cron: "0 10 * * *"
   class: "WeatherNotificationJob"
+
+cosmetic_expiry_notification_job:
+  cron: "0 20 * * *"
+  class: "CosmeticExpiryNotificationJob"
