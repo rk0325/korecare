@@ -25,7 +25,7 @@ export const LineNotification = () => {
           <CheckSquare2 className="mr-2 h-6 w-6" />
           <span className='marked-text'>通知の設定方法</span>
         </div>
-        <p className='pt-2'>（1）「紫外線 / 乾燥注意通知」の場合はお住まいを設定、「使用期限通知」の場合は開封日・使用期限を設定</p>
+        <p className='pt-2'>（1）「紫外線 / 乾燥注意通知」の場合はお住まいを設定、「使用期限通知」の場合は製品タイプ・開封日・使用期限を設定（3アイテムまで設定できます）</p>
         <p className='pt-2'>（2）<a href="https://liff.line.me/1645278921-kWRPP32q/?accountId=577suiot" target="_blank" rel="noopener noreferrer" className="underline">こちら</a>から、KoreCare公式アカウントを友だちへ追加</p>
         <p className='pt-2'>（3）「通知を受け取る」をON！
         </p>

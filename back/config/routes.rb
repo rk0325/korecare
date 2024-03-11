@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resource :profiles, only: [:show, :update]
       resources :favorite_cosmetics, only: [:index, :create, :destroy]
+      resources :cosmetic_usages, only: [:create, :index]
 
       namespace :cosmetics_recommendation do
         post :search_cosmetics_for_guests
