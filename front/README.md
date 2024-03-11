@@ -125,7 +125,6 @@ Users ||--o{ NotFavoriteCosmetics : has
 Users ||--o{ Reviews : creates
 Users ||--o{ Bookmarks : bookmarks
 Users ||--o{ CosmeticUsage : has
-Users ||--o{ NotificationSettings : has
 Users ||--o{ Comments : posts
 FavoriteCosmetics ||--|| Reviews : has
 Reviews ||--o{ Comments : has
@@ -139,7 +138,8 @@ Users {
   string provider "UNIQUE"
   string uid "UNIQUE"
   string avatar
-  boolean receive_notifications
+  boolean receive_notifications_weather
+  boolean receive_notifications_expiration_date
   datetime created_at
   datetime updated_at
 }
@@ -199,14 +199,6 @@ CosmeticUsage {
   integer item_type
   datetime open_date
   datetime expiry_date
-  datetime created_at
-  datetime updated_at
-}
-
-NotificationSettings {
-  bigint id PK
-  bigint user_id FK
-  integer notification_type
   datetime created_at
   datetime updated_at
 }
