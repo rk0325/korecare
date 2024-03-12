@@ -529,9 +529,9 @@ export default function EditProfile() {
               onCheckedChange={handleExpirationDateNotificationChange}
             />
           </div>
-          {notifications.length > 0 && (
-            <Accordion type="single" collapsible className="w-full pt-4">
-              {notifications.map((notification, index) => (
+          <Accordion type="single" collapsible className="w-full pt-4">
+            {notifications.length > 0 ? (
+              notifications.map((notification, index) => (
                 <AccordionItem key={notification.id} value={`details-${notification.id}`}>
                   <AccordionTrigger>使用期限通知設定 {index + 1}</AccordionTrigger>
                   <AccordionContent>
@@ -614,9 +614,16 @@ export default function EditProfile() {
                     </div>
                   </AccordionContent>
                 </AccordionItem>
-              ))}
-            </Accordion>
-          )}
+              ))
+            ) : (
+              <AccordionItem value="no-notifications">
+                <AccordionTrigger>通知設定</AccordionTrigger>
+                <AccordionContent>
+                  <div className="text-center py-4">通知設定がありません。</div>
+                </AccordionContent>
+              </AccordionItem>
+            )}
+          </Accordion>
           <div className="w-full pt-10 pb-4 flex justify-center" onClick={handleSubmit}>
             <CustomButton colorClass="btn-506D7D">
               更新する
