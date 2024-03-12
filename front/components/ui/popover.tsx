@@ -5,7 +5,9 @@ import * as PopoverPrimitive from "@radix-ui/react-popover"
 import styled from 'styled-components';
 
 const StyledContent = styled(PopoverPrimitive.Content)`
-  width: 50%;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
 
   @media (min-width: 768px) {
     width: 100%;

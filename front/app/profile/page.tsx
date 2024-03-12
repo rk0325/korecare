@@ -94,6 +94,7 @@ export default function EditProfile() {
   const [avatar, setAvatar] = useState(profile?.avatar || session?.user?.image || '/default-avatar.png');
   const [prefecture, setPrefecture] = useState(profile?.prefecture || "");
   const [notificationMap, setNotificationMap] = useState(new Map());
+  const [editingNotificationId, setEditingNotificationId] = useState<number | null>(null);
 
   const handleSkinTypeModalClose = () => {
     setIsSkinTypeModalOpen(false);
@@ -103,11 +104,24 @@ export default function EditProfile() {
     setIsLineInfoModalOpen(false);
   };
 
+  function toISOStringLocal(date: Date) {
+    const offset = date.getTimezoneOffset();
+    const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
+    return adjustedDate.toISOString().split('T')[0];
+  }
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     const session = await getSession();
     const token = session?.accessToken;
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+    const isValid = notifications.every(notification => notification.productType && notification.openDate && notification.expiryDate);
+
+    if (!isValid) {
+      toast.error('使用期限通知は全ての項目を入力してください');
+      return;
+    }
 
     const profileData = {
       profile: {
@@ -143,11 +157,13 @@ export default function EditProfile() {
 
     notifications.forEach(async (notification) => {
       try {
+        const openDateISO = notification.openDate ? toISOStringLocal(notification.openDate) : null;
+        const expiryDateISO = notification.expiryDate ? toISOStringLocal(notification.expiryDate) : null;
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cosmetic_usages`, {
           cosmetic_usage: {
             item_type: notification.productType,
-            open_date: notification.openDate,
-            expiry_date: notification.expiryDate,
+            open_date: openDateISO,
+            expiry_date: expiryDateISO,
           }
         }, {
           headers: headers,
@@ -185,7 +201,7 @@ export default function EditProfile() {
           { notification_type: 'weather', enabled: true },
           { headers: headers, withCredentials: true }
         );
-        console.log('通知設定有効化完了');
+        console.log('天気通知設定有効化完了');
       } catch (error) {
         console.error('通知設定エラー:', error);
       }
@@ -197,7 +213,7 @@ export default function EditProfile() {
           { notification_type: 'weather', enabled: false },
           { headers: headers, withCredentials: true }
         );
-        console.log('通知設定無効化完了');
+        console.log('天気通知設定無効化完了');
       } catch (error) {
         console.error('通知無効化エラー:', error);
       }
@@ -215,7 +231,7 @@ export default function EditProfile() {
           { notification_type: 'expiration_date', enabled: true },
           { headers: headers, withCredentials: true }
         );
-        console.log('通知設定有効化完了');
+        console.log('使用期限通知設定有効化完了');
       } catch (error) {
         console.error('通知設定エラー:', error);
       }
@@ -227,7 +243,7 @@ export default function EditProfile() {
           { notification_type: 'expiration_date', enabled: false },
           { headers: headers, withCredentials: true }
         );
-        console.log('通知設定無効化完了');
+        console.log('使用期限通知設定無効化完了');
       } catch (error) {
         console.error('通知無効化エラー:', error);
       }
@@ -536,80 +552,87 @@ export default function EditProfile() {
                   <AccordionTrigger>使用期限通知設定 {index + 1}</AccordionTrigger>
                   <AccordionContent>
                     <div className="space-y-4">
-                      <div>
-                        <Label htmlFor={`product_type-${notification.id}`}>製品タイプ</Label>
-                        <Select onValueChange={(value) => handleProductTypeChange(notification.id, value)}>
-                          <SelectTrigger className="text-text-color">
-                            <SelectValue placeholder={getProductTypeInJapanese(notification.productType) || "製品タイプを選択"} />
-                          </SelectTrigger>
-                          <SelectContent className="text-text-color">
-                            <SelectItem value="lotion">化粧水</SelectItem>
-                            <SelectItem value="serum">美容液</SelectItem>
-                            <SelectItem value="cream">クリーム</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label htmlFor={`open_date-${notification.id}`}>開封日</Label>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant={"outline"}
-                              className="w-full justify-start text-left font-normal text-text-color"
-                            >
-                              <CalendarIcon className="mr-2 h-4 w-4 text-text-color" />
-                              {notification.openDate ? format(notification.openDate, "yyyy年M月d日", { locale: ja }) : <span className="text-text-color/60">日付を選択</span>}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0 text-text-color">
-                            <Calendar
-                              mode="single"
-                              selected={notification.openDate !== null ? notification.openDate : undefined}
-                              onSelect={(date) => {
-                                if (date !== undefined) {
-                                  handleOpenDateSelect(notification.id, date);
-                                }
-                              }}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-                      <div>
-                        <Label htmlFor={`expiry_date-${notification.id}`}>使用期限</Label>
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant={"outline"}
-                              className="w-full justify-start text-left font-normal text-text-color"
-                            >
-                              <CalendarIcon className="mr-2 h-4 w-4 text-text-color" />
-                              {notification.expiryDate ? format(notification.expiryDate, "yyyy年M月d日", { locale: ja }) : <span className="text-text-color/60">日付を選択</span>}
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-auto p-0 text-text-color">
-                            <Calendar
-                              mode="single"
-                              selected={notification.expiryDate !== null ? notification.expiryDate : undefined}
-                              onSelect={(date) => {
-                                setNotifications(notifications.map(n =>
-                                  n.id === notification.id ? { ...n, expiryDate: date !== undefined ? date : null } : n
-                                ));
-                              }}
-                              initialFocus
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </div>
-                      {index === 0 && notifications.length < 3 && (
-                        <div className="pt-2 pr-2 text-right cursor-pointer">
-                          <div onClick={addNotification}>＋追加</div>
-                        </div>
-                      )}
-                      {index !== 0 && (
-                        <div className="pt-2 pr-2 text-right cursor-pointer">
-                          <div onClick={() => removeNotification(notification.id)}>×削除</div>
-                        </div>
+                      {editingNotificationId !== notification.id ? (
+                        <>
+                          <div>製品タイプ: {getProductTypeInJapanese(notification.productType)}</div>
+                          <div>開封日: {notification.openDate ? format(notification.openDate, "yyyy年M月d日", { locale: ja }) : "未設定"}</div>
+                          <div>使用期限: {notification.expiryDate ? format(notification.expiryDate, "yyyy年M月d日", { locale: ja }) : "未設定"}</div>
+                          <button onClick={() => setEditingNotificationId(notification.id)}>編集</button>
+                        </>
+                      ) : (
+                        <>
+                          <div>
+                            <Label htmlFor={`product_type-${notification.id}`}>製品タイプ</Label>
+                            <Select onValueChange={(value) => handleProductTypeChange(notification.id, value)}>
+                              <SelectTrigger className="text-text-color">
+                                <SelectValue placeholder={getProductTypeInJapanese(notification.productType) || "製品タイプを選択"} />
+                              </SelectTrigger>
+                              <SelectContent className="text-text-color">
+                                <SelectItem value="lotion">化粧水</SelectItem>
+                                <SelectItem value="serum">美容液</SelectItem>
+                                <SelectItem value="cream">クリーム</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div>
+                            <Label htmlFor={`open_date-${notification.id}`}>開封日</Label>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button variant={"outline"} className="w-full justify-start text-left font-normal text-text-color">
+                                  <CalendarIcon className="mr-2 h-4 w-4 text-text-color" />
+                                  {notification.openDate ? format(notification.openDate, "yyyy年M月d日", { locale: ja }) : <span className="text-text-color/60">日付を選択</span>}
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0 text-text-color">
+                                <Calendar
+                                  mode="single"
+                                  selected={notification.openDate !== null ? notification.openDate : undefined}
+                                  onSelect={(date) => {
+                                    if (date !== undefined) {
+                                      handleOpenDateSelect(notification.id, date);
+                                    }
+                                  }}
+                                  initialFocus
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+                          <div>
+                            <Label htmlFor={`expiry_date-${notification.id}`}>使用期限</Label>
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                <Button variant={"outline"} className="w-full justify-start text-left font-normal text-text-color">
+                                  <CalendarIcon className="mr-2 h-4 w-4 text-text-color" />
+                                  {notification.expiryDate ? format(notification.expiryDate, "yyyy年M月d日", { locale: ja }) : <span className="text-text-color/60">日付を選択</span>}
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0 text-text-color">
+                                <Calendar
+                                  mode="single"
+                                  selected={notification.expiryDate !== null ? notification.expiryDate : undefined}
+                                  onSelect={(date) => {
+                                    setNotifications(notifications.map(n =>
+                                      notification.id ? { ...n, expiryDate: date !== undefined ? date : null } : n
+                                    ));
+                                  }}
+                                  initialFocus
+                                />
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+                          {index === 0 && notifications.length < 3 && (
+                            <div className="pt-2 pr-2 text-right cursor-pointer">
+                              <div onClick={addNotification}>＋追加</div>
+                              <div onClick={() => removeNotification(notification.id)}>×削除</div>
+                            </div>
+                          )}
+                          {index !== 0 && (
+                            <div className="pt-2 pr-2 text-right cursor-pointer">
+                              <div onClick={() => removeNotification(notification.id)}>×削除</div>
+                            </div>
+                          )}
+                          <button onClick={() => setEditingNotificationId(null)}>編集をキャンセル</button>
+                        </>
                       )}
                     </div>
                   </AccordionContent>

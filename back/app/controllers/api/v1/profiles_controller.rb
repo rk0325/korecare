@@ -23,7 +23,6 @@ module Api
 
       def show
         profile = Profile.find_or_create_by(user_id: current_user.id) do |new_profile|
-          # LINEから取得したユーザー情報を使用してプロファイルを初期化
           new_profile.name = current_user.name
           new_profile.avatar = current_user.avatar
         end

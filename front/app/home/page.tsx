@@ -152,7 +152,7 @@ export default function Home() {
             <div>
               <p className="my-2 text-lg">湿度</p>
               <p className="my-2 text-md">お肌に最適な湿度は、50〜60%といわれています。</p>
-              <p className="my-2 text-md">湿度が50%を下回っていたり、お肌の乾燥が気になった際はミスト化粧水やクリームを活用して、適度な保湿を心がけることをお勧めします。</p>
+              <p className="my-2 text-md">湿度が50%を下回っていたり、お肌の乾燥が気になった際はミスト化粧水やクリームなどを活用して、適度な保湿を心がけることをお勧めします。</p>
             </div>
           </div>
         </div>
