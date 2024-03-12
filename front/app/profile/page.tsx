@@ -616,12 +616,17 @@ export default function EditProfile() {
                 </AccordionItem>
               ))
             ) : (
-              <AccordionItem value="no-notifications">
-                <AccordionTrigger>通知設定</AccordionTrigger>
-                <AccordionContent>
-                  <div className="text-center py-4">通知設定がありません。</div>
-                </AccordionContent>
-              </AccordionItem>
+              <>
+                <AccordionItem value="no-notifications">
+                  <AccordionTrigger>使用期限通知設定</AccordionTrigger>
+                  <AccordionContent>
+                    <div className="text-center py-4">通知設定がありません。</div>
+                  </AccordionContent>
+                </AccordionItem>
+                <div className="pt-2 pr-2 text-right cursor-pointer">
+                  <div onClick={addNotification}>＋追加</div>
+                </div>
+              </>
             )}
           </Accordion>
           <div className="w-full pt-10 pb-4 flex justify-center" onClick={handleSubmit}>
