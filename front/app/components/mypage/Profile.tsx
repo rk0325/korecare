@@ -29,7 +29,7 @@ export const Profile = () => {
   }, [token]);
   const { profile, isLoading, isError } = useProfile();
 
-    const { data: notificationStatus } = useSWR<{ receive_notifications: boolean }>(
+  const { data: notificationStatus } = useSWR<{ receive_notifications_weather: boolean, receive_notifications_expiration_date: boolean }>(
     token ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/status` : null,
     () => fetcher(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/notifications/status`, headers)
   );
@@ -47,7 +47,8 @@ export const Profile = () => {
   const skinTrouble = profile?.skin_trouble || "";
   const avatar = profile?.avatar || session?.user?.image || '/default-avatar.png';
   const prefecture = profile?.prefecture || "";
-  const notificationEnabled = notificationStatus?.receive_notifications || false;
+  const weatherNotificationEnabled = notificationStatus?.receive_notifications_weather || false;
+  const expirationDateNotificationEnabled = notificationStatus?.receive_notifications_expiration_date || false;
 
   return (
     session ? (
@@ -88,8 +89,12 @@ export const Profile = () => {
                   <TableCell>{prefecture}</TableCell>
                 </TableRow>
                 <TableRow>
-                  <TableCell className="font-medium">LINE通知</TableCell>
-                  <TableCell>{notificationEnabled ? 'ON' : 'OFF'}</TableCell>
+                  <TableCell className="font-medium">紫外線 / 乾燥注意通知</TableCell>
+                  <TableCell>{weatherNotificationEnabled ? 'ON' : 'OFF'}</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell className="font-medium">使用期限通知</TableCell>
+                  <TableCell>{expirationDateNotificationEnabled ? 'ON' : 'OFF'}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
