@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useContext } from 'react';
-import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import { getSession } from 'next-auth/react'
 import { CosmeticsContext, CosmeticSet, ApiResponse } from '../../contexts/CosmeticsContext';
@@ -17,13 +16,23 @@ import {
 	Search,
 } from "lucide-react"
 
-const SearchForm = () => {
+interface SearchParams {
+  skinType: string;
+  skinTrouble: string;
+  priceRange: string;
+  productType: string;
+}
+
+interface SearchFormProps {
+  onSearch: (params: SearchParams) => void;
+}
+
+const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
   const [skinType, setSkinType] = useState("");
   const [skinTrouble, setSkinTrouble] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const { setCosmetics, setCosmeticSets } = useContext(CosmeticsContext);
   const { setIsLoading } = useContext(LoadingContext);
-  const router = useRouter()
   const [productType, setProductType] = useState('');
   const isSetSelected = productType === '化粧水・美容液・クリームセット';
 
@@ -39,6 +48,7 @@ const SearchForm = () => {
 
     setCosmetics([]);
     setCosmeticSets([]);
+    onSearch({ skinType, skinTrouble, priceRange, productType });
 
     const session = await getSession();
     const token = session?.accessToken;
@@ -72,13 +82,12 @@ const SearchForm = () => {
     };
 
     try {
-      const response = await axios.post<ApiResponse>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cosmetics_recommendation/search_cosmetics_for_logged_in_users`, UserData, {
+      const response = await axios.post<ApiResponse>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/search_cosmetics/for_logged_in_users`, UserData, {
         headers: headers,
         withCredentials: true
       });
 
       if (productType === '化粧水・美容液・クリームセット') {
-        // セット商品の情報を処理
         const cosmeticSets: CosmeticSet[] = response.data.map((set: any): CosmeticSet => ({
           lotion: set.lotion,
           serum: set.serum,
@@ -87,7 +96,6 @@ const SearchForm = () => {
         }));
         setCosmeticSets(cosmeticSets);
       } else {
-        // 単品商品の情報を処理
         const cosmetics: Cosmetic[] = response.data.map((item: any): Cosmetic => ({
           id: item.id,
           name: item.name,
@@ -113,11 +121,18 @@ const SearchForm = () => {
     }
   };
 
+  const resetForm = () => {
+    setSkinType("");
+    setSkinTrouble("");
+    setPriceRange("");
+    setProductType("");
+  };
+
   return (
     <div className='flex justify-center pt-8'>
       <form onSubmit={handleSubmit}>
         <div className='flex flex-col md:flex-row md:space-x-4 space-y-8 md:space-y-0'>
-          <Select onValueChange={value => setSkinType(value)}>
+          <Select value={skinType} onValueChange={value => setSkinType(value)}>
             <SelectTrigger className="w-[200px]">
               <SelectValue className="text-text-color" placeholder="肌質" />
             </SelectTrigger>
@@ -129,7 +144,7 @@ const SearchForm = () => {
               <SelectItem value="敏感肌">敏感肌</SelectItem>
             </SelectContent>
           </Select>
-          <Select onValueChange={value => setSkinTrouble(value)}>
+          <Select value={skinTrouble} onValueChange={value => setSkinTrouble(value)}>
             <SelectTrigger className="w-[200px]">
               <SelectValue className="text-text-color" placeholder="お悩み" />
             </SelectTrigger>
@@ -152,7 +167,7 @@ const SearchForm = () => {
               <SelectItem value="化粧水・美容液・クリームセット">化粧水・美容液・クリームセット</SelectItem>
             </SelectContent>
           </Select>
-          <Select disabled={isSetSelected} onValueChange={value => setPriceRange(value)}>
+          <Select value={priceRange} onValueChange={value => setPriceRange(value)} disabled={isSetSelected}>
             <SelectTrigger className="w-[200px]">
               <SelectValue className="text-text-color" placeholder="金額" />
             </SelectTrigger>
@@ -163,15 +178,21 @@ const SearchForm = () => {
               <SelectItem value="10,001円以上">10,001円以上</SelectItem>
             </SelectContent>
           </Select>
-          <div className="flex justify-center md:flex-row md:space-x-10">
+          <div className="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4">
             <button
               type="submit"
               className={`btn-506D7D flex justify-center items-center rounded-md h-[40px] w-[80px] ${!skinTrouble || !productType ? 'opacity-50 cursor-not-allowed' : ''}`}
               disabled={!skinTrouble || !productType}
-              onClick={() => router.push('/search_result')}
             >
               <Search size={18} className="mr-2" />
               検索
+            </button>
+            <button
+              type="button"
+              className="btn-506D7D flex justify-center items-center rounded-md h-[40px] w-[80px]"
+              onClick={resetForm}
+            >
+              リセット
             </button>
           </div>
         </div>

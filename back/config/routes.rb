@@ -10,9 +10,10 @@ Rails.application.routes.draw do
       resources :favorite_cosmetics, only: [:create, :index, :destroy]
       resources :cosmetic_usages, only: [:create, :index, :destroy]
 
-      namespace :cosmetics_recommendation do
-        post :search_cosmetics_for_guests
-        post :search_cosmetics_for_logged_in_users
+      namespace :search_cosmetics do
+        post :for_guests
+        post :for_logged_in_users
+        post :recommendations
       end
 
       resource :notifications, only: [] do
