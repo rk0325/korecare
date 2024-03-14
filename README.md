@@ -1,5 +1,5 @@
 ## ■サービス概要
-### [KoreCare](https://korecare.vercel.app/)
+### [KoreCare（コリケア）](https://korecare.vercel.app/)
 韓国コスメに特化した、ユーザーのスキンケアをサポートするサービスです。
 
 具体的には、
@@ -22,8 +22,7 @@
 
 ## ■サービスの利用イメージ
 - 肌質やお悩み別の韓国コスメ検索機能、ユーザー一人ひとりに合ったレコメンド機能を提供することで、韓国コスメを使用したことがない方が最初の一歩を踏み出すきっかけづくりができればと考えております。
-- LINE通知による「紫外線 / 乾燥注意通知」「使用期限通知」を受け取ることができたり、お気に入りのコスメや合わなかったコスメを記録しておくことで、ユーザーに自身のスキンケアについてより関心を持っていただき、ユーザーの皆さんの美肌づくりをサポートできたら嬉しいです。
-- レビュー投稿機能を通して、他のユーザーが使用しているコスメの情報を知ることができたり、コメントをすることでユーザー同士のコミュニケーションを促せればと考えております。
+- LINE通知による「紫外線 / 乾燥注意通知」「使用期限通知」を受け取ることができたり、お気に入りのコスメを記録しておくことで、ユーザーに自身のスキンケアについてより関心を持っていただき、ユーザーの皆さんの美肌づくりをサポートできたら嬉しいです。
 
 ## ■ユーザーの獲得について
 - K-POPや韓国アイドルの日本での人気の高まりを受けて、韓国コスメを使用している、または使用したことがないけれど興味はある、という方は一定数いると考えております。SNSでの宣伝をはじめ、トップページでのデモ診断機能や、Q＆Aページにて韓国コスメの人気の理由、使い方をご説明することで、ユーザー登録を促せればと考えております。
@@ -64,7 +63,7 @@
 ## ■本リリース時に実装を予定している機能
 ### LINE通知
 - 使用期限通知：スキンケアコスメの開封日と、使用期限をあらかじめ登録しておいたら「そろそろ替え時ですよ」と通知
-  - 登録日の何日前に通知するかを選択できるようにする
+  - 使用期限の5日前・3日前・前日に通知
 
 ### レコメンド
 - ユーザーが検索した商品に関連する商品を検索結果ページに表示
@@ -77,28 +76,20 @@
 - 投稿内に商品リンクを貼り、直接購入できるようにする
 - レビューは５段階評価を予定
 - 自分だけが見たい投稿と、他のユーザーも閲覧できる投稿で分けられるようにする
-- ブックマーク / コメント
-  - ユーザーは他のユーザーの投稿をブックマークできる
-  - ユーザーは他のユーザーの投稿にコメントできる
-
-### レビュー投稿のブックマーク登録 / 編集 / 削除 / 一覧
-- 他のユーザーのレビュー投稿のブックマークを合わせた一覧
 
 ### タグ付け / 検索
-- 投稿に肌質・お悩み・年代でタグを付けられ、ユーザーはタグで投稿を検索できる
-
-### 合わなかったコスメ登録 / 編集 / 削除 / 一覧
-- 「このスキンケアコスメを使ったらニキビができた」など、スキンケアコスメの情報とコメントを記録できるようにする
-- アプリ内でレコメンドされたスキンケアコスメ以外でも記録できる
+- レビュー投稿に肌質・お悩み・年代でタグを付けられ、ユーザーはタグで投稿を検索できる
 
 ### その他
 - レビュー投稿のX（旧Twitter）シェア
-- テスト（RSpec）
 
-## ■現在検討している追加サービス案
-- 人気の韓国コスメ、新しい韓国コスメ、メガ割などのセール情報の提供
-- 韓国アイドルが使用している韓国コスメ情報の提供
-  - 提供方法は、LINE通知もしくはレビュー投稿一覧の中に私自身が調査の上、情報を投稿して提供
+## ■今後の開発について
+### ランキング
+- お気に入りの数が多い順でランキング
+- レビュー評価の高い順でランキング
+
+### その他
+- テスト（RSpec）
 
 ## ■使用技術
 |カテゴリ|技術|
@@ -119,14 +110,9 @@
 erDiagram
 Users ||--|| Profiles : has
 Users ||--o{ FavoriteCosmetics : favorites
-Users ||--o{ NotFavoriteCosmetics : has
 Users ||--o{ Reviews : creates
-Users ||--o{ Bookmarks : bookmarks
 Users ||--o{ CosmeticUsage : has
-Users ||--o{ Comments : posts
 FavoriteCosmetics ||--|| Reviews : has
-Reviews ||--o{ Comments : has
-Reviews ||--o{ Bookmarks : has
 Reviews ||--o{ ReviewTags : has
 Tags ||--o{ ReviewTags : has
 
@@ -178,19 +164,6 @@ FavoriteCosmetics {
   datetime updated_at
 }
 
-NotFavoriteCosmetics {
-  bigint id PK
-  bigint user_id FK
-  string name
-  string brand
-  string price
-  string item_url
-  string image_url
-  text comment
-  datetime created_at
-  datetime updated_at
-}
-
 CosmeticUsage {
   bigint id PK
   bigint user_id FK
@@ -210,23 +183,6 @@ Reviews {
   text body
   string item_url
   string visibility
-  datetime created_at
-  datetime updated_at
-}
-
-Comments {
-  bigint id PK
-  bigint user_id FK
-  bigint review_id FK
-  text body
-  datetime created_at
-  datetime updated_at
-}
-
-Bookmarks {
-  bigint id PK
-  bigint user_id FK
-  bigint review_id FK
   datetime created_at
   datetime updated_at
 }
