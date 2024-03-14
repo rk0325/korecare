@@ -6,6 +6,10 @@ class CosmeticExpiryNotificationJob < ApplicationJob
   end
 
   def perform
-    CosmeticExpiryNotificationService.send_notification
+    User.find_each do |user|
+      next unless user.receive_notifications_expiration_date
+
+      CosmeticExpiryNotificationService.send_notification(user)
+    end
   end
 end

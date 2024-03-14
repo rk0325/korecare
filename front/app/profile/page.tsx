@@ -116,9 +116,15 @@ export default function EditProfile() {
     const token = session?.accessToken;
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-    const isValid = notifications.every(notification => notification.productType && notification.openDate && notification.expiryDate);
+    const isPartiallyFilled = notifications.some(notification => {
+      const hasProductType = !!notification.productType;
+      const hasOpenDate = !!notification.openDate;
+      const hasExpiryDate = !!notification.expiryDate;
+      const isPartiallyFilled = (hasProductType || hasOpenDate || hasExpiryDate) && !(hasProductType && hasOpenDate && hasExpiryDate);
+      return isPartiallyFilled;
+    });
 
-    if (!isValid) {
+    if (isPartiallyFilled) {
       toast.error('使用期限通知は全ての項目を入力してください');
       return;
     }
@@ -267,8 +273,18 @@ export default function EditProfile() {
     }
   };
 
-  const removeNotification = (id: number) => {
-    setNotifications(notifications.filter(notification => notification.id !== id));
+  const removeNotification = async (id: number) => {
+    try {
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/cosmetic_usages/${id}`, {
+        withCredentials: true,
+        headers: headers,
+      });
+      setNotifications(notifications.filter(notification => notification.id !== id));
+      toast.success('通知設定を削除しました');
+    } catch (error) {
+      console.error('通知設定の削除に失敗しました:', error);
+      toast.error('通知設定の削除に失敗しました');
+    }
   };
 
   const handleProductTypeChange = (id: number, productType: string) => {
@@ -623,7 +639,7 @@ export default function EditProfile() {
                           {index === 0 && notifications.length < 3 && (
                             <div className="pt-2 pr-2 text-right cursor-pointer">
                               <div onClick={addNotification}>＋追加</div>
-                              <div onClick={() => removeNotification(notification.id)}>×削除</div>
+                              <div className="pt-2" onClick={() => removeNotification(notification.id)}>×削除</div>
                             </div>
                           )}
                           {index !== 0 && (
@@ -631,7 +647,9 @@ export default function EditProfile() {
                               <div onClick={() => removeNotification(notification.id)}>×削除</div>
                             </div>
                           )}
-                          <button onClick={() => setEditingNotificationId(null)}>編集をキャンセル</button>
+                          <div className="pt-2 pr-2 text-right cursor-pointer">
+                            <div onClick={() => setEditingNotificationId(null)}>編集をキャンセル</div>
+                          </div>
                         </>
                       )}
                     </div>
