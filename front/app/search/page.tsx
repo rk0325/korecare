@@ -2,6 +2,8 @@
 import React, { useState } from 'react'
 import { useSession } from 'next-auth/react'
 import SearchForm from '../components/search/SearchForm';
+import SearchResult from '../components/search/SearchResult';
+import RecommendedCosmetics from '../components/search/RecommendedCosmetics';
 import {
 	AlertTriangle,
 	AlertCircle,
@@ -14,9 +16,26 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-export default function Home() {
+interface SearchParams {
+  skinType: string;
+  skinTrouble: string;
+  priceRange: string;
+  productType: string;
+}
+
+export default function Search() {
 	const { data: session } = useSession();
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [searchParams, setSearchParams] = useState({
+    skinType: '',
+    skinTrouble: '',
+    priceRange: '',
+    productType: '',
+	});
+
+	const handleSearch = (params: SearchParams) => {
+    setSearchParams(params);
+  };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -52,9 +71,12 @@ export default function Home() {
 								<AlertTriangle className="mr-1 h-5 w-5" />
 								<p className='marked-text'>「お悩み」と「形態」は選択必須項目です。</p>
 							</div>
+							<p>検索結果が表示されない場合、該当商品がない可能性があります。条件を変更して検索してみてください。</p>
 						</div>
 					</div>
-					<SearchForm />
+					<SearchForm onSearch={handleSearch} />
+					<SearchResult />
+					<RecommendedCosmetics searchParams={searchParams} />
 				</div>
 			</>
 		) : null

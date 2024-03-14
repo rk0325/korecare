@@ -1,8 +1,7 @@
 'use client';
 import React, { useContext, useState, useCallback, useMemo } from 'react';
-import Link from 'next/link';
-import { CosmeticsContext, Cosmetic } from '../contexts/CosmeticsContext';
-import { LoadingContext } from '../contexts/LoadingContext';
+import { CosmeticsContext, Cosmetic } from '../../contexts/CosmeticsContext';
+import { LoadingContext } from '../../contexts/LoadingContext';
 import CustomButton from '@/components/ui/custom-button';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
@@ -10,7 +9,7 @@ import axios from 'axios';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
 import { PulseLoader } from 'react-spinners';
 
-export default function SearchResult() {
+const SearchResult = () => {
 	const { cosmetics, cosmeticSets } = useContext(CosmeticsContext);
 	const { isLoading } = useContext(LoadingContext);
 	const { data: session } = useSession();
@@ -82,15 +81,7 @@ export default function SearchResult() {
   }
 
 	return (
-		<div className='p-6'>
-			<p className="text-xl text-center justify-between custom-marked-text">
-				あなたにおすすめの<br />韓国コスメはこちら！
-			</p>
-			<Link href='/search'>
-				<div className="flex justify-center pt-14 pb-6">
-					<CustomButton colorClass="btn-506D7D">もう一度検索する</CustomButton>
-				</div>
-			</Link>
+		<div className='pt-4'>
 			{isLoading ? (
 				<div className="flex justify-center min-h-screen pt-20">
 					<PulseLoader color="#506D7D" />
@@ -104,7 +95,7 @@ export default function SearchResult() {
 								if (filteredCosmetics.length > 0) {
 									return (
 										<div key={category} className="flex justify-center">
-											<div className="w-full max-w-4xl p-2">
+											<div className="w-full max-w-4xl">
 												<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center'>
 													{filteredCosmetics.map((cosmetic, index) => (
 														<div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>
@@ -151,7 +142,7 @@ export default function SearchResult() {
 							})}
 							{cosmeticSets && cosmeticSets.length > 0 && (
 								<div className="flex justify-center">
-									<div className="w-full max-w-4xl p-2">
+									<div className="w-full max-w-4xl">
 										{cosmeticSets.map((set, index) => (
 											<div key={index} className="mb-4">
 												<p className="text-lg">合計金額: {set.total_price}円</p>
@@ -205,12 +196,11 @@ export default function SearchResult() {
 								</div>
 							)}
 						</>
-					) : (
-						<p className='text-md text-center pt-4'>検索結果が表示されない場合、<br />
-							該当商品がない可能性があります。<br />条件を変更して検索してみてください。</p>
-					)}
+					) : null}
 				</>
 			)}
 		</div>
 	);
 }
+
+export default SearchResult;

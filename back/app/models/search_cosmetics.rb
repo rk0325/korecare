@@ -1,4 +1,4 @@
-class CosmeticsRecommendation
+class SearchCosmetics
 
   COMMON_NG_KEYWORDS = '詰め替え マスク パッド ミスト セット %洗顔% 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛% ボディ% アイクリーム スポット リップ% シャンプー %落とし ブースター'.freeze
 
@@ -32,7 +32,7 @@ class CosmeticsRecommendation
     '化粧水・美容液・クリームセット' => ['フェイスクリーム', 'ヘザーカーミングエッセンス'],
   }.freeze
 
-  def self.search_cosmetics_for_guests(skin_type, skin_trouble)
+  def self.for_guests(skin_type, skin_trouble)
     genre_id = "562084"
     tag_id = SKIN_TYPE_TAGS[skin_type]
     elements = "itemCode,itemName,itemPrice,imageUrl,itemUrl"
@@ -66,7 +66,7 @@ class CosmeticsRecommendation
     results
   end
 
-  def self.search_cosmetics_for_logged_in_users(skin_type, skin_trouble, price_range, product_type)
+  def self.for_logged_in_users(skin_type, skin_trouble, price_range, product_type)
     genre_id = "562084"
     tag_id = SKIN_TYPE_TAGS[skin_type]
     trouble_tag_ids = Array(SKIN_TROUBLE_TAGS[skin_trouble])
@@ -189,6 +189,42 @@ class CosmeticsRecommendation
       hits: 1,
       purchaseType: 0
     ).to_a.map do |item|
+      {
+        id: item['itemCode'],
+        itemName: item['itemName'],
+        itemPrice: item['itemPrice'],
+        itemUrl: item['itemUrl'],
+        mediumImageUrl: item['mediumImageUrls'].first,
+        shopName: item['shopName'],
+      }
+    end
+  end
+
+  def self.recommendations(skin_type, skin_trouble)
+    genre_id = "562084"
+    tag_id = SKIN_TYPE_TAGS[skin_type]
+    elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl,shopName"
+    ng_keywords = COMMON_NG_KEYWORDS
+
+    recommend_keywords = ['美容液', 'クリーム', '化粧水']
+    recommend_results = []
+
+    recommend_keywords.each do |keyword|
+      search_results = RakutenWebService::Ichiba::Item.search(
+        keyword: "公式 #{keyword}",
+        genreId: genre_id,
+        tagId: tag_id,
+        NGKeyword: ng_keywords,
+        elements: elements,
+        formatVersion: 2,
+        sort: 'standard',
+        hits: 3,
+        purchaseType: 0
+      ).to_a
+      recommend_results.concat(search_results)
+    end
+
+    recommend_results.sample(5).map do |item|
       {
         id: item['itemCode'],
         itemName: item['itemName'],
