@@ -86,7 +86,6 @@ const handler = NextAuth({
         }
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          // AxiosErrorの場合、error.responseやerror.requestを安全にアクセスできる
           if (error.response) {
             console.error("Response data:", error.response.data);
             console.error("Response status:", error.response.status);
@@ -97,10 +96,8 @@ const handler = NextAuth({
             console.error("Error message:", error.message);
           }
         } else if (error instanceof Error) {
-          // 一般的なErrorインスタンスの場合
           console.error("Error:", error.message);
         } else {
-          // それ以外の未知のエラータイプ
           console.error("An unknown error occurred");
         }
         return false;
