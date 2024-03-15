@@ -13,11 +13,11 @@ const SecondDemonstration = () => {
   const handleSkinTroubleChange = (value: string) => {
     setSkinTrouble(value);
     setIsSkinTroubleSelected(true);
-	};
+  };
 
   const handleSubmit = () => {
-		console.log(skinTrouble)
-	}
+    console.log(skinTrouble)
+  }
 
   return (
     <>

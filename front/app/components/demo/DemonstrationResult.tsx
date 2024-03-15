@@ -27,7 +27,7 @@ type Cosmetic = {
 };
 
 const DemonstrationResult = () => {
-	const { skinType, skinTrouble } = useContext(UserInfoContext);
+  const { skinType, skinTrouble } = useContext(UserInfoContext);
   const [cosmetics, setCosmetics] = useState<Cosmetic[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [loginButtonImage, setLoginButtonImage] = useState('/btn_login_base.png');
@@ -45,8 +45,8 @@ const DemonstrationResult = () => {
       setIsLoading(true);
       try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/search_cosmetics/for_guests`, {
-					skin_type: skinType,
-					skin_trouble: skinTrouble
+          skin_type: skinType,
+          skin_trouble: skinTrouble
         });
         setCosmetics(response.data);
       } catch (error) {

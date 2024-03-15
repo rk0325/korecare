@@ -29,59 +29,59 @@ interface RecommendedCosmeticsProps {
 
 const RecommendedCosmetics: React.FC<RecommendedCosmeticsProps> = ({ searchParams }) => {
   const [recommendedCosmetics, setRecommendedCosmetics] = useState<Cosmetic[]>([]);
-	const { data: session } = useSession();
+  const { data: session } = useSession();
   const token = session?.accessToken;
-	const headers = useMemo(() => {
-		return token ? { Authorization: `Bearer ${token}` } : {};
+  const headers = useMemo(() => {
+    return token ? { Authorization: `Bearer ${token}` } : {};
   }, [token]);
   const [favoriteStatus, setFavoriteStatus] = useState(new Map());
 
   const addToFavorites = useCallback(async (cosmetic: Cosmetic) => {
-		const favoriteCosmetic = {
-			favorite_cosmetic: {
-				user_id: session?.user?.id,
-				item_code: cosmetic.id,
-				name: cosmetic.itemName,
-				brand: cosmetic.shopName,
-				price: cosmetic.itemPrice,
-				item_url: cosmetic.itemUrl,
-				image_url: cosmetic.mediumImageUrl,
-			}
-		};
+    const favoriteCosmetic = {
+      favorite_cosmetic: {
+        user_id: session?.user?.id,
+        item_code: cosmetic.id,
+        name: cosmetic.itemName,
+        brand: cosmetic.shopName,
+        price: cosmetic.itemPrice,
+        item_url: cosmetic.itemUrl,
+        image_url: cosmetic.mediumImageUrl,
+      }
+    };
 
-		try {
-			const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, favoriteCosmetic, {
-				headers: headers,
-				withCredentials: true
-			});
-			console.log(response.data);
-		} catch (error) {
-			console.error(error);
-		}
-	}, [headers, session?.user?.id]);
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, favoriteCosmetic, {
+        headers: headers,
+        withCredentials: true
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [headers, session?.user?.id]);
 
-	const removeFromFavorites = useCallback(async (cosmeticId: string) => {
-		try {
-			const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics/${cosmeticId}`, {
-				headers: headers,
-				withCredentials: true
-			});
-			console.log(response.data);
-		} catch (error) {
-			console.error(error);
-		}
-	}, [headers]);
+  const removeFromFavorites = useCallback(async (cosmeticId: string) => {
+    try {
+      const response = await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics/${cosmeticId}`, {
+        headers: headers,
+        withCredentials: true
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, [headers]);
 
-	const toggleFavorite = useCallback(async (cosmetic: Cosmetic) => {
-		const currentStatus = favoriteStatus.get(cosmetic.id) || cosmetic.isFavorite;
-		if (currentStatus) {
-			await removeFromFavorites(cosmetic.id);
-			setFavoriteStatus(prevStatus => new Map(prevStatus).set(cosmetic.id, false));
-		} else {
-			await addToFavorites(cosmetic);
-			setFavoriteStatus(prevStatus => new Map(prevStatus).set(cosmetic.id, true));
-		}
-	}, [favoriteStatus, setFavoriteStatus, addToFavorites, removeFromFavorites]);
+  const toggleFavorite = useCallback(async (cosmetic: Cosmetic) => {
+    const currentStatus = favoriteStatus.get(cosmetic.id) || cosmetic.isFavorite;
+    if (currentStatus) {
+      await removeFromFavorites(cosmetic.id);
+      setFavoriteStatus(prevStatus => new Map(prevStatus).set(cosmetic.id, false));
+    } else {
+      await addToFavorites(cosmetic);
+      setFavoriteStatus(prevStatus => new Map(prevStatus).set(cosmetic.id, true));
+    }
+  }, [favoriteStatus, setFavoriteStatus, addToFavorites, removeFromFavorites]);
 
   useEffect(() => {
     const hasSearchParams = Object.values(searchParams).some(param => param !== '');
