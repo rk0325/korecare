@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import {
-	Search,
+  Search,
 } from "lucide-react"
 
 interface SearchParams {

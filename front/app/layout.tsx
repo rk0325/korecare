@@ -18,15 +18,15 @@ export const metadata: Metadata = {
   title: 'KoreCare | 韓国コスメのスキンケア情報サービス',
   description: 'KoreCareは、韓国コスメに特化した毎日のスキンケアをサポートするサービスです。',
   openGraph: {
-		title: 'KoreCare | 韓国コスメのスキンケア情報サービス',
+    title: 'KoreCare | 韓国コスメのスキンケア情報サービス',
     description: '韓国コスメのスキンケア情報サービス',
     siteName: "KoreCare",
-	},
-	twitter: {
-		title: 'KoreCare | 韓国コスメのスキンケア情報サービス',
-		description: '韓国コスメのスキンケア情報サービス',
+  },
+  twitter: {
+    title: 'KoreCare | 韓国コスメのスキンケア情報サービス',
+    description: '韓国コスメのスキンケア情報サービス',
     card: 'summary_large_image',
-	},
+  },
 }
 
 export default function RootLayout({
