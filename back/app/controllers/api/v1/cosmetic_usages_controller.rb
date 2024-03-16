@@ -4,6 +4,17 @@ module Api
       before_action :set_current_user
 
       def create
+        existing_cosmetic_usage = @current_user.cosmetic_usages.find_by(
+          item_type: cosmetic_usage_params[:item_type],
+          open_date: cosmetic_usage_params[:open_date],
+          expiry_date: cosmetic_usage_params[:expiry_date]
+        )
+
+        if existing_cosmetic_usage
+          render json: { error: '同じ使用期限設定が既に存在します。' }, status: :unprocessable_entity
+          return
+        end
+
         cosmetic_usage = @current_user.cosmetic_usages.build(cosmetic_usage_params)
 
         if cosmetic_usage.save
@@ -16,6 +27,16 @@ module Api
       def index
         cosmetic_usages = @current_user.cosmetic_usages
         render json: cosmetic_usages
+      end
+
+      def update
+        cosmetic_usage = @current_user.cosmetic_usages.find(params[:id])
+
+        if cosmetic_usage.update(cosmetic_usage_params)
+          render json: cosmetic_usage
+        else
+          render json: cosmetic_usage.errors, status: :unprocessable_entity
+        end
       end
 
       def destroy
