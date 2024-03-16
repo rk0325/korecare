@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_12_094159) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_16_211745) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,6 +61,34 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_12_094159) do
     t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
+  create_table "review_tags", force: :cascade do |t|
+    t.bigint "review_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_id"], name: "index_review_tags_on_review_id"
+    t.index ["tag_id"], name: "index_review_tags_on_tag_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "favorite_cosmetic_id", null: false
+    t.integer "rating"
+    t.string "title"
+    t.text "body"
+    t.boolean "visibility"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["favorite_cosmetic_id"], name: "index_reviews_on_favorite_cosmetic_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "tag_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "provider"
     t.string "uid"
@@ -77,4 +105,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_12_094159) do
   add_foreign_key "favorite_cosmetics", "users"
   add_foreign_key "profiles", "addresses"
   add_foreign_key "profiles", "users"
+  add_foreign_key "review_tags", "reviews"
+  add_foreign_key "review_tags", "tags"
+  add_foreign_key "reviews", "favorite_cosmetics"
+  add_foreign_key "reviews", "users"
 end
