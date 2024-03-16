@@ -5,5 +5,5 @@ class Review < ApplicationRecord
   has_many :review_tags
   has_many :tags, through: :review_tags
 
-  enum rating: { very_bad: 1, bad: 2, average: 3, good: 4, very_good: 5 }
+  enum rating: { very_bad: 1, bad: 2, medium: 3, good: 4, very_good: 5 }
 end
