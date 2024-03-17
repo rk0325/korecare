@@ -118,9 +118,9 @@ Tags ||--o{ ReviewTags : has
 
 Users {
   bigint id PK
-  string name
   string provider "UNIQUE"
   string uid "UNIQUE"
+  string name
   string avatar
   boolean receive_notifications_weather
   boolean receive_notifications_expiration_date
@@ -164,12 +164,12 @@ FavoriteCosmetics {
   datetime updated_at
 }
 
-CosmeticUsage {
+CosmeticUsages {
   bigint id PK
   bigint user_id FK
   integer item_type
-  datetime open_date
-  datetime expiry_date
+  date open_date
+  date expiry_date
   datetime created_at
   datetime updated_at
 }
@@ -178,11 +178,10 @@ Reviews {
   bigint id PK
   bigint user_id FK
   bigint favorite_cosmetic_id FK
-  string rating
+  integer rating
   string title
   text body
-  string item_url
-  string visibility
+  boolean visibility
   datetime created_at
   datetime updated_at
 }
@@ -196,6 +195,7 @@ Tags {
 
 ReviewTags {
   bigint id FK
+  bigint review_id FK
   bigint tag_id FK
   datetime created_at
   datetime updated_at
