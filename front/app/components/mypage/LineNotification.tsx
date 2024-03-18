@@ -10,18 +10,18 @@ from "lucide-react"
 export const LineNotification = () => {
   return (
     <>
-      <div className="flex items-start text-lg">
+      <div className="flex items-start text-md">
         <Sun className="mr-2 h-6 w-6" />
         <span className='marked-text'>紫外線 / 乾燥注意通知</span>
       </div>
       <p className='pt-2'>お住まいをもとに、毎朝10時にUV指数と湿度の情報をお届けします。</p>
-      <div className="flex items-start pt-6 text-lg">
+      <div className="flex items-start pt-6 text-md">
         <Hourglass className="mr-2 h-6 w-6" />
         <span className='marked-text'>使用期限通知</span>
       </div>
-      <p className='pt-2'>開封日・使用期限をもとに、スキンケアコスメの替え時を通知します。</p>
+      <p className='pt-2'>開封日・使用期限をもとに、スキンケアコスメの替え時を通知します。使用期限はコスメによって異なりますが、3ヶ月から1年ほどといわれています。ご使用の際は商品ページをご確認ください。</p>
       <div>
-        <div className="flex items-start pt-6 text-lg">
+        <div className="flex items-start pt-6 text-md">
           <CheckSquare2 className="mr-2 h-6 w-6" />
           <span className='marked-text'>通知の設定方法</span>
         </div>

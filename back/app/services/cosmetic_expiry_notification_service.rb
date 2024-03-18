@@ -15,11 +15,11 @@ class CosmeticExpiryNotificationService
 
         message = case days_before_expiry
                   when 5
-                    "【お知らせ】\n現在使用している「#{item_type_japanese}」の使用期限が5日後になりました！"
+                    "【お知らせ】\n現在使用している「#{item_type_japanese}」の使用期限が5日後になりました！\nhttps://korecare.vercel.app/"
                   when 3
-                    "【お知らせ】\n現在使用している「#{item_type_japanese}」の使用期限が3日後になりました！"
+                    "【お知らせ】\n現在使用している「#{item_type_japanese}」の使用期限が3日後になりました！\nhttps://korecare.vercel.app/"
                   when 1
-                    "【お知らせ】\n現在使用している「#{item_type_japanese}」の使用期限が明日になりました！"
+                    "【お知らせ】\n現在使用している「#{item_type_japanese}」の使用期限が明日になりました！\nhttps://korecare.vercel.app/"
                   else
                     next
                   end
