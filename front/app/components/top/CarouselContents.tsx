@@ -21,7 +21,7 @@ const CarouselContents = () => {
                 <p className="text-text-color text-center text-xl mb-2 marked-text">KoreCareでできること</p>
                 <p className="text-text-color text-center pb-4">お悩みや肌質別に韓国コスメを検索。</p>
                 <p className="text-text-color text-center text-sm pb-1">あなたにピッタリの韓国コスメを探そう！</p>
-                <Image src="/recommend.png" alt="Image" width={200} height={200} />
+                <Image src="/search.png" alt="Image" width={200} height={200} />
               </CardContent>
             </Card>
           </CarouselItem>
