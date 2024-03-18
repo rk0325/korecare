@@ -1,8 +1,6 @@
 'use client';
 import React, { useState, useContext } from 'react';
-import { getSession } from 'next-auth/react'
 import { LoadingContext } from '../../contexts/LoadingContext';
-import toast from 'react-hot-toast';
 import {
   Select,
   SelectContent,
@@ -47,7 +45,7 @@ const ReviewSearchForm: React.FC<ReviewSearchFormProps> = ({ onSearch }) => {
   };
 
   return (
-    <div className='flex justify-center pt-8'>
+    <div className='flex justify-center'>
       <form onSubmit={handleSubmit}>
         <div className='flex flex-col md:flex-row md:space-x-4 space-y-8 md:space-y-0'>
           <Select value={skinType} onValueChange={value => setSkinType(value)}>

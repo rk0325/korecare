@@ -65,6 +65,13 @@ class ApplicationController < ActionController::API
       http.request(request)
     end
 
+    if response.code != "200"
+      Rails.logger.error "LINE API Error: #{response.body}"
+      render json: { error: 'Failed to fetch user info from LINE', details: response.body }, status: :internal_server_error
+      return
+    end
+
+    Rails.logger.info "LINE API Response: #{response.body}"
     JSON.parse(response.body)
   end
 end

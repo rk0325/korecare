@@ -44,6 +44,7 @@ import {
 } from "@/components/ui/popover"
 import {
   Dialog,
+  DialogTrigger,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -637,33 +638,33 @@ export default function EditProfile() {
                               </PopoverContent>
                             </Popover>
                           </div>
-                          <Dialog open={isDeleteDialogOpen}>
-                            <DialogContent className="text-text-color">
-                              <DialogHeader>
-                                <DialogTitle>本当に削除しますか？</DialogTitle>
-                                <DialogDescription className="text-text-color">
-                                  この操作は元に戻せません。本当にこの通知設定を削除してもよろしいですか？
-                                </DialogDescription>
-                              </DialogHeader>
-                              <DialogFooter>
-                                <button className="bg-F5F5F5 text-48352F hover:bg-E0DBD2 rounded-lg h-[40px] w-[100px] mr-1" onClick={() => setIsDeleteDialogOpen(false)}>キャンセル</button>
-                                <button className="btn-506D7D rounded-lg h-[40px] w-[60px]" onClick={() => {
-                                  if (deletingNotificationId !== null) removeNotification(deletingNotificationId);
-                                  setIsDeleteDialogOpen(false);
-                                }}>削除</button>
-                              </DialogFooter>
-                            </DialogContent>
-                          </Dialog>
-                          {index === 0 && notifications.length < 3 && (
+                          {notifications.length < 3 && (
                             <div className="pr-2 text-right cursor-pointer">
                               <div onClick={addNotification}>＋追加</div>
-                              <div className="pt-2" onClick={() => openDeleteDialog(notification.id)}>×削除</div>
                             </div>
                           )}
-                          {index !== 0 && (
+                          {notifications.length > 0 && (
                             <div className="pr-2 text-right cursor-pointer">
-                              <div onClick={addNotification}>＋追加</div>
-                              <div className="pt-2" onClick={() => openDeleteDialog(notification.id)}>×削除</div>
+                              <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+                                <DialogTrigger asChild>
+                                  <div className="pt-2 text-c94a4a" onClick={() => openDeleteDialog(notification.id)}>×削除</div>
+                                </DialogTrigger>
+                                <DialogContent className="font-genjyuu text-text-color">
+                                  <DialogHeader>
+                                    <DialogTitle>本当に削除しますか？</DialogTitle>
+                                    <DialogDescription className="text-text-color pt-2">
+                                      この操作は元に戻せません。<br />本当にこの通知設定を削除してもよろしいですか？
+                                    </DialogDescription>
+                                  </DialogHeader>
+                                  <DialogFooter className="flex justify-center items-center pt-2">
+                                    <button className="bg-F5F5F5 text-48352F hover:bg-E0DBD2 rounded-lg h-[40px] px-4 min-w-[60px] mr-1 mb-2" onClick={() => setIsDeleteDialogOpen(false)}>キャンセル</button>
+                                    <button className="mb-2 btn-506D7D rounded-lg h-[40px] px-4 min-w-[60px]" onClick={() => {
+                                      if (deletingNotificationId !== null) removeNotification(deletingNotificationId);
+                                      setIsDeleteDialogOpen(false);
+                                    }}>削除</button>
+                                  </DialogFooter>
+                                </DialogContent>
+                              </Dialog>
                             </div>
                           )}
                           <div className="pt-2 pr-2 text-right cursor-pointer">

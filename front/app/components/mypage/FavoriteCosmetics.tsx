@@ -7,7 +7,7 @@ import useSWR from 'swr';
 import axios from 'axios';
 import ReviewForm from './ReviewForm';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
-import { PulseLoader } from 'react-spinners';
+import { SyncLoader } from 'react-spinners';
 import CustomButton from '@/components/ui/custom-button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
@@ -127,7 +127,7 @@ export const FavoriteCosmetics = () => {
     <div className='pb-10'>
       {isLoading ? (
         <div className="flex justify-center min-h-screen pt-20">
-          <PulseLoader color="#506D7D" />
+          <SyncLoader color="#506D7D" />
         </div>
       ) : (
         categories.map((category) => {
@@ -185,9 +185,9 @@ export const FavoriteCosmetics = () => {
                               </CustomButton>
                             </div>
                           </SheetTrigger>
-                          <SheetContent side="bottom">
+                          <SheetContent side="bottom" className="sheetContent">
                             <SheetHeader>
-                              <SheetTitle className='text-text-color text-center pt-10'>レビューを書く</SheetTitle>
+                              <SheetTitle className='text-2xl md:text-3xl font-genjyuu text-text-color text-center pt-10'>レビューを書く</SheetTitle>
                             </SheetHeader>
                             <ReviewForm />
                             <SheetFooter>

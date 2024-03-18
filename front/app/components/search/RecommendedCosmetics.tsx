@@ -108,7 +108,7 @@ const RecommendedCosmetics: React.FC<RecommendedCosmeticsProps> = ({ searchParam
       {recommendedCosmetics.length > 0 && (
         <div className="flex justify-center">
           <div className='mt-4 w-full max-w-4xl justify-center'>
-            <h2 className='text-xl font-semibold mb-4'>こちらもおすすめ</h2>
+            <h2 className='text-xl md:text-2xl font-semibold mb-4'>こちらもおすすめ</h2>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
               {recommendedCosmetics.map((cosmetic, index) => (
                 <div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>

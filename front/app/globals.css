@@ -135,7 +135,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
+    z-index: 40;
   }
 }
 
@@ -176,4 +176,10 @@
 
 .custom-table-border {
   border-color: var(--table-border-color);
+}
+
+.sheetContent {
+  max-width: 100vw;
+  padding: 0 5vw;
+  box-sizing: border-box;
 }
