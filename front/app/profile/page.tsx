@@ -575,7 +575,38 @@ export default function EditProfile() {
                           <div>製品タイプ: {getProductTypeInJapanese(notification.productType)}</div>
                           <div>開封日: {notification.openDate ? format(notification.openDate, "yyyy年M月d日", { locale: ja }) : "未設定"}</div>
                           <div>使用期限: {notification.expiryDate ? format(notification.expiryDate, "yyyy年M月d日", { locale: ja }) : "未設定"}</div>
-                          <button onClick={() => setEditingNotificationId(notification.id)}>編集</button>
+                          {notification.openDate === null || notification.expiryDate === null ? (
+                            <button onClick={() => setEditingNotificationId(notification.id)}>編集</button>
+                          ) : null}
+                          {notifications.length > 0 && (
+                            <div className="pr-2 text-right cursor-pointer">
+                              <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+                                <DialogTrigger asChild>
+                                  <div className="pt-2 text-c94a4a" onClick={() => openDeleteDialog(notification.id)}>×削除</div>
+                                </DialogTrigger>
+                                <DialogContent className="font-genjyuu text-text-color">
+                                  <DialogHeader>
+                                    <DialogTitle>本当に削除しますか？</DialogTitle>
+                                    <DialogDescription className="text-text-color pt-2">
+                                      この操作は元に戻せません。<br />本当にこの通知設定を削除してもよろしいですか？
+                                    </DialogDescription>
+                                  </DialogHeader>
+                                  <DialogFooter className="flex justify-center items-center pt-2">
+                                    <button className="bg-F5F5F5 text-48352F hover:bg-E0DBD2 rounded-lg h-[40px] px-4 min-w-[60px] mr-1 mb-2" onClick={() => setIsDeleteDialogOpen(false)}>キャンセル</button>
+                                    <button className="mb-2 btn-506D7D rounded-lg h-[40px] px-4 min-w-[60px]" onClick={() => {
+                                      if (deletingNotificationId !== null) removeNotification(deletingNotificationId);
+                                      setIsDeleteDialogOpen(false);
+                                    }}>削除</button>
+                                  </DialogFooter>
+                                </DialogContent>
+                              </Dialog>
+                            </div>
+                          )}
+                          {notifications.length < 3 && (
+                            <div className="pr-2 text-right cursor-pointer">
+                              <div onClick={addNotification}>＋追加</div>
+                            </div>
+                          )}
                         </>
                       ) : (
                         <>
@@ -638,35 +669,6 @@ export default function EditProfile() {
                               </PopoverContent>
                             </Popover>
                           </div>
-                          {notifications.length < 3 && (
-                            <div className="pr-2 text-right cursor-pointer">
-                              <div onClick={addNotification}>＋追加</div>
-                            </div>
-                          )}
-                          {notifications.length > 0 && (
-                            <div className="pr-2 text-right cursor-pointer">
-                              <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-                                <DialogTrigger asChild>
-                                  <div className="pt-2 text-c94a4a" onClick={() => openDeleteDialog(notification.id)}>×削除</div>
-                                </DialogTrigger>
-                                <DialogContent className="font-genjyuu text-text-color">
-                                  <DialogHeader>
-                                    <DialogTitle>本当に削除しますか？</DialogTitle>
-                                    <DialogDescription className="text-text-color pt-2">
-                                      この操作は元に戻せません。<br />本当にこの通知設定を削除してもよろしいですか？
-                                    </DialogDescription>
-                                  </DialogHeader>
-                                  <DialogFooter className="flex justify-center items-center pt-2">
-                                    <button className="bg-F5F5F5 text-48352F hover:bg-E0DBD2 rounded-lg h-[40px] px-4 min-w-[60px] mr-1 mb-2" onClick={() => setIsDeleteDialogOpen(false)}>キャンセル</button>
-                                    <button className="mb-2 btn-506D7D rounded-lg h-[40px] px-4 min-w-[60px]" onClick={() => {
-                                      if (deletingNotificationId !== null) removeNotification(deletingNotificationId);
-                                      setIsDeleteDialogOpen(false);
-                                    }}>削除</button>
-                                  </DialogFooter>
-                                </DialogContent>
-                              </Dialog>
-                            </div>
-                          )}
                           <div className="pt-2 pr-2 text-right cursor-pointer">
                             <div onClick={() => setEditingNotificationId(null)}>編集をキャンセル</div>
                           </div>
