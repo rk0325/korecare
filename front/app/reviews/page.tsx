@@ -1,10 +1,12 @@
 "use client";
 import React, { useEffect, useState, useCallback } from 'react';
+import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
 import ReviewSearchForm from '../components/search/ReviewSearchForm';
 import ReviewSearchResult from '../components/search/ReviewSearchResult';
+import CustomButton from '@/components/ui/custom-button';
 import {
   AlertTriangle,
   AlertCircle,
@@ -62,6 +64,7 @@ export default function Reviews() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const token = session?.accessToken;
   const [productReviews, setProductReviews] = useState<ProductReviews[]>([]);
+  const router = useRouter();
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
@@ -116,7 +119,7 @@ export default function Reviews() {
       const ratings = {
         very_bad: 1,
         bad: 2,
-        normal: 3,
+        medium: 3,
         good: 4,
         very_good: 5,
       };
@@ -145,7 +148,7 @@ export default function Reviews() {
   return (
     session ? (
       <>
-        <div className='flex flex-col space-y-4 p-10'>
+        <div className='flex flex-col space-y-4 pt-10 pr-4 pl-4 pb-8'>
           <div className='text-2xl md:text-3xl'>
             レビュー一覧
             <TooltipProvider>
@@ -183,15 +186,22 @@ export default function Reviews() {
               {productReviews.map((productReview) => (
                 <div key={productReview.id} className="shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm mx-auto">
                   {productReview.image_url && (
-                    <div className="relative h-[200px]">
+                    <div className="relative h-[150px] mt-4">
                       <Image src={productReview.image_url} alt="" layout="fill" objectFit="contain" quality={100} />
                     </div>
                   )}
                   <div className="p-4 text-center">
-                    <h3 className="font-bold">{truncateName(productReview.reviews[0].title)}</h3>
+                    <h3 className="text-lg">{truncateName(productReview.reviews[0].title)}</h3>
                     <p>{`★ ${productReview.averageRating.toFixed(1)} (${productReview.reviewCount}件)`}</p>
                     <p>{productReview.price}円</p>
-                    <a href={`/reviews/${productReview.id}`} target="_self" rel="noopener noreferrer">レビュー詳細へ</a>
+                    <div className="flex justify-center mt-2">
+                      <CustomButton
+                        colorClass="hover:bg-E0DBD2 hover:text-text-color"
+                        onClick={() => router.push(`/reviews/${productReview.id}`)}
+                      >
+                        レビュー詳細へ
+                      </CustomButton>
+                    </div>
                   </div>
                 </div>
               ))}

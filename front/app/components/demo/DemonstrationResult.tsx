@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import CustomButton from '@/components/ui/custom-button';
-import { PulseLoader } from 'react-spinners';
+import { SyncLoader } from 'react-spinners';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
 import {
@@ -79,7 +79,7 @@ const DemonstrationResult = () => {
       <div className='flex flex-col md:flex-row md:space-x-4 p-6 justify-center space-y-4 md:space-y-0'>
         {isLoading ? (
           <div className="flex justify-center min-h-screen pt-20">
-            <PulseLoader color="#506D7D" />
+            <SyncLoader color="#506D7D" />
           </div>
         ) : (
           cosmetics.map((cosmetic, index) => (

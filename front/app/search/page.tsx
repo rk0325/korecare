@@ -75,8 +75,8 @@ export default function Search() {
             </div>
           </div>
           <SearchForm onSearch={handleSearch} />
-          <SearchResult />
           <RecommendedCosmetics searchParams={searchParams} />
+          <SearchResult />
         </div>
       </>
     ) : null

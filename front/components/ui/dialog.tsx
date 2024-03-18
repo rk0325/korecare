@@ -6,7 +6,17 @@ import { X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-const Dialog = DialogPrimitive.Root
+interface DialogProps {
+  children: React.ReactNode;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}
+
+const Dialog: React.FC<DialogProps> = ({ children, open, onOpenChange }) => (
+  <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
+    {children}
+  </DialogPrimitive.Root>
+);
 
 const DialogTrigger = DialogPrimitive.Trigger
 

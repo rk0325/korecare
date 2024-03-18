@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
-import { PulseLoader } from 'react-spinners';
+import { SyncLoader } from 'react-spinners';
 
 const SearchResult = () => {
   const { cosmetics, cosmeticSets } = useContext(CosmeticsContext);
@@ -84,7 +84,7 @@ const SearchResult = () => {
     <div className='pt-4'>
       {isLoading ? (
         <div className="flex justify-center min-h-screen pt-20">
-          <PulseLoader color="#506D7D" />
+          <SyncLoader color="#506D7D" />
         </div>
       ) : (
         <>
@@ -96,6 +96,7 @@ const SearchResult = () => {
                   return (
                     <div key={category} className="flex justify-center">
                       <div className="w-full max-w-4xl">
+                        <h2 className='text-xl md:text-2xl font-semibold mb-4'>検索結果</h2>
                         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-center'>
                           {filteredCosmetics.map((cosmetic, index) => (
                             <div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'>

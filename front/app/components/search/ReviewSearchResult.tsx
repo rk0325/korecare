@@ -2,12 +2,10 @@
 import React, { useContext, useState, useCallback, useMemo } from 'react';
 import { CosmeticsContext, Cosmetic } from '../../contexts/CosmeticsContext';
 import { LoadingContext } from '../../contexts/LoadingContext';
-import CustomButton from '@/components/ui/custom-button';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
-import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
-import { PulseLoader } from 'react-spinners';
+import { SyncLoader } from 'react-spinners';
 
 const ReviewSearchResult = () => {
   const { cosmetics, cosmeticSets } = useContext(CosmeticsContext);
