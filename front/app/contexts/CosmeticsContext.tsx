@@ -51,21 +51,29 @@ type CosmeticsContextType = {
   setCosmetics: Dispatch<SetStateAction<Cosmetic[]>>;
   cosmeticSets: CosmeticSet[];
   setCosmeticSets: Dispatch<SetStateAction<CosmeticSet[]>>;
+  selectedProductName: string;
+  setSelectedProductName: Dispatch<SetStateAction<string>>;
+  favoriteCosmeticId: string;
+  setFavoriteCosmeticId: Dispatch<SetStateAction<string>>;
 };
 
 export const CosmeticsContext = createContext<CosmeticsContextType>({
   skinType: "",
-  setSkinType: () => {},
+  setSkinType: () => { },
   skinTrouble: "",
-  setSkinTrouble: () => {},
+  setSkinTrouble: () => { },
   priceRange: "",
-  setPriceRange: () => {},
+  setPriceRange: () => { },
   productType: "",
-  setProductType: () => {},
+  setProductType: () => { },
   cosmetics: [],
-  setCosmetics: () => {},
+  setCosmetics: () => { },
   cosmeticSets: [],
-  setCosmeticSets: () => {},
+  setCosmeticSets: () => { },
+  selectedProductName: "",
+  setSelectedProductName: () => { },
+  favoriteCosmeticId: "",
+  setFavoriteCosmeticId: () => {},
 });
 
 export default CosmeticsContext;

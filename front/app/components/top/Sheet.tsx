@@ -17,10 +17,10 @@ import {
   Search,
   Heart,
   Menu,
-  Smartphone,
   Smile,
   CloudSun,
-  MessageCircleQuestion
+  MessageCircleQuestion,
+  PenLine,
 } from "lucide-react"
 
 const SHEET_SIDES = ["right"] as const
@@ -90,6 +90,12 @@ export default function SheetSide() {
                   <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/favorite_cosmetics')}>
                     <Heart className="mr-2 h-4 w-4" />
                     <span>お気に入り</span>
+                  </div>
+                </SheetClose>
+                <SheetClose asChild>
+                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/reviews')}>
+                    <PenLine className="mr-2 h-4 w-4" />
+                    <span>レビュー一覧</span>
                   </div>
                 </SheetClose>
                 <SheetClose asChild>

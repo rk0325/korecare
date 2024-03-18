@@ -9,6 +9,8 @@ Rails.application.routes.draw do
       resource :profiles, only: [:show, :update]
       resources :favorite_cosmetics, only: [:create, :index, :destroy]
       resources :cosmetic_usages, only: [:create, :index, :update, :destroy]
+      resources :reviews, only: [:create, :show, :update, :destroy, :index]
+      resources :users, only: [:index]
 
       namespace :search_cosmetics do
         post :for_guests

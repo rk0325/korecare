@@ -4,7 +4,7 @@ interface CustomButtonProps {
   colorClass: string;
   type?: 'button' | 'submit' | 'reset';
   children: React.ReactNode;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   variant?: 'outline';
   disabled?: boolean;
 }

@@ -51,10 +51,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog"
 import {
-	AlertTriangle,
-	Diamond,
-	SearchCheck,
-	HelpCircle,
+  AlertTriangle,
+  Diamond,
+  SearchCheck,
+  HelpCircle,
   X,
   AlertCircle
 } from "lucide-react"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_03_16_211745) do
+ActiveRecord::Schema[7.0].define(version: 2024_03_17_175320) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -71,15 +71,20 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_16_211745) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "favorite_cosmetic_id", null: false
+    t.bigint "user_id"
+    t.bigint "favorite_cosmetic_id"
     t.integer "rating"
     t.string "title"
     t.text "body"
     t.boolean "visibility"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "profile_id"
+    t.integer "age"
+    t.string "skin_type"
+    t.string "skin_trouble"
     t.index ["favorite_cosmetic_id"], name: "index_reviews_on_favorite_cosmetic_id"
+    t.index ["profile_id"], name: "index_reviews_on_profile_id"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
@@ -108,5 +113,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_03_16_211745) do
   add_foreign_key "review_tags", "reviews"
   add_foreign_key "review_tags", "tags"
   add_foreign_key "reviews", "favorite_cosmetics"
+  add_foreign_key "reviews", "profiles"
   add_foreign_key "reviews", "users"
 end
