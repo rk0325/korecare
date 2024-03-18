@@ -6,14 +6,14 @@ module Api
 
       def index
         @favorite_cosmetics = current_user.favorite_cosmetics
-        render json: @favorite_cosmetics.as_json(only: [:user_id, :name, :brand, :price, :item_url, :image_url, :item_code])
+        render json: @favorite_cosmetics.as_json(only: [:id, :user_id, :name, :brand, :price, :item_url, :image_url, :item_code])
       end
 
       def create
         favorite_cosmetic = current_user.favorite_cosmetics.new(favorite_cosmetic_params)
 
         if favorite_cosmetic.save
-          render json: favorite_cosmetic.as_json(only: [:user_id, :name, :brand, :price, :item_url, :image_url, :item_code]), status: :created
+          render json: favorite_cosmetic.as_json(only: [:id, :user_id, :name, :brand, :price, :item_url, :image_url, :item_code]), status: :created
         else
           render json: favorite_cosmetic.errors, status: :unprocessable_entity
         end

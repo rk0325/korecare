@@ -71,13 +71,13 @@
     @apply bg-[#506D7D] text-white;
   }
   .btn-506D7D:hover {
-    @apply bg-opacity-90; /* 不透明度を下げる */
+    @apply bg-opacity-90;
   }
   .btn-F5F5F5 {
     @apply bg-[#F5F5F5] text-[#48352F];
   }
   .btn-F5F5F5:hover {
-    @apply bg-[#dfdddb]; /* 薄い茶色に変更 */
+    @apply bg-[#dfdddb];
   }
 }
 
@@ -118,7 +118,7 @@
 @media (min-width: 769px) {
   .menu-button {
     position: relative;
-    left: auto;
+    right: auto;
     bottom: auto;
   }
 }
@@ -126,7 +126,7 @@
 @media (max-width: 768px) {
   .menu-button {
     position: fixed;
-    left: 20px;
+    right: 20px;
     bottom: 20px;
     background-color: #E0DBD2;
     border-radius: 50%;

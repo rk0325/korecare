@@ -1,21 +1,33 @@
 'use client';
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import { Cosmetic } from '../../contexts/CosmeticsContext';
+import React, { useState, useCallback, useMemo, useEffect, useContext } from 'react';
+import { Cosmetic, CosmeticsContext } from '../../contexts/CosmeticsContext';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 import axios from 'axios';
+import ReviewForm from './ReviewForm';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
 import { PulseLoader } from 'react-spinners';
 import CustomButton from '@/components/ui/custom-button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXTwitter } from '@fortawesome/free-brands-svg-icons';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetFooter,
+  SheetTrigger,
+} from "@/components/ui/sheet"
 
 const axiosInstance = axios.create({
   withCredentials: true,
 });
 
 const fetcher = (url: string, headers: any) => axiosInstance.get(url, { headers }).then(res => res.data);
+
+const SHEET_SIDES = ["bottom"] as const
+type FavoriteCosmetics = (typeof SHEET_SIDES)[number]
 
 export const FavoriteCosmetics = () => {
   const { data: session } = useSession();
@@ -24,10 +36,16 @@ export const FavoriteCosmetics = () => {
   const { data: favoriteCosmetics, error } = useSWR<Cosmetic[]>(token ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics` : null, () => fetcher(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, headers));
   const isLoading = !favoriteCosmetics && !error;
   const [favoriteStatus, setFavoriteStatus] = useState(new Map());
+  const { setSelectedProductName, setFavoriteCosmeticId } = useContext(CosmeticsContext);
 
   const headers = useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
   }, [token]);
+
+  const handleReviewButtonClick = (cosmetic: Cosmetic) => {
+    setSelectedProductName(cosmetic.name);
+    setFavoriteCosmeticId(cosmetic.id)
+  };
 
   useEffect(() => {
     if (favoriteCosmetics) {
@@ -123,10 +141,9 @@ export const FavoriteCosmetics = () => {
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 justify-center'>
                   {filteredCosmetics.length > 0 ? (
                     filteredCosmetics.map((cosmetic, index) => (
-                      <div key={index} className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm'
-                        onClick={() => window.open(cosmetic.item_url, "_blank")}>
+                      <div key={index} className='shadow-md rounded-md overflow-hidden max-w-sm'>
                         <div className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
-                          <div className="relative z-0 pt-2 w-custom h-custom">
+                          <div className="relative z-0 pt-2 w-custom h-custom cursor-pointer" onClick={() => window.open(cosmetic.item_url, "_blank")}>
                             <Image
                               src={cosmetic.image_url}
                               alt={cosmetic.name}
@@ -153,8 +170,30 @@ export const FavoriteCosmetics = () => {
                         <p className="line-clamp-2 z-10 mb-2 pr-2 pl-2">{truncateName(cosmetic.name)}</p>
                         <p className="z-10 relative mb-2">{cosmetic.price}円</p>
                         <div className="flex justify-center items-center mt-2 mb-2">
-                          <CustomButton colorClass="hover:bg-E0DBD2 hover:text-text-color">詳細を見る</CustomButton>
+                          <CustomButton colorClass="hover:bg-E0DBD2 hover:text-text-color" onClick={() => window.open(cosmetic.item_url, "_blank")}>詳細を見る</CustomButton>
                         </div>
+                        <Sheet>
+                          <SheetTrigger asChild>
+                            <div className="flex justify-center items-center mt-2 mb-2">
+                              <CustomButton
+                                colorClass="hover:bg-E0DBD2 hover:text-text-color"
+                                onClick={() => {
+                                  handleReviewButtonClick(cosmetic);
+                                }}
+                              >
+                                レビューを書く
+                              </CustomButton>
+                            </div>
+                          </SheetTrigger>
+                          <SheetContent side="bottom">
+                            <SheetHeader>
+                              <SheetTitle className='text-text-color text-center pt-10'>レビューを書く</SheetTitle>
+                            </SheetHeader>
+                            <ReviewForm />
+                            <SheetFooter>
+                            </SheetFooter>
+                          </SheetContent>
+                        </Sheet>
                       </div>
                     ))
                   ) : (

@@ -14,7 +14,8 @@ import {
   Smile,
   CloudSun,
   X,
-  MessageCircleQuestion
+  MessageCircleQuestion,
+  PenLine,
 } from "lucide-react"
 
 const Modal = () => {
@@ -79,6 +80,10 @@ const Modal = () => {
           <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/favorite_cosmetics')}>
             <Heart className="mr-2 h-4 w-4" />
             <span>お気に入り</span>
+          </div>
+          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/reviews')}>
+            <PenLine className="mr-2 h-4 w-4" />
+            <span>レビュー一覧</span>
           </div>
           <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/column')}>
             <MessageCircleQuestion className="mr-2 h-4 w-4" />
