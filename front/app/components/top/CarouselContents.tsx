@@ -29,9 +29,9 @@ const CarouselContents = () => {
             <Card className='carousel-height-custom flex flex-col items-center justify-center'>
               <CardContent className="flex flex-col items-center justify-center">
                 <p className="text-text-color text-center text-xl mb-2 mt-4 marked-text">KoreCareでできること</p>
-                <p className="text-text-color text-center pb-4">お肌の大敵である紫外線や乾燥から、あなたのお肌を守るサポートをします。</p>
+                <p className="text-text-color text-center pb-4">紫外線や乾燥から、あなたのお肌を守るサポートをします。</p>
                 <p className="text-text-color text-center text-sm pb-1">毎日LINEで天気情報をお届け！</p>
-                <Image src="/line.png" alt="Image" width={200} height={200} />
+                <Image src="/line_1.png" alt="Image" width={200} height={200} />
               </CardContent>
             </Card>
           </CarouselItem>
@@ -40,8 +40,28 @@ const CarouselContents = () => {
               <CardContent className="flex flex-col items-center justify-center">
                 <p className="text-text-color text-center text-xl mb-2 mt-4 marked-text">KoreCareでできること</p>
                 <p className="text-text-color text-center pb-4">スキンケアコスメの使用期限切れを防ぐサポートをします。</p>
-                <p className="text-text-color text-center text-sm pb-1">LINEで替え時をご連絡します！</p>
-                <Image src="/coming_soon.png" alt="Image" width={200} height={200} />
+                <p className="text-text-color text-center text-sm pb-1">LINEで替え時をお知らせ！</p>
+                <Image src="/line_2.png" alt="Image" width={200} height={200} />
+              </CardContent>
+            </Card>
+          </CarouselItem>
+          <CarouselItem>
+            <Card className='carousel-height-custom flex flex-col items-center justify-center'>
+              <CardContent className="flex flex-col items-center justify-center">
+                <p className="text-text-color text-center text-xl mb-2 mt-4 marked-text">他にはどんな機能があるの？</p>
+                <p className="text-text-color text-center pb-4">これいいな！と思ったら<br />お気に入りに登録。</p>
+                <p className="text-text-color text-center text-sm pb-1">Xで共有しよう！</p>
+                <Image src="/review_1.png" alt="Image" width={200} height={200} />
+              </CardContent>
+            </Card>
+          </CarouselItem>
+          <CarouselItem>
+            <Card className='carousel-height-custom flex flex-col items-center justify-center'>
+              <CardContent className="flex flex-col items-center justify-center">
+                <p className="text-text-color text-center text-xl mb-2 mt-4 marked-text">レビューを書こう！</p>
+                <p className="text-text-color text-center pb-4">肌質やお悩みで<br />レビューを検索できるよ。</p>
+                <p className="text-text-color text-center text-sm pb-1">感想をみんなにシェアしよう！</p>
+                <Image src="/review_2.png" alt="Image" width={200} height={200} />
               </CardContent>
             </Card>
           </CarouselItem>
@@ -49,23 +69,21 @@ const CarouselContents = () => {
             <Card className='carousel-height-custom flex flex-col items-center justify-center'>
               <CardContent className="flex flex-col items-center justify-center">
                 <p className="text-text-color text-center text-xl mb-2 mt-4 marked-text">韓国コスメの使い方は？</p>
-                <p className="text-text-color text-center pb-4">トナー？セラム？<br />韓国コスメの基本を解説します。</p>
-                <p className="text-text-color text-center text-sm pb-1">随時更新していきます！</p>
-                <Image src="/column.png" alt="Image" width={200} height={200} />
+                <p className="text-text-color text-center pb-4">韓国コスメの疑問にお答えします。</p>
+                <p className="text-text-color text-center text-sm pb-1">随時更新中！</p>
+                <Image src="/qa.png" alt="Image" width={200} height={200} />
               </CardContent>
             </Card>
           </CarouselItem>
           <CarouselItem>
             <Card className='carousel-height-custom flex flex-col items-center justify-center'>
               <CardContent className="flex flex-col items-center justify-center">
-                <p className="text-text-color text-center text-xl mb-2 marked-text">他にはどんな機能があるの？</p>
-                <p className="text-text-color text-center pb-1">・お気に入りコスメ登録</p>
-                <p className="text-text-color text-center text-sm pb-8">いいな！と思ったコスメをお気に入りに登録したり、Xでみんなに共有しよう！</p>
-                <p className="text-text-color text-center text-lg mb-2 marked-text">後日リリース予定</p>
-                <p className="text-text-color text-center pb-1">・合わなかったコスメ登録</p>
-                <p className="text-text-color text-center text-sm pb-4">私には合わなかったな…と思ったコスメを、どこが合わなかったのかコメントとともに記録できるよ。</p>
-                <p className="text-text-color text-center pb-1">・レビュー投稿</p>
-                <p className="text-text-color text-center text-sm">実際に使ってみた感想をレビューに投稿したり、他の人のレビューにいいね！やコメントをし合おう。</p>
+                <p className="text-text-color text-center text-xl mb-2 mt-4 marked-text">さっそく使ってみよう！</p>
+                <p className="text-text-color text-center pt-4">KoreCareで</p>
+                <p className="text-text-color text-center">より幸せな</p>
+                <p className="text-text-color text-center pb-4">スキンケアライフを…✨</p>
+                <p className="text-text-color text-center">읽어주셔서 감사합니다.</p>
+                <p className="text-text-color text-center text-sm">読んでいただき<br />ありがとうございました！</p>
               </CardContent>
             </Card>
           </CarouselItem>
