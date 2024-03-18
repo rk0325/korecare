@@ -10,6 +10,7 @@ import LoadingProvider from './providers/LoadingProvider';
 import SessionProvider from './providers/SessionContextProvider';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 library.add(faXTwitter, faGithub);
 
@@ -60,6 +61,7 @@ export default function RootLayout({
           </SessionProvider>
         </NextAuthProvider>
       </body>
+      <GoogleAnalytics gaId="G-1DTNZ1QZR1" />
     </html>
   );
 }
