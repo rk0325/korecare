@@ -37,10 +37,7 @@ const ReviewSearchForm: React.FC<ReviewSearchFormProps> = ({ onSearch }) => {
     event.preventDefault();
     setIsLoading(true);
 
-    // ここで検索処理を実装します。例えば、APIを呼び出して検索結果を取得するなど。
-    // 検索処理が完了したら、setIsLoading(false) を呼び出してローディング状態を解除します。
-
-    setIsLoading(false); // 仮の処理
+    setIsLoading(false);
   }
 
   const resetForm = () => {
