@@ -4,6 +4,11 @@ module Api
       before_action :set_current_user
 
       def create
+        if cosmetic_usage_params.values.all?(&:blank?)
+          render json: { message: '新規作成をスキップしました。' }, status: :ok
+          return
+        end
+
         existing_cosmetic_usage = @current_user.cosmetic_usages.find_by(
           item_type: cosmetic_usage_params[:item_type],
           open_date: cosmetic_usage_params[:open_date],
@@ -11,7 +16,7 @@ module Api
         )
 
         if existing_cosmetic_usage
-          render json: { error: '同じ使用期限設定が既に存在します。' }, status: :unprocessable_entity
+          render json: { message: '同じ使用期限設定が既に存在します。' }, status: :ok
           return
         end
 
