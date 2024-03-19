@@ -164,7 +164,8 @@ export default function ReviewDetails() {
     const fetchData = async () => {
       try {
         const [reviewsResponse, favoriteCosmetics] = await Promise.all([
-          axios.get<ApiResponse[]>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews`, { headers: token ? { Authorization: `Bearer ${token}` } : {} }),
+          axios.get<ApiResponse[]>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews`,
+            { headers: token ? { Authorization: `Bearer ${token}` } : {} }),
           fetchFavoriteCosmetics()
         ]);
 
@@ -224,6 +225,7 @@ export default function ReviewDetails() {
     try {
       await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/${reviewId}`, {
         headers: headers,
+        withCredentials: true,
       });
       setReviews(reviews.filter(review => review.id !== reviewId));
       toast.success('レビューを削除しました');
@@ -252,6 +254,7 @@ export default function ReviewDetails() {
 
       await axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/${editingReview.id}`, updatedReviewData, {
         headers: headers,
+        withCredentials: true,
       });
 
       const updatedReviews = reviews.map((review) => review.id === editingReview.id ? { ...review, ...updatedReviewData.review } : review);
@@ -301,8 +304,8 @@ export default function ReviewDetails() {
         <div className='flex flex-col items-center p-10'>
           {productReviews.map((productReview) => (
             <div key={productReview.id} className="w-full max-w-4xl">
-              <div className="relative h-[150px]">
-                <Image src={productReview.image_url} alt="" layout="fill" objectFit="contain" quality={100} />
+              <div className="flex items-center justify-center h-[150px] mt-4">
+                <Image src={productReview.image_url} alt="Image" width={128} height={128} objectFit="contain" quality={100} />
               </div>
               <h2 className="text-lg">{truncateName(productReview.reviews[0]?.title ?? 'タイトル不明')}</h2>
               <p>{productReview.price}円</p>

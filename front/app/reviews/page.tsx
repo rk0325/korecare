@@ -8,7 +8,7 @@ import ReviewSearchForm from '../components/search/ReviewSearchForm';
 import ReviewSearchResult from '../components/search/ReviewSearchResult';
 import CustomButton from '@/components/ui/custom-button';
 import {
-  AlertTriangle,
+  Search,
   AlertCircle,
   X
 } from "lucide-react"
@@ -173,10 +173,10 @@ export default function Reviews() {
                 </div>
               </div>
               <div className="flex items-start mb-2">
-                <AlertTriangle className="mr-1 h-5 w-5" />
-                <p className='marked-text'>注意事項</p>
+                <Search className="mr-1 h-5 w-5" />
+                <p className='marked-text'>レビューを検索してみよう！</p>
               </div>
-              <p>レビュー投稿に付けられたタグで商品を検索できます。検索結果が表示されない場合、該当のレビュー投稿がない可能性があります。条件を変更して検索してみてください。</p>
+              <p>レビューに付けられたタグで皆さんのレビューを検索できます。検索結果が表示されない場合、該当のレビューがない可能性があります。条件を変更して検索してみてください。</p>
             </div>
           </div>
           <div className='flex flex-col items-center space-y-4 p-10'>
@@ -186,8 +186,8 @@ export default function Reviews() {
               {productReviews.map((productReview) => (
                 <div key={productReview.id} className="shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm mx-auto">
                   {productReview.image_url && (
-                    <div className="relative h-[150px] mt-4">
-                      <Image src={productReview.image_url} alt="" layout="fill" objectFit="contain" quality={100} />
+                    <div className="flex items-center justify-center h-[150px] mt-4">
+                      <Image src={productReview.image_url} alt="Image" width={128} height={128} objectFit="contain" quality={100} />
                     </div>
                   )}
                   <div className="p-4 text-center">
