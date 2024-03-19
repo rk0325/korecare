@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { getSession } from 'next-auth/react'
 import { CosmeticsContext, CosmeticSet, ApiResponse } from '../../contexts/CosmeticsContext';
@@ -35,6 +35,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
   const { setIsLoading } = useContext(LoadingContext);
   const [productType, setProductType] = useState('');
   const isSetSelected = productType === '化粧水・美容液・クリームセット';
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -45,6 +46,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
     }
 
     setIsLoading(true);
+    console.log('検索開始前のisSearching:', isSearching);
+    setIsSearching(true);
 
     setCosmetics([]);
     setCosmeticSets([]);
@@ -113,13 +116,18 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
         }));
         setCosmetics(cosmetics);
       }
-
-      setIsLoading(false);
+      console.log('検索完了後のisSearching:', isSearching);
     } catch (error) {
       console.error(error);
+    } finally {
       setIsLoading(false);
+      setIsSearching(false);
     }
   };
+
+  useEffect(() => {
+    console.log('isSearchingが更新されました:', isSearching);
+  }, [isSearching]);
 
   const resetForm = () => {
     setSkinType("");
@@ -181,8 +189,8 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
           <div className="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4">
             <button
               type="submit"
-              className={`btn-506D7D flex justify-center items-center rounded-md h-[40px] w-[80px] ${!skinTrouble || !productType ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={!skinTrouble || !productType}
+              className={`btn-506D7D flex justify-center items-center rounded-md h-[40px] w-[80px] ${!skinTrouble || !productType || isSearching ? 'opacity-50 cursor-not-allowed' : ''}`}
+              disabled={!skinTrouble || !productType || isSearching}
             >
               <Search size={18} className="mr-2" />
               検索
