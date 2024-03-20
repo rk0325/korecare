@@ -46,7 +46,6 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
     }
 
     setIsLoading(true);
-    console.log('検索開始前のisSearching:', isSearching);
     setIsSearching(true);
 
     setCosmetics([]);
@@ -116,7 +115,6 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
         }));
         setCosmetics(cosmetics);
       }
-      console.log('検索完了後のisSearching:', isSearching);
     } catch (error) {
       console.error(error);
     } finally {
@@ -124,10 +122,6 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
       setIsSearching(false);
     }
   };
-
-  useEffect(() => {
-    console.log('isSearchingが更新されました:', isSearching);
-  }, [isSearching]);
 
   const resetForm = () => {
     setSkinType("");

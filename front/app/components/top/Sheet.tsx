@@ -6,6 +6,7 @@ import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useProfile } from '../../hooks/useProfile';
 import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
 import {
   Sheet,
   SheetClose,
@@ -69,18 +70,6 @@ export default function SheetSide() {
                   <Label className="text-base text-center mt-4">{name || session?.user?.name}さん</Label>
                 </div>
                 <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-10" onClick={() => handleNavigation('/home')}>
-                    <CloudSun className="mr-2 h-4 w-4" />
-                    <span>天気情報</span>
-                  </div>
-                </SheetClose>
-                <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page')}>
-                    <Smile className="mr-2 h-4 w-4" />
-                    <span>マイページ</span>
-                  </div>
-                </SheetClose>
-                <SheetClose asChild>
                   <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/search')}>
                     <Search className="mr-2 h-4 w-4" />
                     <span>韓国コスメ検索</span>
@@ -93,15 +82,29 @@ export default function SheetSide() {
                   </div>
                 </SheetClose>
                 <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/reviews')}>
+                  <div className="flex items-center cursor-pointer pt-6 pb-6" onClick={() => handleNavigation('/reviews')}>
                     <PenLine className="mr-2 h-4 w-4" />
                     <span>レビュー一覧</span>
                   </div>
                 </SheetClose>
+                <Separator />
                 <SheetClose asChild>
-                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/column')}>
+                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/home')}>
+                    <CloudSun className="mr-2 h-4 w-4" />
+                    <span>天気情報</span>
+                  </div>
+                </SheetClose>
+                <SheetClose asChild>
+                  <div className="flex items-center cursor-pointer pt-6 pb-6" onClick={() => handleNavigation('/column')}>
                     <MessageCircleQuestion className="mr-2 h-4 w-4" />
                     <span>Q＆A</span>
+                  </div>
+                </SheetClose>
+                <Separator />
+                <SheetClose asChild>
+                  <div className="flex items-center cursor-pointer pt-6" onClick={() => handleNavigation('/my_page')}>
+                    <Smile className="mr-2 h-4 w-4" />
+                    <span>マイページ</span>
                   </div>
                 </SheetClose>
                 <SheetClose asChild>

@@ -184,26 +184,28 @@ export default function Reviews() {
             <ReviewSearchResult />
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
               {productReviews.map((productReview) => (
-                <div key={productReview.id} className="shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm mx-auto">
-                  {productReview.image_url && (
-                    <div className="flex items-center justify-center h-[150px] mt-4">
-                      <Image src={productReview.image_url} alt="Image" width={128} height={128} objectFit="contain" quality={100} />
-                    </div>
-                  )}
-                  <div className="p-4 text-center">
-                    <h3 className="text-lg">{truncateName(productReview.reviews[0].title)}</h3>
-                    <p>{`★ ${productReview.averageRating.toFixed(1)} (${productReview.reviewCount}件)`}</p>
-                    <p>{productReview.price}円</p>
-                    <div className="flex justify-center mt-2">
-                      <CustomButton
-                        colorClass="hover:bg-E0DBD2 hover:text-text-color"
-                        onClick={() => router.push(`/reviews/${productReview.id}`)}
-                      >
-                        レビュー詳細へ
-                      </CustomButton>
+                productReview.reviews.map((review) => (
+                  <div key={productReview.id} className="shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm mx-auto">
+                    {productReview.image_url && (
+                      <div className="flex items-center justify-center h-[150px] mt-4">
+                        <Image src={productReview.image_url} alt="Image" width={128} height={128} objectFit="contain" quality={100} />
+                      </div>
+                    )}
+                    <div className="p-4 text-center">
+                      <h3 className="text-lg">{truncateName(productReview.reviews[0].title)}</h3>
+                      <p>{`★ ${productReview.averageRating.toFixed(1)} (${productReview.reviewCount}件)`}</p>
+                      <p>{productReview.price}円</p>
+                      <div className="flex justify-center mt-2">
+                        <CustomButton
+                          colorClass="hover:bg-E0DBD2 hover:text-text-color"
+                          onClick={() => router.push(`/reviews/${review.id}`)}
+                        >
+                          レビュー詳細へ
+                        </CustomButton>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))
               ))}
             </div>
           </div>
