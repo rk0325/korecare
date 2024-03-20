@@ -57,7 +57,7 @@ const DemonstrationResult = () => {
   }
 
   const openTwitterShare = () => {
-    const shareUrl = `https://twitter.com/intent/tweet?text=KoreCare使ってみたよ！&url=https://korecare.vercel.app`;
+    const shareUrl = `https://twitter.com/intent/tweet?text=KoreCare使ってみたよ！&url=https://korecare.jp`;
     window.open(shareUrl, '_blank', 'noopener,noreferrer');
   };
 

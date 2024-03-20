@@ -1,5 +1,5 @@
 ## ■サービス概要
-### [KoreCare（コリケア）](https://korecare.vercel.app/)
+### [KoreCare（コリケア）](https://korecare.jp/)
 韓国コスメに特化した、ユーザーのスキンケアをサポートするサービスです。
 
 具体的には、
