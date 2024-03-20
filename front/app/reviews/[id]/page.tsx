@@ -3,6 +3,7 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
+import { useParams } from 'next/navigation';
 import { PencilLine, Trash, Star } from 'lucide-react';
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -80,6 +81,7 @@ interface ApiResponse {
   skin_type: string;
   skin_trouble: string;
   age: number;
+  userName: string;
   user: {
     id: number;
     name: string;
@@ -88,8 +90,11 @@ interface ApiResponse {
 
 export default function ReviewDetails() {
   const { data: session } = useSession();
+  const params = useParams<{ id: string; }>()
+  const reviewId = params.id;
   const [productReviews, setProductReviews] = useState<ProductReviews[]>([]);
   const token = session?.accessToken;
+  const [review, setReview] = useState<Review | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -118,21 +123,21 @@ export default function ReviewDetails() {
   }
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
-      const response = await axios.get<ApiResponse[]>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews`, { headers });
-      const reviewsWithUsers = response.data.map((review: ApiResponse) => ({
-        ...review,
-        userName: review.user?.name || '匿名',
-        skin_type: review.skin_type,
-        skin_trouble: review.skin_trouble,
-        age: review.age
-      }));
-      setReviews(reviewsWithUsers);
+    const fetchReview = async () => {
+      try {
+        const response = await axios.get<Review>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/${reviewId}`, {
+          headers: headers,
+          withCredentials: true,
+        });
+        console.log(response.data);
+        setReview(response.data);
+      } catch (error) {
+        console.error("レビューの取得中にエラーが発生しました:", error);
+      }
     };
 
-    fetchReviews();
-  }, [token]);
+    fetchReview();
+  }, [reviewId, headers]);
 
   const fetchFavoriteCosmetics = useCallback(async (): Promise<FavoriteCosmetic[]> => {
     try {
@@ -150,7 +155,10 @@ export default function ReviewDetails() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/users`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/users`, {
+          headers: headers,
+          withCredentials: true,
+        });
         setUsers(response.data);
       } catch (error) {
         console.error("ユーザー情報の取得中にエラーが発生しました:", error);
@@ -158,7 +166,7 @@ export default function ReviewDetails() {
     };
 
     fetchUsers();
-  }, []);
+  }, [headers]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -175,8 +183,10 @@ export default function ReviewDetails() {
           cosmetic: favoriteCosmetics.find(c => c.id === review.favorite_cosmetic_id) || null
         }));
 
+        const reviewsWithFetchReviewId = reviewsWithUsers.filter(review => review.id === parseInt(reviewId));
+
         const productReviewsWithReviews = favoriteCosmetics.map(cosmetic => {
-          const cosmeticReviews = reviewsWithUsers.filter(review => review.favorite_cosmetic_id === cosmetic.id);
+          const cosmeticReviews = reviewsWithFetchReviewId.filter(review => review.favorite_cosmetic_id === cosmetic.id);
           const totalRating = cosmeticReviews.reduce((acc, review) => acc + ratingToNumber(review.rating), 0);
           const averageRating = cosmeticReviews.length > 0 ? totalRating / cosmeticReviews.length : 0;
 

@@ -86,8 +86,23 @@ const ReviewForm: React.FC = () => {
     setReviewForm(prevForm => ({ ...prevForm, visibility: visibilityBoolean }));
   };
 
+  const validateForm = () => {
+    if (!reviewForm.body.trim()) {
+      toast.error("レビュー本文を入力してください");
+      return false;
+    }
+    if (reviewForm.rating === 0) {
+      toast.error("評価を選択してください");
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     await postReview();
   };
 
@@ -106,17 +121,16 @@ const ReviewForm: React.FC = () => {
           skin_trouble: reviewForm.skinTrouble,
         },
       };
-      console.log(formattedData);
 
       const response = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews`, formattedData, {
         headers: headers,
         withCredentials: true,
       });
       console.log(response.data);
-      router.push('/reviews');
       toast.success("レビューを投稿しました");
     } catch (error) {
       console.error(error);
+      toast.error("レビューの投稿に失敗しました");
     }
   };
 
