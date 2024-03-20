@@ -6,7 +6,17 @@ import Image from 'next/image';
 import CustomButton from '@/components/ui/custom-button';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
 import { SyncLoader } from 'react-spinners';
-import { Cosmetic, RecommendedCosmeticsProps } from '../../types'
+import { RecommendedCosmeticsProps } from '../../types'
+
+interface Cosmetic {
+  mediumImageUrl: string;
+  itemName: string;
+  itemPrice: number;
+  itemUrl: string;
+  shopName: string;
+  id: string;
+  isFavorite?: boolean;
+}
 
 const RecommendedCosmetics: React.FC<RecommendedCosmeticsProps> = ({ searchParams }) => {
   const [recommendedCosmetics, setRecommendedCosmetics] = useState<Cosmetic[]>([]);
@@ -108,7 +118,7 @@ const RecommendedCosmetics: React.FC<RecommendedCosmeticsProps> = ({ searchParam
                   <div className='flex flex-col items-center px-4 py-2 sm:py-4 relative mb-2'>
                     <div className="relative z-0 pt-2 w-custom h-custom">
                       <Image
-                        src={cosmetic.mediumImageUrl}
+                        src={cosmetic.mediumImageUrl || ''}
                         alt={cosmetic.itemName}
                         layout="fill"
                         objectFit="contain"
