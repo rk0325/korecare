@@ -36,7 +36,7 @@ export interface Cosmetic {
   itemPrice?: number;
   itemUrl?: string;
   shopName?: string;
-  id?: string | undefined;
+  id?: string;
   isFavorite?: boolean;
   name: any;
   item_url: any;
