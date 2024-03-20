@@ -15,9 +15,9 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 library.add(faXTwitter, faGithub);
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://korecare.vercel.app/'),
+  metadataBase: new URL('https://korecare.jp/'),
   title: 'KoreCare | 韓国コスメのスキンケア情報サービス',
-  description: 'KoreCareは、韓国コスメに特化した毎日のスキンケアをサポートするサービスです。',
+  description: 'KoreCare（コリケア）は、韓国コスメに特化したスキンケア情報サービスです。',
   openGraph: {
     title: 'KoreCare | 韓国コスメのスキンケア情報サービス',
     description: '韓国コスメのスキンケア情報サービス',

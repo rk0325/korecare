@@ -303,7 +303,7 @@ export default function ReviewDetails() {
 
   function shareOnTwitter(review: Review) {
     const text = `レビューを投稿しました！ #KoreCare`;
-    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=https://korecare.vercel.app`;
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=https://korecare.jp`;
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 
