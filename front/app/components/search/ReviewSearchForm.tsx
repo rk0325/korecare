@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useContext } from 'react';
 import { LoadingContext } from '../../contexts/LoadingContext';
+import { ReviewSearchFormProps } from '../../types/index';
 import {
   Select,
   SelectContent,
@@ -11,19 +12,6 @@ import {
 import {
   Search,
 } from "lucide-react"
-
-
-interface SearchParams {
-  skinType: string;
-  skinTrouble: string;
-  priceRange: string;
-  productType: string;
-  age: string;
-}
-
-interface ReviewSearchFormProps {
-  onSearch: (params: SearchParams) => void;
-}
 
 const ReviewSearchForm: React.FC<ReviewSearchFormProps> = ({ onSearch }) => {
   const [skinType, setSkinType] = useState("");

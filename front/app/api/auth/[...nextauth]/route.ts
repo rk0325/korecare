@@ -2,21 +2,6 @@ import NextAuth from 'next-auth';
 import LineProvider from 'next-auth/providers/line';
 import axios from 'axios';
 
-declare module "next-auth" {
-  interface Session {
-    accessToken?: string;
-    user?: {
-      id?: string;
-      name?: string;
-      image?: string;
-    }
-  }
-
-  interface User {
-    id?: string;
-  }
-}
-
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const handler = NextAuth({

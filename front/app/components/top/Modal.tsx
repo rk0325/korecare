@@ -6,10 +6,10 @@ import { useProfile } from '../../hooks/useProfile';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
 import {
   LogOut,
   Search,
-  Heart,
   Menu,
   Smile,
   CloudSun,
@@ -65,29 +65,25 @@ const Modal = () => {
             />
             <Label className="text-base text-center mt-4">{name || session?.user?.name}さん</Label>
           </div>
-          <div className="flex items-center cursor-pointer pt-5" onClick={() => handleNavigation('/home')}>
-            <CloudSun className="mr-2 h-4 w-4" />
-            <span>天気情報</span>
-          </div>
-          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/my_page')}>
-            <Smile className="mr-2 h-4 w-4" />
-            <span>マイページ</span>
-          </div>
-          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/search')}>
+          <div className="flex items-center cursor-pointer pt-5" onClick={() => handleNavigation('/search')}>
             <Search className="mr-2 h-4 w-4" />
             <span>韓国コスメ検索</span>
-          </div>
-          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/favorite_cosmetics')}>
-            <Heart className="mr-2 h-4 w-4" />
-            <span>お気に入り</span>
           </div>
           <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/reviews')}>
             <PenLine className="mr-2 h-4 w-4" />
             <span>レビュー一覧</span>
           </div>
+          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/home')}>
+            <CloudSun className="mr-2 h-4 w-4" />
+            <span>天気情報</span>
+          </div>
           <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/column')}>
             <MessageCircleQuestion className="mr-2 h-4 w-4" />
             <span>Q＆A</span>
+          </div>
+          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/my_page')}>
+            <Smile className="mr-2 h-4 w-4" />
+            <span>マイページ</span>
           </div>
           <div className="flex items-center cursor-pointer pt-4" onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />

@@ -1,10 +1,6 @@
 'use client';
 import { createContext } from 'react';
-
-type LoadingContextType = {
-  isLoading: boolean;
-  setIsLoading: (value: boolean) => void;
-};
+import { LoadingContextType } from '../types/index';
 
 export const LoadingContext = createContext<LoadingContextType>({
   isLoading: false,

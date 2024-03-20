@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
+import { Cosmetic } from '../../types/index';
 import Image from 'next/image';
 import CustomButton from '@/components/ui/custom-button';
 import { SyncLoader } from 'react-spinners';
@@ -17,14 +18,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-
-type Cosmetic = {
-  itemName: string;
-  itemPrice: number;
-  mediumImageUrl: string;
-  shopName: string;
-  itemUrl: string;
-};
 
 const DemonstrationResult = () => {
   const { skinType, skinTrouble } = useContext(UserInfoContext);
@@ -83,14 +76,14 @@ const DemonstrationResult = () => {
           </div>
         ) : (
           cosmetics.map((cosmetic, index) => (
-            <Link key={index} href={cosmetic.itemUrl} target="_blank" rel="noopener noreferrer">
+            <Link key={index} href={cosmetic.itemUrl || ''} target="_blank" rel="noopener noreferrer">
               <div className='shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm mt-6'>
                 <div className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
                   <p className="text-lg z-10 bg-E0DBD2 py-1 px-3 mb-2 rounded-3xl">{index === 0 ? '化粧水' : index === 1 ? '美容液' : 'クリーム'}</p>
                   <div className='flex flex-col items-center px-4 py-2 sm:py-4 relative'>
                     <div className="relative z-0 pt-2 w-custom h-custom">
                       <Image
-                        src={cosmetic.mediumImageUrl}
+                        src={cosmetic.mediumImageUrl || ''}
                         alt={cosmetic.itemName}
                         layout="fill"
                         objectFit="contain"
