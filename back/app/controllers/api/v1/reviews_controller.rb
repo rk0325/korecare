@@ -6,7 +6,6 @@ module Api
 
       def index
         @reviews = Review.where(visibility: true)
-                        .or(Review.where(user_id: current_user.id, visibility: false))
         render json: @reviews, include: [:user]
       end
 

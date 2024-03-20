@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import Image from 'next/image';
@@ -27,6 +27,11 @@ export default function Reviews() {
   const [productReviews, setProductReviews] = useState<ProductReviews[]>([]);
   const router = useRouter();
 
+
+  const headers = useMemo(() => {
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }, [token]);
+
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
@@ -38,7 +43,7 @@ export default function Reviews() {
   const fetchFavoriteCosmetics = useCallback(async (): Promise<FavoriteCosmetic[]> => {
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: headers,
         withCredentials: true,
       });
       return response.data;
@@ -46,13 +51,13 @@ export default function Reviews() {
       console.error("FavoriteCosmeticsの取得中にエラーが発生しました:", error);
       return [];
     }
-  }, [token]);
+  }, [headers]);
 
   useEffect(() => {
     const fetchAndCombineReviews = async () => {
       const favoriteCosmetics = await fetchFavoriteCosmetics();
       const reviewsResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: headers,
         withCredentials: true,
       });
       const reviews: Review[] = reviewsResponse.data;
@@ -100,7 +105,7 @@ export default function Reviews() {
       setProductReviews(productReviewsArray);
     };
       fetchAndCombineReviews();
-  }, [fetchFavoriteCosmetics, token]);
+  }, [fetchFavoriteCosmetics, headers]);
 
   function truncateName(name: string, maxLength: number = 36): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;

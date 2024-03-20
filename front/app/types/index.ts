@@ -90,14 +90,14 @@ export interface Review {
   image_url?: string;
   price?: number;
   favorite_cosmetic_id?: number;
-  reviews: Review[];
-  averageRating: number;
-  reviewCount: number;
-  userName: string;
+  averageRating?: number;
+  reviewCount?: number;
+  userName?: string;
   user?: User;
   skin_type: string;
   skin_trouble: string;
   age: number;
+  reviews?: Review[];
 }
 
 export interface FavoriteCosmetic {

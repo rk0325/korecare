@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
@@ -89,6 +90,7 @@ interface ApiResponse {
 }
 
 export default function ReviewDetails() {
+  const router = useRouter()
   const { data: session } = useSession();
   const params = useParams<{ id: string; }>()
   const reviewId = params.id;
@@ -238,6 +240,7 @@ export default function ReviewDetails() {
         withCredentials: true,
       });
       setReviews(reviews.filter(review => review.id !== reviewId));
+      router.push('/reviews');
       toast.success('レビューを削除しました');
     } catch (error) {
       console.error('レビューの削除に失敗しました:', error);
