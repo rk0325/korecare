@@ -125,6 +125,9 @@ export const FavoriteCosmetics = () => {
 
   return (
     <div className='pb-10'>
+      <p className="text-2xl md:text-3xl text-center justify-between pt-10">
+        お気に入りコスメ一覧
+      </p>
       {isLoading ? (
         <div className="flex justify-center min-h-screen pt-20">
           <SyncLoader color="#506D7D" />

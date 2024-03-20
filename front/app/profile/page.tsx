@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useSession, getSession } from 'next-auth/react'
 import { useProfile } from '../hooks/useProfile';
 import LineNotification from "../components/mypage/LineNotification";
+import { ApiResponseNotification, Notification } from '../types/index';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { format, add } from 'date-fns';
@@ -65,23 +66,6 @@ const axiosInstance = axios.create({
 });
 
 const fetcher = (url: string, headers: any) => axiosInstance.get(url, { headers }).then(res => res.data);
-
-type ApiResponseNotification = {
-  id: number;
-  item_type: string;
-  open_date: string | null;
-  expiry_date: string | null;
-  created_at: string;
-  updated_at: string;
-  user_id: number;
-};
-
-type Notification = {
-  id: number;
-  productType: string;
-  openDate: Date | null;
-  expiryDate: Date | null;
-};
 
 export default function EditProfile() {
   const router = useRouter()

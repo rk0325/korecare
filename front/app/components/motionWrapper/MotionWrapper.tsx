@@ -1,10 +1,6 @@
 import { motion } from 'framer-motion';
 import React from 'react';
-
-interface MotionWrapperProps {
-    children: React.ReactNode;
-    className?: string;
-}
+import { MotionWrapperProps } from '../../types'
 
 export default function MotionWrapper({
     children,

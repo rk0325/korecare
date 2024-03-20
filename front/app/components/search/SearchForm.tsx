@@ -1,7 +1,8 @@
 'use client';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { getSession } from 'next-auth/react'
+import { SearchFormProps } from '../../types/index';
 import { CosmeticsContext, CosmeticSet, ApiResponse } from '../../contexts/CosmeticsContext';
 import { LoadingContext } from '../../contexts/LoadingContext';
 import toast from 'react-hot-toast';
@@ -15,17 +16,6 @@ import {
 import {
   Search,
 } from "lucide-react"
-
-interface SearchParams {
-  skinType: string;
-  skinTrouble: string;
-  priceRange: string;
-  productType: string;
-}
-
-interface SearchFormProps {
-  onSearch: (params: SearchParams) => void;
-}
 
 const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
   const [skinType, setSkinType] = useState("");

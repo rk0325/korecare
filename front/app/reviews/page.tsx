@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
+import { Review, SearchParams, FavoriteCosmetic, ProductReviews } from '../types/index';
 import ReviewSearchForm from '../components/search/ReviewSearchForm';
 import ReviewSearchResult from '../components/search/ReviewSearchResult';
 import CustomButton from '@/components/ui/custom-button';
@@ -18,46 +19,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-
-interface SearchParams {
-  skinType: string;
-  skinTrouble: string;
-  priceRange: string;
-  productType: string;
-}
-
-interface Review {
-  id: number;
-  title: string;
-  body: string;
-  rating: string;
-  visibility: boolean;
-  user_id: number;
-  item_url?: string;
-  image_url?: string;
-  price?: number;
-  favorite_cosmetic_id?: number;
-  reviews: Review[];
-  averageRating: number;
-  reviewCount: number;
-}
-
-interface FavoriteCosmetic {
-  id: number;
-  item_url: string;
-  image_url: string;
-  price: number;
-}
-
-interface ProductReviews {
-  id: number;
-  item_url: string;
-  image_url: string;
-  averageRating: number;
-  reviewCount: number;
-  reviews: Review[];
-  price: number;
-}
 
 export default function Reviews() {
   const { data: session } = useSession();

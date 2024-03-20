@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { useProfile } from '../hooks/useProfile';
+import { LevelIconsProps } from '../types/index';
 import useSWR from 'swr';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
@@ -33,13 +34,6 @@ const calculateLevel = (value: number, max: number): number => {
   const level = Math.ceil((value / max) * 5);
   return level > 5 ? 5 : level;
 };
-
-interface LevelIconsProps {
-  level: number;
-  color: string;
-  grayColor?: string;
-  Icon: React.ElementType;
-}
 
 const LevelIcons: React.FC<LevelIconsProps> = ({ level, color, grayColor = "hsl(0, 0%, 80%)", Icon }) => {
   return (

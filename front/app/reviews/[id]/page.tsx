@@ -194,7 +194,7 @@ export default function ReviewDetails() {
             ...cosmetic,
             averageRating: isNaN(averageRating) ? 0 : averageRating,
             reviewCount: cosmeticReviews.length,
-            reviews: cosmeticReviews
+            reviews: cosmeticReviews,
           };
         }).filter(productReview => productReview.reviewCount > 0);
 
@@ -205,7 +205,7 @@ export default function ReviewDetails() {
     };
 
     fetchData();
-  }, [token, fetchFavoriteCosmetics]);
+  }, [token, reviewId, fetchFavoriteCosmetics]);
 
   function truncateName(name: string, maxLength: number = 36): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;

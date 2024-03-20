@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from 'react'
 import { useSession } from 'next-auth/react'
+import { SearchParams } from '../types/index';
 import SearchForm from '../components/search/SearchForm';
 import SearchResult from '../components/search/SearchResult';
 import RecommendedCosmetics from '../components/search/RecommendedCosmetics';
@@ -15,13 +16,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-
-interface SearchParams {
-  skinType: string;
-  skinTrouble: string;
-  priceRange: string;
-  productType: string;
-}
 
 export default function Search() {
   const { data: session } = useSession();
