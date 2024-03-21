@@ -22,14 +22,14 @@ module Api
       def create
         @review = current_user.reviews.new(review_params)
         if @review.save
+          %w(age skin_type skin_trouble).each do |tag_name|
+            tag = Tag.find_by(tag_name: review_params[tag_name])
+            @review.tags << tag if tag
+          end
+
           render json: @review, status: :created
         else
           render json: @review.errors, status: :unprocessable_entity
-        end
-
-        %w(age skin_type skin_trouble).each do |tag_name|
-          tag = Tag.find_or_create_by(tag_name: review_params[tag_name])
-          @review.tags << tag
         end
       end
 
