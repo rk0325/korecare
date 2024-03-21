@@ -5,8 +5,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
 import { Review, ProductReviews, SearchParams } from './review.type'
-import ReviewSearchForm from '../components/search/ReviewSearchForm';
-import ReviewSearchResult from '../components/search/ReviewSearchResult';
+import ReviewSearch from '../components/search/ReviewSearch';
 import CustomButton from '@/components/ui/custom-button';
 import {
   Search,
@@ -26,7 +25,6 @@ export default function Reviews() {
   const token = session?.accessToken;
   const [productReviews, setProductReviews] = useState<ProductReviews[]>([]);
   const router = useRouter();
-
 
   const headers = useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -134,8 +132,7 @@ export default function Reviews() {
             </div>
           </div>
           <div className='flex flex-col items-center space-y-4 p-10'>
-            <ReviewSearchForm onSearch={handleSearch} />
-            <ReviewSearchResult />
+            <ReviewSearch onSearch={handleSearch} />
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
               {productReviews.map((productReview) => (
                 productReview.reviews.map((review) => (
