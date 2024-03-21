@@ -5,7 +5,13 @@ module Api
       before_action :set_review, only: [:show, :update, :destroy]
 
       def index
-        @reviews = Review.where(visibility: true).includes(:user, :favorite_cosmetic)
+        if params[:tags].present?
+          tags = params[:tags].split(',')
+          @reviews = Review.joins(:tags).where(tags: { tag_name: tags }).includes(:user, :favorite_cosmetic)
+        else
+          @reviews = Review.where(visibility: true).includes(:user, :favorite_cosmetic)
+        end
+
         render json: @reviews, include: [:user, :favorite_cosmetic]
       end
 
@@ -19,6 +25,11 @@ module Api
           render json: @review, status: :created
         else
           render json: @review.errors, status: :unprocessable_entity
+        end
+
+        %w(age skin_type skin_trouble).each do |tag_name|
+          tag = Tag.find_or_create_by(tag_name: review_params[tag_name])
+          @review.tags << tag
         end
       end
 

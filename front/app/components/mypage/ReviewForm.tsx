@@ -20,7 +20,7 @@ const ReviewForm: React.FC = () => {
   const token = session?.accessToken;
   const router = useRouter()
   const [rating, setRating] = useState(1);
-  const { profile } = useProfile();
+  const { profile } = useProfile() || { skin_type: '', skin_trouble: '', age: '' };
 
   const headers = useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -65,15 +65,13 @@ const ReviewForm: React.FC = () => {
   };
 
   useEffect(() => {
-    if (profile) {
-      const { skin_type, skin_trouble, age } = profile;
-      setReviewForm(prevForm => ({
-        ...prevForm,
-        skinType: skin_type,
-        skinTrouble: skin_trouble,
-        age: age.toString(),
-      }));
-    }
+    const { skin_type, skin_trouble, age } = profile;
+    setReviewForm(prevForm => ({
+      ...prevForm,
+      skinType: skin_type,
+      skinTrouble: skin_trouble,
+      age: age.toString(),
+    }));
   }, [profile]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -127,6 +125,7 @@ const ReviewForm: React.FC = () => {
         withCredentials: true,
       });
       console.log(response.data);
+      router.push('/reviews')
       toast.success("レビューを投稿しました");
     } catch (error) {
       console.error(error);
