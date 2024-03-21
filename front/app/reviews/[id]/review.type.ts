@@ -15,6 +15,7 @@ export interface Review {
   image_url?: string;
   price?: number;
   favorite_cosmetic_id?: number;
+  favorite_cosmetic: any;
   user?: User;
   skin_type: string;
   skin_trouble: string;
@@ -35,7 +36,12 @@ export interface ProductReviews {
   averageRating: number;
   reviewCount: number;
   reviews: Review[];
-  price: number;
+  price: string | number;
+  title: string;
+  favorite_cosmetic: any;
+  rating: string;
+  user_name: string;
+  body: string;
 }
 
 export interface ApiResponse {

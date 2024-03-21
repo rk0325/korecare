@@ -1,10 +1,10 @@
 "use client";
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
-import { Review, ProductReviews, SearchParams, FavoriteCosmetic } from './review.type'
+import { Review, ProductReviews, SearchParams } from './review.type'
 import ReviewSearchForm from '../components/search/ReviewSearchForm';
 import ReviewSearchResult from '../components/search/ReviewSearchResult';
 import CustomButton from '@/components/ui/custom-button';
