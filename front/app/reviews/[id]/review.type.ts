@@ -41,6 +41,7 @@ export interface ProductReviews {
   favorite_cosmetic: any;
   rating: string;
   user_name: string;
+  user_id: string;
   body: string;
 }
 
