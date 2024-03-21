@@ -53,8 +53,9 @@ export default function Reviews() {
         const cosmetic = review.favorite_cosmetic;
         if (!cosmetic) return;
 
-        if (!productReviewsMap[cosmetic]) {
-          productReviewsMap[cosmetic] = {
+        const key = cosmetic.id.toString();
+        if (!productReviewsMap[key]) {
+          productReviewsMap[key] = {
             id: parseInt(cosmetic),
             item_url: cosmetic,
             image_url: cosmetic.image_url,
@@ -65,7 +66,7 @@ export default function Reviews() {
           };
         }
 
-        productReviewsMap[cosmetic].reviews.push(review);
+        productReviewsMap[key].reviews.push(review);
       });
 
       const ratings = {
