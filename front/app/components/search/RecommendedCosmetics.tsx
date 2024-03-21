@@ -7,16 +7,7 @@ import CustomButton from '@/components/ui/custom-button';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
 import { SyncLoader } from 'react-spinners';
 import { RecommendedCosmeticsProps } from '../../types'
-
-interface Cosmetic {
-  mediumImageUrl: string;
-  itemName: string;
-  itemPrice: number;
-  itemUrl: string;
-  shopName: string;
-  id: string;
-  isFavorite?: boolean;
-}
+import { Cosmetic } from './search.type';
 
 const RecommendedCosmetics: React.FC<RecommendedCosmeticsProps> = ({ searchParams }) => {
   const [recommendedCosmetics, setRecommendedCosmetics] = useState<Cosmetic[]>([]);

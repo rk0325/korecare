@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation'
+import { User, Review, FavoriteCosmetic, ProductReviews, ApiResponse } from './review.type';
 import axios from 'axios';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
@@ -27,67 +28,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog"
-
-interface User {
-  id: number;
-  name: string;
-}
-
-interface Review {
-  userName: string;
-  id: number;
-  title: string;
-  body: string;
-  rating: string;
-  visibility: boolean;
-  user_id: number;
-  item_url?: string;
-  image_url?: string;
-  price?: number;
-  favorite_cosmetic_id?: number;
-  user?: User;
-  skin_type: string;
-  skin_trouble: string;
-  age: number;
-}
-
-interface FavoriteCosmetic {
-  id: number;
-  item_url: string;
-  image_url: string;
-  price: number;
-}
-
-interface ProductReviews {
-  id: number;
-  item_url: string;
-  image_url: string;
-  averageRating: number;
-  reviewCount: number;
-  reviews: Review[];
-  price: number;
-}
-
-interface ApiResponse {
-  id: number;
-  title: string;
-  body: string;
-  rating: string;
-  visibility: boolean;
-  user_id: number;
-  item_url?: string;
-  image_url?: string;
-  price?: number;
-  favorite_cosmetic_id?: number;
-  skin_type: string;
-  skin_trouble: string;
-  age: number;
-  userName: string;
-  user: {
-    id: number;
-    name: string;
-  };
-}
 
 export default function ReviewDetails() {
   const router = useRouter()

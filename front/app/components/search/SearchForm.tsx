@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { getSession } from 'next-auth/react'
 import { SearchFormProps } from '../../types/index';
+import { SearchCosmetic } from './search.type'
 import { CosmeticsContext, CosmeticSet, ApiResponse } from '../../contexts/CosmeticsContext';
 import { LoadingContext } from '../../contexts/LoadingContext';
 import toast from 'react-hot-toast';
@@ -53,26 +54,6 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
       product_type: productType,
     };
 
-    type Cosmetic = {
-      id: any;
-      name: any;
-      itemName: any;
-      itemPrice: any;
-      mediumImageUrl: any;
-      itemUrl: any;
-      item_url: any;
-      shopName: any;
-      category: any;
-      image_url: any;
-      item_code: any;
-      brand: any;
-      price: any;
-      lotion?: string;
-      serum?: string;
-      cream?: string;
-      total_price?: number;
-    };
-
     try {
       const response = await axios.post<ApiResponse>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/search_cosmetics/for_logged_in_users`, UserData, {
         headers: headers,
@@ -88,7 +69,7 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
         }));
         setCosmeticSets(cosmeticSets);
       } else {
-        const cosmetics: Cosmetic[] = response.data.map((item: any): Cosmetic => ({
+        const cosmetics: SearchCosmetic[] = response.data.map((item: any): SearchCosmetic => ({
           id: item.id,
           name: item.name,
           itemName: item.itemName,
