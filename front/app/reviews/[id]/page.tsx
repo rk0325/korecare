@@ -229,11 +229,11 @@ export default function ReviewDetails() {
                     <p className='text-base text-left pb-6'>{productReview.body}</p>
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
                       <div className="tags flex space-x-2 mb-4 sm:mb-0">
-                        <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm"> {review?.skin_type} </span>
-                        <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm"> {review?.skin_trouble} </span>
-                        <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm"> {review?.age} </span>
+                        <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm"> {productReview.skin_type} </span>
+                        <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm"> {productReview.skin_trouble} </span>
+                        <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm"> {productReview.age} </span>
                       </div>
-                      {session?.user?.id === productReview.user_id && (
+                      {review?.user_id === session?.user?.id && (
                         <div className="ml-auto flex space-x-2">
                           <button onClick={() => review && shareOnTwitter(review)}>
                             <FontAwesomeIcon icon={faXTwitter} size="xl" className='pb-2 pl-2' />
