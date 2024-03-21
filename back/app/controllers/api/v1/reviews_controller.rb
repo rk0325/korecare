@@ -5,7 +5,7 @@ module Api
       before_action :set_review, only: [:show, :update, :destroy]
 
       def index
-        @reviews = Review.where(visibility: true).includes(:favorite_cosmetic)
+        @reviews = Review.where(visibility: true).includes(:user, :favorite_cosmetic)
         render json: @reviews, include: [:user, :favorite_cosmetic]
       end
 

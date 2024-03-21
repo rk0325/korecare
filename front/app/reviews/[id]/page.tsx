@@ -38,7 +38,6 @@ export default function ReviewDetails() {
   const token = session?.accessToken;
   const [review, setReview] = useState<Review | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deletingReviewId, setDeletingReviewId] = useState<number | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -69,7 +68,7 @@ export default function ReviewDetails() {
       try {
         const response = await axios.get<Review>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/${reviewId}`, {
           headers: headers,
-          withCredentials: true,
+          withCredentials: true
         });
         console.log(response.data);
         setReview(response.data);
@@ -80,74 +79,6 @@ export default function ReviewDetails() {
 
     fetchReview();
   }, [reviewId, headers]);
-
-  const fetchFavoriteCosmetics = useCallback(async (): Promise<FavoriteCosmetic[]> => {
-    try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, {
-        headers: headers,
-        withCredentials: true,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("FavoriteCosmeticsの取得中にエラーが発生しました:", error);
-      return [];
-    }
-  }, [headers]);
-
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/users`, {
-          headers: headers,
-          withCredentials: true,
-        });
-        setUsers(response.data);
-      } catch (error) {
-        console.error("ユーザー情報の取得中にエラーが発生しました:", error);
-      }
-    };
-
-    fetchUsers();
-  }, [headers]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [reviewsResponse, favoriteCosmetics] = await Promise.all([
-          axios.get<ApiResponse[]>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews`,
-            { headers: token ? { Authorization: `Bearer ${token}` } : {} }),
-          fetchFavoriteCosmetics()
-        ]);
-
-        const reviewsWithUsers = reviewsResponse.data.map((review: ApiResponse) => ({
-          ...review,
-          userName: review.user?.name || '匿名',
-          cosmetic: favoriteCosmetics.find(c => c.id === review.favorite_cosmetic_id) || null
-        }));
-
-        const reviewsWithFetchReviewId = reviewsWithUsers.filter(review => review.id === parseInt(reviewId));
-
-        const productReviewsWithReviews = favoriteCosmetics.map(cosmetic => {
-          const cosmeticReviews = reviewsWithFetchReviewId.filter(review => review.favorite_cosmetic_id === cosmetic.id);
-          const totalRating = cosmeticReviews.reduce((acc, review) => acc + ratingToNumber(review.rating), 0);
-          const averageRating = cosmeticReviews.length > 0 ? totalRating / cosmeticReviews.length : 0;
-
-          return {
-            ...cosmetic,
-            averageRating: isNaN(averageRating) ? 0 : averageRating,
-            reviewCount: cosmeticReviews.length,
-            reviews: cosmeticReviews,
-          };
-        }).filter(productReview => productReview.reviewCount > 0);
-
-        setProductReviews(productReviewsWithReviews);
-      } catch (error) {
-        console.error("データの取得中にエラーが発生しました:", error);
-      }
-    };
-
-    fetchData();
-  }, [token, reviewId, fetchFavoriteCosmetics]);
 
   function truncateName(name: string, maxLength: number = 36): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
