@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
-import { Review, SearchParams, FavoriteCosmetic, ProductReviews } from '../types/index';
+import { Review, ProductReviews, SearchParams, FavoriteCosmetic } from './review.type'
 import ReviewSearchForm from '../components/search/ReviewSearchForm';
 import ReviewSearchResult from '../components/search/ReviewSearchResult';
 import CustomButton from '@/components/ui/custom-button';
@@ -40,19 +40,6 @@ export default function Reviews() {
     console.log(params);
   };
 
-  const fetchFavoriteCosmetics = useCallback(async (): Promise<FavoriteCosmetic[]> => {
-    try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, {
-        headers: headers,
-        withCredentials: true,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("FavoriteCosmeticsの取得中にエラーが発生しました:", error);
-      return [];
-    }
-  }, [headers]);
-
   useEffect(() => {
     const fetchAndCombineReviews = async () => {
       const reviewsResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews`, {
@@ -63,19 +50,18 @@ export default function Reviews() {
 
       const productReviewsMap: { [key: string]: ProductReviews } = {};
       reviews.forEach(review => {
-        if (review.favorite_cosmetic_id === undefined) return;
-        const cosmetic = review.favorite_cosmetic_id.toString();
+        const cosmetic = review.favorite_cosmetic;
         if (!cosmetic) return;
 
         if (!productReviewsMap[cosmetic]) {
           productReviewsMap[cosmetic] = {
             id: parseInt(cosmetic),
             item_url: cosmetic,
-            image_url: cosmetic,
+            image_url: cosmetic.image_url,
             averageRating: 0,
             reviewCount: 0,
             reviews: [],
-            price: parseInt(cosmetic),
+            price: cosmetic.price,
           };
         }
 
@@ -99,13 +85,14 @@ export default function Reviews() {
           ...productReview,
           averageRating,
           reviewCount: productReview.reviews.length,
+          image_url: productReview.image_url || '/image.png',
+          price: typeof productReview.price === 'number' ? productReview.price : parseInt(productReview.price) || '参考価格',
         };
       });
-
       setProductReviews(productReviewsArray);
     };
       fetchAndCombineReviews();
-  }, [fetchFavoriteCosmetics, headers]);
+  }, [headers]);
 
   function truncateName(name: string, maxLength: number = 36): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
@@ -151,10 +138,10 @@ export default function Reviews() {
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
               {productReviews.map((productReview) => (
                 productReview.reviews.map((review) => (
-                  <div key={productReview.id} className="shadow-md rounded-md overflow-hidden cursor-pointer max-w-sm mx-auto">
+                  <div key={productReview.id} className="shadow-md rounded-md overflow-hidden max-w-sm mx-auto">
                     {productReview.image_url && (
                       <div className="flex items-center justify-center h-[150px] mt-4">
-                        <Image src={productReview.image_url} alt="Image" width={128} height={128} objectFit="contain" quality={100} />
+                        <Image src={productReview.image_url || '/image.png'} alt="Image" width={128} height={128} objectFit="contain" quality={100} />
                       </div>
                     )}
                     <div className="p-4 text-center">
