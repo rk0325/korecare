@@ -34,15 +34,24 @@ module Api
       end
 
       def update
-        if @review.update(review_params)
-          render json: @review
+        if @review.user_id == current_user.id
+          if @review.update(review_params)
+            render json: @review
+          else
+            render json: @review.errors, status: :unprocessable_entity
+          end
         else
-          render json: @review.errors, status: :unprocessable_entity
+          render json: { error: 'You are not authorized to update this review.' }, status: :forbidden
         end
       end
 
       def destroy
-        @review.destroy
+        if @review.user_id == current_user.id
+          @review.destroy
+          render json: { message: 'Review was successfully deleted.' }, status: :ok
+        else
+          render json: { error: 'You are not authorized to delete this review.' }, status: :forbidden
+        end
       end
 
       private
