@@ -6,7 +6,7 @@ import Image from 'next/image';
 import CustomButton from '@/components/ui/custom-button';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
 import { SyncLoader } from 'react-spinners';
-import { RecommendedCosmeticsProps } from '../../types'
+import { RecommendedCosmeticsProps } from '../../types';
 import { Cosmetic } from './search.type';
 
 const RecommendedCosmetics: React.FC<RecommendedCosmeticsProps> = ({ searchParams }) => {

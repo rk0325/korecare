@@ -55,31 +55,31 @@ export default function Reviews() {
 
   useEffect(() => {
     const fetchAndCombineReviews = async () => {
-      const favoriteCosmetics = await fetchFavoriteCosmetics();
       const reviewsResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews`, {
         headers: headers,
         withCredentials: true,
       });
       const reviews: Review[] = reviewsResponse.data;
 
-      const productReviewsMap: { [key: number]: ProductReviews } = {};
+      const productReviewsMap: { [key: string]: ProductReviews } = {};
       reviews.forEach(review => {
-        const cosmetic = favoriteCosmetics.find(c => c.id === review.favorite_cosmetic_id);
+        if (review.favorite_cosmetic_id === undefined) return;
+        const cosmetic = review.favorite_cosmetic_id.toString();
         if (!cosmetic) return;
 
-        if (!productReviewsMap[cosmetic.id]) {
-          productReviewsMap[cosmetic.id] = {
-            id: cosmetic.id,
-            item_url: cosmetic.item_url,
-            image_url: cosmetic.image_url,
+        if (!productReviewsMap[cosmetic]) {
+          productReviewsMap[cosmetic] = {
+            id: parseInt(cosmetic),
+            item_url: cosmetic,
+            image_url: cosmetic,
             averageRating: 0,
             reviewCount: 0,
             reviews: [],
-            price: cosmetic.price,
+            price: parseInt(cosmetic),
           };
         }
 
-        productReviewsMap[cosmetic.id].reviews.push(review);
+        productReviewsMap[cosmetic].reviews.push(review);
       });
 
       const ratings = {
