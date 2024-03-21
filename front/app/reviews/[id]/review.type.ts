@@ -43,6 +43,9 @@ export interface ProductReviews {
   user_name: string;
   user_id: string;
   body: string;
+  skin_type: string;
+  skin_trouble: string;
+  age: number;
 }
 
 export interface ApiResponse {
