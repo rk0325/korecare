@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
 import axios from 'axios';
-import ReviewForm from './ReviewForm';
+import ReviewForm from '../review/ReviewForm';
 import { FavoriteIconAnim } from '@/components/ui/FavoriteIconAnim';
 import { SyncLoader } from 'react-spinners';
 import CustomButton from '@/components/ui/custom-button';

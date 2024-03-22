@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation'
-import { Review, ProductReviews } from './review.type';
+import { Review, ProductReviews, DisplayAverageRatingProps } from './review.type';
 import axios from 'axios';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
@@ -64,40 +64,31 @@ export default function ReviewDetails() {
   }
 
   useEffect(() => {
-    const fetchReview = async () => {
+    const fetchReviewDetails = async () => {
       try {
-        const response = await axios.get<Review>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/${reviewId}`, {
+        const reviewResponse = await axios.get<Review>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/${reviewId}`, {
           headers: headers,
           withCredentials: true
         });
-        setReview(response.data);
-      } catch (error) {
-        console.error("レビューの取得中にエラーが発生しました:", error);
-      }
-    };
+        setReview(reviewResponse.data);
 
-    fetchReview();
-  }, [reviewId, headers]);
+        const productId = reviewResponse.data.favorite_cosmetic.id;
 
-  useEffect(() => {
-    const fetchAllReviewsForProduct = async () => {
-      try {
-        const response = await axios.get<ProductReviews[]>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews`, {
+        const productReviewsResponse = await axios.get<ProductReviews[]>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews?product_id=${productId}`, {
           headers: headers,
           withCredentials: true
         });
 
-        const updatedProductReviewsWithInfo = response.data.map(productReview => {
-          const cosmeticReviews = productReview.reviews || [];
-          const totalRating = cosmeticReviews.length > 0 ? cosmeticReviews.reduce((acc, review) => acc + ratingToNumber(review.rating), 0) : 0;
-          const averageRating = cosmeticReviews.length > 0 ? totalRating / cosmeticReviews.length : 0;
+        const reviews = productReviewsResponse.data;
+        const totalRating = reviews.reduce((acc, review) => acc + ratingToNumber(review.rating), 0);
+        const averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
+        const reviewCount = reviews.length;
 
-          return {
-            ...productReview,
-            averageRating: isNaN(averageRating) ? 0 : averageRating,
-            reviewCount: cosmeticReviews.length,
-          };
-        });
+        const updatedProductReviewsWithInfo = reviews.map(review => ({
+          ...review,
+          averageRating: isNaN(averageRating) ? 0 : averageRating,
+          reviewCount: reviewCount,
+        }));
 
         setProductReviews(updatedProductReviewsWithInfo);
       } catch (error) {
@@ -105,8 +96,13 @@ export default function ReviewDetails() {
       }
     };
 
-    fetchAllReviewsForProduct();
-  }, [headers]);
+    fetchReviewDetails();
+  }, [headers, reviewId]);
+
+  function DisplayAverageRating({ productReview }: DisplayAverageRatingProps) {
+    const displayString = `平均評価: ${productReview.averageRating.toFixed(1)} (${productReview.reviewCount}件)`;
+    return <p>{displayString}</p>;
+  }
 
   function truncateName(name: string, maxLength: number = 36): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
@@ -221,7 +217,7 @@ export default function ReviewDetails() {
               </div>
               <h2 className="text-lg">{truncateName(productReview.favorite_cosmetic.name ?? 'タイトル不明')}</h2>
               <p>{productReview.favorite_cosmetic.price}円</p>
-              <p>平均評価: ★ {productReview.averageRating} ({productReview.reviewCount}件)</p>
+              <DisplayAverageRating productReview={productReview} />
               <Accordion type="single" collapsible className="mt-4">
                 <AccordionItem key={productReview.id} value={`details-${productReview.id}`}>
                   <AccordionTrigger>投稿者: {productReview.user_name}さん {ratingToStars(productReview.rating)}</AccordionTrigger>
@@ -229,11 +225,23 @@ export default function ReviewDetails() {
                     <p className='text-base text-left pb-6'>{productReview.body}</p>
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
                       <div className="tags flex space-x-2 mb-4 sm:mb-0">
-                        <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm"> {productReview.skin_type} </span>
-                        <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm"> {productReview.skin_trouble} </span>
-                        <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm"> {productReview.age} </span>
+                        {productReview.skin_type && (
+                          <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm">
+                            {productReview.skin_type}
+                          </span>
+                        )}
+                        {productReview.skin_trouble && (
+                          <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm">
+                            {productReview.skin_trouble}
+                          </span>
+                        )}
+                        {productReview.age && (
+                          <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm">
+                            {productReview.age}
+                          </span>
+                        )}
                       </div>
-                      {review?.user_id === session?.user?.id && (
+                      {session?.user?.id === productReview.user.uid && (
                         <div className="ml-auto flex space-x-2">
                           <button onClick={() => review && shareOnTwitter(review)}>
                             <FontAwesomeIcon icon={faXTwitter} size="xl" className='pb-2 pl-2' />
