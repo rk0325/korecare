@@ -54,6 +54,8 @@ const ReviewSearchForm: React.FC<ReviewSearchFormProps> = () => {
       },
     });
 
+    console.log(response.data);
+    setReviews([]);
     setReviews(response.data);
     setIsLoading(false);
     setIsSearching(false);
@@ -144,15 +146,15 @@ const ReviewSearchForm: React.FC<ReviewSearchFormProps> = () => {
       </div>
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
         {productReviews.map((productReview) => (
-          productReview.reviews.map((review) => (
-            <div key={productReview.id} className="shadow-md rounded-md overflow-hidden max-w-sm mx-auto">
+          productReview.reviews.map((review, index) => (
+            <div key={`${productReview.id}-${index}`} className="shadow-md rounded-md overflow-hidden max-w-sm mx-auto">
               {productReview.image_url && (
                 <div className="flex items-center justify-center h-[150px] mt-4">
                   <Image src={productReview.image_url || '/image.png'} alt="Image" width={128} height={128} objectFit="contain" quality={100} />
                 </div>
               )}
               <div className="p-4 text-center">
-                <h3 className="text-lg">{truncateName(productReview.reviews[0].title)}</h3>
+                <h3 className="text-lg">{truncateName(review.title)}</h3>
                 <p>{`★ ${productReview.averageRating.toFixed(1)} (${productReview.reviewCount}件)`}</p>
                 <p>{productReview.price}円</p>
                 <div className="flex justify-center mt-2">
