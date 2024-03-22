@@ -5,7 +5,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react'
 import { Review, ProductReviews, SearchParams } from './review.type'
-import ReviewSearch from '../components/search/ReviewSearch';
+import ReviewSearch from '../components/review/ReviewSearch';
 import CustomButton from '@/components/ui/custom-button';
 import {
   Search,

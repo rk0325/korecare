@@ -27,6 +27,7 @@ const ReviewSearchForm: React.FC<ReviewSearchFormProps> = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [productReviews, setProductReviews] = useState<ProductReviews[]>([]);
   const [searchPerformed, setSearchPerformed] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
   const { isLoading, setIsLoading } = useContext(LoadingContext);
   const { data: session } = useSession();
   const token = session?.accessToken;
@@ -37,6 +38,7 @@ const ReviewSearchForm: React.FC<ReviewSearchFormProps> = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
+    setIsSearching(true);
     setSearchPerformed(true);
 
     const tags = [];
@@ -53,8 +55,8 @@ const ReviewSearchForm: React.FC<ReviewSearchFormProps> = () => {
     });
 
     setReviews(response.data);
-    console.log(response.data);
     setIsLoading(false);
+    setIsSearching(false);
   }
 
   const resetForm = () => {
@@ -113,8 +115,8 @@ const ReviewSearchForm: React.FC<ReviewSearchFormProps> = () => {
             <div className="flex flex-col items-center space-y-4 md:flex-row md:space-y-0 md:space-x-4">
               <button
                 type="submit"
-                className={`btn-506D7D flex justify-center items-center rounded-md h-[40px] w-[80px] ${skinTrouble || skinType || age ? '' : 'opacity-50 cursor-not-allowed'}`}
-                disabled={!(skinTrouble || skinType || age)}
+                className={`btn-506D7D flex justify-center items-center rounded-md h-[40px] w-[80px] ${skinTrouble || skinType || age || isSearching ? '' : 'opacity-50 cursor-not-allowed'}`}
+                disabled={!(skinTrouble || skinType || age || isSearching)}
               >
                 <Search size={18} className="mr-2" />
                 検索
