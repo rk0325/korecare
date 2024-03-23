@@ -10,12 +10,16 @@ module Api
       end
 
       def create
-        favorite_cosmetic = current_user.favorite_cosmetics.new(favorite_cosmetic_params)
+        favorite_cosmetic = current_user.favorite_cosmetics.find_or_initialize_by(item_code: favorite_cosmetic_params[:item_code])
 
-        if favorite_cosmetic.save
-          render json: favorite_cosmetic.as_json(only: [:id, :user_id, :name, :brand, :price, :item_url, :image_url, :item_code]), status: :created
+        if favorite_cosmetic.new_record?
+          if favorite_cosmetic.update(favorite_cosmetic_params)
+            render json: favorite_cosmetic.as_json(only: [:id, :user_id, :name, :brand, :price, :item_url, :image_url, :item_code]), status: :created
+          else
+            render json: favorite_cosmetic.errors, status: :unprocessable_entity
+          end
         else
-          render json: favorite_cosmetic.errors, status: :unprocessable_entity
+          render json: { message: "Favorite cosmetic already exists." }, status: :ok
         end
       end
 
@@ -27,7 +31,7 @@ module Api
       private
 
       def favorite_cosmetic_params
-        params.require(:favorite_cosmetic).permit(:user_id, :name, :brand, :price, :item_url, :image_url, :item_code)
+        params.require(:favorite_cosmetic).permit(:name, :brand, :price, :item_url, :image_url, :item_code)
       end
 
       def set_favorite_cosmetic

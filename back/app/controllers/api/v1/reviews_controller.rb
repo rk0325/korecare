@@ -6,13 +6,15 @@ module Api
 
       def index
         if params[:product_id].present?
-          @reviews = Review.where(favorite_cosmetic_id: params[:product_id], visibility: true).includes(:user, :favorite_cosmetic)
+          @reviews = Review.where(favorite_cosmetic_id: params[:product_id]).includes(:user, :favorite_cosmetic)
         elsif params[:tags].present?
           tags = params[:tags].split(',').map { |tag| tag.gsub('代', '') }
           @reviews = Review.joins(:tags).where(tags: { tag_name: tags }).distinct.includes(:user, :favorite_cosmetic)
         else
-          @reviews = Review.where(visibility: true).includes(:user, :favorite_cosmetic)
+          @reviews = Review.includes(:user, :favorite_cosmetic)
         end
+
+        @reviews = @reviews.where("visibility = ? OR user_id = ?", true, current_user.id)
 
         render json: @reviews, include: [:user, :favorite_cosmetic]
       end

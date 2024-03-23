@@ -16,6 +16,7 @@ Rails.application.routes.draw do
         post :for_guests
         post :for_logged_in_users
         post :recommendations
+        post :profile_recommendations
       end
 
       resource :notifications, only: [] do

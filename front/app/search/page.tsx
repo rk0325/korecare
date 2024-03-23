@@ -5,6 +5,7 @@ import { SearchParams } from '../types/index';
 import SearchForm from '../components/search/SearchForm';
 import SearchResult from '../components/search/SearchResult';
 import RecommendedCosmetics from '../components/search/RecommendedCosmetics';
+import ProfileRecommendedCosmetics from '../components/search/ProfileRecommendedCosmetics';
 import {
   AlertTriangle,
   AlertCircle,
@@ -71,6 +72,7 @@ export default function Search() {
           <SearchForm onSearch={handleSearch} />
           <RecommendedCosmetics searchParams={searchParams} />
           <SearchResult />
+          <ProfileRecommendedCosmetics />
         </div>
       </>
     ) : null

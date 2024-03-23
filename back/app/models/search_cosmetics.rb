@@ -75,7 +75,7 @@ class SearchCosmetics
     tag_id = SKIN_TYPE_TAGS[skin_type]
     trouble_tag_ids = Array(SKIN_TROUBLE_TAGS[skin_trouble])
     ng_keywords = USERS_NG_KEYWORDS
-    elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl,shopName"
+    elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl"
     results = []
 
     min_price, max_price = nil, nil
@@ -132,7 +132,6 @@ class SearchCosmetics
         itemPrice: item['itemPrice'],
         itemUrl: item['itemUrl'],
         mediumImageUrl: item['mediumImageUrls'].first,
-        shopName: item['shopName'],
       }
     end
     results
@@ -142,7 +141,7 @@ class SearchCosmetics
     genre_id = "562084"
     tag_id = SKIN_TYPE_TAGS[skin_type]
     ng_keywords = USERS_NG_KEYWORDS
-    elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl,shopName"
+    elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl"
 
     lotion_results = search_items_by_category("化粧水", genre_id, tag_id, ng_keywords, elements)
     serum_results = search_items_by_category("美容液", genre_id, tag_id, ng_keywords, elements)
@@ -199,7 +198,6 @@ class SearchCosmetics
         itemPrice: item['itemPrice'],
         itemUrl: item['itemUrl'],
         mediumImageUrl: item['mediumImageUrls'].first,
-        shopName: item['shopName'],
       }
     end
   end
@@ -207,7 +205,7 @@ class SearchCosmetics
   def self.recommendations(skin_type, skin_trouble)
     genre_id = "562084"
     tag_id = SKIN_TYPE_TAGS[skin_type]
-    elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl,shopName"
+    elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl"
     ng_keywords = USERS_NG_KEYWORDS
 
     recommend_keywords = ['美容液', 'クリーム', '化粧水', 'マスク']
@@ -221,7 +219,7 @@ class SearchCosmetics
         NGKeyword: ng_keywords,
         elements: elements,
         formatVersion: 2,
-        sort: 'standard',
+        sort: '-reviewCount',
         hits: 3,
         purchaseType: 0
       ).to_a
@@ -249,7 +247,57 @@ class SearchCosmetics
         itemPrice: item['itemPrice'],
         itemUrl: item['itemUrl'],
         mediumImageUrl: item['mediumImageUrls'].first,
-        shopName: item['shopName'],
+      }
+    end
+  end
+
+  def self.profile_recommendations(skin_type, skin_trouble)
+    genre_id = "562084"
+    tag_id = SKIN_TYPE_TAGS[skin_type]
+    elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl"
+    ng_keywords = USERS_NG_KEYWORDS
+
+    recommend_keywords = ['美容液', 'クリーム', '化粧水', 'マスク']
+    recommend_results = []
+
+    recommend_keywords.each do |keyword|
+      search_results = RakutenWebService::Ichiba::Item.search(
+        keyword: "公式 #{keyword}",
+        genreId: genre_id,
+        tagId: tag_id,
+        NGKeyword: ng_keywords,
+        elements: elements,
+        formatVersion: 2,
+        sort: 'standard',
+        hits: 3,
+        purchaseType: 0
+      ).to_a
+      recommend_results.concat(search_results)
+    end
+
+    mask_results = RakutenWebService::Ichiba::Item.search(
+      keyword: "公式 マスク",
+      genreId: genre_id,
+      tagId: tag_id,
+      NGKeyword: ng_keywords,
+      elements: elements,
+      formatVersion: 2,
+      sort: '-reviewAverage',
+      hits: 1,
+      purchaseType: 0
+    ).first
+
+    recommend_results.unshift(mask_results) unless mask_results.nil?
+
+    results.uniq! { |item| item['itemCode'] }
+
+    recommend_results.sample(5).map do |item|
+      {
+        id: item['itemCode'],
+        itemName: item['itemName'],
+        itemPrice: item['itemPrice'],
+        itemUrl: item['itemUrl'],
+        mediumImageUrl: item['mediumImageUrls'].first,
       }
     end
   end
