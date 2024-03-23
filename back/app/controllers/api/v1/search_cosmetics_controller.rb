@@ -25,6 +25,13 @@ module Api
         render json: @recommendations
       end
 
+      def profile_recommendations
+        skin_type = params[:skin_type]
+        skin_trouble = params[:skin_trouble]
+        @recommendations = SearchCosmetics.recommendations(skin_type, skin_trouble)
+        render json: @recommendations
+      end
+
       private
 
       def cosmetic_params

@@ -11,12 +11,11 @@ export function useProfile() {
   const { data: session } = useSession();
   const token = session?.accessToken;
 
-  // useSWRの第一引数に配列を使用してURLとトークンを渡す
   const { data, error, mutate } = useSWR(
-    [`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profiles`, token], // URLとトークンを配列で渡す
+    [`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profiles`, token],
     fetcher,
     {
-      refreshInterval: 300000,
+      refreshInterval: 3600000,
     }
   );
 

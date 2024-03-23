@@ -161,7 +161,7 @@ const ReviewForm: React.FC = () => {
               <Input id="skinType" name="skinType" value={reviewForm.skinType} readOnly />
             </div>
             <div>
-              <Label htmlFor="skinTrouble">悩み</Label>
+              <Label htmlFor="skinTrouble">お悩み</Label>
               <Input id="skinTrouble" name="skinTrouble" value={reviewForm.skinTrouble} readOnly />
             </div>
             <div>

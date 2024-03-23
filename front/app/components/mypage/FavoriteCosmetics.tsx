@@ -32,7 +32,7 @@ type FavoriteCosmetics = (typeof SHEET_SIDES)[number]
 export const FavoriteCosmetics = () => {
   const { data: session } = useSession();
   const token = session?.accessToken;
-  const categories = ['化粧水', '美容液', 'クリーム'];
+  const categories = ['化粧水', '美容液', 'クリーム', 'マスク'];
   const { data: favoriteCosmetics, error } = useSWR<Cosmetic[]>(token ? `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics` : null, () => fetcher(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/favorite_cosmetics`, headers));
   const isLoading = !favoriteCosmetics && !error;
   const [favoriteStatus, setFavoriteStatus] = useState(new Map());
