@@ -51,6 +51,7 @@ export interface Cosmetic {
 
 export interface RecommendedCosmeticsProps {
   searchParams: SearchParams;
+  hasSearched: boolean;
 }
 
 export interface ReviewSearchFormProps {

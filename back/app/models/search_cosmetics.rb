@@ -4,7 +4,7 @@ class SearchCosmetics
 
   USERS_NG_KEYWORDS = '詰め替え マスク パッド ミスト セット %洗顔% 日焼け止め 下地 パッチ オールインワン 10枚 まつ毛% ボディ% アイクリーム スポット リップ% シャンプー %落とし ブースター'.freeze
 
-  RECOMMEND_NG_KEYWORDS = '詰め替え %洗顔% 日焼け止め 下地 まつ毛% ボディ% アイクリーム リップ% シャンプー %落とし'.freeze
+  RECOMMEND_NG_KEYWORDS = 'サンプル 詰め替え %洗顔% 日焼け止め 下地 まつ毛% ボディ% アイクリーム リップ% シャンプー %落とし'.freeze
 
   SKIN_TYPE_TAGS = {
     '乾燥肌' => '1001296',
@@ -38,16 +38,19 @@ class SearchCosmetics
 
   def self.for_guests(skin_type, skin_trouble)
     genre_id = "562084"
-    tag_id = SKIN_TYPE_TAGS[skin_type]
+    skin_tag_id = SKIN_TYPE_TAGS[skin_type]
+    trouble_tag_ids = SKIN_TROUBLE_TAGS[skin_trouble]
+    trouble_tag_ids = trouble_tag_ids.is_a?(Array) ? trouble_tag_ids.join(',') : trouble_tag_ids
     elements = "itemCode,itemName,itemPrice,imageUrl,itemUrl"
     ng_keywords = GUESTS_NG_KEYWORDS
     results = []
+
     ["化粧水", "セラム", "クリーム"].each do |item|
       keyword = "公式 #{item}"
       search_results = RakutenWebService::Ichiba::Item.search(
         keyword: keyword,
         genreId: genre_id,
-        tagId: tag_id,
+        tagId: "#{skin_tag_id},#{trouble_tag_ids}",
         NGKeyword: ng_keywords,
         elements: elements,
         formatVersion: 2,
@@ -73,7 +76,7 @@ class SearchCosmetics
   def self.for_logged_in_users(skin_type, skin_trouble, price_range, product_type)
     genre_id = "562084"
     tag_id = SKIN_TYPE_TAGS[skin_type]
-    trouble_tag_ids = Array(SKIN_TROUBLE_TAGS[skin_trouble])
+    trouble_tag_ids = SKIN_TROUBLE_TAGS[skin_trouble].is_a?(Array) ? SKIN_TROUBLE_TAGS[skin_trouble].join(',') : SKIN_TROUBLE_TAGS[skin_trouble]
     ng_keywords = USERS_NG_KEYWORDS
     elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl"
     results = []
@@ -99,31 +102,28 @@ class SearchCosmetics
 
     items = PRODUCT_TYPE_KEYWORDS[product_type] || [product_type]
     product_ng_keywords = PRODUCT_TYPE_NG_KEYWORDS[product_type]
-    product_ng_keywords.each do |ng_keyword|
-      ng_keywords += " #{ng_keyword}"
-    end
+    ng_keywords_combined = (product_ng_keywords + [USERS_NG_KEYWORDS]).join(' ')
 
     items.each do |item|
-      keyword = "公式 #{item}"
-      trouble_tag_ids.each do |trouble_tag_id|
+    keyword = "公式 #{item}"
       search_results = RakutenWebService::Ichiba::Item.search(
         keyword: keyword,
         genreId: genre_id,
-        tagId: tag_id,
-        NGKeyword: ng_keywords,
+        tagId: "#{tag_id},#{trouble_tag_ids}",
+        NGKeyword: ng_keywords_combined,
         elements: elements,
         formatVersion: 2,
         sort: 'standard',
         minPrice: min_price,
         maxPrice: max_price,
-        hits: 5,
+        hits: 6,
         purchaseType: 0
       ).to_a
       results.concat(search_results)
-      end
     end
 
     results.uniq! { |item| item['itemCode'] }
+    results = results.take(6)
 
     results.map! do |item|
       {
@@ -139,13 +139,15 @@ class SearchCosmetics
 
   def self.search_cosmetic_sets(skin_type, skin_trouble, min_price, max_price)
     genre_id = "562084"
-    tag_id = SKIN_TYPE_TAGS[skin_type]
+    tag_id = "#{SKIN_TYPE_TAGS[skin_type]},#{SKIN_TROUBLE_TAGS[skin_trouble].is_a?(Array) ? SKIN_TROUBLE_TAGS[skin_trouble].join(',') : SKIN_TROUBLE_TAGS[skin_trouble]}"
     ng_keywords = USERS_NG_KEYWORDS
     elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl"
 
-    lotion_results = search_items_by_category("化粧水", genre_id, tag_id, ng_keywords, elements)
-    serum_results = search_items_by_category("美容液", genre_id, tag_id, ng_keywords, elements)
-    cream_results = search_items_by_category("クリーム", genre_id, tag_id, ng_keywords, elements)
+    set_ng_keywords = PRODUCT_TYPE_NG_KEYWORDS['化粧水・美容液・クリームセット'].join(' ')
+
+    lotion_results = search_items_by_category("化粧水", genre_id, tag_id, "#{ng_keywords} #{set_ng_keywords}", elements)
+    serum_results = search_items_by_category("美容液", genre_id, tag_id, "#{ng_keywords} #{set_ng_keywords}", elements)
+    cream_results = search_items_by_category("クリーム", genre_id, tag_id, "#{ng_keywords} #{set_ng_keywords}", elements)
 
     lotion_results.each do |lotion|
       lotion_price = lotion[:itemPrice].to_i
@@ -205,8 +207,10 @@ class SearchCosmetics
   def self.recommendations(skin_type, skin_trouble)
     genre_id = "562084"
     tag_id = SKIN_TYPE_TAGS[skin_type]
+    trouble_tag_ids = SKIN_TROUBLE_TAGS[skin_trouble]
+    trouble_tag_ids = trouble_tag_ids.is_a?(Array) ? trouble_tag_ids.join(',') : trouble_tag_ids
     elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl"
-    ng_keywords = USERS_NG_KEYWORDS
+    ng_keywords = RECOMMEND_NG_KEYWORDS
 
     recommend_keywords = ['美容液', 'クリーム', '化粧水', 'マスク']
     recommend_results = []
@@ -215,7 +219,7 @@ class SearchCosmetics
       search_results = RakutenWebService::Ichiba::Item.search(
         keyword: "公式 #{keyword}",
         genreId: genre_id,
-        tagId: tag_id,
+        tagId: "#{tag_id},#{trouble_tag_ids}",
         NGKeyword: ng_keywords,
         elements: elements,
         formatVersion: 2,
@@ -240,7 +244,8 @@ class SearchCosmetics
 
     recommend_results.unshift(mask_results) unless mask_results.nil?
 
-    recommend_results.sample(5).map do |item|
+    recommend_results.uniq! { |item| item['itemCode'] }
+    recommend_results.sample(3).map do |item|
       {
         id: item['itemCode'],
         itemName: item['itemName'],
@@ -254,44 +259,31 @@ class SearchCosmetics
   def self.profile_recommendations(skin_type, skin_trouble)
     genre_id = "562084"
     tag_id = SKIN_TYPE_TAGS[skin_type]
+    trouble_tag_ids = SKIN_TROUBLE_TAGS[skin_trouble]
+    trouble_tag_ids = trouble_tag_ids.is_a?(Array) ? trouble_tag_ids.join(',') : trouble_tag_ids
     elements = "itemCode,itemName,itemPrice,itemUrl,imageUrl"
-    ng_keywords = USERS_NG_KEYWORDS
+    ng_keywords = RECOMMEND_NG_KEYWORDS
 
-    recommend_keywords = ['美容液', 'クリーム', '化粧水', 'マスク']
+    recommend_keywords = ['美容液', 'クリーム', '化粧水']
     recommend_results = []
 
     recommend_keywords.each do |keyword|
       search_results = RakutenWebService::Ichiba::Item.search(
         keyword: "公式 #{keyword}",
         genreId: genre_id,
-        tagId: tag_id,
+        tagId: "#{tag_id},#{trouble_tag_ids}",
         NGKeyword: ng_keywords,
         elements: elements,
         formatVersion: 2,
-        sort: 'standard',
+        sort: '-reviewAverage',
         hits: 3,
         purchaseType: 0
       ).to_a
       recommend_results.concat(search_results)
     end
 
-    mask_results = RakutenWebService::Ichiba::Item.search(
-      keyword: "公式 マスク",
-      genreId: genre_id,
-      tagId: tag_id,
-      NGKeyword: ng_keywords,
-      elements: elements,
-      formatVersion: 2,
-      sort: '-reviewAverage',
-      hits: 1,
-      purchaseType: 0
-    ).first
-
-    recommend_results.unshift(mask_results) unless mask_results.nil?
-
-    results.uniq! { |item| item['itemCode'] }
-
-    recommend_results.sample(5).map do |item|
+    recommend_results.uniq! { |item| item['itemCode'] }
+    recommend_results.sample(3).map do |item|
       {
         id: item['itemCode'],
         itemName: item['itemName'],
