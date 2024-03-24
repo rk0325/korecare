@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react'
 import { Review, ProductReviews, SearchParams } from './review.type'
 import ReviewSearch from '../components/review/ReviewSearch';
 import CustomButton from '@/components/ui/custom-button';
+import { SyncLoader } from 'react-spinners';
 import {
   Search,
   AlertCircle,
@@ -25,6 +26,7 @@ export default function Reviews() {
   const token = session?.accessToken;
   const [productReviews, setProductReviews] = useState<ProductReviews[]>([]);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const headers = useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -39,6 +41,7 @@ export default function Reviews() {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchAndCombineReviews = async () => {
       const reviewsResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews`, {
         headers: headers,
@@ -90,6 +93,7 @@ export default function Reviews() {
         };
       });
       setProductReviews(productReviewsArray);
+      setIsLoading(false);
     };
       fetchAndCombineReviews();
   }, [headers]);
@@ -101,65 +105,71 @@ export default function Reviews() {
   return (
     session ? (
       <>
-        <div className='flex flex-col space-y-4 pt-10 pr-4 pl-4 pb-8'>
-          <div className='text-2xl md:text-3xl'>
-            レビュー一覧
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <div className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" onClick={() => setIsModalOpen(true)}>
-                    <AlertCircle className="h-5 w-5" />
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>検索時の注意点</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+        {isLoading ? (
+          <div className="flex justify-center pt-20">
+            <SyncLoader color="#506D7D" />
           </div>
-          <input type="checkbox" id="weather-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
-          <div className="modal" onClick={handleCloseModal}>
-            <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
-              <div className="flex justify-end">
-                <div onClick={handleCloseModal} className="btn btn-ghost btn-circle">
-                  <X />
-                </div>
-              </div>
-              <div className="flex items-start mb-2">
-                <Search className="mr-1 h-5 w-5" />
-                <p className='marked-text'>レビューを検索してみよう！</p>
-              </div>
-              <p>レビューに付けられたタグで皆さんのレビューを検索できます。検索結果が表示されない場合、該当のレビューがない可能性があります。条件を変更して検索してみてください。</p>
+        ) : (
+          <div className='flex flex-col space-y-4 pt-10 pr-4 pl-4 pb-8'>
+            <div className='text-2xl md:text-3xl'>
+              レビュー一覧
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className="ml-1 p-1 rounded-full bg-background-color border border-gray-200 shadow" onClick={() => setIsModalOpen(true)}>
+                      <AlertCircle className="h-5 w-5" />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>検索時の注意点</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
-          </div>
-          <div className='flex flex-col items-center space-y-4 p-10'>
-            <ReviewSearch onSearch={handleSearch} />
-            <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
-              {productReviews.map((productReview) => (
-                <div key={productReview.item_code} className="shadow-md rounded-md overflow-hidden max-w-sm mx-auto">
-                  {productReview.image_url && (
-                    <div className="flex items-center justify-center h-[150px] mt-4">
-                      <Image src={productReview.image_url || '/image.png'} alt="Image" width={128} height={128} objectFit="contain" quality={100} />
-                    </div>
-                  )}
-                  <div className="p-4 text-center">
-                    <h3 className="text-lg">{truncateName(productReview.reviews[0].title)}</h3>
-                    <p>{`★ ${productReview.averageRating.toFixed(1)} (${productReview.reviewCount}件)`}</p>
-                    <p>{productReview.price}円</p>
-                    <div className="flex justify-center mt-2">
-                      <CustomButton
-                        colorClass="hover:bg-E0DBD2 hover:text-text-color"
-                        onClick={() => router.push(`/reviews/${productReview.item_code}`)}
-                      >
-                        レビュー詳細へ
-                      </CustomButton>
-                    </div>
+            <input type="checkbox" id="weather-modal" className="modal-toggle" checked={isModalOpen} onChange={() => setIsModalOpen(!isModalOpen)} />
+            <div className="modal" onClick={handleCloseModal}>
+              <div className="modal-box text-left" onClick={e => e.stopPropagation()}>
+                <div className="flex justify-end">
+                  <div onClick={handleCloseModal} className="btn btn-ghost btn-circle">
+                    <X />
                   </div>
                 </div>
-              ))}
+                <div className="flex items-start mb-2">
+                  <Search className="mr-1 h-5 w-5" />
+                  <p className='marked-text'>レビューを検索してみよう！</p>
+                </div>
+                <p>レビューに付けられたタグで皆さんのレビューを検索できます。検索結果が表示されない場合、該当のレビューがない可能性があります。条件を変更して検索してみてください。</p>
+              </div>
+            </div>
+            <div className='flex flex-col items-center space-y-4 p-10'>
+              <ReviewSearch onSearch={handleSearch} />
+              <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
+                {productReviews.map((productReview) => (
+                  <div key={productReview.item_code} className="shadow-md rounded-md overflow-hidden max-w-sm mx-auto">
+                    {productReview.image_url && (
+                      <div className="flex items-center justify-center h-[150px] mt-4">
+                        <Image src={productReview.image_url || '/image.png'} alt="Image" width={128} height={128} objectFit="contain" quality={100} />
+                      </div>
+                    )}
+                    <div className="p-4 text-center">
+                      <h3 className="text-lg">{truncateName(productReview.reviews[0].title)}</h3>
+                      <p>{`★ ${productReview.averageRating.toFixed(1)} (${productReview.reviewCount}件)`}</p>
+                      <p>{productReview.price}円</p>
+                      <div className="flex justify-center mt-2">
+                        <CustomButton
+                          colorClass="hover:bg-E0DBD2 hover:text-text-color"
+                          onClick={() => router.push(`/reviews/${productReview.item_code}`)}
+                        >
+                          レビュー詳細へ
+                        </CustomButton>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </>
     ) : null
   );
