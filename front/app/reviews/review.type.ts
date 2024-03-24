@@ -1,4 +1,5 @@
 export interface ProductReviews {
+  id: number;
   item_code: string;
   item_url: string;
   image_url: string;

@@ -54,6 +54,7 @@ export default function Reviews() {
         const key = cosmetic.item_code;
         if (!productReviewsMap[key]) {
           productReviewsMap[key] = {
+            id: review.id,
             item_url: cosmetic,
             image_url: cosmetic.image_url,
             averageRating: 0,
@@ -145,15 +146,10 @@ export default function Reviews() {
                     <h3 className="text-lg">{truncateName(productReview.reviews[0].title)}</h3>
                     <p>{`★ ${productReview.averageRating.toFixed(1)} (${productReview.reviewCount}件)`}</p>
                     <p>{productReview.price}円</p>
-                    <ul>
-                      {productReview.reviews.map((review) => (
-                        <li key={review.id}>{review.body}</li>
-                      ))}
-                    </ul>
                     <div className="flex justify-center mt-2">
                       <CustomButton
                         colorClass="hover:bg-E0DBD2 hover:text-text-color"
-                        onClick={() => router.push(`/reviews/${productReview.item_code}`)}
+                        onClick={() => router.push(`/reviews/${productReview.id}`)}
                       >
                         レビュー詳細へ
                       </CustomButton>
