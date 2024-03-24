@@ -81,7 +81,9 @@ export default function ReviewDetails() {
 
         const reviews = productReviewsResponse.data;
         const totalRating = reviews.reduce((acc, review) => acc + ratingToNumber(review.rating), 0);
+        console.log("totalRating:", totalRating, "reviews.length:", reviews.length);
         const averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
+        console.log("averageRating:", averageRating);
         const reviewCount = reviews.length;
 
         const updatedProductReviewsWithInfo = reviews.map(review => ({
@@ -212,9 +214,9 @@ export default function ReviewDetails() {
           <div className="relative h-[150px] w-full max-w-4xl">
             <Image src={productInfo?.image_url} alt="" layout="fill" objectFit="contain" quality={100} />
           </div>
-          <h2 className="text-lg">{truncateName(productInfo?.name ?? 'タイトル不明')}</h2>
+          <h2 className="text-lg">{truncateName(productInfo?.title ?? '無題')}</h2>
           <p>{productInfo?.price}円</p>
-          <p>平均評価: {averageRating.toFixed(1)} ({reviewCount}件)</p>
+          <p>平均評価: {typeof averageRating === 'number' ? averageRating.toFixed(1) : 'N/A'} ({reviewCount}件)</p>
           <Accordion type="single" collapsible className="mt-4">
             {productReviews.map((productReview, index) => (
               <AccordionItem key={index} value={`details-${productReview.id}`}>
