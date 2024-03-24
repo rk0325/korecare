@@ -51,16 +51,16 @@ export default function Reviews() {
         const cosmetic = review.favorite_cosmetic;
         if (!cosmetic) return;
 
-        const key = cosmetic.id.toString();
+        const key = cosmetic.item_code;
         if (!productReviewsMap[key]) {
           productReviewsMap[key] = {
-            id: parseInt(cosmetic),
             item_url: cosmetic,
             image_url: cosmetic.image_url,
             averageRating: 0,
             reviewCount: 0,
             reviews: [],
             price: cosmetic.price,
+            item_code: cosmetic.item_code,
           };
         }
 
@@ -136,7 +136,7 @@ export default function Reviews() {
             <div className='grid grid-cols-1 md:grid-cols-3 gap-4 w-full'>
               {productReviews.map((productReview) => (
                 productReview.reviews.map((review) => (
-                  <div key={productReview.id} className="shadow-md rounded-md overflow-hidden max-w-sm mx-auto">
+                  <div key={productReview.item_code} className="shadow-md rounded-md overflow-hidden max-w-sm mx-auto">
                     {productReview.image_url && (
                       <div className="flex items-center justify-center h-[150px] mt-4">
                         <Image src={productReview.image_url || '/image.png'} alt="Image" width={128} height={128} objectFit="contain" quality={100} />
