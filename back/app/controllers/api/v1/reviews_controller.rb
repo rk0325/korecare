@@ -5,8 +5,8 @@ module Api
       before_action :set_review, only: [:show, :update, :destroy]
 
       def index
-        if params[:product_id].present?
-          @reviews = Review.where(favorite_cosmetic_id: params[:product_id]).includes(:user, :favorite_cosmetic)
+        if params[:item_code].present?
+          @reviews = Review.joins(:favorite_cosmetic).where(favorite_cosmetics: { item_code: params[:item_code] }).includes(:user, :favorite_cosmetic)
         elsif params[:tags].present?
           tags = params[:tags].split(',').map { |tag| tag.gsub('代', '') }
           @reviews = Review.joins(:tags).where(tags: { tag_name: tags }).distinct.includes(:user, :favorite_cosmetic)

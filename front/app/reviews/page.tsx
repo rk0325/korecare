@@ -149,7 +149,7 @@ export default function Reviews() {
                     <div className="flex justify-center mt-2">
                       <CustomButton
                         colorClass="hover:bg-E0DBD2 hover:text-text-color"
-                        onClick={() => router.push(`/reviews/${productReview.id}`)}
+                        onClick={() => router.push(`/reviews/${productReview.item_code}`)}
                       >
                         レビュー詳細へ
                       </CustomButton>
