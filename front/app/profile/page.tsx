@@ -556,11 +556,11 @@ export default function EditProfile() {
                     <div className="space-y-4">
                       {editingNotificationId !== notification.id ? (
                         <>
-                          <div>製品タイプ: {getProductTypeInJapanese(notification.productType)}</div>
+                          <div>製品タイプ: {getProductTypeInJapanese(notification.productType) || "未設定"}</div>
                           <div>開封日: {notification.openDate ? format(notification.openDate, "yyyy年M月d日", { locale: ja }) : "未設定"}</div>
                           <div>使用期限: {notification.expiryDate ? format(notification.expiryDate, "yyyy年M月d日", { locale: ja }) : "未設定"}</div>
                           {notification.openDate === null || notification.expiryDate === null ? (
-                            <button onClick={() => setEditingNotificationId(notification.id)}>編集</button>
+                            <button onClick={() => setEditingNotificationId(notification.id)}>編集する</button>
                           ) : null}
                           {notifications.length > 0 && (
                             <div className="pr-2 text-right cursor-pointer">

@@ -5,7 +5,6 @@ import { SearchParams } from '../types/index';
 import SearchForm from '../components/search/SearchForm';
 import SearchResult from '../components/search/SearchResult';
 import RecommendedCosmetics from '../components/search/RecommendedCosmetics';
-import ProfileRecommendedCosmetics from '../components/search/ProfileRecommendedCosmetics';
 import {
   AlertTriangle,
   AlertCircle,
@@ -21,6 +20,7 @@ import {
 export default function Search() {
   const { data: session } = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasSearched, setHasSearched] = useState(false);
   const [searchParams, setSearchParams] = useState({
     skinType: '',
     skinTrouble: '',
@@ -30,6 +30,7 @@ export default function Search() {
 
   const handleSearch = (params: SearchParams) => {
     setSearchParams(params);
+    setHasSearched(true);
   };
 
   const handleCloseModal = () => {
@@ -70,9 +71,8 @@ export default function Search() {
             </div>
           </div>
           <SearchForm onSearch={handleSearch} />
-          <RecommendedCosmetics searchParams={searchParams} />
+          <RecommendedCosmetics searchParams={searchParams} hasSearched={hasSearched} />
           <SearchResult />
-          <ProfileRecommendedCosmetics />
         </div>
       </>
     ) : null
