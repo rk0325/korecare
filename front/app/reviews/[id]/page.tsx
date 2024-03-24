@@ -72,9 +72,9 @@ export default function ReviewDetails() {
         });
         setReview(reviewResponse.data);
 
-        const productId = reviewResponse.data.favorite_cosmetic.id;
+        const itemCode = reviewResponse.data.favorite_cosmetic.item_code;
 
-        const productReviewsResponse = await axios.get<ProductReviews[]>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews?product_id=${productId}`, {
+        const productReviewsResponse = await axios.get<ProductReviews[]>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews?item_code=${itemCode}`, {
           headers: headers,
           withCredentials: true
         });

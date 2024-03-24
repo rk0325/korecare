@@ -8,13 +8,13 @@ module Api
         if params[:item_code].present?
           @reviews = Review.joins(:favorite_cosmetic).where(favorite_cosmetics: { item_code: params[:item_code] }).includes(:user, :favorite_cosmetic)
         elsif params[:tags].present?
-          tags = params[:tags].split(',').map { |tag| tag.gsub('代', '') }
+          tags = params[:tags].split(',').map(&:strip)
           @reviews = Review.joins(:tags).where(tags: { tag_name: tags }).distinct.includes(:user, :favorite_cosmetic)
         else
-          @reviews = Review.includes(:user, :favorite_cosmetic)
+          @reviews = Review.all.includes(:user, :favorite_cosmetic)
         end
 
-        @reviews = @reviews.where("visibility = ? OR user_id = ?", true, current_user.id)
+        @reviews = @reviews.where("visibility = ? OR reviews.user_id = ?", true, current_user.id)
 
         render json: @reviews, include: [:user, :favorite_cosmetic]
       end
@@ -61,7 +61,9 @@ module Api
       private
 
       def set_review
-        @review = Review.find(params[:id])
+        @review = Review.find_by(id: params[:id])
+        @review ||= Review.joins(:favorite_cosmetic).find_by(favorite_cosmetics: { item_code: params[:id] })
+        raise ActiveRecord::RecordNotFound unless @review
       end
 
       def review_params
