@@ -58,7 +58,8 @@ import {
   SearchCheck,
   HelpCircle,
   X,
-  AlertCircle
+  AlertCircle,
+  PencilLine,
 } from "lucide-react"
 
 const axiosInstance = axios.create({
@@ -305,7 +306,7 @@ export default function EditProfile() {
       cream: "クリーム",
     };
 
-    return productTypeMap[productType] || "製品タイプを選択";
+    return productTypeMap[productType] || "未選択";
   };
 
   return (
@@ -556,17 +557,21 @@ export default function EditProfile() {
                     <div className="space-y-4">
                       {editingNotificationId !== notification.id ? (
                         <>
-                          <div>製品タイプ: {getProductTypeInJapanese(notification.productType) || "未設定"}</div>
+                          <div>製品タイプ: {getProductTypeInJapanese(notification.productType)}</div>
                           <div>開封日: {notification.openDate ? format(notification.openDate, "yyyy年M月d日", { locale: ja }) : "未設定"}</div>
                           <div>使用期限: {notification.expiryDate ? format(notification.expiryDate, "yyyy年M月d日", { locale: ja }) : "未設定"}</div>
                           {notification.openDate === null || notification.expiryDate === null ? (
-                            <button onClick={() => setEditingNotificationId(notification.id)}>編集する</button>
+                            <div className="items-start mb-2 text-sm">
+                              <button onClick={() => setEditingNotificationId(notification.id)} className="flex items-center">
+                                <PencilLine size={18} className='mr-2' /><span>編集する</span>
+                              </button>
+                            </div>
                           ) : null}
                           {notifications.length > 0 && (
                             <div className="pr-2 text-right cursor-pointer">
                               <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
                                 <DialogTrigger asChild>
-                                  <div className="pt-2 text-c94a4a" onClick={() => openDeleteDialog(notification.id)}>×削除</div>
+                                  <div className="pt-2 text-c94a4a" onClick={() => openDeleteDialog(notification.id)}>× 削除</div>
                                 </DialogTrigger>
                                 <DialogContent className="font-genjyuu text-text-color">
                                   <DialogHeader>
@@ -588,7 +593,7 @@ export default function EditProfile() {
                           )}
                           {notifications.length < 3 && (
                             <div className="pr-2 text-right cursor-pointer">
-                              <div onClick={addNotification}>＋追加</div>
+                              <div onClick={addNotification}>＋ 追加</div>
                             </div>
                           )}
                         </>
@@ -598,7 +603,7 @@ export default function EditProfile() {
                             <Label htmlFor={`product_type-${notification.id}`}>製品タイプ</Label>
                             <Select onValueChange={(value) => handleProductTypeChange(notification.id, value)}>
                               <SelectTrigger className="text-text-color">
-                                <SelectValue placeholder={getProductTypeInJapanese(notification.productType) || "製品タイプを選択"} />
+                                <SelectValue placeholder={getProductTypeInJapanese(notification.productType)} />
                               </SelectTrigger>
                               <SelectContent className="text-text-color">
                                 <SelectItem value="lotion">化粧水</SelectItem>
@@ -671,7 +676,7 @@ export default function EditProfile() {
                   </AccordionContent>
                 </AccordionItem>
                 <div className="pt-2 pr-2 text-right cursor-pointer">
-                  <div onClick={addNotification}>＋追加</div>
+                  <div onClick={addNotification}>＋ 追加</div>
                 </div>
               </>
             )}

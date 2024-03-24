@@ -1,5 +1,5 @@
 export interface ProductReviews {
-  id: string | number;
+  item_code: string;
   item_url: string;
   image_url: string;
   averageRating: number;
