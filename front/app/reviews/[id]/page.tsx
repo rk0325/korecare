@@ -99,11 +99,6 @@ export default function ReviewDetails() {
     fetchReviewDetails();
   }, [headers, reviewId]);
 
-  function DisplayAverageRating({ productReview }: DisplayAverageRatingProps) {
-    const displayString = `平均評価: ${productReview.averageRating.toFixed(1)} (${productReview.reviewCount}件)`;
-    return <p>{displayString}</p>;
-  }
-
   function truncateName(name: string, maxLength: number = 36): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
   }
@@ -205,115 +200,117 @@ export default function ReviewDetails() {
     window.open(url, '_blank', 'noopener,noreferrer');
   }
 
+  const productInfo = productReviews[0]?.favorite_cosmetic;
+  const averageRating = productReviews[0]?.averageRating;
+  const reviewCount = productReviews.length;
+
   return (
     session ? (
       <div className='flex flex-col space-y-4 p-10'>
         <h1 className='text-2xl md:text-3xl'>レビュー詳細</h1>
         <div className='flex flex-col items-center p-10'>
-          {productReviews.map((productReview) => (
-            <div key={productReview.id} className="w-full max-w-4xl">
-              <div className="relative h-[150px]">
-                <Image src={productReview.favorite_cosmetic.image_url} alt="" layout="fill" objectFit="contain" quality={100} />
-              </div>
-              <h2 className="text-lg">{truncateName(productReview.favorite_cosmetic.name ?? 'タイトル不明')}</h2>
-              <p>{productReview.favorite_cosmetic.price}円</p>
-              <DisplayAverageRating productReview={productReview} />
-              <Accordion type="single" collapsible className="mt-4">
-                <AccordionItem key={productReview.id} value={`details-${productReview.id}`}>
-                  <AccordionTrigger>投稿者: {productReview.user_name}さん {ratingToStars(productReview.rating)}</AccordionTrigger>
-                  <AccordionContent>
-                    <p className='text-base text-left pb-6'>{productReview.body}</p>
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
-                      <div className="tags flex space-x-2 mb-4 sm:mb-0">
-                        {productReview.skin_type && (
-                          <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm">
-                            {productReview.skin_type}
-                          </span>
-                        )}
-                        {productReview.skin_trouble && (
-                          <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm">
-                            {productReview.skin_trouble}
-                          </span>
-                        )}
-                        {productReview.age && (
-                          <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm">
-                            {productReview.age}
-                          </span>
-                        )}
-                      </div>
-                      {session?.user?.id === productReview.user.uid && (
-                        <div className="ml-auto flex space-x-2">
-                          <button onClick={() => review && shareOnTwitter(review)}>
-                            <FontAwesomeIcon icon={faXTwitter} size="xl" className='pb-2 pl-2' />
-                          </button>
-                          <div className="item-right">
-                            <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
-                              <DialogTrigger asChild>
-                                <button onClick={() => review && openEditModal(review)}>
-                                  <PencilLine className='mr-2' />
-                                </button>
-                              </DialogTrigger>
-                              <DialogContent className="font-genjyuu text-text-color">
-                                <DialogHeader>
-                                  <DialogTitle>レビュー編集</DialogTitle>
-                                </DialogHeader>
-                                <form onSubmit={handleEditSubmit}>
-                                  <div className='pb-2'>
-                                    <Label htmlFor="editRating">評価</Label>
-                                    {editingReview && renderRatingStars(editingReview.rating)}
-                                  </div>
-                                  <Label htmlFor="editBody">レビュー本文</Label>
-                                  <Input
-                                    id="editBody"
-                                    name="body"
-                                    value={editingReview?.body || ''}
-                                    onChange={(e) => {
-                                      if (editingReview) {
-                                        setEditingReview({
-                                          ...editingReview,
-                                          body: e.target.value,
-                                          userName: editingReview.userName || '匿名',
-                                        });
-                                      }
-                                    }}
-                                  />
-                                  <DialogFooter>
-                                    <CustomButton type="submit" colorClass='btn-506D7D mx-auto min-w-[100px] mt-4' onClick={() => setIsEditModalOpen(false)}>更新</CustomButton>
-                                  </DialogFooter>
-                                </form>
-                              </DialogContent>
-                            </Dialog>
-                            <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-                              <DialogTrigger asChild>
-                                <button onClick={() => review && confirmDelete(review.id)}>
-                                  <Trash />
-                                </button>
-                              </DialogTrigger>
-                              <DialogContent className="font-genjyuu text-text-color">
-                                <DialogHeader>
-                                  <DialogTitle>本当に削除しますか？</DialogTitle>
-                                </DialogHeader>
-                                <DialogDescription className="text-text-color">
-                                  この操作は元に戻せません。<br />本当にこのレビューを削除してもよろしいですか？
-                                </DialogDescription>
-                                <DialogFooter className="flex justify-center items-center pt-2">
-                                  <button className="bg-F5F5F5 text-48352F hover:bg-E0DBD2 rounded-lg min-h-[40px] px-4 min-w-[60px] mr-1 mb-2" onClick={() => setIsDeleteDialogOpen(false)}>キャンセル</button>
-                                  <button className="mb-2 btn-506D7D rounded-lg min-h-[40px] px-4 min-w-[60px]" onClick={() => {
-                                    if (deletingReviewId !== null) removeReview(deletingReviewId);
-                                    setIsDeleteDialogOpen(false);
-                                  }}>削除</button>
-                                </DialogFooter>
-                              </DialogContent>
-                            </Dialog>
-                          </div>
-                        </div>
+          <div className="relative h-[150px] w-full max-w-4xl">
+            <Image src={productInfo?.image_url} alt="" layout="fill" objectFit="contain" quality={100} />
+          </div>
+          <h2 className="text-lg">{truncateName(productInfo?.name ?? 'タイトル不明')}</h2>
+          <p>{productInfo?.price}円</p>
+          <p>平均評価: {averageRating.toFixed(1)} ({reviewCount}件)</p>
+          <Accordion type="single" collapsible className="mt-4">
+            {productReviews.map((productReview, index) => (
+              <AccordionItem key={index} value={`details-${productReview.id}`}>
+                <AccordionTrigger>投稿者: {productReview.user_name}さん {ratingToStars(productReview.rating)}</AccordionTrigger>
+                <AccordionContent>
+                  <p className='text-base text-left pb-6'>{productReview.body}</p>
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+                    <div className="tags flex space-x-2 mb-4 sm:mb-0">
+                      {productReview.skin_type && (
+                        <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm">
+                          {productReview.skin_type}
+                        </span>
+                      )}
+                      {productReview.skin_trouble && (
+                        <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm">
+                          {productReview.skin_trouble}
+                        </span>
+                      )}
+                      {productReview.age && (
+                        <span className="tag bg-F5F5F5 text-48352F border border-506D7D rounded-full px-3 py-1 text-sm">
+                          {productReview.age}
+                        </span>
                       )}
                     </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </div>
-          ))}
+                    {session?.user?.id === productReview.user.uid && (
+                      <div className="ml-auto flex space-x-2">
+                        <button onClick={() => review && shareOnTwitter(review)}>
+                          <FontAwesomeIcon icon={faXTwitter} size="xl" className='pb-2 pl-2' />
+                        </button>
+                        <div className="item-right">
+                          <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+                            <DialogTrigger asChild>
+                              <button onClick={() => review && openEditModal(review)}>
+                                <PencilLine className='mr-2' />
+                              </button>
+                            </DialogTrigger>
+                            <DialogContent className="font-genjyuu text-text-color">
+                              <DialogHeader>
+                                <DialogTitle>レビュー編集</DialogTitle>
+                              </DialogHeader>
+                              <form onSubmit={handleEditSubmit}>
+                                <div className='pb-2'>
+                                  <Label htmlFor="editRating">評価</Label>
+                                  {editingReview && renderRatingStars(editingReview.rating)}
+                                </div>
+                                <Label htmlFor="editBody">レビュー本文</Label>
+                                <Input
+                                  id="editBody"
+                                  name="body"
+                                  value={editingReview?.body || ''}
+                                  onChange={(e) => {
+                                    if (editingReview) {
+                                      setEditingReview({
+                                        ...editingReview,
+                                        body: e.target.value,
+                                        userName: editingReview.userName || '匿名',
+                                      });
+                                    }
+                                  }}
+                                />
+                                <DialogFooter>
+                                  <CustomButton type="submit" colorClass='btn-506D7D mx-auto min-w-[100px] mt-4' onClick={() => setIsEditModalOpen(false)}>更新</CustomButton>
+                                </DialogFooter>
+                              </form>
+                            </DialogContent>
+                          </Dialog>
+                          <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+                            <DialogTrigger asChild>
+                              <button onClick={() => review && confirmDelete(review.id)}>
+                                <Trash />
+                              </button>
+                            </DialogTrigger>
+                            <DialogContent className="font-genjyuu text-text-color">
+                              <DialogHeader>
+                                <DialogTitle>本当に削除しますか？</DialogTitle>
+                              </DialogHeader>
+                              <DialogDescription className="text-text-color">
+                                この操作は元に戻せません。<br />本当にこのレビューを削除してもよろしいですか？
+                              </DialogDescription>
+                              <DialogFooter className="flex justify-center items-center pt-2">
+                                <button className="bg-F5F5F5 text-48352F hover:bg-E0DBD2 rounded-lg min-h-[40px] px-4 min-w-[60px] mr-1 mb-2" onClick={() => setIsDeleteDialogOpen(false)}>キャンセル</button>
+                                <button className="mb-2 btn-506D7D rounded-lg min-h-[40px] px-4 min-w-[60px]" onClick={() => {
+                                  if (deletingReviewId !== null) removeReview(deletingReviewId);
+                                  setIsDeleteDialogOpen(false);
+                                }}>削除</button>
+                              </DialogFooter>
+                            </DialogContent>
+                          </Dialog>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </div>
     ) : null
