@@ -36,7 +36,7 @@ export default function ReviewDetails() {
   const { data: session } = useSession();
   const params = useParams<{ id: string; }>()
   const reviewId = params.id;
-  console.log(reviewId);
+  const userId = 'ユーザーID';
   const [productReviews, setProductReviews] = useState<ProductReviews[]>([]);
   const token = session?.accessToken;
   const [review, setReview] = useState<Review | null>(null);
@@ -71,11 +71,10 @@ export default function ReviewDetails() {
     setIsLoading(true);
     const fetchReviewDetails = async () => {
       try {
-        const reviewResponse = await axios.get<Review>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/${reviewId}`, {
+        const reviewResponse = await axios.get<Review>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/user_reviews?user_id=${userId}`, {
           headers: headers,
           withCredentials: true
         });
-        console.log(reviewResponse.data);
         setReview(reviewResponse.data);
 
         const itemCode = reviewResponse.data.favorite_cosmetic.item_code;

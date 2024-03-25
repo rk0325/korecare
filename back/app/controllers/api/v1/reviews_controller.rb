@@ -68,12 +68,18 @@ module Api
         end
       end
 
+      def user_reviews
+        user_id = params[:user_id]
+        @reviews = Review.where(user_id: user_id).includes(:user, :favorite_cosmetic)
+
+        render json: @reviews, include: [:user, :favorite_cosmetic]
+      end
+
       private
 
       def set_review
         @review = Review.find_by(id: params[:id])
         @review ||= Review.joins(:favorite_cosmetic).find_by(favorite_cosmetics: { item_code: params[:id] })
-        raise ActiveRecord::RecordNotFound unless @review
       end
 
       def review_params
