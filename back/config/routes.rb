@@ -9,7 +9,11 @@ Rails.application.routes.draw do
       resource :profiles, only: [:show, :update]
       resources :favorite_cosmetics, only: [:create, :index, :destroy]
       resources :cosmetic_usages, only: [:create, :index, :update, :destroy]
-      resources :reviews, only: [:index, :show, :create, :update, :destroy]
+      resources :reviews, only: [:index, :show, :create, :update, :destroy] do
+        collection do
+          get 'user_reviews', to: 'reviews#user_reviews'
+        end
+      end
       resources :users, only: [:index]
 
       namespace :search_cosmetics do
