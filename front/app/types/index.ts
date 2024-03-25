@@ -113,7 +113,22 @@ export interface ProductReviews {
   averageRating: number;
   reviewCount: number;
   reviews: Review[];
-  price: number;
+  price: string | number;
+  title: string;
+  favorite_cosmetic: any;
+  rating: string;
+  user_name: string;
+  user_id: string;
+  body: string;
+  skin_type: string;
+  skin_trouble: string;
+  item_code: string;
+  age: number;
+  user: {
+    id: string;
+    uid: string;
+    name: string;
+  };
 }
 
 export interface ApiResponse {

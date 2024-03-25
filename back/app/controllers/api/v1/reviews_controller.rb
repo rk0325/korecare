@@ -8,7 +8,13 @@ module Api
         if params[:item_code].present?
           @reviews = Review.joins(:favorite_cosmetic).where(favorite_cosmetics: { item_code: params[:item_code] }).includes(:user, :favorite_cosmetic)
         elsif params[:tags].present?
-          tags = params[:tags].split(',').map(&:strip)
+          tags = params[:tags].split(',').map do |tag|
+            if tag.match?(/\A\d+代\z/)
+              tag.delete('代')
+            else
+              tag
+            end
+          end
           @reviews = Review.joins(:tags).where(tags: { tag_name: tags }).distinct.includes(:user, :favorite_cosmetic)
         else
           @reviews = Review.all.includes(:user, :favorite_cosmetic)
@@ -51,6 +57,7 @@ module Api
 
       def destroy
         if @review.user_id == current_user.id
+          @review.review_tags.destroy_all
           @review.destroy
           render json: { message: 'Review was successfully deleted.' }, status: :ok
         else
