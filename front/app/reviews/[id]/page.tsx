@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { Review, ProductReviews } from './review.type';
 import axios from 'axios';
 import Image from 'next/image';
+import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation';
 import { PencilLine, Trash, Star } from 'lucide-react';
@@ -103,7 +104,7 @@ export default function ReviewDetails() {
     fetchReviewDetails();
   }, [headers, reviewId]);
 
-  function truncateName(name: string, maxLength: number = 46): string {
+  function truncateName(name: string, maxLength: number = 38): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
   }
 
@@ -218,16 +219,16 @@ export default function ReviewDetails() {
         ) : (
           <div className='flex flex-col space-y-4 p-10'>
             <h1 className='text-2xl md:text-3xl'>レビュー詳細</h1>
-            <div className='flex flex-col items-center p-10'>
-              <div className="relative h-[150px] w-full max-w-4xl">
-                <Image src={productInfo?.image_url} alt="" layout="fill" objectFit="contain" quality={100} />
+            <div className='flex flex-col items-center pt-10'>
+              <div className="relative h-[150px] w-full max-w-4xl mb-4">
+                <Image src={productInfo?.image_url} alt="Image" layout="fill" objectFit="contain" quality={100} />
               </div>
               <h2 className="text-lg">{truncateName(productInfo?.name ?? '無題')}</h2>
               <p>{productInfo?.price}円</p>
               <p>平均評価: {typeof averageRating === 'number' ? averageRating.toFixed(1) : 'N/A'} ({reviewCount}件)</p>
               <Accordion type="single" collapsible className="mt-4 md:w-1/3">
-                {productReviews.map((productReview, index) => (
-                  <AccordionItem key={index} value={`details-${productReview.id}`}>
+                {productReviews.map((productReview) => (
+                  <AccordionItem key={productReview.id} value={`details-${productReview.id}`}>
                     <AccordionTrigger>投稿者: {productReview.user_name}さん {ratingToStars(productReview.rating)}</AccordionTrigger>
                     <AccordionContent>
                       <p className='text-base text-left pb-6'>{productReview.body}</p>
@@ -324,6 +325,9 @@ export default function ReviewDetails() {
             </div>
           </div>
         )}
+        <Link href='/reviews'>
+          <CustomButton type="submit" colorClass='btn-506D7D mx-auto min-w-[100px] mt-4'>レビュー一覧に戻る</CustomButton>
+        </Link>
       </>
     ) : null
   );
