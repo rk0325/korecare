@@ -72,7 +72,9 @@ module Api
         user_id = params[:user_id]
         @reviews = Review.where(user_id: user_id).includes(:user, :favorite_cosmetic)
 
-        render json: @reviews, include: [:user, :favorite_cosmetic]
+        reviews_json = @reviews.as_json(include: [:user, :favorite_cosmetic])
+
+        render json: reviews_json
       end
 
       private
