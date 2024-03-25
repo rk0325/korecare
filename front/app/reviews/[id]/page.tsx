@@ -69,14 +69,14 @@ export default function ReviewDetails() {
   }
 
   useEffect(() => {
-    if (!userId) return;
     setIsLoading(true);
     const fetchReviewDetails = async () => {
       try {
-        const reviewResponse = await axios.get<Review>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/user_reviews?user_id=${userId}`, {
+        const reviewResponse = await axios.get<Review>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/${reviewId}`, {
           headers: headers,
           withCredentials: true
         });
+        console.log(reviewResponse.data);
         setReview(reviewResponse.data);
 
         const itemCode = reviewResponse.data.favorite_cosmetic.item_code;
@@ -105,7 +105,7 @@ export default function ReviewDetails() {
     };
 
     fetchReviewDetails();
-  }, [headers, userId]);
+  }, [headers, reviewId]);
 
   function truncateName(name: string, maxLength: number = 38): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
