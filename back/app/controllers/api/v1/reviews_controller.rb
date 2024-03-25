@@ -26,6 +26,7 @@ module Api
       end
 
       def show
+        Rails.logger.debug "Requested ID: #{params[:id]}"
         render json: @review
       end
 
@@ -66,15 +67,6 @@ module Api
           Rails.logger.info "Authorization failed: Current user is not the review author."
           render json: { error: 'You are not authorized to delete this review.' }, status: :forbidden
         end
-      end
-
-      def user_reviews
-        user_id = params[:user_id]
-        @reviews = Review.where(user_id: user_id).includes(:user, :favorite_cosmetic)
-
-        reviews_json = @reviews.as_json(include: [:user, :favorite_cosmetic])
-
-        render json: reviews_json
       end
 
       private
