@@ -36,7 +36,7 @@ export default function ReviewDetails() {
   const { data: session } = useSession();
   const params = useParams<{ id: string; }>()
   const reviewId = params.id;
-  const userId = 'ユーザーID';
+  const userId = params.id;
   const [productReviews, setProductReviews] = useState<ProductReviews[]>([]);
   const token = session?.accessToken;
   const [review, setReview] = useState<Review | null>(null);
