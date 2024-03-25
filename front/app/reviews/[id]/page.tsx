@@ -84,9 +84,7 @@ export default function ReviewDetails() {
 
         const reviews = productReviewsResponse.data;
         const totalRating = reviews.reduce((acc, review) => acc + ratingToNumber(review.rating), 0);
-        console.log("totalRating:", totalRating, "reviews.length:", reviews.length);
         const averageRating = reviews.length > 0 ? totalRating / reviews.length : 0;
-        console.log("averageRating:", averageRating);
         const reviewCount = reviews.length;
 
         const updatedProductReviewsWithInfo = reviews.map(review => ({
@@ -105,7 +103,7 @@ export default function ReviewDetails() {
     fetchReviewDetails();
   }, [headers, reviewId]);
 
-  function truncateName(name: string, maxLength: number = 36): string {
+  function truncateName(name: string, maxLength: number = 46): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
   }
 
@@ -227,7 +225,7 @@ export default function ReviewDetails() {
               <h2 className="text-lg">{truncateName(productInfo?.name ?? '無題')}</h2>
               <p>{productInfo?.price}円</p>
               <p>平均評価: {typeof averageRating === 'number' ? averageRating.toFixed(1) : 'N/A'} ({reviewCount}件)</p>
-              <Accordion type="single" collapsible className="mt-4 md:max-w-64">
+              <Accordion type="single" collapsible className="mt-4 md:w-1/3">
                 {productReviews.map((productReview, index) => (
                   <AccordionItem key={index} value={`details-${productReview.id}`}>
                     <AccordionTrigger>投稿者: {productReview.user_name}さん {ratingToStars(productReview.rating)}</AccordionTrigger>
