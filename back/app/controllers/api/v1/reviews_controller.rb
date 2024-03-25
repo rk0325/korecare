@@ -26,7 +26,6 @@ module Api
       end
 
       def show
-        Rails.logger.debug "Requested ID: #{params[:id]}"
         render json: @review
       end
 
@@ -76,11 +75,6 @@ module Api
         @review ||= Review.joins(:favorite_cosmetic).find_by(favorite_cosmetics: { item_code: params[:id] })
         if @review.nil?
           render json: { error: 'Review not found.' }, status: :not_found
-          return
-        end
-
-        if @review.user_id != current_user.id
-          render json: { error: 'You are not authorized to view this review.' }, status: :forbidden
           return
         end
       end
