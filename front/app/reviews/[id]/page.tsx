@@ -33,7 +33,6 @@ import {
 } from "@/components/ui/dialog"
 
 export default function ReviewDetails() {
-  const { userId } = useAuth();
   const router = useRouter()
   const { data: session } = useSession();
   const params = useParams<{ id: string; }>()
@@ -76,7 +75,7 @@ export default function ReviewDetails() {
           headers: headers,
           withCredentials: true
         });
-        console.log(reviewId);;
+        console.log(reviewId);
         setReview(reviewResponse.data);
 
         const itemCode = reviewResponse.data.favorite_cosmetic.item_code;
@@ -128,12 +127,10 @@ export default function ReviewDetails() {
 
   const confirmDelete = (reviewId: number) => {
     setDeletingReviewId(reviewId);
-    console.log(reviewId);
     setIsDeleteDialogOpen(true);
   };
 
   const removeReview = async (reviewId: number) => {
-    console.log(reviewId);
     try {
       await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/${reviewId}`, {
         headers: headers,
