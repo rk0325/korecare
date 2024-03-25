@@ -56,12 +56,15 @@ module Api
       end
 
       def destroy
+        Rails.logger.info "Current user id: #{current_user.id}, Review user id: #{@review.user_id}"
+
         if @review.user_id == current_user.id
           @review.review_tags.destroy_all
           @review.destroy
           render json: { message: 'Review was successfully deleted.' }, status: :ok
         else
-          render json: { error: 'You are not authorized to delete this review. Only the author can delete their review.' }, status: :forbidden
+          Rails.logger.info "Authorization failed: Current user is not the review author."
+          render json: { error: 'You are not authorized to delete this review.' }, status: :forbidden
         end
       end
 
