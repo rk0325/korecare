@@ -125,10 +125,12 @@ export default function ReviewDetails() {
 
   const confirmDelete = (reviewId: number) => {
     setDeletingReviewId(reviewId);
+    console.log(reviewId);
     setIsDeleteDialogOpen(true);
   };
 
   const removeReview = async (reviewId: number) => {
+    console.log(reviewId);
     try {
       await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/${reviewId}`, {
         headers: headers,
