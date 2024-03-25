@@ -36,6 +36,7 @@ export default function ReviewDetails() {
   const { data: session } = useSession();
   const params = useParams<{ id: string; }>()
   const reviewId = params.id;
+  console.log(reviewId);
   const [productReviews, setProductReviews] = useState<ProductReviews[]>([]);
   const token = session?.accessToken;
   const [review, setReview] = useState<Review | null>(null);
@@ -74,6 +75,7 @@ export default function ReviewDetails() {
           headers: headers,
           withCredentials: true
         });
+        console.log(reviewResponse.data);
         setReview(reviewResponse.data);
 
         const itemCode = reviewResponse.data.favorite_cosmetic.item_code;
