@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation'
 import { Review, ProductReviews } from './review.type';
+import { useAuth } from '../../contexts/AuthContext';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link'
@@ -32,11 +33,11 @@ import {
 } from "@/components/ui/dialog"
 
 export default function ReviewDetails() {
+  const { userId } = useAuth();
   const router = useRouter()
   const { data: session } = useSession();
   const params = useParams<{ id: string; }>()
   const reviewId = params.id;
-  const userId = params.id;
   const [productReviews, setProductReviews] = useState<ProductReviews[]>([]);
   const token = session?.accessToken;
   const [review, setReview] = useState<Review | null>(null);
@@ -68,6 +69,7 @@ export default function ReviewDetails() {
   }
 
   useEffect(() => {
+    if (!userId) return;
     setIsLoading(true);
     const fetchReviewDetails = async () => {
       try {
@@ -103,7 +105,7 @@ export default function ReviewDetails() {
     };
 
     fetchReviewDetails();
-  }, [headers, reviewId]);
+  }, [headers, userId]);
 
   function truncateName(name: string, maxLength: number = 38): string {
     return name.length > maxLength ? `${name.substring(0, maxLength)}...` : name;
