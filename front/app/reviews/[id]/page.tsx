@@ -167,6 +167,7 @@ export default function ReviewDetails() {
 
       const updatedReviews = reviews.map((review) => review.id === editingReview.id ? { ...review, ...updatedReviewData.review } : review);
       setReviews(updatedReviews);
+      router.push('/reviews');
       toast.success('レビューを更新しました');
       setIsEditModalOpen(false);
     } catch (error) {

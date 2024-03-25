@@ -61,7 +61,7 @@ module Api
           @review.destroy
           render json: { message: 'Review was successfully deleted.' }, status: :ok
         else
-          render json: { error: 'You are not authorized to delete this review.' }, status: :forbidden
+          render json: { error: 'You are not authorized to delete this review. Only the author can delete their review.' }, status: :forbidden
         end
       end
 
