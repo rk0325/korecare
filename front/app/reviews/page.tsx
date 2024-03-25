@@ -124,7 +124,7 @@ export default function Reviews() {
 
     if (Array.isArray(response.data)) {
       const currentUserId = session?.user?.id;
-      const visibleReviews = response.data.filter((review: Review) => review.visibility || review.user_id === currentUserId);
+      const visibleReviews = response.data.filter((review: Review) => review.visibility || review?.user?.uid === currentUserId);
 
       const productReviewsMap: { [key: string]: ProductReviews } = {};
       visibleReviews.forEach(review => {

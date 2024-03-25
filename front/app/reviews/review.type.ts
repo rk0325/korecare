@@ -33,6 +33,7 @@ export interface Review {
 
 export interface User {
   id?: string;
+  uid: string;
 }
 
 export interface FavoriteCosmetic {
