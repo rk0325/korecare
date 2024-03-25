@@ -82,6 +82,15 @@ module Api
       def set_review
         @review = Review.find_by(id: params[:id])
         @review ||= Review.joins(:favorite_cosmetic).find_by(favorite_cosmetics: { item_code: params[:id] })
+        if @review.nil?
+          render json: { error: 'Review not found.' }, status: :not_found
+          return
+        end
+
+        if @review.user_id != current_user.id
+          render json: { error: 'You are not authorized to view this review.' }, status: :forbidden
+          return
+        end
       end
 
       def review_params

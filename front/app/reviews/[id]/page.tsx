@@ -76,7 +76,7 @@ export default function ReviewDetails() {
           headers: headers,
           withCredentials: true
         });
-        console.log(reviewResponse.data);
+        console.log(reviewId);;
         setReview(reviewResponse.data);
 
         const itemCode = reviewResponse.data.favorite_cosmetic.item_code;
