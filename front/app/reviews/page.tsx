@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation'
 import axios from 'axios';
 import Image from 'next/image';
@@ -46,9 +46,9 @@ export default function Reviews() {
     setIsModalOpen(false);
   };
 
-  useEffect(() => {
+  const fetchAndCombineReviews = useCallback(async () => {
     setIsLoading(true);
-    const fetchAndCombineReviews = async () => {
+    try {
       const reviewsResponse = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews`, {
         headers: headers,
         withCredentials: true,
@@ -99,10 +99,15 @@ export default function Reviews() {
         };
       });
       setProductReviews(productReviewsArray);
-      setIsLoading(false);
-    };
-      fetchAndCombineReviews();
+    } catch (error) {
+      console.error("データ取得失敗:", error);
+    }
+    setIsLoading(false);
   }, [headers]);
+
+  useEffect(() => {
+    fetchAndCombineReviews();
+  }, [fetchAndCombineReviews]);
 
   const handleSearch = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -117,10 +122,55 @@ export default function Reviews() {
         withCredentials: true,
       });
 
-      console.log(response.data);
     if (Array.isArray(response.data)) {
-      const visibleReviews = response.data.filter((review: Review) => review.visibility);
-      setProductReviews(visibleReviews);
+      const currentUserId = session?.user?.id;
+      const visibleReviews = response.data.filter((review: Review) => review.visibility || review.user_id === currentUserId);
+
+      const productReviewsMap: { [key: string]: ProductReviews } = {};
+      visibleReviews.forEach(review => {
+        const cosmetic = review.favorite_cosmetic;
+        if (!cosmetic) return;
+
+        const key = cosmetic.item_code;
+        if (!productReviewsMap[key]) {
+          productReviewsMap[key] = {
+            id: review.id,
+            item_url: cosmetic,
+            image_url: cosmetic.image_url,
+            averageRating: 0,
+            reviewCount: 0,
+            reviews: [],
+            price: cosmetic.price,
+            item_code: cosmetic.item_code,
+          };
+        }
+
+        productReviewsMap[key].reviews.push(review);
+      });
+
+      const ratings = {
+        very_bad: 1,
+        bad: 2,
+        medium: 3,
+        good: 4,
+        very_good: 5,
+      };
+
+      const productReviewsArray: ProductReviews[] = Object.values(productReviewsMap).map(productReview => {
+        const averageRating = productReview.reviews.reduce((acc, review) => {
+          const ratingValue = ratings[review.rating as keyof typeof ratings];
+          return acc + (ratingValue || 0);
+        }, 0) / productReview.reviews.length;
+        return {
+          ...productReview,
+          averageRating,
+          reviewCount: productReview.reviews.length,
+          image_url: productReview.image_url || '/image.png',
+          price: typeof productReview.price === 'number' ? productReview.price : parseInt(productReview.price) || '参考価格',
+        };
+      });
+
+      setProductReviews(productReviewsArray);
     } else {
       console.error('response.data is not an array.');
     }
@@ -130,13 +180,14 @@ export default function Reviews() {
   } finally {
     setIsLoading(false);
   }
-};
+  };
 
     const resetForm = () => {
     setSkinType("");
     setSkinTrouble("");
     setAge("");
     setSearchPerformed(false);
+    fetchAndCombineReviews();
   };
 
   function truncateName(name: string, maxLength: number = 40): string {
@@ -168,7 +219,7 @@ export default function Reviews() {
               )}
               <div className="p-4 text-center">
                 <h3 className="text-lg">
-                {Array.isArray(productReview.reviews) && productReview.reviews.length > 0 ? truncateName(productReview.reviews[0].title) : 'レビュータイトルがありません'}
+                  {Array.isArray(productReview.reviews) && productReview.reviews.length > 0 ? truncateName(productReview.reviews[0].title) : 'レビュータイトルがありません'}
                 </h3>
                 <p>{`★ ${productReview.averageRating ? productReview.averageRating.toFixed(1) : '0.0'} (${productReview.reviewCount}件)`}</p>
                 <p>{productReview.price}円</p>
@@ -191,7 +242,7 @@ export default function Reviews() {
   return (
     session ? (
       <>
-        <div className='flex flex-col space-y-4 pt-10 pr-4 pl-4 pb-8'>
+        <div className='flex flex-col space-y-4 pt-10 pr-4 pl-4'>
           <div className='text-2xl md:text-3xl'>
             レビュー一覧
             <TooltipProvider>
@@ -226,7 +277,7 @@ export default function Reviews() {
         <div className='flex flex-col items-center space-y-4 p-10'>
           <div className='w-full max-w-3xl'>
             <form onSubmit={handleSearch} className='w-full'>
-              <div className='flex flex-col md:flex-row md:space-x-4 space-y-8 md:space-y-0'>
+              <div className='flex flex-col items-center md:flex-row md:space-x-4 space-y-8 md:space-y-0'>
                 <Select value={skinType} onValueChange={value => setSkinType(value)}>
                   <SelectTrigger className="w-[200px]">
                     <SelectValue className="text-text-color" placeholder="肌質" />
