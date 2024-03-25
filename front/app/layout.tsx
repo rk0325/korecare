@@ -8,7 +8,7 @@ import UserInfoProvider from './providers/UserInfoProvider';
 import CosmeticsContextProvider from './providers/CosmeticsContextProvider';
 import LoadingProvider from './providers/LoadingProvider';
 import SessionProvider from './providers/SessionContextProvider';
-import { AuthProvider } from './contexts/AuthContext';
+import AuthProvider from './providers/AuthProvider';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { GoogleAnalytics } from "@next/third-parties/google";

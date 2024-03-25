@@ -1,21 +1,12 @@
-import React, { createContext, useContext, ReactNode, useState } from 'react';
+'use client';
+import { createContext, useContext } from 'react';
 
-interface AuthContextType {
+export interface AuthContextType {
   userId: string | null;
   setUserId: (userId: string) => void;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
-
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [userId, setUserId] = useState<string | null>(null);
-
-  return (
-    <AuthContext.Provider value={{ userId, setUserId }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -24,3 +15,5 @@ export const useAuth = () => {
   }
   return context;
 };
+
+export default AuthContext;
