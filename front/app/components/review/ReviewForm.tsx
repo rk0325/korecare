@@ -2,7 +2,6 @@
 import React, { useState, useMemo, useEffect, useContext } from 'react';
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react';
-import { useProfile } from '../../hooks/useProfile';
 import axios from 'axios';
 import CosmeticsContext from '../../contexts/CosmeticsContext';
 import CustomButton from '@/components/ui/custom-button';
@@ -13,6 +12,13 @@ import toast from 'react-hot-toast';
 import {
   Star,
 } from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const ReviewForm: React.FC = () => {
   const { selectedProductName, favoriteCosmeticId } = useContext(CosmeticsContext);
@@ -146,21 +152,57 @@ const ReviewForm: React.FC = () => {
             </div>
           </RadioGroup>
           <div>タグ設定</div>
-          <div className="grid grid-cols-3 gap-4">
-            <div>
-              <Label htmlFor="skinType">肌質</Label>
-              <Input id="skinType" name="skinType" value={reviewForm.skinType} readOnly />
-            </div>
-            <div>
-              <Label htmlFor="skinTrouble">お悩み</Label>
-              <Input id="skinTrouble" name="skinTrouble" value={reviewForm.skinTrouble} readOnly />
-            </div>
-            <div>
-              <Label htmlFor="age">年代</Label>
-              <Input id="age" name="age" value={reviewForm.age} readOnly />
-            </div>
+        </div>
+        <div className="grid grid-cols-3 gap-4 px-8 text-text-color font-genjyuu">
+          <div>
+            <Label htmlFor="skinType">肌質</Label>
+            <Select value={reviewForm.skinType} onValueChange={value => setReviewForm(prev => ({ ...prev, skinType: value }))}>
+              <SelectTrigger>
+                <SelectValue placeholder="肌質を選択" />
+              </SelectTrigger>
+              <SelectContent className="text-text-color font-genjyuu">
+                <SelectItem value="乾燥肌">乾燥肌</SelectItem>
+                <SelectItem value="混合肌">混合肌</SelectItem>
+                <SelectItem value="脂性肌">脂性肌</SelectItem>
+                <SelectItem value="普通肌">普通肌</SelectItem>
+                <SelectItem value="敏感肌">敏感肌</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          <CustomButton colorClass='btn-506D7D mx-auto w-[100px] mt-10'>投稿する</CustomButton>
+          <div>
+            <Label htmlFor="skinTrouble">お悩み</Label>
+            <Select value={reviewForm.skinTrouble} onValueChange={value => setReviewForm(prev => ({ ...prev, skinTrouble: value }))}>
+              <SelectTrigger>
+                <SelectValue placeholder="お悩みを選択" />
+              </SelectTrigger>
+              <SelectContent className="text-text-color font-genjyuu">
+                <SelectItem value="保湿">保湿</SelectItem>
+                <SelectItem value="ニキビ">ニキビ</SelectItem>
+                <SelectItem value="毛穴・黒ずみ">毛穴・黒ずみ</SelectItem>
+                <SelectItem value="美白">美白</SelectItem>
+                <SelectItem value="肌のハリ・弾力">肌のハリ・弾力</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label htmlFor="age">年代</Label>
+            <Select value={reviewForm.age} onValueChange={value => setReviewForm(prev => ({ ...prev, age: value }))}>
+              <SelectTrigger>
+                <SelectValue placeholder="年代を選択" />
+              </SelectTrigger>
+              <SelectContent className="text-text-color font-genjyuu">
+                <SelectItem value="10代">10代</SelectItem>
+                <SelectItem value="20代">20代</SelectItem>
+                <SelectItem value="30代">30代</SelectItem>
+                <SelectItem value="40代">40代</SelectItem>
+                <SelectItem value="50代">50代</SelectItem>
+                <SelectItem value="60代以上">60代以上</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <div className='flex justify-center mt-10'>
+          <CustomButton colorClass='btn-506D7D w-[100px]'>投稿する</CustomButton>
         </div>
       </form>
     </>
