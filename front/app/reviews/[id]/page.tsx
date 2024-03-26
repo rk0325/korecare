@@ -297,7 +297,10 @@ export default function ReviewDetails() {
                               </Dialog>
                               <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
                                 <DialogTrigger asChild>
-                                  <button onClick={() => review && confirmDelete(review.id)}>
+                                  <button onClick={() => {
+                                    console.log(review);
+                                    if (review) confirmDelete(review.id);
+                                  }}>
                                     <Trash />
                                   </button>
                                 </DialogTrigger>
