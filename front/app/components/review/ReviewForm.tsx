@@ -18,11 +18,12 @@ const ReviewForm: React.FC = () => {
   const { selectedProductName, favoriteCosmeticId } = useContext(CosmeticsContext);
   const { data: session } = useSession();
   const token = session?.accessToken;
-  const router = useRouter()
-  const [rating, setRating] = useState(1);
-  const { profile } = useProfile() || { skin_type: '', skin_trouble: '', age: '' };
+  const router = useRouter();
+  const [rating, setRating] = useState<number | undefined>(undefined);
+  const { profile } = useProfile() || { skin_type: '', skin_trouble: '', age: '', id: undefined };
   const MAX_RATING_STARS = 5;
   const DECIMAL_BASE = 10;
+  const safeRating = rating ?? 0;
 
   const headers = useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -56,8 +57,8 @@ const ReviewForm: React.FC = () => {
       stars.push(
         <Star
           key={i}
-          fill={i <= rating ? "orange" : "none"}
-          stroke={i <= rating ? "orange" : "grey"}
+          fill={i <= safeRating ? "orange" : "none"}
+          stroke={i <= safeRating ? "orange" : "grey"}
           onClick={() => handleRating(i)}
           style={{ cursor: 'pointer', margin: '0 2px' }}
         />
@@ -134,6 +135,10 @@ const ReviewForm: React.FC = () => {
       toast.error("レビューの投稿に失敗しました");
     }
   };
+
+  if (!profile || profile.id === undefined) {
+    return <div>プロフィールを設定してください。</div>;
+  }
 
   return (
     <>

@@ -53,7 +53,9 @@ export default function Reviews() {
         headers: headers,
         withCredentials: true,
       });
-      const reviews: Review[] = reviewsResponse.data;
+      let reviews: Review[] = reviewsResponse.data;
+
+      reviews = reviews.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
       const productReviewsMap: { [key: string]: ProductReviews } = {};
       reviews.forEach(review => {
