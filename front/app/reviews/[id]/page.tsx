@@ -2,7 +2,6 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation'
 import { Review, ProductReviews } from './review.type';
-import { useAuth } from '../../contexts/AuthContext';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link'
@@ -46,6 +45,7 @@ export default function ReviewDetails() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editingReview, setEditingReview] = useState<Review | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const MAX_RATING_STARS = 5;
 
   const headers = useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -180,7 +180,7 @@ export default function ReviewDetails() {
   const renderRatingStars = (rating: string) => {
     let stars = [];
     const numericRating = parseInt(rating, 10);
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= MAX_RATING_STARS; i++) {
       stars.push(
         <Star
           key={i}

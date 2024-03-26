@@ -90,6 +90,8 @@ export default function EditProfile() {
   const [editingNotificationId, setEditingNotificationId] = useState<number | null>(null);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deletingNotificationId, setDeletingNotificationId] = useState<number | null>(null);
+  const EXPIRY_MONTHS_AFTER_OPEN = 3;
+  const MAX_NOTIFICATIONS = 3;
 
   const handleSkinTypeModalClose = () => {
     setIsSkinTypeModalOpen(false);
@@ -105,8 +107,10 @@ export default function EditProfile() {
   };
 
   function toISOStringLocal(date: Date) {
+    const MINUTES_TO_SECONDS = 60;
+    const SECONDS_TO_MILLISECONDS = 1000;
     const offset = date.getTimezoneOffset();
-    const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
+    const adjustedDate = new Date(date.getTime() - offset * MINUTES_TO_SECONDS * SECONDS_TO_MILLISECONDS);
     return adjustedDate.toISOString().split('T')[0];
   }
 
@@ -251,14 +255,14 @@ export default function EditProfile() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const handleOpenDateSelect = (id: number, date: Date) => {
-    const newExpiryDate = add(date, { months: 3 });
+    const newExpiryDate = add(date, { months: EXPIRY_MONTHS_AFTER_OPEN });
     setNotifications(notifications.map(notification =>
       notification.id === id ? { ...notification, openDate: date, expiryDate: newExpiryDate } : notification
     ));
   };
 
   const addNotification = () => {
-    if (notifications.length < 3) {
+    if (notifications.length < MAX_NOTIFICATIONS) {
       const newId = notifications.length + 1;
       const newNotification = { id: newId, productType: '', openDate: null, expiryDate: null };
       setNotifications([...notifications, newNotification]);
@@ -596,7 +600,7 @@ export default function EditProfile() {
                               </Dialog>
                             </div>
                           )}
-                          {notifications.length < 3 && (
+                          {notifications.length < MAX_NOTIFICATIONS && (
                             <div className="pr-2 text-right cursor-pointer">
                               <div onClick={addNotification}>＋ 追加</div>
                             </div>

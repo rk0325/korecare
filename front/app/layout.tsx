@@ -8,7 +8,6 @@ import UserInfoProvider from './providers/UserInfoProvider';
 import CosmeticsContextProvider from './providers/CosmeticsContextProvider';
 import LoadingProvider from './providers/LoadingProvider';
 import SessionProvider from './providers/SessionContextProvider';
-import AuthProvider from './providers/AuthProvider';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { GoogleAnalytics } from "@next/third-parties/google";
@@ -50,20 +49,18 @@ export default function RootLayout({
             <CosmeticsContextProvider>
               <LoadingProvider>
                 <UserInfoProvider>
-                  <AuthProvider>
-                    <Header />
-                    <Toaster
-                      position="top-right"
-                      reverseOrder={true}
-                      containerStyle={{
-                        zIndex: 9999,
-                      }}
-                    />
-                    <div className='font-genjyuu bg-background-color min-h-screen text-text-color text-center'>
-                      {children}
-                    </div>
-                    <Footer />
-                  </AuthProvider>
+                  <Header />
+                  <Toaster
+                    position="top-right"
+                    reverseOrder={true}
+                    containerStyle={{
+                      zIndex: 9999,
+                    }}
+                  />
+                  <div className='font-genjyuu bg-background-color min-h-screen text-text-color text-center'>
+                    {children}
+                  </div>
+                  <Footer />
                 </UserInfoProvider>
               </LoadingProvider>
             </CosmeticsContextProvider>
