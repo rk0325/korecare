@@ -79,7 +79,7 @@ const Header = () => {
                     </div>
                     <div className="flex items-start">
                       <Smartphone className="mr-2 h-6 w-10" />
-                      <p>各種LINE通知もマイページから設定できます。さっそく設定してみよう！</p>
+                      <p>各種LINE通知もマイページから設定できます。まずはマイページでプロフィールを設定しよう！</p>
                     </div>
                     <div className="flex items-start justify-between mt-6">
                       <p>KoreCareがあなたの毎日のスキンケアに</p>
