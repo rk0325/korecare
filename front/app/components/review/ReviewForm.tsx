@@ -20,7 +20,6 @@ const ReviewForm: React.FC = () => {
   const token = session?.accessToken;
   const router = useRouter();
   const [rating, setRating] = useState<number | undefined>(undefined);
-  const { profile } = useProfile() || { skin_type: '', skin_trouble: '', age: '', id: undefined };
   const MAX_RATING_STARS = 5;
   const DECIMAL_BASE = 10;
   const safeRating = rating ?? 0;
@@ -67,20 +66,6 @@ const ReviewForm: React.FC = () => {
     return <div style={{ display: 'flex' }}>{stars}</div>;
   };
 
-  useEffect(() => {
-    if (!profile || profile.id === undefined) {
-      return;
-    }
-
-    const { skin_type, skin_trouble, age } = profile;
-    setReviewForm(prevForm => ({
-      ...prevForm,
-      skinType: skin_type,
-      skinTrouble: skin_trouble,
-      age: age.toString(),
-    }));
-  }, [profile]);
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setReviewForm(prevForm => ({ ...prevForm, [name]: value }));
@@ -115,7 +100,6 @@ const ReviewForm: React.FC = () => {
     try {
       const formattedData = {
         review: {
-          profile_id: profile.id,
           favorite_cosmetic_id: favoriteCosmeticId,
           title: reviewForm.title,
           body: reviewForm.body,
@@ -139,10 +123,6 @@ const ReviewForm: React.FC = () => {
       toast.error("レビューの投稿に失敗しました");
     }
   };
-
-  if (!profile || profile.id === undefined) {
-    return <div>プロフィールを設定してください。</div>;
-  }
 
   return (
     <>
