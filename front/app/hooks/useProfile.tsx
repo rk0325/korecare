@@ -10,12 +10,13 @@ const fetcher = async ([url, token]: [string, string | undefined]) => {
 export function useProfile() {
   const { data: session } = useSession();
   const token = session?.accessToken;
+  const REFRESH_INTERVAL_MS = 3600000;
 
   const { data, error, mutate } = useSWR(
     [`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/profiles`, token],
     fetcher,
     {
-      refreshInterval: 3600000,
+      refreshInterval: REFRESH_INTERVAL_MS,
     }
   );
 

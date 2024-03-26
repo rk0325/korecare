@@ -30,35 +30,39 @@ const fetcher = async ([url, token]: [string, string | undefined]) => {
   return axios.get(url, { headers }).then(res => res.data);
 };
 
-const calculateLevel = (value: number, max: number): number => {
-  const level = Math.ceil((value / max) * 5);
-  return level > 5 ? 5 : level;
-};
-
-const LevelIcons: React.FC<LevelIconsProps> = ({ level, color, grayColor = "hsl(0, 0%, 80%)", Icon }) => {
-  return (
-    <div className="flex justify-center items-center">
-      {[...Array(5)].map((_, index) => {
-        const iconColor = index < level ? color : grayColor;
-        return <div className="mx-1" key={index}><Icon size={24} color={iconColor} /></div>;
-      })}
-    </div>
-  );
-};
-
 export default function Home() {
   const { data: session } = useSession();
   const { profile, isLoading: isProfileLoading } = useProfile();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const MAX_LEVEL = 5;
+  const REFRESH_INTERVAL_MS = 300000;
+  const MAX_UVI = 10;
+  const MAX_HUMIDITY = 100;
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
+  const calculateLevel = (value: number, max: number): number => {
+    const level = Math.ceil((value / max) * MAX_LEVEL);
+    return level > MAX_LEVEL ? MAX_LEVEL : level;
+  };
+
+  const LevelIcons: React.FC<LevelIconsProps> = ({ level, color, grayColor = "hsl(0, 0%, 80%)", Icon }) => {
+    return (
+      <div className="flex justify-center items-center">
+        {[...Array(5)].map((_, index) => {
+          const iconColor = index < level ? color : grayColor;
+          return <div className="mx-1" key={index}><Icon size={24} color={iconColor} /></div>;
+        })}
+      </div>
+    );
+  };
+
   const { data: weatherData, error } = useSWR(
     profile ? [`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/weather?prefecture_name=${profile.prefecture || "東京都"}`, session?.accessToken] : null,
     fetcher,
-    { refreshInterval: 300000 }
+    { refreshInterval: REFRESH_INTERVAL_MS }
   );
 
   if (isProfileLoading || !weatherData) {
@@ -69,8 +73,8 @@ export default function Home() {
 
   if (error) return <div className='text-center justify-between'>データの取得に失敗しました。</div>;
 
-  const uviLevel = calculateLevel(weatherData?.current_uvi, 10);
-  const humidityLevel = calculateLevel(weatherData?.current_humidity, 100);
+  const uviLevel = calculateLevel(weatherData?.current_uvi, MAX_UVI);
+  const humidityLevel = calculateLevel(weatherData?.current_humidity, MAX_HUMIDITY);
 
   const uviColor = "#d4924f";
   const humidityColor = "#567485";

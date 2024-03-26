@@ -6,7 +6,6 @@ import { useProfile } from '../../hooks/useProfile';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
 import {
   LogOut,
   Search,

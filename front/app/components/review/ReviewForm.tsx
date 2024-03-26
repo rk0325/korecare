@@ -21,6 +21,8 @@ const ReviewForm: React.FC = () => {
   const router = useRouter()
   const [rating, setRating] = useState(1);
   const { profile } = useProfile() || { skin_type: '', skin_trouble: '', age: '' };
+  const MAX_RATING_STARS = 5;
+  const DECIMAL_BASE = 10;
 
   const headers = useMemo(() => {
     return token ? { Authorization: `Bearer ${token}` } : {};
@@ -50,7 +52,7 @@ const ReviewForm: React.FC = () => {
 
   const renderRating = () => {
     let stars = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= MAX_RATING_STARS; i++) {
       stars.push(
         <Star
           key={i}
@@ -114,7 +116,7 @@ const ReviewForm: React.FC = () => {
           body: reviewForm.body,
           visibility: reviewForm.visibility,
           rating: reviewForm.rating,
-          age: parseInt(reviewForm.age, 10),
+          age: parseInt(reviewForm.age, DECIMAL_BASE),
           skin_type: reviewForm.skinType,
           skin_trouble: reviewForm.skinTrouble,
         },
