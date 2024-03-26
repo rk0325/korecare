@@ -260,8 +260,8 @@ export default function ReviewDetails() {
                             <div className="item-right">
                               <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
                                 <DialogTrigger asChild>
-                                  <button onClick={() => review && openEditModal(review)}>
-                                    <PencilLine className='mr-2' />
+                                  <button onClick={() => productReview && openEditModal(productReview)}>
+                                    <PencilLine />
                                   </button>
                                 </DialogTrigger>
                                 <DialogContent className="font-genjyuu text-text-color">
