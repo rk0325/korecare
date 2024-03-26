@@ -221,7 +221,7 @@ export default function ReviewDetails() {
         ) : (
           <div className='flex flex-col space-y-4 p-10'>
             <h1 className='text-2xl md:text-3xl'>レビュー詳細</h1>
-            <div className='flex flex-col items-center pt-10'>
+            <div className='flex flex-col items-center pt-6'>
               <div className="relative h-[150px] w-full max-w-4xl mb-4">
                 <Image src={productInfo?.image_url || '/image.png'} alt="Image" layout="fill" objectFit="contain" quality={100} />
               </div>
@@ -328,7 +328,7 @@ export default function ReviewDetails() {
           </div>
         )}
         <Link href='/reviews'>
-          <CustomButton type="submit" colorClass='btn-506D7D mx-auto min-w-[100px] mt-4'>レビュー一覧に戻る</CustomButton>
+          <CustomButton type="submit" colorClass='btn-506D7D mx-auto min-w-[100px] mt-4 mb-10'>レビュー一覧に戻る</CustomButton>
         </Link>
       </>
     ) : null
