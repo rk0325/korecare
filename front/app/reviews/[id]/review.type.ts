@@ -49,6 +49,7 @@ export interface ProductReviews {
   skin_type: string;
   skin_trouble: string;
   age: number;
+  created_at: string;
   user: {
     id: string;
     uid: string;
