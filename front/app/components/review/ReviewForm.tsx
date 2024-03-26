@@ -68,6 +68,10 @@ const ReviewForm: React.FC = () => {
   };
 
   useEffect(() => {
+    if (!profile || profile.id === undefined) {
+      return;
+    }
+
     const { skin_type, skin_trouble, age } = profile;
     setReviewForm(prevForm => ({
       ...prevForm,
