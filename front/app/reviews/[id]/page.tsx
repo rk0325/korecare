@@ -211,6 +211,17 @@ export default function ReviewDetails() {
   const averageRating = productReviews[0]?.averageRating;
   const reviewCount = productReviews.length;
 
+  function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat('ja-JP', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).format(date);
+  }
+
   return (
     session ? (
       <>
@@ -234,6 +245,7 @@ export default function ReviewDetails() {
                     <AccordionTrigger>投稿者: {productReview.user_name}さん {ratingToStars(productReview.rating)}</AccordionTrigger>
                     <AccordionContent>
                       <p className='text-base text-left pb-6'>{productReview.body}</p>
+                      <p className="text-sm text-right text-gray-500 pb-2 pr-2">投稿日時: {formatDate(productReview.created_at)}</p>
                       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
                         <div className="tags flex space-x-2 mb-4 sm:mb-0">
                           {productReview.skin_type && (
