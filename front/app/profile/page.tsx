@@ -576,7 +576,7 @@ export default function EditProfile() {
                               </button>
                             </div>
                           ) : null}
-                          {notifications.length > 0 && (
+                          {notification.productType && notification.openDate && notification.expiryDate && (
                             <div className="pr-2 text-right cursor-pointer">
                               <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
                                 <DialogTrigger asChild>
