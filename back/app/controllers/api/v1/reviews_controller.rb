@@ -44,6 +44,8 @@ module Api
       end
 
       def update
+        Rails.logger.info "Current user id: #{current_user.id}, Review user id: #{@review.user_id}"
+
         if @review.user_id == current_user.id
           if @review.update(review_params)
             render json: @review
