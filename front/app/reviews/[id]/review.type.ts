@@ -13,7 +13,7 @@ export interface Review {
   user_id: string;
   item_url?: string;
   image_url?: string;
-  price?: number;
+  price: string | number;
   favorite_cosmetic_id?: number;
   favorite_cosmetic: any;
   user?: User;
@@ -35,6 +35,8 @@ export interface ProductReviews {
   image_url: string;
   averageRating: number;
   reviewCount: number;
+  userName: string;
+  visibility: boolean;
   reviews: Review[];
   review: Review[];
   price: string | number;
