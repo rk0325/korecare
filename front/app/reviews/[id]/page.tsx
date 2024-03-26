@@ -75,7 +75,6 @@ export default function ReviewDetails() {
           headers: headers,
           withCredentials: true
         });
-        console.log(reviewId);
         setReview(reviewResponse.data);
 
         const itemCode = reviewResponse.data.favorite_cosmetic.item_code;
@@ -224,7 +223,7 @@ export default function ReviewDetails() {
             <h1 className='text-2xl md:text-3xl'>レビュー詳細</h1>
             <div className='flex flex-col items-center pt-10'>
               <div className="relative h-[150px] w-full max-w-4xl mb-4">
-                <Image src={productInfo?.image_url} alt="Image" layout="fill" objectFit="contain" quality={100} />
+                <Image src={productInfo?.image_url || '/image.png'} alt="Image" layout="fill" objectFit="contain" quality={100} />
               </div>
               <h2 className="text-lg">{truncateName(productInfo?.name ?? '無題')}</h2>
               <p>{productInfo?.price}円</p>

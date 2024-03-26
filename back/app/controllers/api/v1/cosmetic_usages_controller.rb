@@ -4,7 +4,7 @@ module Api
       before_action :set_current_user
 
       def create
-        if cosmetic_usage_params.values.all?(&:blank?)
+        if cosmetic_usage_params.values.any?(&:blank?)
           render json: { message: '新規作成をスキップしました。' }, status: :ok
           return
         end
@@ -36,6 +36,11 @@ module Api
 
       def update
         cosmetic_usage = @current_user.cosmetic_usages.find(params[:id])
+
+        if cosmetic_usage_params.values.any?(&:blank?)
+          render json: { message: '更新をスキップしました。' }, status: :ok
+          return
+        end
 
         if cosmetic_usage.update(cosmetic_usage_params)
           render json: cosmetic_usage

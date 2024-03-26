@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import './globals.css'
 import NextAuthProvider from './providers/NextAuth';
 import Header from './components/top/Header';
@@ -14,6 +14,12 @@ import { faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 import { GoogleAnalytics } from "@next/third-parties/google";
 
 library.add(faXTwitter, faGithub);
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://korecare.jp/'),

@@ -80,7 +80,7 @@ export default function EditProfile() {
   const { profile, mutate } = useProfile();
   const [isSkinTypeModalOpen, setIsSkinTypeModalOpen] = useState(false);
   const [isLineInfoModalOpen, setIsLineInfoModalOpen] = useState(false);
-  const [name, setName] = useState(profile?.name || session?.user?.name || "");
+  const [name, setName] = useState(profile?.name || session?.user?.name);
   const [age, setAge] = useState(profile?.age || "");
   const [skinType, setSkinType] = useState(profile?.skinType || "");
   const [skinTrouble, setSkinTrouble] = useState(profile?.skinTrouble || "");
@@ -115,6 +115,11 @@ export default function EditProfile() {
     const session = await getSession();
     const token = session?.accessToken;
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+    if (!name.trim()) {
+      toast.error('名前を入れてください');
+      return;
+    }
 
     const profileData = {
       profile: {
@@ -346,7 +351,7 @@ export default function EditProfile() {
           <div className="mb-6">
             <Label htmlFor="name">お名前</Label>
             <Input
-              value={profile?.name || session?.user?.name}
+              value={name}
               type="name"
               onChange={(e) => setName(e.target.value)}
             />
