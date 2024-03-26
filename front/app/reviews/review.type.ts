@@ -29,6 +29,7 @@ export interface Review {
   skin_trouble: string;
   age: number;
   reviews?: Review[];
+  created_at: string;
 }
 
 export interface User {
