@@ -58,7 +58,7 @@ module Api
       def destroy
         Rails.logger.info "Current user id: #{current_user.id}, Review user id: #{@review.user_id}"
 
-        if @review.user_id == current_user.id
+        if @review.user_id.to_s == params[:userId]
           @review.review_tags.destroy_all
           @review.destroy
           render json: { message: 'Review was successfully deleted.' }, status: :ok
