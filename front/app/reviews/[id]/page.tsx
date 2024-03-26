@@ -134,7 +134,6 @@ export default function ReviewDetails() {
       await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/reviews/${reviewId}`, {
         headers: headers,
         withCredentials: true,
-        data: { userId: session?.user?.id }
       });
       setReviews(reviews.filter(review => review.id !== reviewId));
       router.push('/reviews');

@@ -36,6 +36,7 @@ export interface ProductReviews {
   averageRating: number;
   reviewCount: number;
   reviews: Review[];
+  review: Review[];
   price: string | number;
   title: string;
   favorite_cosmetic: any;
