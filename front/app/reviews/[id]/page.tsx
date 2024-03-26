@@ -325,11 +325,11 @@ export default function ReviewDetails() {
                 ))}
               </Accordion>
             </div>
+            <Link href='/reviews'>
+              <CustomButton type="submit" colorClass='btn-506D7D mx-auto min-w-[100px] mt-4'>レビュー一覧に戻る</CustomButton>
+            </Link>
           </div>
         )}
-        <Link href='/reviews'>
-          <CustomButton type="submit" colorClass='btn-506D7D mx-auto min-w-[100px] mt-4 mb-10'>レビュー一覧に戻る</CustomButton>
-        </Link>
       </>
     ) : null
   );
