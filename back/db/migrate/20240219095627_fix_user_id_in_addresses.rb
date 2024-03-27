@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class FixUserIdInAddresses < ActiveRecord::Migration[7.0]
   def up
-    unless column_exists?(:addresses, :user_id)
-      add_reference :addresses, :user, index: true, foreign_key: true
-    end
+    return if column_exists?(:addresses, :user_id)
+
+    add_reference :addresses, :user, index: true, foreign_key: true
   end
 
   def down

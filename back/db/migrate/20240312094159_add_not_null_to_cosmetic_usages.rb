@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddNotNullToCosmeticUsages < ActiveRecord::Migration[7.0]
   def change
     change_column :cosmetic_usages, :item_type, :integer, null: false

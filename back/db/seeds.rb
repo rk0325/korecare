@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # 都道府県の県庁所在地の緯度と経度
 addresses = [
   { address: '北海道', latitude: 43.06417, longitude: 141.34694 },

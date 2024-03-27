@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WeatherService
   def self.fetch_weather_data(prefecture_name)
     address = Address.find_by(address: prefecture_name)
@@ -5,7 +7,8 @@ class WeatherService
       Rails.logger.error "緯度経度のデータが見つかりません: #{prefecture_name}"
       return nil
     end
-    latitude, longitude = address.latitude, address.longitude
+    latitude = address.latitude
+    longitude = address.longitude
 
     api_key = ENV['OPENWEATHERMAP_API_KEY']
     url = "https://api.openweathermap.org/data/3.0/onecall?lat=#{latitude}&lon=#{longitude}&exclude=minutely,alerts&appid=#{api_key}&units=metric"
@@ -21,7 +24,7 @@ class WeatherService
       data = JSON.parse(response.body)
 
       unless data['current'] && data['daily']
-        Rails.logger.error "APIレスポンスに必要なキーが含まれていません"
+        Rails.logger.error 'APIレスポンスに必要なキーが含まれていません'
         return nil
       end
 
@@ -35,18 +38,18 @@ class WeatherService
       max_temp = data.dig('daily', 0, 'temp', 'max')
 
       {
-        current_uvi: current_uvi,
-        daily_max_uvi: daily_max_uvi,
-        current_humidity: current_humidity,
-        daily_min_humidity: daily_min_humidity,
-        current_weather: current_weather,
-        min_temp: min_temp,
-        max_temp: max_temp
+        current_uvi:,
+        daily_max_uvi:,
+        current_humidity:,
+        daily_min_humidity:,
+        current_weather:,
+        min_temp:,
+        max_temp:
       }
     rescue JSON::ParserError => e
       Rails.logger.error "JSONを解析できませんでした: #{e.message}"
       nil
-    rescue => e
+    rescue StandardError => e
       Rails.logger.error "データを取得できませんでした: #{e.message}"
       nil
     end

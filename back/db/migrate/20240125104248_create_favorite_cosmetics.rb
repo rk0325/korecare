@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateFavoriteCosmetics < ActiveRecord::Migration[7.0]
   def change
     create_table :favorite_cosmetics do |t|

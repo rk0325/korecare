@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Be sure to restart your server when you modify this file.
 
 # Avoid CORS issues when API is called from the frontend app.
@@ -7,12 +9,13 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'localhost:8000', '127.0.0.1:8000', 'https://korean-cosmetics-app.vercel.app', 'https://korecare.vercel.app', 'https://korecare.jp'
+    origins 'localhost:8000', '127.0.0.1:8000', 'https://korean-cosmetics-app.vercel.app',
+            'https://korecare.vercel.app', 'https://korecare.jp'
 
-    resource "*",
-      headers: :any,
-      expose: %w[access-token uid client],
-      methods: [:get, :post, :put, :patch, :delete, :options, :head],
-      credentials: true
+    resource '*',
+             headers: :any,
+             expose: %w[access-token uid client],
+             methods: %i[get post put patch delete options head],
+             credentials: true
   end
 end

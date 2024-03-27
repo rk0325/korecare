@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SorceryCore < ActiveRecord::Migration[7.0]
   def change
     # 既存のusersテーブルにcrypted_passwordカラムとsaltカラムを追加

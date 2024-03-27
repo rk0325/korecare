@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class ProfilesController < ApplicationController
@@ -17,7 +19,8 @@ module Api
         if profile.update(profile_params)
           render json: profile, status: :ok
         else
-          render json: { status: 'failure', message: profile.errors.full_messages.to_sentence, data: {} }, status: :unprocessable_entity
+          render json: { status: 'failure', message: profile.errors.full_messages.to_sentence, data: {} },
+                 status: :unprocessable_entity
         end
       end
 

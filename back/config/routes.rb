@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
-  root to: proc { [200, {}, ["Welcome to my API!"]] }
+  root to: proc { [200, {}, ['Welcome to my API!']] }
 
   namespace :api do
     namespace :v1 do
-      resource :profiles, only: [:show, :update]
-      resources :favorite_cosmetics, only: [:create, :index, :destroy]
-      resources :cosmetic_usages, only: [:create, :index, :update, :destroy]
-      resources :reviews, only: [:index, :show, :create, :update, :destroy]
+      resource :profiles, only: %i[show update]
+      resources :favorite_cosmetics, only: %i[create index destroy]
+      resources :cosmetic_usages, only: %i[create index update destroy]
+      resources :reviews, only: %i[index show create update destroy]
       resources :users, only: [:index]
 
       namespace :search_cosmetics do

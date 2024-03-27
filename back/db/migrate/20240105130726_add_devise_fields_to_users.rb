@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 class AddDeviseFieldsToUsers < ActiveRecord::Migration[7.0]
   def change
     ## Database authenticatable
-    add_column :users, :encrypted_password, :string, null: false, default: ""
+    add_column :users, :encrypted_password, :string, null: false, default: ''
 
     ## Recoverable
     add_column :users, :reset_password_token, :string
