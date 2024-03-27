@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class CosmeticExpiryNotificationService
   ITEM_TYPE_JAPANESE = {
     'lotion' => '化粧水',
     'serum' => '美容液',
-    'cream' => 'クリーム',
+    'cream' => 'クリーム'
   }.freeze
 
   def self.send_notification
@@ -10,7 +12,7 @@ class CosmeticExpiryNotificationService
       user.cosmetic_usages.each do |cosmetic|
         next if cosmetic.item_type.blank? || cosmetic.open_date.blank? || cosmetic.expiry_date.blank?
 
-        days_before_expiry = (cosmetic.expiry_date - Date.today).to_i
+        days_before_expiry = (cosmetic.expiry_date - Time.zone.today).to_i
         item_type_japanese = ITEM_TYPE_JAPANESE[cosmetic.item_type] || cosmetic.item_type
 
         message = case days_before_expiry

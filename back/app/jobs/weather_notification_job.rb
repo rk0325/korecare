@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class WeatherNotificationJob < ApplicationJob
   queue_as :default
 
   sidekiq_options retry: 1
 
-  sidekiq_retry_in do |count|
+  sidekiq_retry_in do |_count|
     60
   end
 

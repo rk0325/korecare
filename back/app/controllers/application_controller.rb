@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'net/http'
 require 'uri'
 require 'json'
@@ -5,17 +7,15 @@ require 'json'
 class ApplicationController < ActionController::API
   include ActionController::Cookies
 
-  def current_user
-    @current_user
-  end
+  attr_reader :current_user
 
   private
 
   def set_current_user
     Rails.logger.info "Current session: #{session.inspect}"
 
-    if request.headers["Authorization"].present?
-      received_access_token = request.headers["Authorization"].split(' ').last
+    if request.headers['Authorization'].present?
+      received_access_token = request.headers['Authorization'].split(' ').last
     else
       render json: { error: 'Authorization header is missing' }, status: :unauthorized
       return
@@ -44,27 +44,28 @@ class ApplicationController < ActionController::API
       else
         Rails.logger.error "Failed to save user: #{@current_user.errors.full_messages.join(', ')}"
         render json: { error: 'Failed to save user info' }, status: :internal_server_error
-        return
+        nil
       end
     end
   end
 
   def fetch_user_info_from_line(access_token)
-    uri = URI.parse("https://api.line.me/v2/profile")
+    uri = URI.parse('https://api.line.me/v2/profile')
     request = Net::HTTP::Get.new(uri)
-    request["Authorization"] = "Bearer #{access_token}"
+    request['Authorization'] = "Bearer #{access_token}"
 
-    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == "https") do |http|
+    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
       http.request(request)
     end
 
-    if response.code != "200"
+    if response.code != '200'
       Rails.logger.error "LINE API Error: #{response.body}"
       error_response = JSON.parse(response.body)
-      if error_response["message"] == "invalid token"
+      if error_response['message'] == 'invalid token'
         render json: { error: 'Invalid token. Please re-authenticate.' }, status: :unauthorized
       else
-        render json: { error: 'Failed to fetch user info from LINE', details: response.body }, status: :internal_server_error
+        render json: { error: 'Failed to fetch user info from LINE', details: response.body },
+               status: :internal_server_error
       end
       return nil
     end

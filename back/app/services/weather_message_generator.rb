@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module WeatherMessageGenerator
   def self.generate_message(prefecture_name, weather_info)
     text = "おはようございます！\n今日の#{prefecture_name}の天気情報をお届けします✉️\n\n"
@@ -9,13 +11,13 @@ module WeatherMessageGenerator
     text += "・現在の湿度: #{weather_info[:current_humidity]}%\n"
     text += "・最低湿度: #{weather_info[:daily_min_humidity]}%\n"
     text += humidity_advice(weather_info[:current_humidity], weather_info[:daily_min_humidity])
-    text += "✔︎UV指数や湿度の目安をご覧になりたい方は、「目安」と送信していただけますと幸いです。"
+    "#{text}✔︎UV指数や湿度の目安をご覧になりたい方は、「目安」と送信していただけますと幸いです。"
   end
 
   def self.uv_index_advice(current_uvi, daily_max_uvi)
-    return "UV指数情報が利用できません。" if current_uvi.nil? || daily_max_uvi.nil?
+    return 'UV指数情報が利用できません。' if current_uvi.nil? || daily_max_uvi.nil?
 
-    advice = ""
+    advice = ''
     sun_protection_advice = "日焼けを防ぐために日傘や日焼け止めの利用、長袖や帽子の着用をお勧めします。\n\n"
 
     if current_uvi >= 6
@@ -34,7 +36,7 @@ module WeatherMessageGenerator
   end
 
   def self.humidity_advice(current_humidity, daily_min_humidity)
-    return "湿度情報が利用できません。" if current_humidity.nil? || daily_min_humidity.nil?
+    return '湿度情報が利用できません。' if current_humidity.nil? || daily_min_humidity.nil?
 
     if current_humidity >= 70 && daily_min_humidity > 30
       "現在湿度が高く、お肌のトラブルが起こりやすい状態です。適度な保湿を心がけるとともに、肌を清潔に保つことをお勧めします。\n\n"

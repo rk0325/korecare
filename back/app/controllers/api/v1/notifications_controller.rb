@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class NotificationsController < ApplicationController
       before_action :set_current_user
-      before_action :set_user, only: [:enable, :status]
+      before_action :set_user, only: %i[enable status]
 
       def enable
         notification_type = params[:notification_type]
@@ -17,7 +19,7 @@ module Api
         end
 
         render json: { message: '通知設定が更新されました。' }, status: :ok
-      rescue => e
+      rescue StandardError => e
         render json: { error: e.message }, status: :unprocessable_entity
       end
 

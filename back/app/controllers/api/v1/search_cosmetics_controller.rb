@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class SearchCosmeticsController < ApplicationController
-
       def for_guests
         skin_type = cosmetic_params[:skin_type]
         skin_trouble = cosmetic_params[:skin_trouble]
@@ -43,7 +44,8 @@ module Api
       end
 
       def profile_params
-        params.permit(:skin_type, :skin_trouble, :price_range, :product_type, :id, :user_id, :name, :age, :created_at, :updated_at, :avatar, :address_id, :prefecture)
+        params.permit(:skin_type, :skin_trouble, :price_range, :product_type, :id, :user_id, :name, :age, :created_at,
+                      :updated_at, :avatar, :address_id, :prefecture)
       end
     end
   end

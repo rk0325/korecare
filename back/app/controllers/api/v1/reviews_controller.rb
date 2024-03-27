@@ -1,12 +1,16 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class ReviewsController < ApplicationController
       before_action :set_current_user
-      before_action :set_review, only: [:show, :update, :destroy]
+      before_action :set_review, only: %i[show update destroy]
 
       def index
         if params[:item_code].present?
-          @reviews = Review.joins(:favorite_cosmetic).where(favorite_cosmetics: { item_code: params[:item_code] }).includes(:user, :favorite_cosmetic)
+          @reviews = Review.joins(:favorite_cosmetic).where(favorite_cosmetics: { item_code: params[:item_code] }).includes(
+            :user, :favorite_cosmetic
+          )
         elsif params[:tags].present?
           tags = params[:tags].split(',').map do |tag|
             if tag.match?(/\A\d+代\z/)
@@ -20,9 +24,9 @@ module Api
           @reviews = Review.all.includes(:user, :favorite_cosmetic)
         end
 
-        @reviews = @reviews.where("visibility = ? OR reviews.user_id = ?", true, current_user.id)
+        @reviews = @reviews.where('visibility = ? OR reviews.user_id = ?', true, current_user.id)
 
-        render json: @reviews, include: [:user, :favorite_cosmetic]
+        render json: @reviews, include: %i[user favorite_cosmetic]
       end
 
       def show
@@ -32,7 +36,7 @@ module Api
       def create
         @review = current_user.reviews.new(review_params)
         if @review.save
-          %w(age skin_type skin_trouble).each do |tag_name|
+          %w[age skin_type skin_trouble].each do |tag_name|
             tag = Tag.find_by(tag_name: review_params[tag_name])
             @review.tags << tag if tag
           end
@@ -65,7 +69,7 @@ module Api
           @review.destroy
           render json: { message: 'Review was successfully deleted.' }, status: :ok
         else
-          Rails.logger.info "Authorization failed: Current user is not the review author."
+          Rails.logger.info 'Authorization failed: Current user is not the review author.'
           render json: { error: 'You are not authorized to delete this review.' }, status: :forbidden
         end
       end
@@ -75,16 +79,16 @@ module Api
       def set_review
         @review = Review.find_by(id: params[:id])
         @review ||= Review.joins(:favorite_cosmetic).find_by(favorite_cosmetics: { item_code: params[:id] })
-        if @review.nil?
-          render json: { error: 'Review not found.' }, status: :not_found
-          return
-        end
+        return unless @review.nil?
+
+        render json: { error: 'Review not found.' }, status: :not_found
+        nil
       end
 
       def review_params
-        params.require(:review).permit(:user_id, :favorite_cosmetic_id, :rating, :title, :body, :visibility, :profile_id, :age, :skin_type, :skin_trouble, cosmetic_attributes: [:id, :user_id, :name, :brand, :price, :item_url, :image_url, :item_code])
+        params.require(:review).permit(:user_id, :favorite_cosmetic_id, :rating, :title, :body, :visibility,
+                                       :profile_id, :age, :skin_type, :skin_trouble, cosmetic_attributes: %i[id user_id name brand price item_url image_url item_code])
       end
     end
   end
 end
-

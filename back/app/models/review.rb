@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Review < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :favorite_cosmetic, optional: true
