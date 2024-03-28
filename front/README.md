@@ -1,9 +1,9 @@
-![KoreCare](./front/public/korecare_image.png)
+![KoreCare](../front/public/korecare_image.png)
 
 ## KoreCare フロントエンド用リポジトリ
 
 ## ■サービス名
-[KoreCare（コリケア）](https://korecare.jp/)
+### [KoreCare（コリケア）](https://korecare.jp/)
 お試し機能を実装しましたので、ログインせずにお試しいただくこともできます。
 
 ## ■サービス概要
@@ -55,15 +55,15 @@
 |[![Image from Gyazo](https://i.gyazo.com/f3bfb88df1c3ae63eea25af367604f52.gif)](https://gyazo.com/f3bfb88df1c3ae63eea25af367604f52)|[![Image from Gyazo](https://i.gyazo.com/ee9d2d321b688eebf3770a5d5703a819.gif)](https://gyazo.com/ee9d2d321b688eebf3770a5d5703a819)|
 |検索したコスメやレコメンドされたコスメをお気に入りに登録できます。|マイページ内でお気に入りに登録したコスメを確認できます。|
 
-|紫外線/乾燥注意通知機能（設定）|紫外線/乾燥注意通知機能（通知画面）|
+|紫外線/乾燥注意通知機能（設定）|使用期限通知機能（設定）|
 |:-------------|:-------------|
-|[![Image from Gyazo](https://i.gyazo.com/c6f097ed0fd62cd42e9f4b9f97969bec.gif)](https://gyazo.com/c6f097ed0fd62cd42e9f4b9f97969bec)|![KoreCare](./front/public/line_image_1.png)|
-|マイページにて設定していただいたお住まいのUV指数と湿度の情報を毎朝10時に通知します。|実際の通知画面です。|
+|[![Image from Gyazo](https://i.gyazo.com/c6f097ed0fd62cd42e9f4b9f97969bec.gif)](https://gyazo.com/c6f097ed0fd62cd42e9f4b9f97969bec)|[![Image from Gyazo](https://i.gyazo.com/aeece26680ab07af365c5aee65e58967.gif)](https://gyazo.com/aeece26680ab07af365c5aee65e58967)|
+|マイページにて設定していただいたお住まいのUV指数と湿度の情報を毎朝10時に通知します。|コスメの製品タイプ、開封日、使用期限を設定していただくと、使用期限の5日前・3日前・前日に「現在使用している化粧水の使用期限が5日後になりました」などと通知します。|
 
-|使用期限通知機能（設定）|使用期限通知機能（通知画面）|
+|紫外線/乾燥注意通知機能（通知画面）|使用期限通知機能（通知画面）|
 |:-------------|:-------------|
-|[![Image from Gyazo](https://i.gyazo.com/aeece26680ab07af365c5aee65e58967.gif)](https://gyazo.com/aeece26680ab07af365c5aee65e58967)|![KoreCare](./front/public/line_image_2.png)|
-|コスメの製品タイプ、開封日、使用期限を設定していただくと、使用期限の5日前・3日前・前日に「現在使用している化粧水の使用期限が5日後になりました」などと通知します。|実際の通知画面です。|
+|![KoreCare](../front/public/line_image_1.png)|![KoreCare](../front/public/line_image_2.png)|
+|実際の通知画面です。|実際の通知画面です。|
 
 |レビュー投稿/一覧機能|レビュー編集/削除機能|
 |:-------------|:-------------|
@@ -77,7 +77,7 @@
 
 |現在の天気/UV指数/湿度の表示機能|Q＆A|
 |:-------------|:-------------|
-|![KoreCare](./front/public/weather_image.png)|[![Image from Gyazo](https://i.gyazo.com/8b77327ffc6ca4acf5cbfd6efef053a8.gif)](https://gyazo.com/8b77327ffc6ca4acf5cbfd6efef053a8)|
+|![KoreCare](../front/public/weather_image.png)|[![Image from Gyazo](https://i.gyazo.com/8b77327ffc6ca4acf5cbfd6efef053a8.gif)](https://gyazo.com/8b77327ffc6ca4acf5cbfd6efef053a8)|
 |OpenWeatherMap APIを使用し、現在の天気、UV指数、湿度の情報を表示しています。|韓国コスメの人気の理由、使い方をご説明しています。|
 
 |お気に入りコスメのXシェア機能|レビュー投稿のXシェア機能|
