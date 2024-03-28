@@ -94,7 +94,7 @@ const About = () => {
     <>
       <div className="flex justify-center">
         <Motion>
-          <div className="flex flex-col items-center justify-center pt-10 lg:flex-row lg:py-20">
+          <div className="flex flex-col items-center justify-center pt-6 lg:flex-row lg:py-20">
             <div className="lg:w-1/2 flex flex-col items-center justify-center px-4 lg:px-8">
               <Image src="/Logo.png" alt="LOGO" width={600} height={600} priority />
               <p className="text-center lg:text-left text-2xl px-4 lg:px-4 py-10">
