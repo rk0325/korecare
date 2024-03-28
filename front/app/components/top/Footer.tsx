@@ -40,7 +40,19 @@ const Footer = () => {
           </>
         )}
         {session && (
-          <div className='h-10 flex items-center justify-between'>
+          <div className='flex flex-col items-center justify-center'>
+            <ul className="flex justify-center pb-2">
+              <li className="cursor-pointer pr-6">
+                <Link href="https://twitter.com/__rk2530" target="_blank" rel="noopener noreferrer">
+                  <FontAwesomeIcon icon={faXTwitter} style={{ width: '22px', height: '22px' }} />
+                </Link>
+              </li>
+              <li className="cursor-pointer">
+                <Link href="https://github.com/rk0325/korecare" target="_blank" rel="noopener noreferrer">
+                  <FontAwesomeIcon icon={faGithub} style={{ width: '22px', height: '22px' }} />
+                </Link>
+              </li>
+            </ul>
             <p className="text-sm">© 2024 KoreCare</p>
           </div>
         )}

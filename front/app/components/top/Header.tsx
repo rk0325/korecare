@@ -136,7 +136,7 @@ const Header = () => {
                   <div className="flex justify-start items-start mb-2">
                     <AlertTriangle className="mr-2 h-6 w-6" />
                     <div>
-                      <p className='text-sm'>こちらの質問は、肌質を断定するものではございません。</p>
+                      <p className='text-sm'>こちらの解説は、肌質を断定するものではございません。</p>
                     </div>
                   </div>
                 </div>

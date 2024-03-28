@@ -6,6 +6,9 @@ import { useProfile } from '../../hooks/useProfile';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import { Label } from "@/components/ui/label"
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 import {
   LogOut,
   Search,
@@ -58,35 +61,44 @@ const Modal = () => {
             <Image
               src={avatar || session?.user?.image || '/default-avatar.png'}
               alt="User Avatar"
-              width={80}
-              height={80}
+              width={50}
+              height={50}
               style={{ borderRadius: '50%' }}
             />
             <Label className="text-base text-center mt-4">{name || session?.user?.name}さん</Label>
           </div>
-          <div className="flex items-center cursor-pointer pt-5" onClick={() => handleNavigation('/search')}>
+          <div className="flex items-center cursor-pointer pt-5 border-b border-gray-200" onClick={() => handleNavigation('/search')}>
             <Search className="mr-2 h-4 w-4" />
             <span>韓国コスメ検索</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/reviews')}>
+          <div className="flex items-center cursor-pointer pt-4 border-b border-gray-200" onClick={() => handleNavigation('/reviews')}>
             <PenLine className="mr-2 h-4 w-4" />
             <span>レビュー一覧</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/home')}>
+          <div className="flex items-center cursor-pointer pt-4 border-b border-gray-200" onClick={() => handleNavigation('/home')}>
             <CloudSun className="mr-2 h-4 w-4" />
             <span>天気情報</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/column')}>
+          <div className="flex items-center cursor-pointer pt-4 border-b border-gray-200" onClick={() => handleNavigation('/column')}>
             <MessageCircleQuestion className="mr-2 h-4 w-4" />
             <span>Q＆A</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-4" onClick={() => handleNavigation('/my_page')}>
+          <div className="flex items-center cursor-pointer pt-4 border-b border-gray-200" onClick={() => handleNavigation('/my_page')}>
             <Smile className="mr-2 h-4 w-4" />
             <span>マイページ</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-4" onClick={handleLogout}>
+          <div className="flex items-center cursor-pointer pt-4 border-b border-gray-200" onClick={handleLogout}>
             <LogOut className="mr-2 h-4 w-4" />
             <span>ログアウト</span>
+          </div>
+          <div className="flex items-center cursor-pointer pt-4 text-sm">
+            <Link href="/term_of_service">利用規約</Link>
+          </div>
+          <div className="flex items-center cursor-pointer pt-2 text-sm">
+            <Link href="/privacy_policy">プライバシーポリシー</Link>
+          </div>
+          <div className="flex items-center cursor-pointer pt-2 text-sm">
+            <Link href="https://twitter.com/__rk2530" target="_blank" rel="noopener noreferrer">お問い合わせ</Link>
           </div>
         </div>
       </div>
