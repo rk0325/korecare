@@ -74,7 +74,7 @@
 
 |現在の天気/UV指数/湿度の表示機能|Q＆A|
 |:-------------|:-------------|
-|![KoreCare](./front/public/weather_image.png)|[![Image from Gyazo](https://i.gyazo.com/8b77327ffc6ca4acf5cbfd6efef053a8.gif)](https://gyazo.com/8b77327ffc6ca4acf5cbfd6efef053a8)|
+|[![Image from Gyazo](https://i.gyazo.com/000bd1a273cca4baf696a07b7750add4.gif)](https://gyazo.com/000bd1a273cca4baf696a07b7750add4)|[![Image from Gyazo](https://i.gyazo.com/8b77327ffc6ca4acf5cbfd6efef053a8.gif)](https://gyazo.com/8b77327ffc6ca4acf5cbfd6efef053a8)|
 |OpenWeatherMap APIを使用し、現在の天気、UV指数、湿度の情報を表示しています。|韓国コスメの人気の理由、使い方をご説明しています。|
 
 |お気に入りコスメのXシェア機能|レビュー投稿のXシェア機能|
