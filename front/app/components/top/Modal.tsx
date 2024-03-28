@@ -91,13 +91,13 @@ const Modal = () => {
             <LogOut className="mr-2 h-4 w-4" />
             <span>ログアウト</span>
           </div>
-          <div className="flex items-center cursor-pointer pt-4 text-sm">
+          <div className="flex items-center cursor-pointer pt-4 text-sm" onClick={handleClose}>
             <Link href="/term_of_service">利用規約</Link>
           </div>
-          <div className="flex items-center cursor-pointer pt-2 text-sm">
+          <div className="flex items-center cursor-pointer pt-2 text-sm" onClick={handleClose}>
             <Link href="/privacy_policy">プライバシーポリシー</Link>
           </div>
-          <div className="flex items-center cursor-pointer pt-2 text-sm">
+          <div className="flex items-center cursor-pointer pt-2 text-sm" onClick={handleClose}>
             <Link href="https://twitter.com/__rk2530" target="_blank" rel="noopener noreferrer">お問い合わせ</Link>
           </div>
         </div>
