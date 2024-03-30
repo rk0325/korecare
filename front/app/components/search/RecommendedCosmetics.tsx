@@ -28,7 +28,6 @@ const RecommendedCosmetics: React.FC<RecommendedCosmeticsProps> = ({ searchParam
         user_id: session?.user?.id,
         item_code: cosmetic.id,
         name: cosmetic.itemName,
-        brand: cosmetic.shopName,
         price: cosmetic.itemPrice,
         item_url: cosmetic.itemUrl,
         image_url: cosmetic.mediumImageUrl,

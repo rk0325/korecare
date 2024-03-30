@@ -59,7 +59,6 @@ export const FavoriteCosmetics = () => {
         user_id: session?.user?.id,
         item_code: cosmetic.item_code,
         name: cosmetic.name,
-        brand: cosmetic.brand,
         price: cosmetic.price,
         item_url: cosmetic.item_url,
         image_url: cosmetic.image_url,

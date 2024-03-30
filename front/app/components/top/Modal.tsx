@@ -61,8 +61,8 @@ const Modal = () => {
             <Image
               src={avatar || session?.user?.image || '/default-avatar.png'}
               alt="User Avatar"
-              width={50}
-              height={50}
+              width={60}
+              height={60}
               style={{ borderRadius: '50%' }}
             />
             <Label className="text-base text-center mt-4">{name || session?.user?.name}さん</Label>

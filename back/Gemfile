@@ -46,13 +46,7 @@ gem 'json'
 
 gem 'sidekiq'
 
-gem 'sidekiq-scheduler'
-
-gem 'line-bot-api'
-
 gem 'sidekiq-cron'
-
-gem 'sinatra', require: false
 
 gem 'redis'
 

@@ -157,7 +157,6 @@ FavoriteCosmetics {
   bigint id PK
   bigint user_id FK
   string name
-  string brand
   string price
   string item_url
   string image_url

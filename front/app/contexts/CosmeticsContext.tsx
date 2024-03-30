@@ -13,7 +13,6 @@ export type Cosmetic = {
   category: string;
   image_url: string;
   item_code: string;
-  brand: string;
   price: string;
   item_url: string;
   lotion?: string;
