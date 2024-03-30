@@ -87,7 +87,7 @@ module Api
 
       def review_params
         params.require(:review).permit(:user_id, :favorite_cosmetic_id, :rating, :title, :body, :visibility,
-                                       :profile_id, :age, :skin_type, :skin_trouble, cosmetic_attributes: %i[id user_id name brand price item_url image_url item_code])
+                                       :profile_id, :age, :skin_type, :skin_trouble, cosmetic_attributes: %i[id user_id name price item_url image_url item_code])
       end
     end
   end

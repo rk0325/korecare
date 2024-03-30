@@ -20,7 +20,6 @@ export type SearchCosmetic = {
   category: any;
   image_url: any;
   item_code: any;
-  brand: any;
   price: any;
   lotion?: string;
   serum?: string;

@@ -81,7 +81,6 @@ const SearchForm: React.FC<SearchFormProps> = ({ onSearch }) => {
           category: item.category,
           image_url: item.image_url,
           item_code: item.item_code,
-          brand: item.brand,
           price: item.price,
         }));
         setCosmetics(cosmetics);
