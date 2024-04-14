@@ -44,7 +44,6 @@ class ApplicationController < ActionController::API
       else
         Rails.logger.error "Failed to save user: #{@current_user.errors.full_messages.join(', ')}"
         render json: { error: 'Failed to save user info' }, status: :internal_server_error
-        nil
       end
     end
   end
@@ -67,7 +66,7 @@ class ApplicationController < ActionController::API
         render json: { error: 'Failed to fetch user info from LINE', details: response.body },
                status: :internal_server_error
       end
-      return nil
+      return
     end
 
     JSON.parse(response.body)
