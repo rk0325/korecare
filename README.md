@@ -84,10 +84,10 @@
 
 ## ■今後の開発について
 ### ランキング機能
-- お気に入りの数が多い順でランキング
-- レビュー評価の高い順でランキング
-### テスト
-- テスト（RSpec）
+お気に入りの数が多い順や、レビュー評価の高い順でのランキング機能を実装したいと考えています。
+
+### テスト（RSpec）
+まだまだテストコードが書けていないので、カバレッジ率を上げていきたいです。
 
 ## ■使用技術
 |カテゴリ|技術|
@@ -100,6 +100,9 @@
 |インフラ|Vercel / Render|
 |Web API|楽天市場商品検索API / LINE Messaging API / OpenWeatherMap API|
 |その他|SWR / shadcn/ui / Sidekiq / Redis / ActiveJob|
+
+## ■インフラ構成
+![インフラ構成](./front/public/infrastructure_configuration.png)
 
 ## ■画面遷移図
 [画面遷移図](https://www.figma.com/file/re0Sf3bUsSQ52A4nPHaFA0/%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3?type=design&node-id=0%3A1&mode=design&t=jpVBer32Q4ftPUD8-1)
